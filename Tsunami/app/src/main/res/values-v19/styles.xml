@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!--<style name="TransparentAppTheme" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>-->
+</resources>

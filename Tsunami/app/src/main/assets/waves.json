@@ -1,0 +1,41 @@
+{
+ "items":
+ [
+  {
+   "id": 0,
+   "author_id": "10",
+   "message": "this is a message",
+   "content_type": "text",
+   "nodes":
+   [
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "id": 1,
+   "author_id": "11",
+   "message": "fooooooo",
+   "content_type": "text",
+   "nodes":
+   [
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "id": 2,
+   "author_id": "12",
+   "message": "sample message",
+   "content_type": "text",
+   "nodes":
+   [
+    9
+   ]
+  }
+ ],
+ "kind": "waves#resources",
+ "etag": "\"qXbUGx7xj4eS0p-7RltycVkLwIs/_Si_INSeilbmDCuUl9N6_7WRgX0\""
+}
