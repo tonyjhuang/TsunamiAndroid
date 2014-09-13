@@ -4,6 +4,7 @@
     <string name="gmaps_api_key">AIzaSyDrAFL-r7jxCgTMk01-KlhkR4dptWTPBYw</string>
 
     <string name="app_name">Tsunami</string>
+    <string name="app_name_actionbar">TSUNAMI</string>
     <string name="action_log_out">Log Out</string>
 
     <string name="activity_label_view_wave">View Wave</string>

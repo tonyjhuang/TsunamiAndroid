@@ -2,417 +2,417 @@
 <merger version="2" >
 
     <dataSet config="main" >
-        <source path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res" >
+        <source path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res" >
             <file
                 name="com_facebook_close"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-ldpi/com_facebook_close.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-ldpi/com_facebook_close.png"
                 qualifiers="ldpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_blue_bottomnub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_blue_bottomnub.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_blue_bottomnub.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_inverse_icon"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_inverse_icon.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_inverse_icon.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_black_bottomnub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_black_bottomnub.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_black_bottomnub.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_black_topnub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_black_topnub.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_black_topnub.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_blue_background"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_blue_background.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_blue_background.9.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_logo"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_logo.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_logo.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_blue_normal"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_button_blue_normal.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_button_blue_normal.9.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_blue_pressed"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_button_blue_pressed.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_button_blue_pressed.9.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_blue_focused"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_button_blue_focused.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_button_blue_focused.9.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_black_background"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_black_background.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_black_background.9.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_black_xout"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_black_xout.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_black_xout.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_picker_magnifier"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_picker_magnifier.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_picker_magnifier.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_grey_focused"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_button_grey_focused.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_button_grey_focused.9.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_grey_pressed"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_button_grey_pressed.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_button_grey_pressed.9.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_blue_topnub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_blue_topnub.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_blue_topnub.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_grey_normal"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_button_grey_normal.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_button_grey_normal.9.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_close"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_close.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_close.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_blue_xout"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_blue_xout.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-xhdpi/com_facebook_tooltip_blue_xout.png"
                 qualifiers="xhdpi-v4"
                 type="drawable" />
             <file
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/values-ldpi/dimens.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/values-ldpi/dimens.xml"
                 qualifiers="ldpi-v4" >
                 <dimen name="com_facebook_picker_divider_width" >1px
                 </dimen>
             </file>
             <file
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/values-mdpi/dimens.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/values-mdpi/dimens.xml"
                 qualifiers="mdpi-v4" >
                 <dimen name="com_facebook_picker_divider_width" >1px
                 </dimen>
             </file>
             <file
                 name="com_facebook_tooltip_blue_bottomnub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_blue_bottomnub.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_blue_bottomnub.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_inverse_icon"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_inverse_icon.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_inverse_icon.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_black_bottomnub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_black_bottomnub.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_black_bottomnub.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_black_topnub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_black_topnub.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_black_topnub.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_blue_background"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_blue_background.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_blue_background.9.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_blue_normal"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_button_blue_normal.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_button_blue_normal.9.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_blue_pressed"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_button_blue_pressed.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_button_blue_pressed.9.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_blue_focused"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_button_blue_focused.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_button_blue_focused.9.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_black_background"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_black_background.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_black_background.9.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_black_xout"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_black_xout.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_black_xout.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_picker_magnifier"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_picker_magnifier.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_picker_magnifier.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_blue_topnub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_blue_topnub.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_blue_topnub.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_blue_xout"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_blue_xout.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-mdpi/com_facebook_tooltip_blue_xout.png"
                 qualifiers="mdpi-v4"
                 type="drawable" />
             <file
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/values-xhdpi/dimens.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/values-xhdpi/dimens.xml"
                 qualifiers="xhdpi-v4" >
                 <dimen name="com_facebook_picker_divider_width" >2px
                 </dimen>
             </file>
             <file
                 name="com_facebook_picker_search_box"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_picker_search_box.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_picker_search_box.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_tooltip_bubble"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_tooltip_bubble.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_tooltip_bubble.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_picker_image"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_picker_image.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_picker_image.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_login_activity_layout"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_login_activity_layout.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_login_activity_layout.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_placepickerfragment"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_placepickerfragment.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_placepickerfragment.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_picker_activity_circle_row"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_picker_activity_circle_row.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_picker_activity_circle_row.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_usersettingsfragment"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_usersettingsfragment.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_usersettingsfragment.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_picker_list_row"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_picker_list_row.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_picker_list_row.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_picker_title_bar"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_picker_title_bar.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_picker_title_bar.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_friendpickerfragment"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_friendpickerfragment.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_friendpickerfragment.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_picker_title_bar_stub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_picker_title_bar_stub.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_picker_title_bar_stub.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_placepickerfragment_list_row"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_placepickerfragment_list_row.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_placepickerfragment_list_row.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_search_bar_layout"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_search_bar_layout.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_search_bar_layout.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_picker_checkbox"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_picker_checkbox.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_picker_checkbox.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_picker_list_section_header"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/layout/com_facebook_picker_list_section_header.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/layout/com_facebook_picker_list_section_header.xml"
                 qualifiers=""
                 type="layout" />
             <file
                 name="com_facebook_top_button"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_top_button.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_top_button.xml"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_loginbutton_silver"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_loginbutton_silver.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_loginbutton_silver.xml"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_picker_list_selector_disabled"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_picker_list_selector_disabled.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_picker_list_selector_disabled.9.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_picker_list_longpressed"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_picker_list_longpressed.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_picker_list_longpressed.9.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_inverse_icon"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_inverse_icon.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_inverse_icon.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_usersettingsfragment_background_gradient"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_usersettingsfragment_background_gradient.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_usersettingsfragment_background_gradient.xml"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_logo"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_logo.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_logo.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_button_blue_normal"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_button_blue_normal.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_button_blue_normal.9.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_profile_picture_blank_portrait"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_profile_picture_blank_portrait.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_profile_picture_blank_portrait.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_picker_list_selector_background_transition"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_picker_list_selector_background_transition.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_picker_list_selector_background_transition.xml"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_button_blue_pressed"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_button_blue_pressed.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_button_blue_pressed.9.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_place_default_icon"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_place_default_icon.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_place_default_icon.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_button_blue_focused"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_button_blue_focused.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_button_blue_focused.9.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_list_section_header_background"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_list_section_header_background.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_list_section_header_background.9.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_picker_item_background"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_picker_item_background.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_picker_item_background.xml"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_button_blue"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_button_blue.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_button_blue.xml"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_picker_list_pressed"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_picker_list_pressed.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_picker_list_pressed.9.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_button_grey_focused"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_button_grey_focused.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_button_grey_focused.9.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_button_grey_pressed"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_button_grey_pressed.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_button_grey_pressed.9.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_list_divider"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_list_divider.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_list_divider.9.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_profile_picture_blank_square"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_profile_picture_blank_square.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_profile_picture_blank_square.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_button_check_on"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_button_check_on.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_button_check_on.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_picker_list_selector"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_picker_list_selector.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_picker_list_selector.xml"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_button_grey_normal"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_button_grey_normal.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_button_grey_normal.9.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_profile_default_icon"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_profile_default_icon.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_profile_default_icon.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_top_background"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_top_background.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_top_background.xml"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_button_check"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_button_check.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_button_check.xml"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_button_check_off"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_button_check_off.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_button_check_off.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_picker_top_button"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_picker_top_button.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_picker_top_button.xml"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_picker_list_focused"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_picker_list_focused.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_picker_list_focused.9.png"
                 qualifiers=""
                 type="drawable" />
             <file
                 name="com_facebook_close"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable/com_facebook_close.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable/com_facebook_close.png"
                 qualifiers=""
                 type="drawable" />
             <file
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/values-he/strings.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/values-he/strings.xml"
                 qualifiers="he" >
                 <string name="com_facebook_picker_done_button_text" >בצע
                 </string>
@@ -467,96 +467,96 @@
             </file>
             <file
                 name="com_facebook_tooltip_blue_bottomnub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_blue_bottomnub.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_blue_bottomnub.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_inverse_icon"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_inverse_icon.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_inverse_icon.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_black_bottomnub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_black_bottomnub.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_black_bottomnub.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_black_topnub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_black_topnub.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_black_topnub.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_blue_background"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_blue_background.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_blue_background.9.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_logo"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_logo.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_logo.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_blue_normal"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_button_blue_normal.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_button_blue_normal.9.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_blue_pressed"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_button_blue_pressed.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_button_blue_pressed.9.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_blue_focused"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_button_blue_focused.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_button_blue_focused.9.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_black_background"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_black_background.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_black_background.9.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_black_xout"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_black_xout.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_black_xout.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_picker_magnifier"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_picker_magnifier.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_picker_magnifier.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_grey_focused"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_button_grey_focused.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_button_grey_focused.9.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_grey_pressed"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_button_grey_pressed.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_button_grey_pressed.9.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_blue_topnub"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_blue_topnub.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_blue_topnub.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_button_grey_normal"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_button_grey_normal.9.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_button_grey_normal.9.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_close"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_close.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_close.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
                 name="com_facebook_tooltip_blue_xout"
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_blue_xout.png"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/drawable-hdpi/com_facebook_tooltip_blue_xout.png"
                 qualifiers="hdpi-v4"
                 type="drawable" />
             <file
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/values-iw/strings.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/values-iw/strings.xml"
                 qualifiers="iw" >
                 <string name="com_facebook_placepicker_subtitle_format" >%1$s • %2$,d היו פה
                 </string>
@@ -610,7 +610,7 @@
                 </string>
             </file>
             <file
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/values-es/strings.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/values-es/strings.xml"
                 qualifiers="es" >
                 <string name="com_facebook_logo_content_description" >Logo de Facebook
                 </string>
@@ -664,7 +664,7 @@
                 </string>
             </file>
             <file
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/values/attrs.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/values/attrs.xml"
                 qualifiers="" >
                 <declare-styleable name="com_facebook_login_view" >
                     <attr
@@ -742,7 +742,7 @@
                 </declare-styleable>
             </file>
             <file
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/values/colors.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/values/colors.xml"
                 qualifiers="" >
                 <color name="com_facebook_picker_search_bar_text" >#bcbdc2
                 </color>
@@ -754,14 +754,14 @@
                 </color>
             </file>
             <file
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/values/drawables.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/values/drawables.xml"
                 qualifiers="" >
                 <drawable name="com_facebook_picker_default_separator_color" >
 #33464c59
                 </drawable>
             </file>
             <file
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/values/styles.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/values/styles.xml"
                 qualifiers="" >
                 <dimen name="com_facebook_profilepictureview_preset_size_large" >180dp
                 </dimen>
@@ -883,7 +883,7 @@ left
                 </dimen>
             </file>
             <file
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/values/strings.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/values/strings.xml"
                 qualifiers="" >
                 <string name="com_facebook_picker_done_button_text" >Done
                 </string>
@@ -939,17 +939,17 @@ left
                 </string>
             </file>
             <file
-                path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/res/values-hdpi/dimens.xml"
+                path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/res/values-hdpi/dimens.xml"
                 qualifiers="hdpi-v4" >
                 <dimen name="com_facebook_picker_divider_width" >1px
                 </dimen>
             </file>
         </source>
-        <source path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/build/generated/res/rs/release" />
-        <source path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/build/generated/res/generated/release" />
+        <source path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/build/generated/res/rs/release" />
+        <source path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/build/generated/res/generated/release" />
     </dataSet>
     <dataSet config="release" >
-        <source path="/home/tonyjhuang/AndroidStudio/Tsunami/Android/Tsunami/facebook/src/release/res" />
+        <source path="/home/tonyjhuang/AndroidStudio/TsunamiAndroid/Tsunami/facebook/src/release/res" />
     </dataSet>
 
 </merger>

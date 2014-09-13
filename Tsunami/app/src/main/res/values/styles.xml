@@ -1,8 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/TsunamiActionBar</item>
+    <style name="AppTheme" parent="android:Theme.Holo.Light.NoActionBar">
         <item name="android:windowBackground">@color/fbutton_color_clouds</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:textViewStyle">@style/TextView.Tsunami</item>
@@ -12,12 +11,6 @@
 
     <style name="TransparentAppTheme" parent="AppTheme">
 
-    </style>
-
-    <style name="TsunamiActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/ab_protector</item>
-        <item name="android:height">@dimen/action_bar_height</item>
-        <item name="android:icon">@android:color/transparent</item>
     </style>
 
     <style name="TextView.Tsunami" parent="android:Widget.TextView"></style>
