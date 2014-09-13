@@ -16,6 +16,8 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class ContentCard extends Card {
 
+    @InjectView(R.id.title)
+    TextView title;
     @InjectView(R.id.text)
     TextView textView;
 
@@ -24,11 +26,24 @@ public class ContentCard extends Card {
     }
 
     public void setText(String text) {
+        title.setText(firstFiveWordsOf(text));
         textView.setText(text);
     }
 
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
         ButterKnife.inject(this, parent);
+    }
+
+    private String firstFiveWordsOf(String string) {
+        int i = nthOccurrence(string, ' ', 4);
+        return string.substring(0, i);
+    }
+
+    public int nthOccurrence(String str, char c, int n) {
+        int pos = str.indexOf(c, 0);
+        while (n-- > 0 && pos != -1)
+            pos = str.indexOf(c, pos + 1);
+        return pos;
     }
 }

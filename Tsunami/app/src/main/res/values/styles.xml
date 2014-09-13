@@ -10,10 +10,12 @@
     </style>
 
     <style name="TransparentAppTheme" parent="AppTheme">
-
+        <item name="android:windowBackground">@null</item>
     </style>
 
-    <style name="TextView.Tsunami" parent="android:Widget.TextView"></style>
+    <style name="TextView.Tsunami" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/text_default</item>
+    </style>
 
     <style name="ScrollView.Tsunami" parent="android:Widget.ScrollView">
         <item name="android:overScrollMode">never</item>
