@@ -13,7 +13,6 @@ import android.widget.ScrollView;
 import android.widget.Space;
 
 import com.tonyjhuang.tsunami.R;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 import butterknife.ButterKnife;
@@ -35,6 +34,7 @@ public class ContentScrollView extends ScrollView {
     Space bottomSpacer;
 
     private float cardBottomPadding, cardTopPadding;
+    private ContentCard contentCard;
 
     public ContentScrollView(Context context) {
         super(context);
@@ -63,14 +63,17 @@ public class ContentScrollView extends ScrollView {
         post(new Runnable() {
             @Override
             public void run() {
-                ContentCard card = new ContentCard(getContext());
-                contentCardView.setCard(card);
+                if (contentCard == null) {
+                    contentCard = new ContentCard(getContext());
+                    contentCardView.setCard(contentCard);
+                }
                 if (flip) {
-                    card.setText(getContext().getString(R.string.lorem_ipsum_ext));
+                    contentCard.setText(getContext().getString(R.string.lorem_ipsum_ext));
                 } else {
-                    card.setText(getContext().getString(R.string.lorem_ipsum));
+                    contentCard.setText(getContext().getString(R.string.lorem_ipsum));
                 }
                 slideCardFromBottom.start();
+                contentCardView.refreshCard(contentCard);
                 contentCardView.setVisibility(VISIBLE);
                 flip = !flip;
             }
