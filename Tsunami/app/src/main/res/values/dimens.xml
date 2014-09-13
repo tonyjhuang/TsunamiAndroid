@@ -6,8 +6,8 @@
     <dimen name="action_bar_height">56dp</dimen>
 
     <dimen name="card_background_default_radius">3dp</dimen>
-    <dimen name="card_padding_top">16dp</dimen>
-    <dimen name="card_padding_bottom">16    dp</dimen>
+    <dimen name="card_padding_top">40dp</dimen>
+    <dimen name="card_padding_bottom">16dp</dimen>
 
     <dimen name="map_circle_stroke">2dp</dimen>
 </resources>
