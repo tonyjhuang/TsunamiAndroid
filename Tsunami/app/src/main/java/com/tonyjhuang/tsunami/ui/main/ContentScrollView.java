@@ -56,6 +56,9 @@ public class ContentScrollView extends ScrollView {
 
     private boolean flip = false;
 
+    /**
+     * Reset scroll position of the content card and have it slide up into the UI
+     */
     public void resetCard() {
         animating = true;
         contentCardView.setVisibility(INVISIBLE);

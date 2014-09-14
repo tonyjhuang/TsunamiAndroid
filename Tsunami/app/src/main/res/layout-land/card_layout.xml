@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/card"
+    android:layout_width="460dp"
+    android:layout_height="wrap_content">
+
+    <!-- Compound view for Shadow
+         If you want to customize this element use attr card:card_shadow_layout_resourceID -->
+    <it.gmariotti.cardslib.library.view.component.CardShadowView
+        android:id="@+id/card_shadow_layout"
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:layout_below="@+id/card_main_layout"
+        android:layout_marginTop="-8dp"
+        android:background="@drawable/card_shadow" />
+
+    <!-- Card visible layout -->
+    <LinearLayout
+        android:id="@+id/card_main_layout"
+        style="@style/card.main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!-- Main Content View -->
+        <FrameLayout
+            android:id="@+id/card_main_content_layout"
+            style="@style/card.content_outer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+</RelativeLayout>

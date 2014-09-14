@@ -7,14 +7,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.ui.splash.SplashActivity;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 
 public class MainActivity extends TsunamiActivity {
@@ -44,6 +47,10 @@ public class MainActivity extends TsunamiActivity {
         }
     }
 
+    @OnClick(R.id.start_splash)
+    public void onStartSplashClick(View view) {
+        SplashActivity.startSplashActivity(this );
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
