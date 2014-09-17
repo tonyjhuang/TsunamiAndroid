@@ -52,11 +52,7 @@ public class MainActivity extends TsunamiActivity {
     public void onStartSplashClick(View view) {
         ContentFragment fragment = getContentFragment();
         if (fragment != null) {
-            if (fragment.isSplashCardShowing()) {
-                fragment.resetContentCard();
-            } else {
-                fragment.showSplashCard();
-            }
+            fragment.toggleSplash();
         }
     }
 

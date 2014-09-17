@@ -4,9 +4,9 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.api.models.Wave;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,20 +26,14 @@ public class ContentCard extends Card {
         super(context, R.layout.card_content);
     }
 
-    public void setText(String text) {
-        title.setText(firstFiveWordsOf(text));
-        textView.setText(text);
-    }
-
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
         ButterKnife.inject(this, parent);
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "click!", Toast.LENGTH_SHORT).show();
-            }
-        });
+    }
+
+    public void setWave(Wave wave) {
+        title.setText(wave.getTitle());
+        textView.setText(wave.getMessage());
     }
 
     private String firstFiveWordsOf(String string) {

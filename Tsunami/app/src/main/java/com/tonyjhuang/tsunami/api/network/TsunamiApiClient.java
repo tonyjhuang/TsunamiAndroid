@@ -34,7 +34,7 @@ public class TsunamiApiClient {
         this.context = context;
         this.gson = gson;
     }
-
+/*
     public void getAllWaves(final Callback<List<Wave>> callback) {
         call(new Callback<WavesResult>() {
             @Override
@@ -51,9 +51,9 @@ public class TsunamiApiClient {
         }, WavesResult.class, "waves.json");
     }
 
-    /**
+    *//**
      * passes null to callback if wave with waveId does not exist
-     */
+     *//*
     public void getWave(final long waveId, final Callback<Wave> callback) {
         getAllWaves(new Callback<List<Wave>>() {
             @Override
@@ -109,21 +109,21 @@ public class TsunamiApiClient {
         });
     }
 
-    /**
+    *//**
      * Return all wavenodes for a given wave
-     */
+     *//*
     public void getWaveNodes(final long waveId, final Callback<List<Ripple>> callback) {
         getWave(waveId, new Callback<Wave>() {
             @Override
             public void success(Wave wave, Response response) {
-                final List<Long> nodes = wave.getNodes();
+                final List<Long> ripples = wave.getRipples();
 
                 getAllWaveNodes(new Callback<List<Ripple>>() {
                     @Override
                     public void success(List<Ripple> result, Response response) {
                         List<Ripple> ripples = new ArrayList<Ripple>();
                         for (Ripple node : result) {
-                            if (nodes.contains(node.getId())) {
+                            if (ripples.contains(node.getId())) {
                                 ripples.add(node);
                             }
                         }
@@ -146,5 +146,5 @@ public class TsunamiApiClient {
 
     private <T> void call(final Callback<T> callback, Class<T> className, String fileName) {
         FileReader.getObject(context, gson, fileName, className, callback);
-    }
+    }*/
 }

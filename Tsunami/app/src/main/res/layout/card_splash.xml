@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.tonyjhuang.tsunami.ui.customviews.TypefaceEditText
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.tonyjhuang.tsunami.ui.customviews.TypefaceEditText xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/title"
         style="@style/ContentTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="Title" />
 
     <View
         android:layout_width="match_parent"
@@ -23,11 +23,6 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="240dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="48dp" />
-    </FrameLayout>
+        android:layout_height="240dp"></FrameLayout>
 
 </LinearLayout>
