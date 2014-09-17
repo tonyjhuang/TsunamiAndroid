@@ -20,12 +20,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <it.gmariotti.cardslib.library.view.CardView
-            android:id='@+id/content'
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="8dp" />
+            android:layout_height="wrap_content">
+
+            <it.gmariotti.cardslib.library.view.CardView
+                android:id='@+id/content'
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
+                android:clickable="true" />
+<!--
+            <include
+                android:id="@+id/splash"
+                layout="@layout/card_splash"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/content"
+                android:layout_alignTop="@+id/content"
+                android:visibility="gone" />-->
+
+        </RelativeLayout>
 
         <Space
             android:id="@+id/bottom_spacer"

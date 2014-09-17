@@ -14,13 +14,14 @@ import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.logging.Timber;
-import com.tonyjhuang.tsunami.ui.splash.SplashActivity;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
 
 
 public class MainActivity extends TsunamiActivity {
+    private static final String CONTENT_FRAGMENT_TAG = "content";
+
     //@InjectView(R.id.map)
     //MapFragment mapContainer;
     @InjectView(R.id.content_container)
@@ -42,14 +43,25 @@ public class MainActivity extends TsunamiActivity {
         if (savedInstanceState == null) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.content_container, new ContentFragment());
+            ft.replace(R.id.content_container, new ContentFragment(), CONTENT_FRAGMENT_TAG);
             ft.commit();
         }
     }
 
     @OnClick(R.id.start_splash)
     public void onStartSplashClick(View view) {
-        SplashActivity.startSplashActivity(this );
+        ContentFragment fragment = getContentFragment();
+        if (fragment != null) {
+            if (fragment.isSplashCardShowing()) {
+                fragment.resetContentCard();
+            } else {
+                fragment.showSplashCard();
+            }
+        }
+    }
+
+    private ContentFragment getContentFragment() {
+        return (ContentFragment) getFragmentManager().findFragmentByTag(CONTENT_FRAGMENT_TAG);
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tonyjhuang.tsunami.R;
 
@@ -33,6 +34,12 @@ public class ContentCard extends Card {
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
         ButterKnife.inject(this, parent);
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "click!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private String firstFiveWordsOf(String string) {

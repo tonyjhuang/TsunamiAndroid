@@ -13,6 +13,7 @@ import android.widget.ScrollView;
 import android.widget.Space;
 
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 import butterknife.ButterKnife;
@@ -27,6 +28,8 @@ public class ContentScrollView extends ScrollView {
     LinearLayout container;
     @InjectView(R.id.content)
     CardView contentCardView;
+   /* @InjectView(R.id.splash)
+    EditText splashLayout;*/
 
     @InjectView(R.id.top_spacer)
     Space topSpacer;
@@ -35,6 +38,12 @@ public class ContentScrollView extends ScrollView {
 
     private float cardBottomPadding, cardTopPadding;
     private ContentCard contentCard;
+    private SplashCard splashCard;
+
+    /**
+     * Is the splash card showing (not the content card)?
+     */
+    private boolean splashing = false;
 
     public ContentScrollView(Context context) {
         super(context);
@@ -48,9 +57,15 @@ public class ContentScrollView extends ScrollView {
 
     private void setup(final Context context) {
         ButterKnife.inject(this, inflate(context, R.layout.view_content_scrollview, this));
-        setOnTouchListener(onTouchListener);
         cardBottomPadding = getResources().getDimension(R.dimen.card_padding_bottom);
         cardTopPadding = getResources().getDimension(R.dimen.card_padding_top);
+        contentCardView.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Timber.d("i got a touch! " + motionEvent);
+                return false;
+            }
+        });
     }
 
 
@@ -59,7 +74,7 @@ public class ContentScrollView extends ScrollView {
     /**
      * Reset scroll position of the content card and have it slide up into the UI
      */
-    public void resetCard() {
+    public void resetContentCard() {
         animating = true;
         contentCardView.setVisibility(INVISIBLE);
         scrollTo(0, 0);
@@ -70,6 +85,13 @@ public class ContentScrollView extends ScrollView {
                     contentCard = new ContentCard(getContext());
                     contentCardView.setCard(contentCard);
                 }
+
+                if (splashing) {
+                    contentCardView.replaceCard(contentCard);
+                    splashing = false;
+                    //splashLayout.setVisibility(GONE);
+                }
+
                 if (flip) {
                     contentCard.setText(getContext().getString(R.string.lorem_ipsum_ext));
                 } else {
@@ -84,8 +106,29 @@ public class ContentScrollView extends ScrollView {
 
     }
 
+
+    /**
+     * Replace the content card with a splash card.
+     */
+    public void showSplashCard() {
+        if (!splashing) {
+            splashing = true;
+            if (splashCard == null) {
+                splashCard = new SplashCard(getContext());
+            }
+
+            contentCardView.replaceCard(splashCard);
+            contentCardView.refreshCard(splashCard);
+            // splashLayout.setVisibility(VISIBLE);
+        }
+    }
+
+    public boolean isSplashCardShowing() {
+        return splashing;
+    }
+
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
+    public boolean onTouchEvent(MotionEvent ev) {
         /**
          * Only read the drag/scroll event if the motionevent is within bounds of our content card
          */
@@ -98,11 +141,14 @@ public class ContentScrollView extends ScrollView {
 
         float x = ev.getX();
         float y = ev.getY();
-
-        return (x > left)
+        if ((x > left)
                 && (x < right)
                 && (y > top - cardTopPadding)
-                && (y < bottom + cardBottomPadding);
+                && (y < bottom + cardBottomPadding)) {
+            return super.onTouchEvent(ev);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -152,23 +198,12 @@ public class ContentScrollView extends ScrollView {
         if (!animating) {
             if (t == 0) {
                 // User swiped card down
-                resetCard();
+                resetContentCard();
             } else if (t >= container.getHeight() - bottomSpacer.getHeight()) {
                 // User swiped card up
                 contentCardView.setVisibility(INVISIBLE);
-                resetCard();
+                resetContentCard();
             }
         }
     }
-
-
-    private OnTouchListener onTouchListener = new OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-            }
-            return false;
-        }
-    };
-
 }

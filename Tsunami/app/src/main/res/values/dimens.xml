@@ -8,4 +8,11 @@
     <dimen name="card_background_default_radius">3dp</dimen>
     <dimen name="card_padding_top">40dp</dimen>
     <dimen name="card_padding_bottom">16dp</dimen>
+
+    <dimen name="content_title_textsize">24sp</dimen>
+    <dimen name="content_divider_margin_horizontal">16dp</dimen>
+    <dimen name="content_divider_margin_vertical">8dp</dimen>
+    <dimen name="content_divider_height">2px</dimen>
+
+    <dimen name="default_text_padding">8dp</dimen>
 </resources>

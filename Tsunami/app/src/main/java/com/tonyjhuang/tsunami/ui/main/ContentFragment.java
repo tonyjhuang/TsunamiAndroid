@@ -26,6 +26,19 @@ public class ContentFragment extends TsunamiFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        content.resetCard();
+        content.resetContentCard();
+    }
+
+    public void showSplashCard() {
+        content.showSplashCard();
+    }
+
+
+    public void resetContentCard() {
+        content.resetContentCard();
+    }
+
+    public boolean isSplashCardShowing() {
+        return content.isSplashCardShowing();
     }
 }
