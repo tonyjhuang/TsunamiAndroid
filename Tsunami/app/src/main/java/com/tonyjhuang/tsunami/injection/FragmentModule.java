@@ -1,8 +1,7 @@
 package com.tonyjhuang.tsunami.injection;
 
 
-import com.tonyjhuang.tsunami.ui.main.ContentFragment;
-import com.tonyjhuang.tsunami.ui.splash.SplashFragment;
+import com.tonyjhuang.tsunami.ui.main.contentview.ContentFragment;
 
 import dagger.Module;
 
@@ -11,8 +10,7 @@ import dagger.Module;
  */
 @Module(
         injects = {
-                ContentFragment.class,
-                SplashFragment.class
+                ContentFragment.class
         },
         addsTo = ActivityModule.class,
         library = true

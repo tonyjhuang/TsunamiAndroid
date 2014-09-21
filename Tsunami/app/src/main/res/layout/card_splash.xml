@@ -22,7 +22,15 @@
         android:background="@color/content_divider_background" />
 
     <FrameLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
-        android:layout_height="240dp"></FrameLayout>
+        android:layout_height="240dp">
+
+        <com.tonyjhuang.tsunami.ui.main.contentview.splash.SplashPicker
+            android:id='@+id/picker'
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
 </LinearLayout>
