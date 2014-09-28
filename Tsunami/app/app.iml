@@ -99,7 +99,6 @@
     <orderEntry type="library" exported="" name="play-services-5.0.89" level="project" />
     <orderEntry type="library" exported="" name="support-v13-18.0.0" level="project" />
     <orderEntry type="library" exported="" name="okhttp-urlconnection-2.0.0" level="project" />
-    <orderEntry type="module" module-name="facebook" exported="" />
   </component>
 </module>
 
