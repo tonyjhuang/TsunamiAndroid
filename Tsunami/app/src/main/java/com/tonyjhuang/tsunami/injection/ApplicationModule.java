@@ -5,6 +5,8 @@ import android.content.Context;
 import com.tonyjhuang.tsunami.TsunamiApplication;
 import com.tonyjhuang.tsunami.api.models.parsers.TsunamiGson;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
+import com.tonyjhuang.tsunami.api.network.TsunamiService;
+import com.tonyjhuang.tsunami.api.network.TsunamiServiceBuilder;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,7 +18,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- *  Place all application-scoped injections here. For instance, one-per-application singletons
+ * Place all application-scoped injections here. For instance, one-per-application singletons
  */
 @Module(library = true)
 public class ApplicationModule {
@@ -35,8 +37,14 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    TsunamiApiClient provideTsunamiApiClient(TsunamiGson gson) {
-        return new TsunamiApiClient(application, gson);
+    TsunamiService provideTsunamiService() {
+        return TsunamiServiceBuilder.build();
+    }
+
+    @Provides
+    @Singleton
+    TsunamiApiClient provideTsunamiApiClient(TsunamiService service) {
+        return new TsunamiApiClient(service);
     }
 
     @Provides

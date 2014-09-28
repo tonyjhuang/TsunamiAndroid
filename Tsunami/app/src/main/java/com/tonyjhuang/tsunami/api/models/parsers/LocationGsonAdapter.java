@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Parses a JSON array of two doubles into a Location object.
  * Created by tonyjhuang on 8/19/14.
  */
 public class LocationGsonAdapter implements JsonDeserializer<Location>, JsonSerializer<Location> {

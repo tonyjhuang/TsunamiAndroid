@@ -1,37 +1,46 @@
 package com.tonyjhuang.tsunami.api.models;
 
-import android.location.Location;
-
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 /**
+ * The resharing of a wave.
  * Created by tonyhuang on 8/5/14.
  */
-public class Ripple extends TsunamiObject {
+public class Ripple {
     @Expose
-    @SerializedName("author_id")
-    private long authorId;
+    private long rippleId;
     @Expose
-    private Location location;
+    private long waveId;
     @Expose
-    private String comment;
+    private long userId;
     @Expose
-    private int radius;
+    private double latitude;
+    @Expose
+    private double longitude;
+    @Expose
+    private long timestamp;
 
-    public long getAuthorId() {
-        return authorId;
+    public long getRippleId() {
+        return rippleId;
     }
 
-    public Location getLocation() {
-        return location;
+    public long getWaveId() {
+        return waveId;
     }
 
-    public String getComment() {
-        return comment;
+    public long getUserId() {
+        return userId;
     }
 
-    public int getRadius() {
-        return radius;
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
     }
 }
