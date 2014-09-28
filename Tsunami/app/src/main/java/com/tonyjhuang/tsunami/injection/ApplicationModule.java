@@ -3,7 +3,6 @@ package com.tonyjhuang.tsunami.injection;
 import android.content.Context;
 
 import com.tonyjhuang.tsunami.TsunamiApplication;
-import com.tonyjhuang.tsunami.api.models.parsers.TsunamiGson;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
 import com.tonyjhuang.tsunami.api.network.TsunamiServiceBuilder;
@@ -45,12 +44,6 @@ public class ApplicationModule {
     @Singleton
     TsunamiApiClient provideTsunamiApiClient(TsunamiService service) {
         return new TsunamiApiClient(service);
-    }
-
-    @Provides
-    @Singleton
-    TsunamiGson provideTsunamiGson() {
-        return new TsunamiGson();
     }
 
     /**

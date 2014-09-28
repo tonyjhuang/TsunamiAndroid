@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
+/*import com.facebook.Session;
+import com.facebook.SessionState;*/
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.logging.Timber;
@@ -24,14 +24,16 @@ public class LoginActivity extends TsunamiActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        MainActivity.startMainActivity(this);
+        finish();
     }
 
-    public void onSessionStateChange(Session session, SessionState state, Exception exception) {
+    /*public void onSessionStateChange(Session session, SessionState state, Exception exception) {
         Timber.d("onsessionstatechange in login");
         if (state.isOpened() && !isFinishing()) {
             Timber.d("starting main (logged in");
             MainActivity.startMainActivity(this);
             finish();
         }
-    }
+    }*/
 }

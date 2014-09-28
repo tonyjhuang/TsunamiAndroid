@@ -22,33 +22,9 @@ public class ContentFragment extends TsunamiFragment implements ContentScrollVie
     @InjectView(R.id.content_scrollview)
     ContentScrollView content;
 
-    private List<Wave> waves = new ArrayList<Wave>();
-    int i = 0;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Wave.WaveBuilder builder = Wave.WaveBuilder.getInstance();
-        Wave wave;
-        wave = builder.message("hah wow look at this wave!")
-                .title("My super sweet TIIIITLE")
-                .build();
-        waves.add(wave);
-
-        wave = builder.message(getString(R.string.lorem_ipsum_ext))
-                .title("cla cla cla im figgity what")
-                .build();
-        waves.add(wave);
-
-        wave = builder.message("another crazy awesome wave that you should look at")
-                .title("A slightly less clever title")
-                .build();
-        waves.add(wave);
-
-        wave = builder.message(getString(R.string.lorem_ipsum))
-                .title("hooah! lorem bitch!")
-                .build();
-        waves.add(wave);
     }
 
     @Override
@@ -68,7 +44,6 @@ public class ContentFragment extends TsunamiFragment implements ContentScrollVie
 
     @Override
     public void getNextWave(Callback<Wave> callback) {
-        callback.success(waves.get(i++ % waves.size()), null);
     }
 
     @Override

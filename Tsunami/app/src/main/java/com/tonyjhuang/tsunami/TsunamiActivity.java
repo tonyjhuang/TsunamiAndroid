@@ -54,7 +54,7 @@ public abstract class TsunamiActivity extends Activity implements Session.Status
             tintManager.setStatusBarAlpha(0x000000);
             tintManager.setNavigationBarAlpha(0x000000);
             // enable status bar tint
-             tintManager.setStatusBarTintEnabled(true);
+            tintManager.setStatusBarTintEnabled(true);
             // enable navigation bar tint
             tintManager.setNavigationBarTintEnabled(true);
         }
@@ -92,6 +92,10 @@ public abstract class TsunamiActivity extends Activity implements Session.Status
             objectGraph.inject(object);
     }
 
+    protected void logout() {
+        Session.getActiveSession().closeAndClearTokenInformation();
+    }
+
     /**
      * Facebook Ui Lifecycle Helper callback interface
      */
@@ -112,9 +116,6 @@ public abstract class TsunamiActivity extends Activity implements Session.Status
         }
     }
 
-    protected void logout() {
-        Session.getActiveSession().closeAndClearTokenInformation();
-    }
 
     @Override
     public void onResume() {

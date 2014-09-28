@@ -32,8 +32,6 @@ public class ContentCard extends Card {
     }
 
     public void setWave(Wave wave) {
-        title.setText(wave.getTitle());
-        textView.setText(wave.getMessage());
     }
 
     private String firstFiveWordsOf(String string) {
