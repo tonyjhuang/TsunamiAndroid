@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="facebook_app_id">820271541324765</string>
-    <string name="gmaps_api_key">AIzaSyDrAFL-r7jxCgTMk01-KlhkR4dptWTPBYw</string>
+    <string name="gmaps_api_key">AIzaSyDYIaC3l_fQEb_P0rjwXgnQpxSphrlBSC4</string>
 
     <string name="app_name">Tsunami</string>
     <string name="app_name_actionbar">TSUNAMI</string>
