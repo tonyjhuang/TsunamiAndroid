@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 
 import com.tonyjhuang.tsunami.ui.login.LoginActivity;
 import com.tonyjhuang.tsunami.ui.main.MainActivity;
-import com.tonyjhuang.tsunami.ui.splash.SplashActivity;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -19,8 +18,7 @@ import dagger.Provides;
 @Module(
         injects = {
                 MainActivity.class,
-                LoginActivity.class,
-                SplashActivity.class
+                LoginActivity.class
         },
         addsTo = ApplicationModule.class,
         library = true

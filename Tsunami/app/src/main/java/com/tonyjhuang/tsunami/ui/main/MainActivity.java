@@ -14,6 +14,7 @@ import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.ui.main.contentview.ContentFragment;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
