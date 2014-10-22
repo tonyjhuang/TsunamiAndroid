@@ -10,6 +10,8 @@
     <string name="activity_label_view_wave">View Wave</string>
     <string name="activity_label_wave_map">Wave Map</string>
 
+    <string name="content_splash">SPLASH</string>
+
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis lectus nec eleifend tristique. Sed accumsan ante neque, eu dapibus sem consectetur sed. Mauris vulputate eu erat ut iaculis. Cras elit risus, varius eleifend neque non, eleifend placerat magna. Suspendisse tincidunt a eros sed rutrum. Quisque quis erat purus. Ut et dignissim enim. Nunc eu libero tellus. Proin vel risus ac nisi convallis eleifend. In hac habitasse platea dictumst. Nam bibendum sit amet metus sit amet congue. Fusce accumsan ex neque, sit amet maximus justo varius congue. Maecenas mattis tempor dui, id porta nulla. Curabitur convallis nunc vel aliquet suscipit. Cras a hendrerit odio. Praesent scelerisque accumsan lectus ut efficitur.</string>
     <string name="lorem_ipsum_ext">Donec pharetra dignissim orci, vitae pulvinar lorem facilisis id. Etiam eget consectetur quam. Praesent vitae hendrerit dui. Duis lacinia, nulla at maximus placerat, diam quam consectetur augue, eget eleifend est neque sit amet nunc. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas gravida commodo ex sit amet fermentum. Aliquam hendrerit purus arcu, in sollicitudin felis sollicitudin ac.</string>
 </resources>

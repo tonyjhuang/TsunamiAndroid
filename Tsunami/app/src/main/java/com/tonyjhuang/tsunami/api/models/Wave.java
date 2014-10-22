@@ -69,4 +69,27 @@ public class Wave {
     public List<Ripple> getRipples() {
         return ripples;
     }
+
+
+
+    private String debugTitle;
+
+    private String debugText;
+
+    public static Wave createDebugWave(String title, String text) {
+        return new Wave(title, text);
+    }
+
+    private Wave(String debugTitle, String debugText) {
+        this.debugTitle = debugTitle;
+        this.debugText = debugText;
+    }
+
+    public String getDebugTitle() {
+        return debugTitle;
+    }
+
+    public String getDebugText() {
+        return debugText;
+    }
 }

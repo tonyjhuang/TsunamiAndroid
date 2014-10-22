@@ -25,8 +25,6 @@ public class MainActivity extends TsunamiActivity {
 
     //@InjectView(R.id.map)
     //MapFragment mapContainer;
-    @InjectView(R.id.content_container)
-    FrameLayout contentContainer;
 
     public static void startMainActivity(Activity activity) {
         activity.startActivity(new Intent(activity, MainActivity.class));
@@ -47,18 +45,6 @@ public class MainActivity extends TsunamiActivity {
             ft.replace(R.id.content_container, new ContentFragment(), CONTENT_FRAGMENT_TAG);
             ft.commit();
         }
-    }
-
-    @OnClick(R.id.start_splash)
-    public void onStartSplashClick(View view) {
-        ContentFragment fragment = getContentFragment();
-        if (fragment != null) {
-            fragment.toggleSplash();
-        }
-    }
-
-    private ContentFragment getContentFragment() {
-        return (ContentFragment) getFragmentManager().findFragmentByTag(CONTENT_FRAGMENT_TAG);
     }
 
     @Override

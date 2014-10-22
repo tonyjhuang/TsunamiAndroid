@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.tonyjhuang.tsunami.ui.main.contentview.ContentScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content_scrollview"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:scrollbars="none" />
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/splash_button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_gravity="top|end"
+        android:text="@string/content_splash"
+        android:background="@color/color_accent"/>
+
+    <com.tonyjhuang.tsunami.ui.main.contentview.ContentScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/content_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none" />
+</FrameLayout>

@@ -14,6 +14,11 @@
     <dimen name="content_divider_margin_vertical">8dp</dimen>
     <dimen name="content_divider_height">2px</dimen>
 
+    <dimen name="fab_size_normal">56dp</dimen>
+    <dimen name="fab_size_mini">40dp</dimen>
+    <dimen name="fab_shadow_size">8dp</dimen>
+    <dimen name="fab_mini_shadow_size">6dp</dimen>
+
     <dimen name="default_text_padding">8dp</dimen>
 
     <dimen name="splash_picker_text_size">34sp</dimen>

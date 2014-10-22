@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiFragment;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Inject;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -18,7 +18,7 @@ import retrofit.Callback;
 /**
  * Created by tonyjhuang on 9/6/14.
  */
-public class ContentFragment extends TsunamiFragment implements ContentScrollView.WaveService {
+public class ContentFragment extends TsunamiFragment {
     @InjectView(R.id.content_scrollview)
     ContentScrollView content;
 
@@ -35,24 +35,5 @@ public class ContentFragment extends TsunamiFragment implements ContentScrollVie
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        content.setWaveService(this);
-    }
-
-    public void toggleSplash() {
-        content.toggleSplash();
-    }
-
-    @Override
-    public void getNextWave(Callback<Wave> callback) {
-    }
-
-    @Override
-    public void splashWave() {
-
-    }
-
-    @Override
-    public void rippleWave(Wave wave) {
-
     }
 }

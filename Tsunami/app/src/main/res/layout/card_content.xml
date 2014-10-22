@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@null"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
-    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-        android:id="@+id/title"
-        style="@style/ContentTitle"
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="4dp">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/content_divider_height"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:background="@color/content_divider_background" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                android:id="@+id/title"
+                style="@style/ContentTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-</LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/content_divider_height"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@color/content_divider_background" />
+
+            <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>
