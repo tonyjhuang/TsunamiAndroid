@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         map:cameraTargetLat="42.098223"
         map:cameraTargetLng="-70.940553"
-        map:cameraZoom="9"
+        map:cameraZoom="11"
         map:uiCompass="false"
         map:uiRotateGestures="false"
         map:uiScrollGestures="false"
@@ -18,8 +18,21 @@
         map:uiZoomControls="false"
         map:uiZoomGestures="false" />
 
-    <FrameLayout
-        android:id="@+id/content_container"
+    <com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/content_scrollview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none" />
+
+    <Button
+        android:id="@+id/splash_button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="16dp"
+        android:background="@color/color_accent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="@string/content_splash" />
 </FrameLayout>

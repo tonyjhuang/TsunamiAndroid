@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami.ui.main.contentview;
+package com.tonyjhuang.tsunami.ui.main.wave.contentview;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -13,7 +13,8 @@ import android.widget.Space;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
-import com.tonyjhuang.tsunami.ui.main.contentview.splash.SplashCard;
+import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -21,7 +22,7 @@ import butterknife.InjectView;
 /**
  * Created by tonyjhuang on 9/6/14.
  */
-public class ContentScrollView extends ScrollView implements ContentView {
+public class WaveContentScrollView extends ScrollView implements WaveContentView {
     @InjectView(R.id.container)
     LinearLayout container;
     @InjectView(R.id.card_container)
@@ -57,14 +58,14 @@ public class ContentScrollView extends ScrollView implements ContentView {
      */
     private ObjectAnimator slideCardFromBottom;
 
-    private ContentPresenter presenter;
+    private WavePresenter presenter;
 
-    public ContentScrollView(Context context) {
+    public WaveContentScrollView(Context context) {
         super(context);
         setup(context);
     }
 
-    public ContentScrollView(Context context, AttributeSet attrs) {
+    public WaveContentScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setup(context);
     }
@@ -74,7 +75,11 @@ public class ContentScrollView extends ScrollView implements ContentView {
         cardBottomPadding = getResources().getDimension(R.dimen.card_padding_bottom);
         cardTopPadding = getResources().getDimension(R.dimen.card_padding_top);
         contentCard = new ContentCard(context);
-        presenter = new ContentPresenterImpl(this);
+    }
+
+    @Override
+    public void setPresenter(WavePresenter presenter) {
+        this.presenter = presenter;
     }
 
     @Override
@@ -132,11 +137,9 @@ public class ContentScrollView extends ScrollView implements ContentView {
     };
 
     /**
-     * Animate the CardView if it isn't animating already. Will only animate if
-     * #resetCardView was called prior
+     * Animate the CardView if it isn't animating already.
      */
     public void animateCardView() {
-        cardContainer.setVisibility(INVISIBLE);
         /**
          * Scroll to y-pos 1 as 0 triggers a swiped down event.
          */

@@ -1,7 +1,6 @@
-package com.tonyjhuang.tsunami.ui.main.contentview;
+package com.tonyjhuang.tsunami.ui.main.wave.contentview;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;

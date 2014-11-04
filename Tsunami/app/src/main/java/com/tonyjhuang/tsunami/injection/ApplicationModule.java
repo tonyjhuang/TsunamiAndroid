@@ -2,6 +2,7 @@ package com.tonyjhuang.tsunami.injection;
 
 import android.content.Context;
 
+import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.TsunamiApplication;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
@@ -44,6 +45,12 @@ public class ApplicationModule {
     @Singleton
     TsunamiApiClient provideTsunamiApiClient(TsunamiService service) {
         return new TsunamiApiClient(service);
+    }
+
+    @Provides
+    @Singleton
+    LocationInfo provideLocationInfo() {
+        return new LocationInfo(application.getBaseContext());
     }
 
     /**

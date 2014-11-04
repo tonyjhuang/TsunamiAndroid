@@ -3,7 +3,6 @@ package com.tonyjhuang.tsunami;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -11,7 +10,6 @@ import android.text.SpannableString;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.tonyjhuang.tsunami.injection.ActivityModule;
 import com.tonyjhuang.tsunami.injection.FragmentModule;
 import com.tonyjhuang.tsunami.ui.customviews.TypefaceSpan;
@@ -45,32 +43,6 @@ public abstract class TsunamiActivity extends Activity implements Session.Status
         objectGraph = ((TsunamiApplication) getApplication())
                 .getApplicationGraph().plus(getModules().toArray());
         inject(this);
-
-        /**
-         * Color status bar and navigation bar if we're on at least kitkat.
-         */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarAlpha(0x000000);
-            tintManager.setNavigationBarAlpha(0x000000);
-            // enable status bar tint
-            tintManager.setStatusBarTintEnabled(true);
-            // enable navigation bar tint
-            tintManager.setNavigationBarTintEnabled(true);
-        }
-    }
-
-    public void setActionBarTitle(String title) {
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            SpannableString titleSpannable = new SpannableString(title);
-            TypefaceSpan titleSpan = new TypefaceSpan(this, "Oswald-Bold");
-            titleSpannable.setSpan(titleSpan,
-                    0,
-                    titleSpannable.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            actionBar.setTitle(titleSpannable);
-        }
     }
 
     @Override

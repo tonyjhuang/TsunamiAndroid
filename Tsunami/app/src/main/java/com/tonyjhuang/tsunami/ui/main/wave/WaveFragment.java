@@ -1,29 +1,61 @@
-package com.tonyjhuang.tsunami.ui.main.contentview;
+package com.tonyjhuang.tsunami.ui.main.wave;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.TsunamiFragment;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentScrollView;
+import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
 
 import java.util.Random;
 
-/**
- * Created by tonyjhuang on 10/21/14.
- */
-public class ContentPresenterImpl implements ContentPresenter {
+import butterknife.InjectView;
 
-    private ContentView view;
+/**
+ * Created by tonyjhuang on 9/6/14.
+ */
+public class WaveFragment extends TsunamiFragment implements WavePresenter {
+    @InjectView(R.id.content_scrollview)
+    WaveContentScrollView contentView;
+
+    /**
+     * Wave that we're hiding while the user is in the process of splashing a new Wave.
+     */
     private Wave cachedDuringSplash;
+
+    /**
+     * Our lovely map view that will handle drawing on the MapFragment
+     */
+    private WaveMapView waveMapView;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_wave, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        contentView.setPresenter(this);
+        displayNewWave();
+    }
 
     RandomString randomTitleGen = new RandomString(16);
     RandomString randomTextGen = new RandomString(128);
 
-    public ContentPresenterImpl(ContentView view) {
-        this.view = view;
-        displayNewWave();
-    }
-
     private void displayNewWave() {
         Wave randomWave = Wave.createDebugWave(randomTitleGen.nextString(), randomTextGen.nextString());
-        view.showContentCard(randomWave);
+        contentView.showContentCard(randomWave);
     }
 
     @Override
@@ -41,20 +73,20 @@ public class ContentPresenterImpl implements ContentPresenter {
     @Override
     public void onSplashSwipedUp() {
         Timber.d("onSplashSwipedUp");
-        view.showContentCard(cachedDuringSplash);
+        contentView.showContentCard(cachedDuringSplash);
     }
 
     @Override
     public void onSplashSwipedDown() {
         Timber.d("onSplashSwipedDown");
-        view.showContentCard(cachedDuringSplash);
+        contentView.showContentCard(cachedDuringSplash);
     }
 
     @Override
     public void onSplashButtonClicked() {
         Timber.d("onSplashButtonClicked");
-        cachedDuringSplash = view.getContentWave();
-        view.showSplashCard();
+        cachedDuringSplash = contentView.getContentWave();
+        contentView.showSplashCard();
     }
 
     public static class RandomString {

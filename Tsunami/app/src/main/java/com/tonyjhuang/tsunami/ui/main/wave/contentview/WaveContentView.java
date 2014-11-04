@@ -1,11 +1,15 @@
-package com.tonyjhuang.tsunami.ui.main.contentview;
+package com.tonyjhuang.tsunami.ui.main.wave.contentview;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 
 /**
  * Created by tonyjhuang on 10/21/14.
  */
-public interface ContentView {
+public interface WaveContentView {
+
+    public void setPresenter(WavePresenter presenter);
+
     public void showSplashCard();
 
     public void showContentCard(Wave wave);
