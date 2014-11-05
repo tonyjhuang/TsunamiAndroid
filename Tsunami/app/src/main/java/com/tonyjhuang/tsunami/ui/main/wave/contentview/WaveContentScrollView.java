@@ -2,8 +2,10 @@ package com.tonyjhuang.tsunami.ui.main.wave.contentview;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewTreeObserver;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
@@ -14,6 +16,7 @@ import android.widget.Space;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 
 import butterknife.ButterKnife;
@@ -221,5 +224,32 @@ public class WaveContentScrollView extends ScrollView implements WaveContentView
             }
         }
 
+        if(splashButton != null) {
+            if(t >= getHeight() - splashButtonLowerEdge) {
+                splashButton.hide();
+            } else {
+                splashButton.show();
+            }
+        }
+    }
+
+    private SplashButton splashButton;
+    private int splashButtonLowerEdge = 0;
+
+    @Override
+    public void attachSplashButton(final SplashButton splashButton) {
+        this.splashButton = splashButton;
+        splashButton.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                splashButtonLowerEdge = splashButton.getTop() + splashButton.getHeight();
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                    splashButton.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                } else {
+                    splashButton.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            }
+        });
+        Timber.d(String.format("top: %d, height: %d", splashButton.getTop(), splashButton.getHeight()));
     }
 }

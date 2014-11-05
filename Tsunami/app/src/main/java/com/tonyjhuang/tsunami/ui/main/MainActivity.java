@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.maps.MapFragment;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
@@ -18,6 +19,7 @@ import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentScrollView;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
@@ -28,12 +30,15 @@ import java.util.Random;
 import javax.inject.Inject;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 
 public class MainActivity extends TsunamiActivity implements WavePresenter {
 
     @InjectView(R.id.content_scrollview)
     WaveContentScrollView contentView;
+    @InjectView(R.id.splash_button)
+    SplashButton splashButton;
 
     @Inject
     LocationInfo locationInfo;
@@ -73,6 +78,7 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
          * Initialize our WaveContentView which will handle the displaying of wave info.
          */
         contentView.setPresenter(this);
+        contentView.attachSplashButton(splashButton);
 
         /**
          * Show the user a new wave.
@@ -156,6 +162,11 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         contentView.showSplashCard();
     }
 
+    @OnClick(R.id.splash_button)
+    public void onSplashButtonClick(View view) {
+        onSplashButtonClicked();
+    }
+
     public static class RandomString {
 
         private static final char[] symbols;
@@ -186,11 +197,14 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         }
     }
 
+    /**
+     * Our little broadcast receiver that will listen for location updates.
+     */
     private final BroadcastReceiver mainLocationBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // extract the location info in the broadcast
-            final LocationInfo locationInfo = (LocationInfo) intent.getSerializableExtra(LocationLibraryConstants.LOCATION_BROADCAST_EXTRA_LOCATIONINFO);
+            locationInfo = (LocationInfo) intent.getSerializableExtra(LocationLibraryConstants.LOCATION_BROADCAST_EXTRA_LOCATIONINFO);
             // refresh the display with it
             Timber.d("got location: " + locationInfo);
             waveMapView.setCurrentLocation(locationInfo);

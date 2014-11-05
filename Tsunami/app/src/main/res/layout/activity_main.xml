@@ -25,14 +25,11 @@
         android:fillViewport="true"
         android:scrollbars="none" />
 
-    <Button
+    <com.tonyjhuang.tsunami.ui.main.button.SplashButton
         android:id="@+id/splash_button"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="top|end"
         android:layout_margin="16dp"
-        android:background="@color/color_accent"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:text="@string/content_splash" />
+        android:src="@drawable/ic_action_content_new" />
 </FrameLayout>

@@ -1,6 +1,7 @@
 package com.tonyjhuang.tsunami.ui.main.wave.contentview;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 
 /**
@@ -19,4 +20,6 @@ public interface WaveContentView {
     public boolean isShowingContentCard();
 
     public Wave getContentWave();
+
+    public void attachSplashButton(SplashButton splashButton);
 }
