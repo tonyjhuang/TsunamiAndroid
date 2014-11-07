@@ -40,4 +40,14 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="CardDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/content_divider_height</item>
+        <item name="android:layout_marginBottom">@dimen/content_divider_margin_vertical</item>
+        <item name="android:layout_marginTop">@dimen/content_divider_margin_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/content_divider_margin_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/content_divider_margin_horizontal</item>
+        <item name="android:background">@color/content_divider_background</item>
+    </style>
+
 </resources>

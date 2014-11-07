@@ -158,8 +158,12 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
     @Override
     public void onSplashButtonClicked() {
         Timber.d("onSplashButtonClicked");
-        cachedDuringSplash = contentView.getContentWave();
-        contentView.showSplashCard();
+        if (contentView.isShowingContentCard()) {
+            cachedDuringSplash = contentView.getContentWave();
+            contentView.showSplashCard();
+        } else {
+            contentView.showContentCard(cachedDuringSplash);
+        }
     }
 
     @OnClick(R.id.splash_button)
