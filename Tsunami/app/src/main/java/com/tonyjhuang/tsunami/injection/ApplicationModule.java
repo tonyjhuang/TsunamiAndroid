@@ -8,6 +8,7 @@ import com.tonyjhuang.tsunami.TsunamiApplication;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
 import com.tonyjhuang.tsunami.api.network.TsunamiServiceBuilder;
+import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -58,6 +59,12 @@ public class ApplicationModule {
     @Singleton
     Resources provideResources() {
         return application.getResources();
+    }
+
+    @Provides
+    @Singleton
+    TsunamiPreferences provideTsunamiPreferences() {
+        return new TsunamiPreferences(application);
     }
 
     /**
