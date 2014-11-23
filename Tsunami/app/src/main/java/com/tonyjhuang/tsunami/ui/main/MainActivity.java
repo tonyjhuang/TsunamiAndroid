@@ -21,6 +21,7 @@ import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
+import com.tonyjhuang.tsunami.ui.main.wave.contentview.SplashCard;
 import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentScrollView;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapViewImpl;
@@ -173,12 +174,15 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
     public void onSplashSwipedUp() {
         Timber.d("onSplashSwipedUp");
         contentView.showContentCard(cachedDuringSplash);
+        SplashCard.SplashContent splashContent = contentView.retrieveSplashContent();
+        contentView.clearSplashCard();
     }
 
     @Override
     public void onSplashSwipedDown() {
         Timber.d("onSplashSwipedDown");
         contentView.showContentCard(cachedDuringSplash);
+        contentView.clearSplashCard();
     }
 
     @Override

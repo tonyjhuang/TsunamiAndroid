@@ -1,8 +1,6 @@
 package com.tonyjhuang.tsunami.injection;
 
 
-import com.tonyjhuang.tsunami.ui.main.wave.WaveFragment;
-
 import dagger.Module;
 
 /**
@@ -10,7 +8,6 @@ import dagger.Module;
  */
 @Module(
         injects = {
-                WaveFragment.class
         },
         addsTo = ActivityModule.class,
         library = true

@@ -134,6 +134,16 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     }
 
     @Override
+    public SplashCard.SplashContent retrieveSplashContent() {
+        return splashCard == null ? null : splashCard.retrieveSplashContent();
+    }
+
+    @Override
+    public void clearSplashCard() {
+        splashCard.clear();
+    }
+
+    @Override
     public Parcelable onSaveInstanceState() {
 
         Bundle bundle = new Bundle();

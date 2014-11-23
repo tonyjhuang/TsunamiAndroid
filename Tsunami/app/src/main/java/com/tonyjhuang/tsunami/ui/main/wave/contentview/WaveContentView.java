@@ -21,5 +21,9 @@ public interface WaveContentView {
 
     public Wave getContentWave();
 
+    public SplashCard.SplashContent retrieveSplashContent();
+
+    public void clearSplashCard();
+
     public void attachSplashButton(SplashButton splashButton);
 }
