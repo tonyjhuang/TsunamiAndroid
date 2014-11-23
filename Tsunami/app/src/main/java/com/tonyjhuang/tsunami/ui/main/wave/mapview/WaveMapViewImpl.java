@@ -19,6 +19,7 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.injection.Injector;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ import javax.inject.Inject;
  * Created by tonyjhuang on 10/27/14.
  */
 public class WaveMapViewImpl implements WaveMapView {
-    private static final int RIPPLE_RADIUS = 3000;
+    private static final int RIPPLE_RADIUS = 6000;
 
     @Inject
     Resources resources;
@@ -103,25 +104,13 @@ public class WaveMapViewImpl implements WaveMapView {
 
             this.wave = wave;
 
-            /**
-             * MOCK DATA MOCK DATA
-             */
-            LatLng last = null;
-            ArrayList<LatLng> ripples = new ArrayList<LatLng>();
-            for (int i = 0; i < random.nextInt(5000) + 1; i++) {
-                if (last == null) {
-                    if (currentLocation == null) {
-                        last = getRandomLatLng(42.331665, -71.108093);
-                    } else {
-                        last = getRandomLatLng(currentLocation.latitude, currentLocation.longitude);
-                    }
-                } else {
-                    last = getRandomLatLng(last.latitude, last.longitude);
-                }
-                ripples.add(last);
-            }
+            long start = System.currentTimeMillis();
+            List<LatLng> ripples = getRandomLatLngs();
+            Timber.d("0: " + (System.currentTimeMillis() - start));
             drawRipples(ripples);
+            Timber.d("1: " + (System.currentTimeMillis() - start));
             zoomToFit(waveRipples);
+            Timber.d("2: " + (System.currentTimeMillis() - start));
         } else {
             throw new RuntimeException("No MapFragment set for this WaveMapView!");
         }
@@ -158,7 +147,7 @@ public class WaveMapViewImpl implements WaveMapView {
         if (currentLocation == null) {
                 /* Uh oh, it looks like the user has tried to splash content with a location*/
         } else {
-            zoomTo(currentLocation);
+            zoomTo(currentLocation, 11);
             if (splashingIndicator == null) {
                 splashingIndicator = map.addCircle(new CircleOptions()
                         .center(currentLocation)
@@ -207,24 +196,24 @@ public class WaveMapViewImpl implements WaveMapView {
     }
 
     /**
-     * Zoom to a specific LatLng.
+     * Zoom to a specific LatLng with zoom level.
      */
-    private void zoomTo(LatLng center) {
-        map.animateCamera(CameraUpdateFactory.newLatLng(center));
+    private void zoomTo(LatLng center, int zoom) {
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(center, zoom));
     }
 
     private void zoomToFit(List<Circle> ripples) {
         if (ripples == null || ripples.size() == 0)
             return;
-        double minLat = currentLocation == null ? 999 : currentLocation.latitude - 0.0125;
-        double minLng = currentLocation == null ? 999 : currentLocation.longitude - 0.0125;
-        double maxLat = currentLocation == null ? -999 : currentLocation.latitude + 0.0125;
-        double maxLng = currentLocation == null ? -999 : currentLocation.longitude + 0.0125;
+        double minLat = currentLocation == null ? 999 : currentLocation.latitude - 0.025;
+        double minLng = currentLocation == null ? 999 : currentLocation.longitude - 0.025;
+        double maxLat = currentLocation == null ? -999 : currentLocation.latitude + 0.025;
+        double maxLng = currentLocation == null ? -999 : currentLocation.longitude + 0.025;
         for (Circle ripple : ripples) {
-            minLat = Math.min(minLat, ripple.getCenter().latitude - 0.025);
-            minLng = Math.min(minLng, ripple.getCenter().longitude - 0.025);
-            maxLat = Math.max(maxLat, ripple.getCenter().latitude + 0.025);
-            maxLng = Math.max(maxLng, ripple.getCenter().longitude + 0.025);
+            minLat = Math.min(minLat, ripple.getCenter().latitude - 0.05);
+            minLng = Math.min(minLng, ripple.getCenter().longitude - 0.05);
+            maxLat = Math.max(maxLat, ripple.getCenter().latitude + 0.05);
+            maxLng = Math.max(maxLng, ripple.getCenter().longitude + 0.05);
         }
 
         if (map != null) {
@@ -261,5 +250,27 @@ public class WaveMapViewImpl implements WaveMapView {
         return new LatLng(
                 lat + randomDoubleInRange(-0.025, 0.025),
                 lng + randomDoubleInRange(-0.025, 0.025));
+    }
+
+    private List<LatLng> getRandomLatLngs() {
+        ArrayList<LatLng> ripples = new ArrayList<LatLng>();
+        LatLng last = null;
+
+        int numRandom = (int) Math.max(2 + Math.abs((6 * random.nextGaussian())), 0);
+        Timber.d("random: " + numRandom);
+
+        for (int i = 0; i < numRandom; i++) {
+            if (last == null) {
+                if (currentLocation == null) {
+                    last = getRandomLatLng(42.331665, -71.108093);
+                } else {
+                    last = getRandomLatLng(currentLocation.latitude, currentLocation.longitude);
+                }
+            } else {
+                last = getRandomLatLng(last.latitude, last.longitude);
+            }
+            ripples.add(last);
+        }
+        return ripples;
     }
 }
