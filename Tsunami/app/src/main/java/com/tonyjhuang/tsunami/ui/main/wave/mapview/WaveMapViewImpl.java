@@ -5,9 +5,13 @@ import android.content.res.Resources;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
@@ -62,9 +66,9 @@ public class WaveMapViewImpl implements WaveMapView {
     private Random random = new Random();
 
     /**
-     * Circle object that represents the user's current location (as far as we can tell).
+     * Marker that represents the user's current location (as far as we can tell).
      */
-    private Circle currentLocationMarker;
+    private Marker currentLocationMarker;
 
     /**
      * User's current location.
@@ -115,14 +119,13 @@ public class WaveMapViewImpl implements WaveMapView {
         currentLocation = new LatLng(locationInfo.lastLat, locationInfo.lastLong);
 
         if (currentLocationMarker == null) {
-            currentLocationMarker = map.addCircle(new CircleOptions()
-                    .center(currentLocation)
-                    .radius(300)
-                    .fillColor(resources.getColor(R.color.content_view_map_current_location_fill))
-                    .strokeColor(resources.getColor(R.color.content_view_map_current_location_stroke))
-                    .zIndex(999));
+            BitmapDescriptor markerBitmap = BitmapDescriptorFactory.fromResource(R.drawable.current_location);
+            currentLocationMarker = map.addMarker(new MarkerOptions()
+                    .position(currentLocation)
+                    .anchor(0.5f, 0.5f)
+                    .icon(markerBitmap));
         } else {
-            currentLocationMarker.setCenter(currentLocation);
+            currentLocationMarker.setPosition(currentLocation);
         }
     }
 
