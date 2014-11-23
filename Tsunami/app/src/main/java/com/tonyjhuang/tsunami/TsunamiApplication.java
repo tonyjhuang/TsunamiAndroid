@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 import com.tonyjhuang.tsunami.injection.ApplicationModule;
+import com.tonyjhuang.tsunami.injection.Injector;
 import com.tonyjhuang.tsunami.logging.Timber;
 
 import dagger.ObjectGraph;
@@ -12,7 +13,7 @@ import dagger.ObjectGraph;
 /**
  * Created by tonyhuang on 7/29/14.
  */
-public class TsunamiApplication extends Application {
+public class TsunamiApplication extends Application implements Injector {
 
     private ObjectGraph applicationGraph;
 
@@ -31,7 +32,13 @@ public class TsunamiApplication extends Application {
         }
     }
 
-    public ObjectGraph getApplicationGraph() {
+    @Override
+    public ObjectGraph getObjectGraph() {
         return applicationGraph;
+    }
+
+    @Override
+    public void inject(Object injectee) {
+        applicationGraph.inject(injectee);
     }
 }

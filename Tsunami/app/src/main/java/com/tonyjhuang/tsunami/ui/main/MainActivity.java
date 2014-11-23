@@ -74,7 +74,7 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         /**
          * Create our WaveMapView that will handle manipulating and drawing on our map fragment.
          */
-        waveMapView = new WaveMapViewImpl();
+        waveMapView = new WaveMapViewImpl(this);
         waveMapView.setPresenter(this);
         waveMapView.setMapFragment((MapFragment) getFragmentManager().findFragmentById(R.id.map));
 
@@ -175,14 +175,12 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         Timber.d("onSplashSwipedUp");
         contentView.showContentCard(cachedDuringSplash);
         SplashCard.SplashContent splashContent = contentView.retrieveSplashContent();
-        contentView.clearSplashCard();
     }
 
     @Override
     public void onSplashSwipedDown() {
         Timber.d("onSplashSwipedDown");
         contentView.showContentCard(cachedDuringSplash);
-        contentView.clearSplashCard();
     }
 
     @Override
@@ -190,9 +188,12 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         Timber.d("onSplashButtonClicked");
         if (contentView.isShowingContentCard()) {
             cachedDuringSplash = contentView.getContentWave();
+            contentView.clearSplashCard();
             contentView.showSplashCard();
+            waveMapView.displaySplashing();
         } else {
             contentView.showContentCard(cachedDuringSplash);
+            waveMapView.displayWave(cachedDuringSplash);
         }
     }
 

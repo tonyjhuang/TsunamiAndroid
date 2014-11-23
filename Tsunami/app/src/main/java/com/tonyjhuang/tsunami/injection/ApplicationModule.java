@@ -1,6 +1,7 @@
 package com.tonyjhuang.tsunami.injection;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.TsunamiApplication;
@@ -51,6 +52,12 @@ public class ApplicationModule {
     @Singleton
     LocationInfo provideLocationInfo() {
         return new LocationInfo(application.getBaseContext());
+    }
+
+    @Provides
+    @Singleton
+    Resources provideResources() {
+        return application.getResources();
     }
 
     /**

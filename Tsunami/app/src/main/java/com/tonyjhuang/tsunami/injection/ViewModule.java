@@ -1,6 +1,8 @@
 package com.tonyjhuang.tsunami.injection;
 
 
+import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapViewImpl;
+
 import dagger.Module;
 
 /**
@@ -8,6 +10,7 @@ import dagger.Module;
  */
 @Module(
         injects = {
+                WaveMapViewImpl.class
         },
         addsTo = ActivityModule.class,
         library = true

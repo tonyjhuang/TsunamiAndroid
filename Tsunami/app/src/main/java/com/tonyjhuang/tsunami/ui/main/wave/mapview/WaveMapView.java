@@ -11,9 +11,23 @@ import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 public interface WaveMapView {
     public void setPresenter(WavePresenter presenter);
 
+    /**
+     * Display the given wave on the map.
+     */
     public void displayWave(Wave wave);
 
+    /**
+     * Show that the user is in the process of splashing.
+     */
+    public void displaySplashing();
+
+    /**
+     * Set the MapFragment that this WaveMapView will be drawing on.
+     */
     public void setMapFragment(MapFragment mapFragment);
 
+    /**
+     * Should probably display where the user is on the map.
+     */
     public void setCurrentLocation(LocationInfo locationInfo);
 }

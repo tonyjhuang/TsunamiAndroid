@@ -6,5 +6,11 @@
     
     <color name="text_default">#B000</color>
     
-    <color name="content_divider_background">#1000</color>
+    <color name="content_view_card_divider">#1000</color>
+    <color name="content_view_map_current_location_fill">#4400BFFF</color>
+    <color name="content_view_map_current_location_stroke">#441E90FF</color>
+    <color name="content_view_map_ripple_fill">#4448D1CC</color>
+    <color name="content_view_map_ripple_stroke">#4400CED1</color>
+    <color name="content_view_map_splashing_fill">#449ACD32</color>
+    <color name="content_view_map_splashing_stroke">#446B8E23</color>
 </resources>

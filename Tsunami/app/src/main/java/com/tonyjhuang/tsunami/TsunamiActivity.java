@@ -1,18 +1,16 @@
 package com.tonyjhuang.tsunami;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.tonyjhuang.tsunami.injection.ActivityModule;
 import com.tonyjhuang.tsunami.injection.FragmentModule;
-import com.tonyjhuang.tsunami.ui.customviews.TypefaceSpan;
+import com.tonyjhuang.tsunami.injection.Injector;
+import com.tonyjhuang.tsunami.injection.ViewModule;
 import com.tonyjhuang.tsunami.ui.login.LoginActivity;
 
 import java.util.Arrays;
@@ -25,7 +23,9 @@ import dagger.ObjectGraph;
  * Handles all of the boring initialization stuff we would want for every activity
  * This includes injection, ui styling, logging setup
  */
-public abstract class TsunamiActivity extends Activity implements Session.StatusCallback {
+public abstract class TsunamiActivity extends Activity implements
+        Session.StatusCallback,
+        Injector {
     private ObjectGraph objectGraph;
 
     /**
@@ -41,7 +41,7 @@ public abstract class TsunamiActivity extends Activity implements Session.Status
         uiHelper.onCreate(savedInstanceState);
 
         objectGraph = ((TsunamiApplication) getApplication())
-                .getApplicationGraph().plus(getModules().toArray());
+                .getObjectGraph().plus(getModules().toArray());
         inject(this);
     }
 
@@ -56,12 +56,18 @@ public abstract class TsunamiActivity extends Activity implements Session.Status
      * append your list of modules to the super call
      */
     protected List<Object> getModules() {
-        return Arrays.asList(new ActivityModule(this), new FragmentModule());
+        return Arrays.asList(new ActivityModule(this), new FragmentModule(), new ViewModule());
     }
 
+    @Override
     public void inject(Object object) {
         if (object != null)
             objectGraph.inject(object);
+    }
+
+    @Override
+    public ObjectGraph getObjectGraph() {
+        return objectGraph;
     }
 
     protected void logout() {
