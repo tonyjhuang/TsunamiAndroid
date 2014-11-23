@@ -3,6 +3,8 @@ package com.tonyjhuang.tsunami.ui.main.wave.contentview;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
@@ -29,6 +31,16 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     private SplashCard splashCard;
 
     private WavePresenter presenter;
+
+    /**
+     * Reference to our splash button, that floats in the upper right corner.
+     */
+    private SplashButton splashButton;
+
+    /**
+     * The lowest point of our button.
+     */
+    private int splashButtonLowerEdge = 0;
 
     public WaveContentScrollView(Context context) {
         this(context, null);
@@ -121,15 +133,29 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         }
     }
 
-    /**
-     * Reference to our splash button, that floats in the upper right corner.
-     */
-    private SplashButton splashButton;
+    private final String STATE_SPLASHING = "splashing";
 
-    /**
-     * The lowest point of our button.
-     */
-    private int splashButtonLowerEdge = 0;
+    @Override
+    public Parcelable onSaveInstanceState() {
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("instanceState", super.onSaveInstanceState());
+        bundle.putBoolean(STATE_SPLASHING, isShowingSplashCard());
+        // ... save everything
+        return bundle;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if (state instanceof Bundle) {
+            Bundle bundle = (Bundle) state;
+            if(bundle.getBoolean(STATE_SPLASHING)) {
+                Timber.d("should be splashing!");
+            }
+            state = bundle.getParcelable("instanceState");
+        }
+        super.onRestoreInstanceState(state);
+    }
 
     @Override
     public void attachSplashButton(final SplashButton splashButton) {

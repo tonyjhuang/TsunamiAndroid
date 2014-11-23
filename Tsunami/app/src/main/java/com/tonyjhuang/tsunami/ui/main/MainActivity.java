@@ -43,6 +43,9 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
     @Inject
     LocationInfo locationInfo;
 
+    private final String STATE_WAVE = "wave";
+    private final String STATE_SPLASHING = "splashing";
+
     /**
      * Wave that we're hiding while the user is in the process of splashing a new Wave.
      */
@@ -80,10 +83,19 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         contentView.setPresenter(this);
         contentView.attachSplashButton(splashButton);
 
-        /**
-         * Show the user a new wave.
-         */
-        displayNewWave();
+        if(savedInstanceState == null) {
+            /**
+             * Show the user a new wave.
+             */
+            displayNewWave();
+        } else {
+            //if(savedInstanceState.getBoolean(STATE_SPLASHING)) {
+
+//            } else {
+                Wave savedStateWave = savedInstanceState.getParcelable(STATE_WAVE);
+                displayWave(savedStateWave);
+  //          }*/
+        }
     }
 
     @Override
@@ -96,6 +108,7 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
     @Override
     public void onPause() {
         super.onPause();
+        Timber.d("unregistering.");
         unregisterReceiver(mainLocationBroadcastReceiver);
     }
 
@@ -119,6 +132,15 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putParcelable(STATE_WAVE, contentView.getContentWave());
+        savedInstanceState.putBoolean(STATE_SPLASHING, contentView.isShowingSplashCard());
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
     /**
      * Random string generators for making debugging waves. Creates titles and body text.
      */
@@ -127,8 +149,12 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
 
     private void displayNewWave() {
         Wave randomWave = Wave.createDebugWave(randomTitleGen.nextString(), randomTextGen.nextString());
-        contentView.showContentCard(randomWave);
-        waveMapView.displayWave(randomWave);
+        displayWave(randomWave);
+    }
+
+    private void displayWave(Wave wave) {
+        contentView.showContentCard(wave);
+        waveMapView.displayWave(wave);
     }
 
     @Override

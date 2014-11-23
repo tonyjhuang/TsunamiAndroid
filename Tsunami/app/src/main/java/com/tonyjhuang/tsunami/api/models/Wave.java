@@ -1,5 +1,8 @@
 package com.tonyjhuang.tsunami.api.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.List;
  * Represents a single piece of content along with all of its reshares.
  * Created by tonyhuang on 8/5/14.
  */
-public class Wave {
+public class Wave implements Parcelable {
     @Expose
     private long waveId;
     @Expose
@@ -71,7 +74,6 @@ public class Wave {
     }
 
 
-
     private String debugTitle;
 
     private String debugText;
@@ -91,5 +93,34 @@ public class Wave {
 
     public String getDebugText() {
         return debugText;
+    }
+
+    /* Parcelable interface */
+
+    public static final Parcelable.Creator<Wave> CREATOR = new Parcelable.Creator<Wave>() {
+        public Wave createFromParcel(Parcel in) {
+            return new Wave(in);
+        }
+
+        @Override
+        public Wave[] newArray(int size) {
+            return new Wave[size];
+        }
+    };
+
+    private Wave(Parcel in) {
+        debugText = in.readString();
+        debugText = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(debugTitle);
+        out.writeString(debugText);
     }
 }
