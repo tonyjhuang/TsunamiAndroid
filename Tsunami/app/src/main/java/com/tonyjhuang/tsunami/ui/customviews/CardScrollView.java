@@ -101,7 +101,7 @@ public class CardScrollView extends ScrollView {
      * @param cardView the new view to show.
      */
     public void setCardView(View cardView) {
-        if(getCardView() == null || !getCardView().equals(cardView)) {
+        if (getCardView() == null || !getCardView().equals(cardView)) {
             cardContainer.removeAllViews();
             cardContainer.addView(cardView);
         }
@@ -145,7 +145,7 @@ public class CardScrollView extends ScrollView {
      */
     private void setCardViewFaded(boolean faded) {
         getCardView().clearAnimation();
-        if(faded) {
+        if (faded) {
             getCardView().startAnimation(fadeOutAnimation);
         } else {
             getCardView().startAnimation(fadeInAnimation);
@@ -155,11 +155,19 @@ public class CardScrollView extends ScrollView {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         Timber.d("action: " + ev.getAction());
-        if(ev.getAction() == MotionEvent.ACTION_DOWN && !isTouchingCard(ev)) {
-            draggingOutside = true;
-            if(fadeCardView) {
-                setCardViewFaded(true);
-            }
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (!isTouchingCard(ev)) {
+                    draggingOutside = true;
+                    if (fadeCardView) {
+                        setCardViewFaded(true);
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_UP:
+                setCardViewFaded(false);
+
         }
         return super.onInterceptTouchEvent(ev);
     }
@@ -170,14 +178,14 @@ public class CardScrollView extends ScrollView {
         /**
          * Only read the drag/scroll event if the motionevent is within bounds of our content card
          */
-        if(isTouchingCard(ev) && !draggingOutside) {
+        if (isTouchingCard(ev) && !draggingOutside) {
             return super.onTouchEvent(ev);
         } else {
             switch (ev.getAction()) {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
                     draggingOutside = false;
-                    if(fadeCardView) {
+                    if (fadeCardView) {
                         setCardViewFaded(false);
                     }
             }
@@ -240,7 +248,7 @@ public class CardScrollView extends ScrollView {
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        if(onScrollChangedListener != null) {
+        if (onScrollChangedListener != null) {
             onScrollChangedListener.onScrollChanged(l, t, oldl, oldt);
         }
     }
