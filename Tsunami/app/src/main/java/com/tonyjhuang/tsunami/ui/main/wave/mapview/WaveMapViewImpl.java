@@ -2,14 +2,17 @@ package com.tonyjhuang.tsunami.ui.main.wave.mapview;
 
 import android.content.res.Resources;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
@@ -115,6 +118,7 @@ public class WaveMapViewImpl implements WaveMapView {
                 ripples.add(last);
             }
             drawRipples(ripples);
+            zoomToFit(waveRipples);
         } else {
             throw new RuntimeException("No MapFragment set for this WaveMapView!");
         }
@@ -141,7 +145,7 @@ public class WaveMapViewImpl implements WaveMapView {
             currentLocationMarker.setPosition(currentLocation);
         }
 
-        if(splashingIndicator != null) {
+        if (splashingIndicator != null) {
             splashingIndicator.setCenter(currentLocation);
         }
     }
@@ -205,6 +209,42 @@ public class WaveMapViewImpl implements WaveMapView {
      */
     private void zoomTo(LatLng center) {
         map.animateCamera(CameraUpdateFactory.newLatLng(center));
+    }
+
+    private void zoomToFit(List<Circle> ripples) {
+        if (ripples == null || ripples.size() == 0)
+            return;
+        double minLat = currentLocation == null ? 999 : currentLocation.latitude - 0.0125;
+        double minLng = currentLocation == null ? 999 : currentLocation.longitude - 0.0125;
+        double maxLat = currentLocation == null ? -999 : currentLocation.latitude + 0.0125;
+        double maxLng = currentLocation == null ? -999 : currentLocation.longitude + 0.0125;
+        for (Circle ripple : ripples) {
+            minLat = Math.min(minLat, ripple.getCenter().latitude - 0.025);
+            minLng = Math.min(minLng, ripple.getCenter().longitude - 0.025);
+            maxLat = Math.max(maxLat, ripple.getCenter().latitude + 0.025);
+            maxLng = Math.max(maxLng, ripple.getCenter().longitude + 0.025);
+        }
+
+        if (map != null) {
+            final CameraUpdate update = CameraUpdateFactory.newLatLngBounds(
+                    new LatLngBounds(
+                            new LatLng(minLat, minLng),
+                            new LatLng(maxLat, maxLng)
+                    ), 0);
+            try {
+                map.animateCamera(update);
+            } catch (IllegalStateException e) {
+                map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                    @Override
+                    public void onCameraChange(CameraPosition arg0) {
+                        // Move camera.
+                        map.animateCamera(update);
+                        // Remove listener to prevent position reset on camera move.
+                        map.setOnCameraChangeListener(null);
+                    }
+                });
+            }
+        }
     }
 
     /**
