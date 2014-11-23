@@ -155,19 +155,27 @@ public class CardScrollView extends ScrollView {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         Timber.d("action: " + ev.getAction());
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (!isTouchingCard(ev)) {
+        Timber.d("touching: " + isTouchingCard(ev));
+
+        if (!isTouchingCard(ev)) {
+            /**
+             * We really only care about the MotionEvent if the user isn't touching the card view.
+             */
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_DOWN:
                     draggingOutside = true;
                     if (fadeCardView) {
                         setCardViewFaded(true);
                     }
-                }
-                break;
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
-                setCardViewFaded(false);
-
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_UP:
+                    draggingOutside = false;
+                    if(fadeCardView) {
+                        setCardViewFaded(false);
+                    }
+                    break;
+            }
         }
         return super.onInterceptTouchEvent(ev);
     }
@@ -198,11 +206,11 @@ public class CardScrollView extends ScrollView {
      */
     private boolean isTouchingCard(MotionEvent ev) {
         int[] location = {0, 0};
-        cardContainer.getLocationOnScreen(location);
+        getCardView().getLocationOnScreen(location);
         int left = location[0];
         int top = location[1];
-        int right = left + cardContainer.getWidth();
-        int bottom = top + cardContainer.getHeight();
+        int right = left + getCardView().getWidth();
+        int bottom = top + getCardView().getHeight();
 
         float x = ev.getX();
         float y = ev.getY();
