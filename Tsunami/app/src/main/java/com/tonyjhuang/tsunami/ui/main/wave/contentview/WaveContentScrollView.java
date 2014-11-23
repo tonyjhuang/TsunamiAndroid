@@ -134,6 +134,12 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
                 splashButton.show();
             }
         }
+
+        if(t < getCardViewStartingPosition()) {
+            setCardAlpha(t / getCardViewStartingPosition() + 0.2f);
+        } else {
+            setCardAlpha(1.0f);
+        }
     }
 
     @Override

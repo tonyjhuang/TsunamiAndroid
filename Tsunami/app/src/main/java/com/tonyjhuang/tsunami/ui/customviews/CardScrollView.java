@@ -86,6 +86,13 @@ public class CardScrollView extends ScrollView {
     private AlphaAnimation fadeOutAnimation, fadeInAnimation;
 
     /**
+     * In order to make our animations for versatile, we keep track of what the original alpha
+     * of our CardView is before fading it out so when we fade back in, we can preserve its initial
+     * state.
+     */
+    private float previousFullAlpha = 1.0f;
+
+    /**
      * Is the user currently touching or dragging the area outside of our CardView?
      */
     private boolean draggingOutside = false;
@@ -134,12 +141,6 @@ public class CardScrollView extends ScrollView {
      */
     public void setFadeCardView(boolean fadeCardView) {
         this.fadeCardView = fadeCardView;
-        fadeOutAnimation = new AlphaAnimation(1.0f, FADED_ALPHA);
-        fadeOutAnimation.setDuration(200);
-        fadeOutAnimation.setFillAfter(true);
-        fadeInAnimation = new AlphaAnimation(FADED_ALPHA, 1.0f);
-        fadeInAnimation.setDuration(200);
-        fadeInAnimation.setFillAfter(true);
     }
 
     /**
@@ -164,13 +165,27 @@ public class CardScrollView extends ScrollView {
     }
 
     /**
+     * Set this CardViews alpha value.
+     */
+    protected void setCardAlpha(float alpha) {
+        getCardView().setAlpha(alpha);
+    }
+
+    /**
      * @param faded should we fade the card view?
      */
     private void setCardViewFaded(boolean faded) {
         getCardView().clearAnimation();
         if (faded) {
+            previousFullAlpha = getCardView().getAlpha();
+            fadeOutAnimation = new AlphaAnimation(previousFullAlpha, FADED_ALPHA);
+            fadeOutAnimation.setDuration(200);
+            fadeOutAnimation.setFillAfter(true);
             getCardView().startAnimation(fadeOutAnimation);
         } else {
+            fadeInAnimation = new AlphaAnimation(FADED_ALPHA, previousFullAlpha);
+            fadeInAnimation.setDuration(200);
+            fadeInAnimation.setFillAfter(true);
             getCardView().startAnimation(fadeInAnimation);
         }
     }
@@ -296,7 +311,7 @@ public class CardScrollView extends ScrollView {
             bottomSpacerLayoutParams.height = getHeight();
             bottomSpacer.setLayoutParams(bottomSpacerLayoutParams);
 
-            slideCardFromBottom = ObjectAnimator.ofInt(this, "scrollY", 1, getHeight() / 3);
+            slideCardFromBottom = ObjectAnimator.ofInt(this, "scrollY", 1, getCardViewStartingPosition());
             slideCardFromBottom.setInterpolator(overshootInterpolator);
             slideCardFromBottom.setDuration(500);
         }
@@ -309,24 +324,15 @@ public class CardScrollView extends ScrollView {
      */
     private void scrollOffScreenIfNecessary() {
         int scrollY = getScrollY();
-        float threshold = getResources().getDimension(R.dimen.card_scroll_view_readability_threshold);
-        int cardViewHeight = getCardView().getHeight();
-        int screenHeight = getHeight();
-/*
-        Timber.d(String.format("scrollY: %d, screenHeight: %d, cardViewHeight: %d, threshold: %f",
-                getScrollY(),
-                screenHeight,
-                cardViewHeight,
-                threshold));
-*/
         ObjectAnimator animator = null;
-        if (scrollY <= threshold) {
+
+        if (scrollY <= getScrollOutBottomThreshold()) {
             /**
              * Top of the CardView is sitting on the bottom edge of the screen
              */
             Timber.d("Should scroll CardView down.");
             animator = ObjectAnimator.ofInt(this, "scrollY", getScrollY(), 0);
-        } else if (scrollY >= screenHeight + cardViewHeight - threshold) {
+        } else if (scrollY >= getScrollOutTopThreshold()) {
             /**
              * Bottom of the CardView is sitting on the upper edge of the screen
              */
@@ -361,5 +367,26 @@ public class CardScrollView extends ScrollView {
      */
     protected int getMaxScrollHeight() {
         return getTotalHeight() - bottomSpacer.getHeight();
+    }
+
+    protected int getCardViewStartingPosition() {
+        return getHeight() / 3;
+    }
+
+    /**
+     * The minimum scroll threshold for y position before we scroll the card downwards.
+     */
+    protected int getScrollOutBottomThreshold() {
+        return (int) getResources().getDimension(R.dimen.card_scroll_view_readability_threshold);
+    }
+
+    /**
+     * The maximum scroll threshold for y position before we scroll the card upwards.
+     */
+    protected int getScrollOutTopThreshold() {
+        int threshold = (int) getResources().getDimension(R.dimen.card_scroll_view_readability_threshold);
+        int cardViewHeight = getCardView().getHeight();
+        int screenHeight = getHeight();
+        return screenHeight + cardViewHeight - threshold;
     }
 }
