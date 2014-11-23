@@ -108,6 +108,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
+        Timber.d("t: " + t);
         if (t == 0) {
             scrollTo(0, 1);
             if (isShowingContentCard()) {

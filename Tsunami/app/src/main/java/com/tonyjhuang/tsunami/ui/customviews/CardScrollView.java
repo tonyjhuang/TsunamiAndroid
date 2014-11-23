@@ -105,6 +105,8 @@ public class CardScrollView extends ScrollView {
         cardBottomPadding = getResources().getDimension(R.dimen.card_padding_bottom);
         cardTopPadding = getResources().getDimension(R.dimen.card_padding_top);
 
+        setOverScrollMode(OVER_SCROLL_NEVER);
+
         new OnScrollStopListener() {
             @Override
             public void onScrollStopped() {
