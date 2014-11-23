@@ -91,18 +91,21 @@ public class WaveMapViewImpl implements WaveMapView {
             clearRipples();
             this.wave = wave;
 
-            LatLng latLng;
-            if (currentLocation == null) {
-                latLng = new LatLng(
-                        42.331665 + randomDoubleInRange(-0.025, 0.025),
-                        -71.108093 + randomDoubleInRange(-0.025, 0.025));
-            } else {
-                latLng = new LatLng(
-                        currentLocation.latitude + randomDoubleInRange(-0.025, 0.025),
-                        currentLocation.longitude + randomDoubleInRange(-0.025, 0.025));
+            LatLng last = null;
+            ArrayList<LatLng> ripples = new ArrayList<LatLng>();
+            for (int i = 0; i < random.nextInt(10) + 1; i++) {
+                if (last == null) {
+                    if (currentLocation == null) {
+                        last = getRandomLatLng(42.331665, -71.108093);
+                    } else {
+                        last = getRandomLatLng(currentLocation.latitude, currentLocation.longitude);
+                    }
+                } else {
+                    last = getRandomLatLng(last.latitude, last.longitude);
+                }
+                ripples.add(last);
             }
-            drawRipples(Arrays.asList(latLng));
-            zoomTo(latLng);
+            drawRipples(ripples);
         } else {
             throw new RuntimeException("No MapFragment set for this WaveMapView!");
         }
@@ -117,6 +120,7 @@ public class WaveMapViewImpl implements WaveMapView {
     @Override
     public void setCurrentLocation(LocationInfo locationInfo) {
         currentLocation = new LatLng(locationInfo.lastLat, locationInfo.lastLong);
+        zoomTo(currentLocation);
 
         if (currentLocationMarker == null) {
             BitmapDescriptor markerBitmap = BitmapDescriptorFactory.fromResource(R.drawable.current_location);
@@ -179,5 +183,11 @@ public class WaveMapViewImpl implements WaveMapView {
 
     private double randomDoubleInRange(double min, double max) {
         return min + (max - min) * random.nextDouble();
+    }
+
+    private LatLng getRandomLatLng(double lat, double lng) {
+        return new LatLng(
+                lat + randomDoubleInRange(-0.025, 0.025),
+                lng + randomDoubleInRange(-0.025, 0.025));
     }
 }
