@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
@@ -16,6 +17,8 @@ import android.widget.Space;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnMotionEventListener;
+import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollChangedListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -36,7 +39,15 @@ public class CardScrollView extends ScrollView {
     @InjectView(R.id.bottom_spacer)
     protected Space bottomSpacer;
 
+    /**
+     * Listener for scroll events.
+     */
     private OnScrollChangedListener onScrollChangedListener;
+
+    /**
+     * Listener for MotionEvents.
+     */
+    private OnMotionEventListener onMotionEventListener;
 
     /**
      * Not actual padding, but we use this to increase the touch target of the
@@ -93,6 +104,13 @@ public class CardScrollView extends ScrollView {
         ButterKnife.inject(this, inflate(context, R.layout.view_card_scrollview, this));
         cardBottomPadding = getResources().getDimension(R.dimen.card_padding_bottom);
         cardTopPadding = getResources().getDimension(R.dimen.card_padding_top);
+
+        new OnScrollStopListener() {
+            @Override
+            public void onScrollStopped() {
+                scrollOffScreenIfNecessary();
+            }
+        }.attach(this);
     }
 
     /**
@@ -109,6 +127,9 @@ public class CardScrollView extends ScrollView {
         animateCardView();
     }
 
+    /**
+     * Should we fade the CardView when the user taps/holds outside of the scrollview?
+     */
     public void setFadeCardView(boolean fadeCardView) {
         this.fadeCardView = fadeCardView;
         fadeOutAnimation = new AlphaAnimation(1.0f, FADED_ALPHA);
@@ -152,10 +173,26 @@ public class CardScrollView extends ScrollView {
         }
     }
 
+    /**
+     * Set the listener for MotionEvents for this CardScrollView
+     */
+    public void setOnMotionEventListener(OnMotionEventListener onMotionEventListener) {
+        this.onMotionEventListener = onMotionEventListener;
+    }
+
+    /**
+     * The reason why we care about both #onInterceptTouchEvent and #onTouchEvent is because we want
+     * to allow child views to consume the MotionEvent before we try to, so we have to
+     * implement scrolling logic in #onTouchEvent. However, ACTION_DOWN is only passed to ViewGroups'
+     * #onInterceptTouchEvent, so we need to add some logic to cover the case where a user taps
+     * the screen and immediately lifts up their finger, in which case both ACTION_DOWN and ACTION_UP
+     * are passed #onInterceptTouchEvent.
+     */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        Timber.d("action: " + ev.getAction());
-        Timber.d("touching: " + isTouchingCard(ev));
+        if (onMotionEventListener != null) {
+            onMotionEventListener.onInterceptTouchEvent(ev);
+        }
 
         if (!isTouchingCard(ev)) {
             /**
@@ -171,7 +208,7 @@ public class CardScrollView extends ScrollView {
                 case MotionEvent.ACTION_CANCEL:
                 case MotionEvent.ACTION_UP:
                     draggingOutside = false;
-                    if(fadeCardView) {
+                    if (fadeCardView) {
                         setCardViewFaded(false);
                     }
                     break;
@@ -182,7 +219,10 @@ public class CardScrollView extends ScrollView {
 
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent ev) {
-        Timber.d("action: " + ev.getAction());
+        if (onMotionEventListener != null) {
+            onMotionEventListener.onTouchEvent(ev);
+        }
+
         /**
          * Only read the drag/scroll event if the motionevent is within bounds of our content card
          */
@@ -220,6 +260,17 @@ public class CardScrollView extends ScrollView {
                 && (y < bottom + cardBottomPadding);
     }
 
+    public void setOnScrollChangedListener(OnScrollChangedListener onScrollChangedListener) {
+        this.onScrollChangedListener = onScrollChangedListener;
+    }
+
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        if (onScrollChangedListener != null) {
+            onScrollChangedListener.onScrollChanged(l, t, oldl, oldt);
+        }
+    }
+
     /**
      * @param changed layout bounds changed
      * @param l       left
@@ -246,33 +297,67 @@ public class CardScrollView extends ScrollView {
             slideCardFromBottom = ObjectAnimator.ofInt(this, "scrollY", 1, getHeight() / 3);
             slideCardFromBottom.setInterpolator(overshootInterpolator);
             slideCardFromBottom.setDuration(500);
-
-        }
-    }
-
-    public void setOnScrollChangedListener(OnScrollChangedListener onScrollChangedListener) {
-        this.onScrollChangedListener = onScrollChangedListener;
-    }
-
-    @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        if (onScrollChangedListener != null) {
-            onScrollChangedListener.onScrollChanged(l, t, oldl, oldt);
         }
     }
 
     /**
-     * Listen to scroll events for this scroll view.
+     * Check if our cardview is beyond the thresholds of readability (eg if either the top edge
+     * of the CardView is near the bottom edge of the screen and vice versa). If so, scroll the
+     * CardView entirely off screen.
      */
-    public interface OnScrollChangedListener {
-        /**
-         * Called whenever this ScrollView is scrolled.
-         *
-         * @param l    left
-         * @param t    top
-         * @param oldl old left
-         * @param oldt old top
-         */
-        public void onScrollChanged(int l, int t, int oldl, int oldt);
+    private void scrollOffScreenIfNecessary() {
+        int scrollY = getScrollY();
+        float threshold = getResources().getDimension(R.dimen.card_scroll_view_readability_threshold);
+        int cardViewHeight = getCardView().getHeight();
+        int screenHeight = getHeight();
+/*
+        Timber.d(String.format("scrollY: %d, screenHeight: %d, cardViewHeight: %d, threshold: %f",
+                getScrollY(),
+                screenHeight,
+                cardViewHeight,
+                threshold));
+*/
+        ObjectAnimator animator = null;
+        if (scrollY <= threshold) {
+            /**
+             * Top of the CardView is sitting on the bottom edge of the screen
+             */
+            Timber.d("Should scroll CardView down.");
+            animator = ObjectAnimator.ofInt(this, "scrollY", getScrollY(), 0);
+        } else if (scrollY >= screenHeight + cardViewHeight - threshold) {
+            /**
+             * Bottom of the CardView is sitting on the upper edge of the screen
+             */
+            Timber.d("Should scroll CardView up.");
+            animator = ObjectAnimator.ofInt(this, "scrollY", getScrollY(), getMaxScrollHeight());
+        }
+        if (animator != null) {
+            animator.setDuration(200);
+            animator.setInterpolator(new AccelerateInterpolator());
+            animate(animator);
+        }
+    }
+
+    private void animate(final ObjectAnimator animator) {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                animator.start();
+            }
+        });
+    }
+
+    /**
+     * @return the total height of the children for this scrollview.
+     */
+    protected int getTotalHeight() {
+        return bottomSpacer.getHeight() + getCardView().getHeight() + topSpacer.getHeight();
+    }
+
+    /**
+     * @return the highest scroll y value possible for this scrollview
+     */
+    protected int getMaxScrollHeight() {
+        return getTotalHeight() - bottomSpacer.getHeight();
     }
 }

@@ -103,9 +103,12 @@ public class WaveMapViewImpl implements WaveMapView {
 
             this.wave = wave;
 
+            /**
+             * MOCK DATA MOCK DATA
+             */
             LatLng last = null;
             ArrayList<LatLng> ripples = new ArrayList<LatLng>();
-            for (int i = 0; i < random.nextInt(10) + 1; i++) {
+            for (int i = 0; i < random.nextInt(5000) + 1; i++) {
                 if (last == null) {
                     if (currentLocation == null) {
                         last = getRandomLatLng(42.331665, -71.108093);
@@ -133,7 +136,6 @@ public class WaveMapViewImpl implements WaveMapView {
     @Override
     public void setCurrentLocation(LocationInfo locationInfo) {
         currentLocation = new LatLng(locationInfo.lastLat, locationInfo.lastLong);
-        zoomTo(currentLocation);
 
         if (currentLocationMarker == null) {
             BitmapDescriptor markerBitmap = BitmapDescriptorFactory.fromResource(R.drawable.current_location);

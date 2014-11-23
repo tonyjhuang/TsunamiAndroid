@@ -115,7 +115,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
             } else {
                 presenter.onSplashSwipedDown();
             }
-        } else if (t >= container.getHeight() - bottomSpacer.getHeight()) {
+        } else if (t >= getMaxScrollHeight()) {
             scrollTo(0, 1);
             if (isShowingContentCard()) {
                 presenter.onContentSwipedUp();
