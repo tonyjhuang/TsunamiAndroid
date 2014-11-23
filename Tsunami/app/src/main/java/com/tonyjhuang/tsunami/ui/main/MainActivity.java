@@ -171,12 +171,14 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         Timber.d("onSplashSwipedUp");
         contentView.showContentCard(cachedDuringSplash);
         SplashCard.SplashContent splashContent = contentView.retrieveSplashContent();
+        waveMapView.displayWave(cachedDuringSplash);
     }
 
     @Override
     public void onSplashSwipedDown() {
         Timber.d("onSplashSwipedDown");
         contentView.showContentCard(cachedDuringSplash);
+        waveMapView.displayWave(cachedDuringSplash);
     }
 
     @Override

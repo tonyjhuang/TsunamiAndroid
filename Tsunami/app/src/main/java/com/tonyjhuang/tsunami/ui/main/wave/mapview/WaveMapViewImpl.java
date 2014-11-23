@@ -19,7 +19,6 @@ import com.tonyjhuang.tsunami.injection.Injector;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -75,6 +74,11 @@ public class WaveMapViewImpl implements WaveMapView {
      */
     private LatLng currentLocation;
 
+    /**
+     * Shape to display while the user is splashing.
+     */
+    private Circle splashingIndicator;
+
 
     public WaveMapViewImpl(Injector injector) {
         injector.inject(this);
@@ -89,6 +93,11 @@ public class WaveMapViewImpl implements WaveMapView {
     public void displayWave(Wave wave) {
         if (mapFragment != null && map != null) {
             clearRipples();
+
+            if (splashingIndicator != null) {
+                splashingIndicator.setVisible(false);
+            }
+
             this.wave = wave;
 
             LatLng last = null;
@@ -131,10 +140,31 @@ public class WaveMapViewImpl implements WaveMapView {
         } else {
             currentLocationMarker.setPosition(currentLocation);
         }
+
+        if(splashingIndicator != null) {
+            splashingIndicator.setCenter(currentLocation);
+        }
     }
 
     @Override
     public void displaySplashing() {
+        clearRipples();
+        if (currentLocation == null) {
+                /* Uh oh, it looks like the user has tried to splash content with a location*/
+        } else {
+            zoomTo(currentLocation);
+            if (splashingIndicator == null) {
+                splashingIndicator = map.addCircle(new CircleOptions()
+                        .center(currentLocation)
+                        .radius(RIPPLE_RADIUS)
+                        .fillColor(resources.getColor(R.color.content_view_map_splashing_fill))
+                        .strokeColor(resources.getColor(R.color.content_view_map_splashing_stroke)));
+            } else {
+                splashingIndicator.setCenter(currentLocation);
+            }
+
+            splashingIndicator.setVisible(true);
+        }
 
     }
 

@@ -25,11 +25,7 @@ public class TsunamiApplication extends Application implements Injector {
 
         LocationLibrary.showDebugOutput(true);
 
-        Log.d("app", "wtf");
         Timber.plant(new Timber.DebugTree());
-        Timber.d("test");
-        Timber.tag("testtag");
-        Timber.d("test 2");
 
         try {
             LocationLibrary.initialiseLibrary(getBaseContext(), 60 * 1000, 2 * 60 * 1000, "com.tonyjhuang.tsunami");

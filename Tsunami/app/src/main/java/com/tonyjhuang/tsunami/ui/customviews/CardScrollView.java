@@ -15,6 +15,7 @@ import android.widget.ScrollView;
 import android.widget.Space;
 
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.logging.Timber;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -143,6 +144,7 @@ public class CardScrollView extends ScrollView {
      * @param faded should we fade the card view?
      */
     private void setCardViewFaded(boolean faded) {
+        getCardView().clearAnimation();
         if(faded) {
             getCardView().startAnimation(fadeOutAnimation);
         } else {
@@ -152,6 +154,7 @@ public class CardScrollView extends ScrollView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        Timber.d("action: " + ev.getAction());
         if(ev.getAction() == MotionEvent.ACTION_DOWN && !isTouchingCard(ev)) {
             draggingOutside = true;
             if(fadeCardView) {
@@ -163,6 +166,7 @@ public class CardScrollView extends ScrollView {
 
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent ev) {
+        Timber.d("action: " + ev.getAction());
         /**
          * Only read the drag/scroll event if the motionevent is within bounds of our content card
          */
