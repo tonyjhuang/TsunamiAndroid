@@ -95,7 +95,6 @@ public class WaveMapViewImpl implements WaveMapView {
     public void setCurrentLocation(LocationInfo locationInfo) {
         LatLng currentLocation = new LatLng(locationInfo.lastLat, locationInfo.lastLong);
 
-        Timber.d("got location.");
         if (currentLocationMarker == null) {
             currentLocationMarker = map.addCircle(new CircleOptions()
                     .center(currentLocation)

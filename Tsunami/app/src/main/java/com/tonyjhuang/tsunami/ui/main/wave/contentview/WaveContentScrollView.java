@@ -3,6 +3,8 @@ package com.tonyjhuang.tsunami.ui.main.wave.contentview;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
@@ -231,6 +233,30 @@ public class WaveContentScrollView extends ScrollView implements WaveContentView
                 splashButton.show();
             }
         }
+    }
+
+    private final String STATE_SPLASHING = "splashing";
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("instanceState", super.onSaveInstanceState());
+        bundle.putBoolean(STATE_SPLASHING, isShowingSplashCard());
+        // ... save everything
+        return bundle;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if (state instanceof Bundle) {
+            Bundle bundle = (Bundle) state;
+            if(bundle.getBoolean(STATE_SPLASHING)) {
+                Timber.d("should be splashing!");
+            }
+            state = bundle.getParcelable("instanceState");
+        }
+        super.onRestoreInstanceState(state);
     }
 
     private SplashButton splashButton;
