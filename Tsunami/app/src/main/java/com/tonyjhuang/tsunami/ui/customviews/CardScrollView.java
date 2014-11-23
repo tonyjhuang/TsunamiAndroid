@@ -2,9 +2,11 @@ package com.tonyjhuang.tsunami.ui.customviews;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
@@ -21,6 +23,7 @@ import butterknife.InjectView;
  * Created by tony on 11/11/14.
  */
 public class CardScrollView extends ScrollView {
+    private final static float FADED_ALPHA = 0.3f;
 
     @InjectView(R.id.container)
     protected LinearLayout container;
@@ -60,12 +63,27 @@ public class CardScrollView extends ScrollView {
         }
     };
 
+    /**
+     * Do we lower our CardView's alpha on touch outside of the CardView?
+     */
+    private boolean fadeCardView = false;
+
+    /**
+     * Animations to use for fading in and our our VardCiew
+     */
+    private AlphaAnimation fadeOutAnimation, fadeInAnimation;
+
+    /**
+     * Is the user currently touching or dragging the area outside of our CardView?
+     */
+    private boolean draggingOutside = false;
+
     public CardScrollView(Context context) {
         this(context, null);
     }
 
     public CardScrollView(Context context, AttributeSet attributeSet) {
-        this(context, null, 0);
+        this(context, attributeSet, 0);
     }
 
     public CardScrollView(Context context, AttributeSet attributeSet, int defStyle) {
@@ -90,6 +108,16 @@ public class CardScrollView extends ScrollView {
         animateCardView();
     }
 
+    public void setFadeCardView(boolean fadeCardView) {
+        this.fadeCardView = fadeCardView;
+        fadeOutAnimation = new AlphaAnimation(1.0f, FADED_ALPHA);
+        fadeOutAnimation.setDuration(200);
+        fadeOutAnimation.setFillAfter(true);
+        fadeInAnimation = new AlphaAnimation(FADED_ALPHA, 1.0f);
+        fadeInAnimation.setDuration(200);
+        fadeInAnimation.setFillAfter(true);
+    }
+
     /**
      * Get the view that is currently being displayed. Can be null if the cardview has never been set.
      *
@@ -111,12 +139,52 @@ public class CardScrollView extends ScrollView {
         post(animateRunnable);
     }
 
+    /**
+     * @param faded should we fade the card view?
+     */
+    private void setCardViewFaded(boolean faded) {
+        if(faded) {
+            getCardView().startAnimation(fadeOutAnimation);
+        } else {
+            getCardView().startAnimation(fadeInAnimation);
+        }
+    }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if(ev.getAction() == MotionEvent.ACTION_DOWN && !isTouchingCard(ev)) {
+            draggingOutside = true;
+            if(fadeCardView) {
+                setCardViewFaded(true);
+            }
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onTouchEvent(@NonNull MotionEvent ev) {
         /**
          * Only read the drag/scroll event if the motionevent is within bounds of our content card
          */
+        if(isTouchingCard(ev) && !draggingOutside) {
+            return super.onTouchEvent(ev);
+        } else {
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    draggingOutside = false;
+                    if(fadeCardView) {
+                        setCardViewFaded(false);
+                    }
+            }
+            return false;
+        }
+    }
+
+    /**
+     * Does this MotionEvent land on our CardView?
+     */
+    private boolean isTouchingCard(MotionEvent ev) {
         int[] location = {0, 0};
         cardContainer.getLocationOnScreen(location);
         int left = location[0];
@@ -126,14 +194,10 @@ public class CardScrollView extends ScrollView {
 
         float x = ev.getX();
         float y = ev.getY();
-        if ((x > left)
+        return (x > left)
                 && (x < right)
                 && (y > top - cardTopPadding)
-                && (y < bottom + cardBottomPadding)) {
-            return super.onTouchEvent(ev);
-        } else {
-            return false;
-        }
+                && (y < bottom + cardBottomPadding);
     }
 
     /**

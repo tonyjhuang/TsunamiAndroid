@@ -65,10 +65,6 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
-        }
-
         LocationLibrary.forceLocationUpdate(this);
 
         /**

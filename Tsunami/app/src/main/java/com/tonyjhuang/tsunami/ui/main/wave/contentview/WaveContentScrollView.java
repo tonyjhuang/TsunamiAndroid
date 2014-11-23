@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
@@ -54,6 +56,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         super(context, attrs, defStyle);
 
         contentCard = new ContentCard(context);
+        setFadeCardView(true);
     }
 
     @Override
@@ -140,7 +143,9 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
 
     @Override
     public void clearSplashCard() {
-        splashCard.clear();
+        if(splashCard != null) {
+            splashCard.clear();
+        }
     }
 
     @Override
