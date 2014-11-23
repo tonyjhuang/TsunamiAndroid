@@ -4,7 +4,6 @@
         <attr name="typeface" format="string" />
     </declare-styleable>
 
-
     <declare-styleable name="FloatingActionButton">
         <attr name="fab_colorPressed" format="color" />
         <attr name="fab_colorNormal" format="color" />

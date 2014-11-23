@@ -1,4 +1,5 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tsunami="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -12,9 +13,16 @@
             style="@style/ContentTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title" />
+            android:hint="@string/splash_title_hint" />
 
         <View style="@style/CardDivider" />
+
+        <com.tonyjhuang.tsunami.ui.customviews.TypefaceEditText
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            tsunami:typeface="Roboto-Light"
+            android:layout_height="wrap_content"
+            android:hint="@string/splash_text_hint"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

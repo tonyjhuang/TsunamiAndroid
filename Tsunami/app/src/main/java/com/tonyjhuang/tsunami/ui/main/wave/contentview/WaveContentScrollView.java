@@ -1,14 +1,11 @@
 package com.tonyjhuang.tsunami.ui.main.wave.contentview;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.logging.Timber;
@@ -20,6 +17,9 @@ import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
  * Created by tonyjhuang on 9/6/14.
  */
 public class WaveContentScrollView extends CardScrollView implements WaveContentView {
+
+    private final String STATE_SPLASHING = "splashing";
+
     /**
      * The card that contains information about the current wave.
      */
@@ -133,8 +133,6 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         }
     }
 
-    private final String STATE_SPLASHING = "splashing";
-
     @Override
     public Parcelable onSaveInstanceState() {
 
@@ -149,7 +147,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     public void onRestoreInstanceState(Parcelable state) {
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
-            if(bundle.getBoolean(STATE_SPLASHING)) {
+            if (bundle.getBoolean(STATE_SPLASHING)) {
                 Timber.d("should be splashing!");
             }
             state = bundle.getParcelable("instanceState");
