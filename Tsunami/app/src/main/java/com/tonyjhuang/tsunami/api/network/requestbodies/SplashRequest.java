@@ -14,7 +14,7 @@ public class SplashRequest {
     final String content;
     final String guid;
 
-    public SplashRequest(double latitude, double longitude, String content, String guid) {
+    public SplashRequest(String guid, String content, double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.content = content;

@@ -45,8 +45,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    TsunamiApiClient provideTsunamiApiClient(TsunamiService service) {
-        return new TsunamiApiClient(service);
+    TsunamiApiClient provideTsunamiApiClient(TsunamiService service, TsunamiPreferences preferences) {
+        return new TsunamiApiClient(service, preferences);
     }
 
     @Provides

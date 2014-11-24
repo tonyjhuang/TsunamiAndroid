@@ -14,7 +14,7 @@ public class CreateRippleRequest {
     final double latitude;
     final double longitude;
 
-    public CreateRippleRequest(int waveId, String guid, double latitude, double longitude) {
+    public CreateRippleRequest(String guid, int waveId, double latitude, double longitude) {
         this.waveId = waveId;
         this.guid = guid;
         this.latitude = latitude;

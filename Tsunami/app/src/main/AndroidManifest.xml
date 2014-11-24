@@ -62,6 +62,8 @@
             </intent-filter>
         </receiver>
         <receiver android:name="com.littlefluffytoys.littlefluffylocationlibrary.PassiveLocationChangedReceiver" android:exported="true" />
+
+        
     </application>
 
 </manifest>

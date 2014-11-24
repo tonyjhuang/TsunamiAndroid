@@ -17,6 +17,7 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
@@ -25,6 +26,7 @@ import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentScrollView;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WMVFinishSplashingCallback;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapViewImpl;
+import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.util.Random;
 
@@ -43,6 +45,10 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
 
     @Inject
     LocationInfo locationInfo;
+    @Inject
+    TsunamiApiClient api;
+    @Inject
+    TsunamiPreferences preferences;
 
     private final String STATE_WAVE = "wave";
     private final String STATE_SPLASHING = "splashing";
@@ -158,6 +164,7 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
     public void onSplashSwipedUp() {
         Timber.d("onSplashSwipedUp");
         SplashCard.SplashContent splashContent = contentView.retrieveSplashContent();
+        api.splash(splashContent.title, locationInfo.lastLat, locationInfo.lastLong);
         waveMapView.finishSplashing(new WMVFinishSplashingCallback() {
             @Override
             public void onFinishSplashing() {

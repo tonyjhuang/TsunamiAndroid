@@ -19,7 +19,7 @@ public class TsunamiPreferences {
     /**
      * Preference key-value pairs that you can get-set
      */
-    public StringPreference id = new IdPreference("com.tonyjhuang.tsunami.id");
+    public final IdPreference id = new IdPreference("com.tonyjhuang.tsunami.id");
 
     private SharedPreferences preferences;
 
@@ -27,31 +27,32 @@ public class TsunamiPreferences {
         preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
     }
 
-    private abstract class TsunamiPreference<T> {
+    abstract class TsunamiPreference<T> {
         public abstract T get();
 
         public abstract void set(T value);
     }
 
-    private class IdPreference extends StringPreference {
+    public class IdPreference extends StringPreference {
         /**
          * In memory instance of our id so we don't have to keep fetching it from file. The reason for
          * this is because we'll probably be retrieving the user's id a lot.
          */
-        private String id;
+        private String id = null;
 
         public IdPreference(String key) {
             super(key, null);
-
-            id = get();
-            if (id == null) {
-                set(UUID.randomUUID().toString());
-            }
         }
 
-        @Override
         public String get() {
+            if(id == null) {
+                initialize();
+            }
             return id;
+        }
+
+        private void initialize() {
+            set(UUID.randomUUID().toString());
         }
 
         @Override
@@ -61,7 +62,7 @@ public class TsunamiPreferences {
         }
     }
 
-    private class StringPreference extends TsunamiPreference<String> {
+    public class StringPreference extends TsunamiPreference<String> {
         private String key;
         private String defaultValue;
 
@@ -85,7 +86,7 @@ public class TsunamiPreferences {
         }
     }
 
-    private class BooleanPreference extends TsunamiPreference<Boolean> {
+    public class BooleanPreference extends TsunamiPreference<Boolean> {
         private String key;
         private boolean defaultValue;
 
