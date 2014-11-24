@@ -1,5 +1,6 @@
 package com.tonyjhuang.tsunami.api.network;
 
+import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 
 import retrofit.RequestInterceptor;
@@ -21,12 +22,15 @@ public class TsunamiServiceBuilder {
     };
 
     public static TsunamiService build() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
+        RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint(ENDPOINT)
                 .setRequestInterceptor(headerInterceptor)
-                .setConverter(new GsonConverter(TsunamiGson.buildGson()))
-                .build();
+                .setConverter(new GsonConverter(TsunamiGson.buildGson()));
 
-        return restAdapter.create(TsunamiService.class);
+        if(BuildConfig.DEBUG) {
+            builder.setLogLevel(RestAdapter.LogLevel.FULL);
+        }
+
+        return builder.build().create(TsunamiService.class);
     }
 }
