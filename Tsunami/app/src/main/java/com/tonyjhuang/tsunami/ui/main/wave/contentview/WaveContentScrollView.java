@@ -109,14 +109,12 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         if (t == 0) {
-            scrollTo(0, 1);
             if (isShowingContentCard()) {
                 presenter.onContentSwipedDown();
             } else {
                 presenter.onSplashSwipedDown();
             }
         } else if (t >= getMaxScrollHeight()) {
-            scrollTo(0, 1);
             if (isShowingContentCard()) {
                 presenter.onContentSwipedUp();
             } else {

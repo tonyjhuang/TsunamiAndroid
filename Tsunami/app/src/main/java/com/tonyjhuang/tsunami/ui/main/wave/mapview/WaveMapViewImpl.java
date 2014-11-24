@@ -1,6 +1,11 @@
 package com.tonyjhuang.tsunami.ui.main.wave.mapview;
 
+import android.animation.Animator;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.res.Resources;
+import android.view.animation.OvershootInterpolator;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,6 +26,7 @@ import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.injection.Injector;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
+import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +38,8 @@ import javax.inject.Inject;
  * Created by tonyjhuang on 10/27/14.
  */
 public class WaveMapViewImpl implements WaveMapView {
-    private static final int RIPPLE_RADIUS = 6000;
+    private static final int RIPPLE_RADIUS = 3000;
+    private static final int FINISH_SPLASH_ANIMATION_DURATION = 3000;
 
     @Inject
     Resources resources;
@@ -83,6 +90,10 @@ public class WaveMapViewImpl implements WaveMapView {
      */
     private Circle splashingIndicator;
 
+    /**
+     * Animator that pulsates the splashingIndicators radius.
+     */
+    private ValueAnimator splashingIndicatorRadiusAnimator;
 
     public WaveMapViewImpl(Injector injector) {
         injector.inject(this);
@@ -97,11 +108,6 @@ public class WaveMapViewImpl implements WaveMapView {
     public void displayWave(Wave wave) {
         if (mapFragment != null && map != null) {
             clearRipples();
-
-            if (splashingIndicator != null) {
-                splashingIndicator.setVisible(false);
-            }
-
             this.wave = wave;
 
             long start = System.currentTimeMillis();
@@ -141,26 +147,69 @@ public class WaveMapViewImpl implements WaveMapView {
         }
     }
 
+
     @Override
     public void displaySplashing() {
         clearRipples();
         if (currentLocation == null) {
                 /* Uh oh, it looks like the user has tried to splash content with a location*/
         } else {
-            zoomTo(currentLocation, 11);
+            int strokeColor = resources.getColor(R.color.content_view_map_splashing_stroke);
+            zoomTo(currentLocation, 12);
             if (splashingIndicator == null) {
                 splashingIndicator = map.addCircle(new CircleOptions()
                         .center(currentLocation)
                         .radius(RIPPLE_RADIUS)
-                        .fillColor(resources.getColor(R.color.content_view_map_splashing_fill))
-                        .strokeColor(resources.getColor(R.color.content_view_map_splashing_stroke)));
+                        .strokeColor(strokeColor));
+
+                splashingIndicatorRadiusAnimator = ValueAnimator.ofInt(RIPPLE_RADIUS + 100, RIPPLE_RADIUS)
+                .setDuration(1000);
+                splashingIndicatorRadiusAnimator.setRepeatMode(ValueAnimator.REVERSE);
+                splashingIndicatorRadiusAnimator.setRepeatCount(ValueAnimator.INFINITE);
+                splashingIndicatorRadiusAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        splashingIndicator.setRadius((Integer) animator.getAnimatedValue());
+                    }
+                });
+                splashingIndicatorRadiusAnimator.start();
             } else {
                 splashingIndicator.setCenter(currentLocation);
             }
 
             splashingIndicator.setVisible(true);
         }
+    }
 
+    @Override
+    public void finishSplashing(final WMVFinishSplashingCallback callback) {
+        splashingIndicatorRadiusAnimator.cancel();
+        final Integer colorFrom = resources.getColor(R.color.content_view_map_splashing_fill_begin);
+        final Integer colorTo = resources.getColor(R.color.content_view_map_splashing_fill_end);
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        colorAnimation.setInterpolator(new OvershootInterpolator());
+        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                splashingIndicator.setFillColor((Integer)animator.getAnimatedValue());
+            }
+        });
+        colorAnimation.addListener(new SimpleAnimatorListener() {
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                Timber.d("finished animation");
+                splashingIndicator.setVisible(false);
+                splashingIndicator.setFillColor(colorFrom);
+                callback.onFinishSplashing();
+            }
+        });
+        colorAnimation.setDuration(FINISH_SPLASH_ANIMATION_DURATION);
+        colorAnimation.start();
+    }
+
+    @Override
+    public void cancelSplashing() {
+        splashingIndicator.setVisible(false);
     }
 
     /* ========== DRAWING UTILITY FUNCTIONS =========== */

@@ -22,6 +22,16 @@ public interface WaveMapView {
     public void displaySplashing();
 
     /**
+     * The user wants to splash their content.
+     */
+    public void finishSplashing(WMVFinishSplashingCallback callback);
+
+    /**
+     * The user has cancelled the splash.
+     */
+    public void cancelSplashing();
+
+    /**
      * Set the MapFragment that this WaveMapView will be drawing on.
      */
     public void setMapFragment(MapFragment mapFragment);

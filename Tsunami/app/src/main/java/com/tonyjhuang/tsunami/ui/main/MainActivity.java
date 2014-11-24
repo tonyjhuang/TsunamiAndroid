@@ -23,6 +23,7 @@ import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 import com.tonyjhuang.tsunami.ui.main.wave.contentview.SplashCard;
 import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentScrollView;
+import com.tonyjhuang.tsunami.ui.main.wave.mapview.WMVFinishSplashingCallback;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapViewImpl;
 
@@ -169,14 +170,21 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
     @Override
     public void onSplashSwipedUp() {
         Timber.d("onSplashSwipedUp");
-        contentView.showContentCard(cachedDuringSplash);
         SplashCard.SplashContent splashContent = contentView.retrieveSplashContent();
-        waveMapView.displayWave(cachedDuringSplash);
+        waveMapView.finishSplashing(new WMVFinishSplashingCallback() {
+            @Override
+            public void onFinishSplashing() {
+                Timber.d("in callback..");
+                contentView.showContentCard(cachedDuringSplash);
+                waveMapView.displayWave(cachedDuringSplash);
+            }
+        });
     }
 
     @Override
     public void onSplashSwipedDown() {
         Timber.d("onSplashSwipedDown");
+        waveMapView.cancelSplashing();
         contentView.showContentCard(cachedDuringSplash);
         waveMapView.displayWave(cachedDuringSplash);
     }
