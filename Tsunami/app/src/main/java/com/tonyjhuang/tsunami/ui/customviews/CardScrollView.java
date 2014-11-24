@@ -183,10 +183,12 @@ public class CardScrollView extends ScrollView {
             fadeOutAnimation.setFillAfter(true);
             getCardView().startAnimation(fadeOutAnimation);
         } else {
-            fadeInAnimation = new AlphaAnimation(FADED_ALPHA, previousFullAlpha);
-            fadeInAnimation.setDuration(200);
-            fadeInAnimation.setFillAfter(true);
-            getCardView().startAnimation(fadeInAnimation);
+            if(FADED_ALPHA < previousFullAlpha) {
+                fadeInAnimation = new AlphaAnimation(FADED_ALPHA, previousFullAlpha);
+                fadeInAnimation.setDuration(200);
+                fadeInAnimation.setFillAfter(true);
+                getCardView().startAnimation(fadeInAnimation);
+            }
         }
     }
 

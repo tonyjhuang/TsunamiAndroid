@@ -148,7 +148,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         }
 
         if (t < getCardViewStartingPosition()) {
-            setCardAlpha(((float) t) / getCardViewStartingPosition() + 0.2f);
+            setCardAlpha((float) Math.pow(((float) t) / getCardViewStartingPosition(), 1.6f));
         } else {
             setCardAlpha(1.0f);
         }
