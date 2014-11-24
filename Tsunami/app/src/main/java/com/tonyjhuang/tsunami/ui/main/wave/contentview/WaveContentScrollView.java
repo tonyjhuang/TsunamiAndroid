@@ -4,9 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
@@ -32,6 +30,9 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
      */
     private SplashCard splashCard;
 
+    /**
+     * Our view presenter.
+     */
     private WavePresenter presenter;
 
     /**
@@ -105,9 +106,21 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         return contentCard.getWave();
     }
 
+    int oldoldt, oldoldoldt;
+
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
+        Timber.d("t: " + t + ", oldt: " + oldt);
+        /**
+         * Seems like theres a bug where the last scroll event gets repeated if overscroll is off.
+         */
+        if (t == oldoldt && oldt == oldoldoldt) {
+            return;
+        } else {
+            oldoldt = t;
+            oldoldoldt = oldt;
+        }
         if (t == 0) {
             if (isShowingContentCard()) {
                 presenter.onContentSwipedDown();
@@ -118,6 +131,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
             if (isShowingContentCard()) {
                 presenter.onContentSwipedUp();
             } else {
+                Timber.d("splashswipedup");
                 presenter.onSplashSwipedUp();
             }
         }
@@ -133,7 +147,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
             }
         }
 
-        if(t < getCardViewStartingPosition()) {
+        if (t < getCardViewStartingPosition()) {
             setCardAlpha(((float) t) / getCardViewStartingPosition() + 0.2f);
         } else {
             setCardAlpha(1.0f);
@@ -147,7 +161,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
 
     @Override
     public void clearSplashCard() {
-        if(splashCard != null) {
+        if (splashCard != null) {
             splashCard.clear();
         }
     }
