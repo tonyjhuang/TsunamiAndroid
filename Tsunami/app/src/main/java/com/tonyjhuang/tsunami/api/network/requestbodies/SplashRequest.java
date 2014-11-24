@@ -1,5 +1,7 @@
 package com.tonyjhuang.tsunami.api.network.requestbodies;
 
+import com.google.gson.annotations.Expose;
+
 /*
 {
   "latitude": 123.4567,
@@ -9,15 +11,19 @@ package com.tonyjhuang.tsunami.api.network.requestbodies;
 }
  */
 public class SplashRequest {
-    final double latitude;
-    final double longitude;
-    final String content;
+    @Expose
     final String guid;
+    @Expose
+    final String content;
+    @Expose
+    final double latitude;
+    @Expose
+    final double longitude;
 
     public SplashRequest(String guid, String content, double latitude, double longitude) {
+        this.guid = guid;
+        this.content = content;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.content = content;
-        this.guid = guid;
     }
 }

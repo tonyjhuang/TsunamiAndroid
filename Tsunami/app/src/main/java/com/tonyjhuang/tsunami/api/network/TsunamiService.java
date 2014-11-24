@@ -44,6 +44,6 @@ public interface TsunamiService {
     /**
      * Splash a new wave. For now the only content type supported is text.
      */
-    @POST("/splash/text")
+    @POST("/ocean/splash")
     Observable<Wave> splash(@Body SplashRequest body);
 }

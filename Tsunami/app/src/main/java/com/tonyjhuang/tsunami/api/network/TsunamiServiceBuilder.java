@@ -5,6 +5,7 @@ import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.android.AndroidLog;
 import retrofit.converter.GsonConverter;
 
 /**
@@ -25,10 +26,12 @@ public class TsunamiServiceBuilder {
         RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint(ENDPOINT)
                 .setRequestInterceptor(headerInterceptor)
-                .setConverter(new GsonConverter(TsunamiGson.buildGson()));
+                .setConverter(new GsonConverter(TsunamiGson.buildGson()))
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setLog(new AndroidLog("asdsadasd"));
 
         if(BuildConfig.DEBUG) {
-            builder.setLogLevel(RestAdapter.LogLevel.FULL);
+            ;//builder.setLogLevel(RestAdapter.LogLevel.FULL);
         }
 
         return builder.build().create(TsunamiService.class);

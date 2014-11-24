@@ -112,11 +112,8 @@ public class WaveMapViewImpl implements WaveMapView {
 
             long start = System.currentTimeMillis();
             List<LatLng> ripples = getRandomLatLngs();
-            Timber.d("0: " + (System.currentTimeMillis() - start));
             drawRipples(ripples);
-            Timber.d("1: " + (System.currentTimeMillis() - start));
             zoomToFit(waveRipples);
-            Timber.d("2: " + (System.currentTimeMillis() - start));
         } else {
             throw new RuntimeException("No MapFragment set for this WaveMapView!");
         }
@@ -172,18 +169,20 @@ public class WaveMapViewImpl implements WaveMapView {
                         splashingIndicator.setRadius((Integer) animator.getAnimatedValue());
                     }
                 });
-                splashingIndicatorRadiusAnimator.start();
             } else {
                 splashingIndicator.setCenter(currentLocation);
             }
 
+            splashingIndicatorRadiusAnimator.start();
             splashingIndicator.setVisible(true);
         }
     }
 
     @Override
     public void finishSplashing(final WMVFinishSplashingCallback callback) {
-        splashingIndicatorRadiusAnimator.cancel();
+        if(splashingIndicatorRadiusAnimator != null) {
+            splashingIndicatorRadiusAnimator.cancel();
+        }
         final Integer colorFrom = resources.getColor(R.color.content_view_map_splashing_fill_begin);
         final Integer colorTo = resources.getColor(R.color.content_view_map_splashing_fill_end);
         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
@@ -197,7 +196,6 @@ public class WaveMapViewImpl implements WaveMapView {
         colorAnimation.addListener(new SimpleAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animator) {
-                Timber.d("finished animation");
                 splashingIndicator.setVisible(false);
                 splashingIndicator.setFillColor(colorFrom);
                 callback.onFinishSplashing();
@@ -306,7 +304,6 @@ public class WaveMapViewImpl implements WaveMapView {
         LatLng last = null;
 
         int numRandom = (int) Math.max(2 + Math.abs((6 * random.nextGaussian())), 0);
-        Timber.d("random: " + numRandom);
 
         for (int i = 0; i < numRandom; i++) {
             if (last == null) {

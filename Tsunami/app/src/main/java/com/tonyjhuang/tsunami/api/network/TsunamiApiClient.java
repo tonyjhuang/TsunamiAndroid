@@ -6,6 +6,7 @@ import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateRippleRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateUserRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.SplashRequest;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.util.List;
@@ -51,6 +52,7 @@ public class TsunamiApiClient {
 
     public Observable<Wave> splash(String content, double latitude, double longitude) {
         SplashRequest request = new SplashRequest(userId, content, latitude, longitude);
+        Timber.d("splash.");
         return service.splash(request);
     }
 }

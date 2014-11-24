@@ -18,6 +18,8 @@ import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
+import com.tonyjhuang.tsunami.api.network.requestbodies.SplashRequest;
+import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
@@ -34,6 +36,7 @@ import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Observer;
 
 
 public class MainActivity extends TsunamiActivity implements WavePresenter {
@@ -87,6 +90,9 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         contentView.attachSplashButton(splashButton);
 
         displayNewWave();
+
+        SplashRequest r = new SplashRequest("a", "b", 0.0, -1.0);
+        Timber.d("here we go! " + TsunamiGson.buildGson().toJson(r));
     }
 
     @Override
@@ -164,7 +170,22 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
     public void onSplashSwipedUp() {
         Timber.d("onSplashSwipedUp");
         SplashCard.SplashContent splashContent = contentView.retrieveSplashContent();
-        api.splash(splashContent.title, locationInfo.lastLat, locationInfo.lastLong);
+        api.splash(splashContent.title, locationInfo.lastLat, locationInfo.lastLong).subscribe(new Observer<Wave>() {
+            @Override
+            public void onCompleted() {
+                Timber.d("oncompleted");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Timber.d("onerror");
+            }
+
+            @Override
+            public void onNext(Wave wave) {
+                Timber.d("onnext");
+            }
+        });
         waveMapView.finishSplashing(new WMVFinishSplashingCallback() {
             @Override
             public void onFinishSplashing() {

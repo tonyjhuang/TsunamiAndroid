@@ -188,6 +188,5 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
                 }
             }
         });
-        Timber.d(String.format("top: %d, height: %d", splashButton.getTop(), splashButton.getHeight()));
     }
 }

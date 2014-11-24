@@ -1,5 +1,7 @@
 package com.tonyjhuang.tsunami.api.network.requestbodies;
 
+import com.google.gson.annotations.Expose;
+
 /*
 {
   "latitude": 50,
@@ -9,14 +11,18 @@ package com.tonyjhuang.tsunami.api.network.requestbodies;
 }
  */
 public class CreateRippleRequest {
+    @Expose
     final int waveId;
+    @Expose
     final String guid;
+    @Expose
     final double latitude;
+    @Expose
     final double longitude;
 
     public CreateRippleRequest(String guid, int waveId, double latitude, double longitude) {
-        this.waveId = waveId;
         this.guid = guid;
+        this.waveId = waveId;
         this.latitude = latitude;
         this.longitude = longitude;
     }
