@@ -14,7 +14,6 @@ import com.google.android.gms.maps.MapFragment;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants;
-import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.models.Wave;
@@ -81,19 +80,7 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         contentView.setPresenter(this);
         contentView.attachSplashButton(splashButton);
 
-        if(savedInstanceState == null) {
-            /**
-             * Show the user a new wave.
-             */
-            displayNewWave();
-        } else {
-            //if(savedInstanceState.getBoolean(STATE_SPLASHING)) {
-
-//            } else {
-                Wave savedStateWave = savedInstanceState.getParcelable(STATE_WAVE);
-                displayWave(savedStateWave);
-  //          }*/
-        }
+        displayNewWave();
     }
 
     @Override
@@ -132,8 +119,8 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putParcelable(STATE_WAVE, contentView.getContentWave());
-        savedInstanceState.putBoolean(STATE_SPLASHING, contentView.isShowingSplashCard());
+        //savedInstanceState.putParcelable(STATE_WAVE, contentView.getContentWave());
+        //savedInstanceState.putBoolean(STATE_SPLASHING, contentView.isShowingSplashCard());
 
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
