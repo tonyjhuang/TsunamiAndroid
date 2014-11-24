@@ -1,8 +1,6 @@
 package com.tonyjhuang.tsunami.api.network;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -13,7 +11,7 @@ import retrofit.converter.GsonConverter;
  * Created by tonyjhuang on 9/28/14.
  */
 public class TsunamiServiceBuilder {
-    public static final String ENDPOINT = "http://104.131.27.176:8080";
+    public static final String ENDPOINT = "http://tsunami-mobile.herokuapp.com/api";
 
     private static RequestInterceptor headerInterceptor = new RequestInterceptor() {
         @Override
@@ -26,22 +24,9 @@ public class TsunamiServiceBuilder {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(ENDPOINT)
                 .setRequestInterceptor(headerInterceptor)
-                .setConverter(new GsonConverter(buildGson()))
+                .setConverter(new GsonConverter(TsunamiGson.buildGson()))
                 .build();
 
         return restAdapter.create(TsunamiService.class);
     }
-
-    /**
-     * Creates the Gson adapter that we want to user to parse our network JSON
-     * objects into Tsunami POJOs
-     */
-    public static Gson buildGson() {
-        return new GsonBuilder()
-                .serializeNulls()
-                .excludeFieldsWithoutExposeAnnotation()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create();
-    }
-
 }
