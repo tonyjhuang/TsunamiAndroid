@@ -8,22 +8,18 @@ import java.util.UUID;
 /**
  * Created by tony on 11/23/14.
  * To use a preference:
- *      prefs.id.get();
- *      prefs.id.set("....");
- *
+ * prefs.id.get();
+ * prefs.id.set("....");
+ * <p/>
  * To create a TsunamiPreference, simply create a new class-scoped instance variable with the appropriate constructor
- *
- * Warning: whatever default value you create a TsunamiPreference with will be it's starting value, if one does
- * not exist, after the first get. Meaning, if you look at a newly installed preferences file, it will be empty.
- * If, however, you call id.get() without id.set(), the preferences file will now have a new id written and this
- * id will be passed to all future get() calls.
- *
  */
 public class TsunamiPreferences {
     private static final String SHARED_PREFERENCES = "com.tonyjhuang.tsunami.shared_prefs";
 
-    public StringPreference id = new StringPreference("com.tonyjhuang.tsunami.id", UUID.randomUUID().toString());
-
+    /**
+     * Preference key-value pairs that you can get-set
+     */
+    public StringPreference id = new IdPreference("com.tonyjhuang.tsunami.id");
 
     private SharedPreferences preferences;
 
@@ -37,6 +33,34 @@ public class TsunamiPreferences {
         public abstract void set(T value);
     }
 
+    private class IdPreference extends StringPreference {
+        /**
+         * In memory instance of our id so we don't have to keep fetching it from file. The reason for
+         * this is because we'll probably be retrieving the user's id a lot.
+         */
+        private String id;
+
+        public IdPreference(String key) {
+            super(key, null);
+
+            id = get();
+            if (id == null) {
+                set(UUID.randomUUID().toString());
+            }
+        }
+
+        @Override
+        public String get() {
+            return id;
+        }
+
+        @Override
+        public void set(String value) {
+            super.set(value);
+            id = value;
+        }
+    }
+
     private class StringPreference extends TsunamiPreference<String> {
         private String key;
         private String defaultValue;
@@ -46,18 +70,42 @@ public class TsunamiPreferences {
             this.defaultValue = defaultValue;
         }
 
+        public StringPreference(String key) {
+            this(key, null);
+        }
+
         @Override
         public String get() {
-            String value = preferences.getString(key, defaultValue);
-            if(value.equals(defaultValue)) {
-                set(defaultValue);
-            }
-            return value;
+            return preferences.getString(key, defaultValue);
         }
 
         @Override
         public void set(String value) {
             preferences.edit().putString(key, value).apply();
+        }
+    }
+
+    private class BooleanPreference extends TsunamiPreference<Boolean> {
+        private String key;
+        private boolean defaultValue;
+
+        public BooleanPreference(String key, boolean defaultValue) {
+            this.key = key;
+            this.defaultValue = defaultValue;
+        }
+
+        public BooleanPreference(String key) {
+            this(key, false);
+        }
+
+        @Override
+        public Boolean get() {
+            return preferences.getBoolean(key, defaultValue);
+        }
+
+        @Override
+        public void set(Boolean value) {
+            preferences.edit().putBoolean(key, value).apply();
         }
     }
 }
