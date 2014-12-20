@@ -146,7 +146,14 @@ public class MainActivity extends TsunamiActivity implements
             presenter.onCancelSplashButtonClicked();
         else
             presenter.onProfileButtonClicked();
+    }
 
+    @Override
+    public void onBackPressed() {
+        if(contentView.isShowingSplashCard())
+            presenter.onCancelSplashButtonClicked();
+        else
+            super.onBackPressed();
     }
 
     /**
