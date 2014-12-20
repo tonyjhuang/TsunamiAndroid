@@ -52,7 +52,6 @@ public class TsunamiApiClient {
 
     public Observable<Wave> splash(String content, double latitude, double longitude) {
         SplashRequest request = new SplashRequest(userId, content, latitude, longitude);
-        Timber.d("splash.");
         return service.splash(request);
     }
 }

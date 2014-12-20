@@ -18,6 +18,13 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import dagger.ObjectGraph;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.observables.AndroidObservable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Handles all of the boring initialization stuff we would want for every activity
@@ -32,6 +39,11 @@ public abstract class TsunamiActivity extends Activity implements
      * See https://developers.facebook.com/docs/android/login-with-facebook/v2.1
      */
     private UiLifecycleHelper uiHelper;
+
+    /**
+     * Contains all active subscriptions that we want to listen to.
+     */
+    private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,11 +139,21 @@ public abstract class TsunamiActivity extends Activity implements
     public void onDestroy() {
         super.onDestroy();
         uiHelper.onDestroy();
+        compositeSubscription.clear();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         uiHelper.onSaveInstanceState(outState);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void subscribe(Observable observable, Observer observer) {
+        Subscription subscription = AndroidObservable.bindActivity(this, observable)
+                .subscribeOn(Schedulers.io())
+                .subscribe(observer);
+
+        compositeSubscription.add(subscription);
     }
 }

@@ -13,5 +13,7 @@ public class User extends ApiObject {
     @Expose
     private String guid;
 
-
+    public String getGuid() {
+        return guid;
+    }
 }

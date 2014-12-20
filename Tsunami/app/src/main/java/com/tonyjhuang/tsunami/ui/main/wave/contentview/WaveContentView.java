@@ -25,5 +25,5 @@ public interface WaveContentView {
 
     public void clearSplashCard();
 
-    public void attachSplashButton(SplashButton splashButton);
+    public void setWaveContentViewScrollListener(WaveContentViewScrollListener scrollListener);
 }

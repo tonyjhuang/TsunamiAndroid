@@ -2,9 +2,18 @@ package com.tonyjhuang.tsunami.api.models;
 
 import com.google.gson.annotations.Expose;
 
-/**
- * The resharing of a wave.
- * Created by tonyhuang on 8/5/14.
+/*
+{
+    "created_at": "2014-12-20T19:52:38Z",
+    "id": 451,
+    "latitude": "42.3514",
+    "longitude": "-71.0571",
+    "radius": "0.025",
+    "status": "active",
+    "updated_at": "2014-12-20T19:52:38Z",
+    "user_id": 111,
+    "wave_id": 141
+}
  */
 public class Ripple extends ApiObject {
     @Expose
@@ -14,9 +23,12 @@ public class Ripple extends ApiObject {
     @Expose
     private double radius;
     @Expose
-    private User user;
+    private long userId;
     @Expose
-    private Wave wave;
+    private long waveId;
+    @Expose
+    private RippleStatus status;
+
 
     public double getLatitude() {
         return latitude;
@@ -30,11 +42,29 @@ public class Ripple extends ApiObject {
         return radius;
     }
 
-    public User getUser() {
-        return user;
+    public long getUserId() {
+        return userId;
     }
 
-    public Wave getWave() {
-        return wave;
+    public long getWaveId() {
+        return waveId;
+    }
+
+    public RippleStatus getStatus() {
+        return status;
+    }
+
+    public static Ripple createDebugRipple(double latitude, double longitude) {
+        return new Ripple(latitude, longitude, 0.025);
+    }
+
+    private Ripple(double latitude, double longitude, double radius) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.radius = radius;
+    }
+
+    public static enum RippleStatus {
+        ACTIVE, INACTIVE
     }
 }

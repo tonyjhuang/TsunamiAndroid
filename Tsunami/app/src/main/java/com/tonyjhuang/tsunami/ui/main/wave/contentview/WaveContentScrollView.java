@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewTreeObserver;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
@@ -35,15 +36,8 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
      */
     private WavePresenter presenter;
 
-    /**
-     * Reference to our splash button, that floats in the upper right corner.
-     */
-    private SplashButton splashButton;
 
-    /**
-     * The lowest point of our button.
-     */
-    private int splashButtonLowerEdge = 0;
+    private WaveContentViewScrollListener onScrollListener;
 
     public WaveContentScrollView(Context context) {
         this(context, null);
@@ -135,16 +129,8 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
             }
         }
 
-        if (splashButton != null) {
-            /**
-             * If our card is touching or above the lower edge of our splash button, hide it.
-             */
-            if (t >= getHeight() - splashButtonLowerEdge) {
-                splashButton.hide();
-            } else {
-                splashButton.show();
-            }
-        }
+        if(onScrollListener != null)
+            onScrollListener.onScroll(this, l, t, oldl, oldt);
 
         if (t < getCardViewStartingPosition()) {
             setCardAlpha((float) Math.pow(((float) t) / getCardViewStartingPosition(), 1.6f));
@@ -188,18 +174,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     }
 
     @Override
-    public void attachSplashButton(final SplashButton splashButton) {
-        this.splashButton = splashButton;
-        splashButton.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                splashButtonLowerEdge = splashButton.getTop() + splashButton.getHeight();
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    splashButton.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                } else {
-                    splashButton.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-            }
-        });
+    public void setWaveContentViewScrollListener(WaveContentViewScrollListener onScrollListener) {
+        this.onScrollListener = onScrollListener;
     }
 }

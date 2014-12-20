@@ -1,6 +1,8 @@
 package com.tonyjhuang.tsunami.ui.main;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
+import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.logging.Timber;
@@ -10,6 +12,8 @@ import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WMVFinishSplashingCallback;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import rx.Observer;
@@ -17,7 +21,7 @@ import rx.Observer;
 /**
  * Created by tony on 12/20/14.
  */
-public class RandomStringWavePresenter implements WavePresenter{
+public class RandomStringWavePresenter implements WavePresenter {
 
     private WaveContentView contentView;
     private WaveMapView mapView;
@@ -31,14 +35,18 @@ public class RandomStringWavePresenter implements WavePresenter{
     private Wave cachedDuringSplash;
 
     /**
+     * Our Random seed that will help us make mock ripples.
+     */
+    private Random random = new Random();
+
+    /**
      * Random string generators for making debugging waves. Creates titles and body text.
      */
     RandomString randomTitleGen = new RandomString(16);
     RandomString randomTextGen = new RandomString(128);
 
-    public RandomStringWavePresenter(TsunamiApiClient api, LocationInfo locationInfo) {
+    public RandomStringWavePresenter(TsunamiApiClient api) {
         this.api = api;
-        this.locationInfo = locationInfo;
     }
 
     public void setContentView(WaveContentView contentView) {
@@ -52,7 +60,15 @@ public class RandomStringWavePresenter implements WavePresenter{
     }
 
     private void displayNewWave() {
-        Wave randomWave = Wave.createDebugWave(randomTitleGen.nextString(), randomTextGen.nextString());
+        List<Ripple> ripples = new ArrayList<>();
+        List<LatLng> latLngs = getRandomLatLngs();
+        for(LatLng latLng : latLngs) {
+            ripples.add(Ripple.createDebugRipple(latLng.latitude, latLng.longitude));
+        }
+
+        Wave randomWave = Wave.createDebugWave(randomTitleGen.nextString(),
+                randomTextGen.nextString(),
+                ripples);
         displayWave(randomWave);
     }
 
@@ -129,9 +145,10 @@ public class RandomStringWavePresenter implements WavePresenter{
     @Override
     public void onLocationUpdate(LocationInfo newLocationInfo) {
         locationInfo = newLocationInfo;
+        Timber.d("locationInfo: lat " + newLocationInfo.lastLat + ", lon " + newLocationInfo.lastLong);
         mapView.setCurrentLocation(locationInfo);
 
-        if(contentView.getContentWave() == null && !contentView.isShowingSplashCard())
+        if (contentView.getContentWave() == null && !contentView.isShowingSplashCard())
             displayNewWave();
     }
 
@@ -163,5 +180,41 @@ public class RandomStringWavePresenter implements WavePresenter{
                 buf[idx] = symbols[random.nextInt(symbols.length)];
             return new String(buf);
         }
+    }
+
+
+    /**
+     * ========================= utility =========================
+     */
+
+    private double randomDoubleInRange(double min, double max) {
+        return min + (max - min) * random.nextDouble();
+    }
+
+    private LatLng getRandomLatLng(double lat, double lng) {
+        return new LatLng(
+                lat + randomDoubleInRange(-0.025, 0.025),
+                lng + randomDoubleInRange(-0.025, 0.025));
+    }
+
+    private List<LatLng> getRandomLatLngs() {
+        ArrayList<LatLng> ripples = new ArrayList<LatLng>();
+        LatLng last = null;
+
+        int numRandom = (int) Math.max(2 + Math.abs((6 * random.nextGaussian())), 0);
+
+        for (int i = 0; i < numRandom; i++) {
+            if (last == null) {
+                if (locationInfo == null) {
+                    last = getRandomLatLng(42.331665, -71.108093);
+                } else {
+                    last = getRandomLatLng(locationInfo.lastLat, locationInfo.lastLong);
+                }
+            } else {
+                last = getRandomLatLng(last.latitude, last.longitude);
+            }
+            ripples.add(last);
+        }
+        return ripples;
     }
 }

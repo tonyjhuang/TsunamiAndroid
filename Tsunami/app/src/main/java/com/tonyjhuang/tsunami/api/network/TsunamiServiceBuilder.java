@@ -5,7 +5,6 @@ import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.android.AndroidLog;
 import retrofit.converter.GsonConverter;
 
 /**
@@ -14,24 +13,18 @@ import retrofit.converter.GsonConverter;
  */
 public class TsunamiServiceBuilder {
     public static final String ENDPOINT = "http://tsunami-mobile.herokuapp.com/api";
+    public static final String USER_AGENT = "Android";
 
-    private static RequestInterceptor headerInterceptor = new RequestInterceptor() {
-        @Override
-        public void intercept(RequestFacade request) {
-            request.addHeader("User-Agent", "Android");
-        }
-    };
+    private static RequestInterceptor headerInterceptor = (request) -> request.addHeader("User-Agent", USER_AGENT);
 
     public static TsunamiService build() {
         RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint(ENDPOINT)
                 .setRequestInterceptor(headerInterceptor)
-                .setConverter(new GsonConverter(TsunamiGson.buildGson()))
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setLog(new AndroidLog("asdsadasd"));
+                .setConverter(new GsonConverter(TsunamiGson.buildGson()));
 
-        if(BuildConfig.DEBUG) {
-            ;//builder.setLogLevel(RestAdapter.LogLevel.FULL);
+        if (BuildConfig.DEBUG) {
+            builder.setLogLevel(RestAdapter.LogLevel.FULL);
         }
 
         return builder.build().create(TsunamiService.class);

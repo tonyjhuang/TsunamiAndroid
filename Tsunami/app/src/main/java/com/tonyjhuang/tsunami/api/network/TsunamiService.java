@@ -30,13 +30,13 @@ public interface TsunamiService {
     /**
      * Ripple a wave.
      */
-    @GET("/ocean/waves")
+    @POST("/ocean/ripple")
     Observable<Ripple> ripple(@Body CreateRippleRequest body);
 
     /**
      * Get the list of applicable waves that this user is in.
      */
-    @GET("/ocean/ripples")
+    @GET("/ocean/local_waves")
     Observable<List<Wave>> getWaves(@Query("guid") String guid,
                                     @Query("latitude") double latitude,
                                     @Query("longitude") double longitude);

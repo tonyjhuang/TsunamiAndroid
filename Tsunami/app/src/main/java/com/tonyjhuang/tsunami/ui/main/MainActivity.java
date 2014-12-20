@@ -18,9 +18,11 @@ import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.injection.MainModule;
 import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
 import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentScrollView;
+import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentViewScrollListener;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
 
 import java.util.ArrayList;
@@ -32,12 +34,14 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 
-public class MainActivity extends TsunamiActivity {
+public class MainActivity extends TsunamiActivity implements WaveContentViewScrollListener {
 
     @InjectView(R.id.content_scrollview)
     WaveContentScrollView contentView;
     @InjectView(R.id.splash_button)
     SplashButton splashButton;
+    @InjectView(R.id.ghetto_toolbar)
+    GhettoToolbar toolbar;
 
     @Inject
     WavePresenter presenter;
@@ -74,7 +78,7 @@ public class MainActivity extends TsunamiActivity {
          * Initialize our WaveContentView which will handle the displaying of wave info.
          */
         presenter.setContentView(contentView);
-        contentView.attachSplashButton(splashButton);
+        contentView.setWaveContentViewScrollListener(this);
     }
 
     @Override
@@ -138,4 +142,16 @@ public class MainActivity extends TsunamiActivity {
                     .getSerializableExtra(LocationLibraryConstants.LOCATION_BROADCAST_EXTRA_LOCATIONINFO));
         }
     };
+
+    @Override
+    public void onScroll(View view, int l, int t, int oldl, int oldt) {
+        /**
+         * If our card is touching or above the lower edge of our splash button, hide it.
+         */
+        if (t >= view.getHeight() - (toolbar.getTop() + toolbar.getHeight())) {
+            toolbar.hide();
+        } else {
+            toolbar.show();
+        }
+    }
 }

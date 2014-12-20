@@ -38,8 +38,8 @@ public class MainModule {
     }
 
     @Provides
-    public WavePresenter provideWavePresenter(TsunamiApiClient api, LocationInfo locationInfo) {
-        return new RandomStringWavePresenter(api, locationInfo);
+    public WavePresenter provideWavePresenter(TsunamiApiClient api) {
+        return new WavePresenterImpl(api);
     }
 
 }

@@ -264,6 +264,9 @@ public class CardScrollView extends ScrollView {
      * Does this MotionEvent land on our CardView?
      */
     private boolean isTouchingCard(MotionEvent ev) {
+        if(getCardView() == null)
+            return false;
+
         int[] location = {0, 0};
         getCardView().getLocationOnScreen(location);
         int left = location[0];

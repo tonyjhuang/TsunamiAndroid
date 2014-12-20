@@ -12,7 +12,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,13 +20,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by tonyjhuang on 10/27/14.
@@ -61,12 +60,7 @@ public class WaveMapViewImpl implements WaveMapView {
     /**
      * List of Ripple Circles currently drawn on the map.
      */
-    private ArrayList<Circle> waveRipples = new ArrayList<Circle>();
-
-    /**
-     * Our Random seed that will help us make mock data.
-     */
-    private Random random = new Random();
+    private ArrayList<Circle> waveRipples = new ArrayList<>();
 
     /**
      * Marker that represents the user's current location (as far as we can tell).
@@ -103,8 +97,7 @@ public class WaveMapViewImpl implements WaveMapView {
             clearRipples();
             this.wave = wave;
 
-            List<LatLng> ripples = getRandomLatLngs();
-            drawRipples(ripples);
+            drawRipples(wave.getRipples());
             zoomToFit(waveRipples);
         } else {
             throw new RuntimeException("No MapFragment set for this WaveMapView!");
@@ -214,16 +207,17 @@ public class WaveMapViewImpl implements WaveMapView {
     /**
      * Adds/Draws a list of LatLngs as ripples to the map.
      */
-    private void drawRipples(List<LatLng> ripples) {
-        for (LatLng ripple : ripples) {
-            waveRipples.add(drawRipple(ripple));
+    private void drawRipples(List<Ripple> ripples) {
+        for (Ripple ripple : ripples) {
+            LatLng latLng = new LatLng(ripple.getLatitude(), ripple.getLongitude());
+            waveRipples.add(drawLatLng(latLng));
         }
     }
 
     /**
      * Draws a ripple represented by a LatLng at center
      */
-    private Circle drawRipple(LatLng center) {
+    private Circle drawLatLng(LatLng center) {
         return map.addCircle(new CircleOptions()
                 .center(center)
                 .radius(RIPPLE_RADIUS)
@@ -261,51 +255,14 @@ public class WaveMapViewImpl implements WaveMapView {
             try {
                 map.animateCamera(update);
             } catch (IllegalStateException e) {
-                map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-                    @Override
-                    public void onCameraChange(CameraPosition arg0) {
-                        // Move camera.
-                        map.animateCamera(update);
-                        // Remove listener to prevent position reset on camera move.
-                        map.setOnCameraChangeListener(null);
-                    }
+                map.setOnCameraChangeListener((cameraPosition) -> {
+                    // Move camera.
+                    map.animateCamera(update);
+                    // Remove listener to prevent position reset on camera move.
+                    map.setOnCameraChangeListener(null);
                 });
             }
         }
     }
 
-    /**
-     * ========================= utility =========================
-     */
-
-    private double randomDoubleInRange(double min, double max) {
-        return min + (max - min) * random.nextDouble();
-    }
-
-    private LatLng getRandomLatLng(double lat, double lng) {
-        return new LatLng(
-                lat + randomDoubleInRange(-0.025, 0.025),
-                lng + randomDoubleInRange(-0.025, 0.025));
-    }
-
-    private List<LatLng> getRandomLatLngs() {
-        ArrayList<LatLng> ripples = new ArrayList<LatLng>();
-        LatLng last = null;
-
-        int numRandom = (int) Math.max(2 + Math.abs((6 * random.nextGaussian())), 0);
-
-        for (int i = 0; i < numRandom; i++) {
-            if (last == null) {
-                if (currentLocation == null) {
-                    last = getRandomLatLng(42.331665, -71.108093);
-                } else {
-                    last = getRandomLatLng(currentLocation.latitude, currentLocation.longitude);
-                }
-            } else {
-                last = getRandomLatLng(last.latitude, last.longitude);
-            }
-            ripples.add(last);
-        }
-        return ripples;
-    }
 }
