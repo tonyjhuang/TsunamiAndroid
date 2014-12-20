@@ -120,6 +120,7 @@ public class RandomStringWavePresenter implements WavePresenter{
             contentView.showSplashCard();
             mapView.displaySplashing();
         } else {
+            mapView.cancelSplashing();
             contentView.showContentCard(cachedDuringSplash);
             mapView.displayWave(cachedDuringSplash);
         }
