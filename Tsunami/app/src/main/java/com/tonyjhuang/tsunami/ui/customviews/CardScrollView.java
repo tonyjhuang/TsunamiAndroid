@@ -175,6 +175,9 @@ public class CardScrollView extends ScrollView {
      * @param faded should we fade the card view?
      */
     private void setCardViewFaded(boolean faded) {
+        if(getCardView() == null)
+            return;
+        
         getCardView().clearAnimation();
         if (faded) {
             previousFullAlpha = getCardView().getAlpha();
