@@ -10,7 +10,6 @@ import dagger.Module;
  */
 @Module(
         injects = {
-                WaveMapViewImpl.class
         },
         addsTo = ActivityModule.class,
         library = true

@@ -111,7 +111,6 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        Timber.d("t: " + t + ", oldt: " + oldt);
         /**
          * Seems like theres a bug where the last scroll event gets repeated if overscroll is off.
          */

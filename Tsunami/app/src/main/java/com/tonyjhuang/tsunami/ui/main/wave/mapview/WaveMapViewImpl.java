@@ -2,7 +2,6 @@ package com.tonyjhuang.tsunami.ui.main.wave.mapview;
 
 import android.animation.Animator;
 import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.res.Resources;
 import android.view.animation.OvershootInterpolator;
@@ -23,16 +22,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
-import com.tonyjhuang.tsunami.injection.Injector;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import javax.inject.Inject;
 
 /**
  * Created by tonyjhuang on 10/27/14.
@@ -41,9 +36,7 @@ public class WaveMapViewImpl implements WaveMapView {
     private static final int RIPPLE_RADIUS = 3000;
     private static final int FINISH_SPLASH_ANIMATION_DURATION = 3000;
 
-    @Inject
-    Resources resources;
-
+    private Resources resources;
 
     /**
      * The Google MapFragment that will be hosting our Map.
@@ -95,8 +88,8 @@ public class WaveMapViewImpl implements WaveMapView {
      */
     private ValueAnimator splashingIndicatorRadiusAnimator;
 
-    public WaveMapViewImpl(Injector injector) {
-        injector.inject(this);
+    public WaveMapViewImpl(Resources resources) {
+        this.resources = resources;
     }
 
     @Override
@@ -110,7 +103,6 @@ public class WaveMapViewImpl implements WaveMapView {
             clearRipples();
             this.wave = wave;
 
-            long start = System.currentTimeMillis();
             List<LatLng> ripples = getRandomLatLngs();
             drawRipples(ripples);
             zoomToFit(waveRipples);
@@ -149,7 +141,7 @@ public class WaveMapViewImpl implements WaveMapView {
     public void displaySplashing() {
         clearRipples();
         if (currentLocation == null) {
-                /* Uh oh, it looks like the user has tried to splash content with a location*/
+                /* Uh oh, it looks like the user has tried to splash content without a location*/
         } else {
             int strokeColor = resources.getColor(R.color.content_view_map_splashing_stroke);
             zoomTo(currentLocation, 12);
@@ -160,14 +152,11 @@ public class WaveMapViewImpl implements WaveMapView {
                         .strokeColor(strokeColor));
 
                 splashingIndicatorRadiusAnimator = ValueAnimator.ofInt(RIPPLE_RADIUS + 100, RIPPLE_RADIUS)
-                .setDuration(1000);
+                        .setDuration(1000);
                 splashingIndicatorRadiusAnimator.setRepeatMode(ValueAnimator.REVERSE);
                 splashingIndicatorRadiusAnimator.setRepeatCount(ValueAnimator.INFINITE);
-                splashingIndicatorRadiusAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animator) {
-                        splashingIndicator.setRadius((Integer) animator.getAnimatedValue());
-                    }
+                splashingIndicatorRadiusAnimator.addUpdateListener((ValueAnimator animator) -> {
+                    splashingIndicator.setRadius((Integer) animator.getAnimatedValue());
                 });
             } else {
                 splashingIndicator.setCenter(currentLocation);
@@ -180,19 +169,16 @@ public class WaveMapViewImpl implements WaveMapView {
 
     @Override
     public void finishSplashing(final WMVFinishSplashingCallback callback) {
-        if(splashingIndicatorRadiusAnimator != null) {
+        if (splashingIndicatorRadiusAnimator != null) {
             splashingIndicatorRadiusAnimator.cancel();
         }
         final Integer colorFrom = resources.getColor(R.color.content_view_map_splashing_fill_begin);
         final Integer colorTo = resources.getColor(R.color.content_view_map_splashing_fill_end);
         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
         colorAnimation.setInterpolator(new OvershootInterpolator());
-        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animator) {
-                splashingIndicator.setFillColor((Integer)animator.getAnimatedValue());
-            }
-        });
+        colorAnimation.addUpdateListener((ValueAnimator animator) ->
+                        splashingIndicator.setFillColor((Integer) animator.getAnimatedValue())
+        );
         colorAnimation.addListener(new SimpleAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animator) {
@@ -207,6 +193,9 @@ public class WaveMapViewImpl implements WaveMapView {
 
     @Override
     public void cancelSplashing() {
+        if (splashingIndicatorRadiusAnimator != null) {
+            splashingIndicatorRadiusAnimator.cancel();
+        }
         splashingIndicator.setVisible(false);
     }
 

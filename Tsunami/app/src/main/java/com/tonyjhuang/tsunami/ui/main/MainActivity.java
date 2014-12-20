@@ -16,30 +16,23 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
-import com.tonyjhuang.tsunami.api.models.Wave;
-import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
-import com.tonyjhuang.tsunami.api.network.requestbodies.SplashRequest;
-import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
+import com.tonyjhuang.tsunami.injection.MainModule;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
-import com.tonyjhuang.tsunami.ui.main.wave.contentview.SplashCard;
 import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentScrollView;
-import com.tonyjhuang.tsunami.ui.main.wave.mapview.WMVFinishSplashingCallback;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
-import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapViewImpl;
-import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Observer;
 
 
-public class MainActivity extends TsunamiActivity implements WavePresenter {
+public class MainActivity extends TsunamiActivity {
 
     @InjectView(R.id.content_scrollview)
     WaveContentScrollView contentView;
@@ -47,27 +40,22 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
     SplashButton splashButton;
 
     @Inject
-    LocationInfo locationInfo;
+    WavePresenter presenter;
     @Inject
-    TsunamiApiClient api;
-    @Inject
-    TsunamiPreferences preferences;
+    WaveMapView waveMapView;
 
     private final String STATE_WAVE = "wave";
     private final String STATE_SPLASHING = "splashing";
 
-    /**
-     * Wave that we're hiding while the user is in the process of splashing a new Wave.
-     */
-    private Wave cachedDuringSplash;
-
-    /**
-     * Our lovely map view that will handle drawing on the MapFragment
-     */
-    private WaveMapView waveMapView;
-
     public static void startMainActivity(Activity activity) {
         activity.startActivity(new Intent(activity, MainActivity.class));
+    }
+
+    @Override
+    protected List<Object> getModules() {
+        List<Object> modules = new ArrayList<>(super.getModules());
+        modules.add(new MainModule(this));
+        return modules;
     }
 
     @Override
@@ -79,25 +67,20 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         /**
          * Create our WaveMapView that will handle manipulating and drawing on our map fragment.
          */
-        waveMapView = new WaveMapViewImpl(this);
-        waveMapView.setPresenter(this);
+        presenter.setMapView(waveMapView);
         waveMapView.setMapFragment((MapFragment) getFragmentManager().findFragmentById(R.id.map));
 
         /**
          * Initialize our WaveContentView which will handle the displaying of wave info.
          */
-        contentView.setPresenter(this);
+        presenter.setContentView(contentView);
         contentView.attachSplashButton(splashButton);
-
-        displayNewWave();
-
-        SplashRequest r = new SplashRequest("a", "b", 0.0, -1.0);
-        Timber.d("here we go! " + TsunamiGson.buildGson().toJson(r));
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Timber.d("registering broadcast receiver");
         registerReceiver(mainLocationBroadcastReceiver,
                 new IntentFilter(LocationLibraryConstants.getLocationChangedPeriodicBroadcastAction()));
     }
@@ -105,7 +88,7 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
     @Override
     public void onPause() {
         super.onPause();
-        Timber.d("unregistering.");
+        Timber.d("unregistering broadcast receiver");
         unregisterReceiver(mainLocationBroadcastReceiver);
     }
 
@@ -138,119 +121,10 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    /**
-     * Random string generators for making debugging waves. Creates titles and body text.
-     */
-    RandomString randomTitleGen = new RandomString(16);
-    RandomString randomTextGen = new RandomString(128);
-
-    private void displayNewWave() {
-        Wave randomWave = Wave.createDebugWave(randomTitleGen.nextString(), randomTextGen.nextString());
-        displayWave(randomWave);
-    }
-
-    private void displayWave(Wave wave) {
-        contentView.showContentCard(wave);
-        waveMapView.displayWave(wave);
-    }
-
-    @Override
-    public void onContentSwipedUp() {
-        Timber.d("onContentSwipedUp");
-        displayNewWave();
-    }
-
-    @Override
-    public void onContentSwipedDown() {
-        Timber.d("onContentSwipedDown");
-        displayNewWave();
-    }
-
-    @Override
-    public void onSplashSwipedUp() {
-        Timber.d("onSplashSwipedUp");
-        SplashCard.SplashContent splashContent = contentView.retrieveSplashContent();
-        api.splash(splashContent.title, locationInfo.lastLat, locationInfo.lastLong).subscribe(new Observer<Wave>() {
-            @Override
-            public void onCompleted() {
-                Timber.d("oncompleted");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Timber.d("onerror");
-            }
-
-            @Override
-            public void onNext(Wave wave) {
-                Timber.d("onnext");
-            }
-        });
-        waveMapView.finishSplashing(new WMVFinishSplashingCallback() {
-            @Override
-            public void onFinishSplashing() {
-                Timber.d("in callback..");
-                contentView.showContentCard(cachedDuringSplash);
-                waveMapView.displayWave(cachedDuringSplash);
-            }
-        });
-    }
-
-    @Override
-    public void onSplashSwipedDown() {
-        Timber.d("onSplashSwipedDown");
-        waveMapView.cancelSplashing();
-        contentView.showContentCard(cachedDuringSplash);
-        waveMapView.displayWave(cachedDuringSplash);
-    }
-
-    @Override
-    public void onSplashButtonClicked() {
-        Timber.d("onSplashButtonClicked");
-        if (contentView.isShowingContentCard()) {
-            cachedDuringSplash = contentView.getContentWave();
-            contentView.clearSplashCard();
-            contentView.showSplashCard();
-            waveMapView.displaySplashing();
-        } else {
-            contentView.showContentCard(cachedDuringSplash);
-            waveMapView.displayWave(cachedDuringSplash);
-        }
-    }
 
     @OnClick(R.id.splash_button)
     public void onSplashButtonClick(View view) {
-        onSplashButtonClicked();
-    }
-
-    public static class RandomString {
-
-        private static final char[] symbols;
-
-        static {
-            StringBuilder tmp = new StringBuilder();
-            for (char ch = '0'; ch <= '9'; ++ch)
-                tmp.append(ch);
-            for (char ch = 'a'; ch <= 'z'; ++ch)
-                tmp.append(ch);
-            symbols = tmp.toString().toCharArray();
-        }
-
-        private final Random random = new Random();
-
-        private final char[] buf;
-
-        public RandomString(int length) {
-            if (length < 1)
-                throw new IllegalArgumentException("length < 1: " + length);
-            buf = new char[length];
-        }
-
-        public String nextString() {
-            for (int idx = 0; idx < buf.length; ++idx)
-                buf[idx] = symbols[random.nextInt(symbols.length)];
-            return new String(buf);
-        }
+        presenter.onSplashButtonClicked();
     }
 
     /**
@@ -260,10 +134,8 @@ public class MainActivity extends TsunamiActivity implements WavePresenter {
         @Override
         public void onReceive(Context context, Intent intent) {
             // extract the location info in the broadcast
-            locationInfo = (LocationInfo) intent.getSerializableExtra(LocationLibraryConstants.LOCATION_BROADCAST_EXTRA_LOCATIONINFO);
-            // refresh the display with it
-            Timber.d("got location: " + locationInfo);
-            waveMapView.setCurrentLocation(locationInfo);
+            presenter.onLocationUpdate((LocationInfo) intent
+                    .getSerializableExtra(LocationLibraryConstants.LOCATION_BROADCAST_EXTRA_LOCATIONINFO));
         }
     };
 }
