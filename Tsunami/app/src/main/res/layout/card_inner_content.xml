@@ -1,25 +1,20 @@
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+        android:id="@+id/title"
+        style="@style/ContentTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:singleLine="true" />
 
-        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-            android:id="@+id/title"
-            style="@style/ContentTitle"
-            android:singleLine="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <View style="@style/CardDivider" />
 
-        <View style="@style/CardDivider" />
+    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+</LinearLayout>

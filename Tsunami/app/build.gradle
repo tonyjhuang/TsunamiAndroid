@@ -1,8 +1,41 @@
 apply plugin: 'com.android.application'
+apply plugin: 'retrolambda'
+
+buildscript {
+    repositories {
+        maven { url 'http://download.crashlytics.com/maven' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
+        classpath 'me.tatarka:gradle-retrolambda:2.4.1'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+def getJavaHome = {version ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine '/usr/libexec/java_home', '-v', version
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+/**
+ * To support java8 lambda syntax, we're using RetroLambda (https://github.com/evant/gradle-retrolambda)
+ * In order to use it, you must have java7 and java8 installed.
+ */
+retrolambda {
+    jdk getJavaHome('1.8')
+}
 
 android {
     compileSdkVersion 21
-    buildToolsVersion '21.1.1'
+    buildToolsVersion '21.1.2'
 
     defaultConfig {
         applicationId "com.tonyjhuang.tsunami"
@@ -13,8 +46,6 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
