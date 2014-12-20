@@ -96,17 +96,27 @@ public class WavePresenterImpl implements WavePresenter {
     }
 
     @Override
-    public void onSplashButtonClicked() {
-        Timber.d("onSplashButtonClicked");
-        if (!contentView.isShowingSplashCard()) {
-            contentView.clearSplashCard();
-            contentView.showSplashCard();
-            mapView.displaySplashing();
-        } else {
-            mapView.cancelSplashing();
-            contentView.showContentCard(getWaveToShow());
-            mapView.displayWave(getWaveToShow());
-        }
+    public void onCancelSplashButtonClicked() {
+        mapView.cancelSplashing();
+        contentView.showContentCard(getWaveToShow());
+        mapView.displayWave(getWaveToShow());
+    }
+
+    @Override
+    public void onSendSplashButtonClicked() {
+
+    }
+
+    @Override
+    public void onProfileButtonClicked() {
+
+    }
+
+    @Override
+    public void onBeginSplashButtonClicked() {
+        contentView.clearSplashCard();
+        contentView.showSplashCard();
+        mapView.displaySplashing();
     }
 
     @Override

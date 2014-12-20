@@ -20,7 +20,13 @@ public interface WavePresenter {
 
     public void onSplashSwipedDown();
 
-    public void onSplashButtonClicked();
+    public void onBeginSplashButtonClicked();
+
+    public void onCancelSplashButtonClicked();
+
+    public void onSendSplashButtonClicked();
+
+    public void onProfileButtonClicked();
 
     public void onLocationUpdate(LocationInfo newLocationInfo);
 }

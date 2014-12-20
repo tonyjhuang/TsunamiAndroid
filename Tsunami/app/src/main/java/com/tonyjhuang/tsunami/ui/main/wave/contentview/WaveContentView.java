@@ -1,7 +1,8 @@
 package com.tonyjhuang.tsunami.ui.main.wave.contentview;
 
+import android.view.View;
+
 import com.tonyjhuang.tsunami.api.models.Wave;
-import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 
 /**
@@ -25,5 +26,19 @@ public interface WaveContentView {
 
     public void clearSplashCard();
 
-    public void setWaveContentViewScrollListener(WaveContentViewScrollListener scrollListener);
+    public void setOnScrollListener(OnScrollListener onScrollListener);
+
+    public void setOnViewTypeChangedListener(OnViewTypeChangedListener onViewTypeChangedListener);
+
+    public static interface OnScrollListener {
+        public void onScroll(View view, int l, int t, int oldl, int oldt);
+    }
+
+    public static interface OnViewTypeChangedListener {
+        public void onViewTypeChanged(ViewType viewType);
+    }
+
+    public static enum ViewType {
+        CONTENT, SPLASHING
+    }
 }

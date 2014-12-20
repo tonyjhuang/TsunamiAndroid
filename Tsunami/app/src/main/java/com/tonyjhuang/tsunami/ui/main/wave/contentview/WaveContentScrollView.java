@@ -36,8 +36,8 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
      */
     private WavePresenter presenter;
 
-
-    private WaveContentViewScrollListener onScrollListener;
+    private OnScrollListener onScrollListener;
+    private OnViewTypeChangedListener onViewTypeChangedListener;
 
     public WaveContentScrollView(Context context) {
         this(context, null);
@@ -74,6 +74,9 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         if (splashCard == null)
             splashCard = new SplashCard(getContext());
 
+        if(onViewTypeChangedListener != null)
+            onViewTypeChangedListener.onViewTypeChanged(ViewType.SPLASHING);
+
         setCardView(splashCard);
     }
 
@@ -90,6 +93,9 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
 
         if (!isShowingContentCard()) {
             setCardView(contentCard);
+
+            if(onViewTypeChangedListener != null)
+                onViewTypeChangedListener.onViewTypeChanged(ViewType.CONTENT);
         } else {
             animateCardView();
         }
@@ -174,7 +180,12 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     }
 
     @Override
-    public void setWaveContentViewScrollListener(WaveContentViewScrollListener onScrollListener) {
+    public void setOnScrollListener(OnScrollListener onScrollListener) {
         this.onScrollListener = onScrollListener;
+    }
+
+    @Override
+    public void setOnViewTypeChangedListener(OnViewTypeChangedListener onViewTypeChangedListener) {
+        this.onViewTypeChangedListener = onViewTypeChangedListener;
     }
 }

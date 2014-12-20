@@ -62,7 +62,7 @@ public class RandomStringWavePresenter implements WavePresenter {
     private void displayNewWave() {
         List<Ripple> ripples = new ArrayList<>();
         List<LatLng> latLngs = getRandomLatLngs();
-        for(LatLng latLng : latLngs) {
+        for (LatLng latLng : latLngs) {
             ripples.add(Ripple.createDebugRipple(latLng.latitude, latLng.longitude));
         }
 
@@ -128,18 +128,29 @@ public class RandomStringWavePresenter implements WavePresenter {
     }
 
     @Override
-    public void onSplashButtonClicked() {
-        Timber.d("onSplashButtonClicked");
-        if (contentView.isShowingContentCard()) {
-            cachedDuringSplash = contentView.getContentWave();
-            contentView.clearSplashCard();
-            contentView.showSplashCard();
-            mapView.displaySplashing();
-        } else {
-            mapView.cancelSplashing();
-            contentView.showContentCard(cachedDuringSplash);
-            mapView.displayWave(cachedDuringSplash);
-        }
+    public void onBeginSplashButtonClicked() {
+        cachedDuringSplash = contentView.getContentWave();
+        contentView.clearSplashCard();
+        contentView.showSplashCard();
+        mapView.displaySplashing();
+    }
+
+    @Override
+    public void onCancelSplashButtonClicked() {
+        mapView.cancelSplashing();
+        contentView.showContentCard(cachedDuringSplash);
+        mapView.displayWave(cachedDuringSplash);
+
+    }
+
+    @Override
+    public void onSendSplashButtonClicked() {
+
+    }
+
+    @Override
+    public void onProfileButtonClicked() {
+
     }
 
     @Override

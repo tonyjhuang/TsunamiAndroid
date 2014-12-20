@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.MapFragment;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
@@ -22,7 +23,7 @@ import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
 import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentScrollView;
-import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentViewScrollListener;
+import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
 
 import java.util.ArrayList;
@@ -34,19 +35,23 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 
-public class MainActivity extends TsunamiActivity implements WaveContentViewScrollListener {
+public class MainActivity extends TsunamiActivity implements
+        WaveContentView.OnScrollListener,
+        WaveContentView.OnViewTypeChangedListener {
 
     @InjectView(R.id.content_scrollview)
     WaveContentScrollView contentView;
     @InjectView(R.id.splash_button)
     SplashButton splashButton;
+    @InjectView(R.id.profile)
+    Button profileButton;
     @InjectView(R.id.ghetto_toolbar)
     GhettoToolbar toolbar;
 
     @Inject
     WavePresenter presenter;
     @Inject
-    WaveMapView waveMapView;
+    WaveMapView mapView;
 
     private final String STATE_WAVE = "wave";
     private final String STATE_SPLASHING = "splashing";
@@ -71,14 +76,15 @@ public class MainActivity extends TsunamiActivity implements WaveContentViewScro
         /**
          * Create our WaveMapView that will handle manipulating and drawing on our map fragment.
          */
-        presenter.setMapView(waveMapView);
-        waveMapView.setMapFragment((MapFragment) getFragmentManager().findFragmentById(R.id.map));
+        presenter.setMapView(mapView);
+        mapView.setMapFragment((MapFragment) getFragmentManager().findFragmentById(R.id.map));
 
         /**
          * Initialize our WaveContentView which will handle the displaying of wave info.
          */
         presenter.setContentView(contentView);
-        contentView.setWaveContentViewScrollListener(this);
+        contentView.setOnScrollListener(this);
+        contentView.setOnViewTypeChangedListener(this);
     }
 
     @Override
@@ -128,7 +134,19 @@ public class MainActivity extends TsunamiActivity implements WaveContentViewScro
 
     @OnClick(R.id.splash_button)
     public void onSplashButtonClick(View view) {
-        presenter.onSplashButtonClicked();
+        if (contentView.isShowingSplashCard())
+            presenter.onSendSplashButtonClicked();
+        else
+            presenter.onBeginSplashButtonClicked();
+    }
+
+    @OnClick(R.id.profile)
+    public void onProfileButtonClick(View view) {
+        if (contentView.isShowingSplashCard())
+            presenter.onCancelSplashButtonClicked();
+        else
+            presenter.onProfileButtonClicked();
+
     }
 
     /**
@@ -152,6 +170,20 @@ public class MainActivity extends TsunamiActivity implements WaveContentViewScro
             toolbar.hide();
         } else {
             toolbar.show();
+        }
+    }
+
+    @Override
+    public void onViewTypeChanged(WaveContentView.ViewType viewType) {
+        switch (viewType) {
+            case SPLASHING:
+                splashButton.setImageResource(R.drawable.splash);
+                profileButton.setBackgroundResource(R.drawable.ic_action_cancel);
+                break;
+            case CONTENT:
+                splashButton.setImageResource(R.drawable.ic_action_content_new);
+                profileButton.setBackgroundResource(R.drawable.profile);
+                break;
         }
     }
 }
