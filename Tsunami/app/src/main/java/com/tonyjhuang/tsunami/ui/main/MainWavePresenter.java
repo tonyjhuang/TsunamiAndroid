@@ -143,7 +143,7 @@ public class MainWavePresenter implements WavePresenter {
 
     @Override
     public void onProfileButtonClicked() {
-
+        mainView.openProfileView();
     }
 
     @Override

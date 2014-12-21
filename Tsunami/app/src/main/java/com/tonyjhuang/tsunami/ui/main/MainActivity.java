@@ -27,6 +27,7 @@ import com.tonyjhuang.tsunami.ui.customviews.button.FloatingActionButton;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentScrollView;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
+import com.tonyjhuang.tsunami.ui.profile.ProfileActivity;
 import com.tonyjhuang.tsunami.utils.Celebration;
 
 import java.util.Arrays;
@@ -213,6 +214,11 @@ public class MainActivity extends TsunamiActivity implements
             presenter.onCancelSplashButtonClicked();
         else
             super.onBackPressed();
+    }
+
+    @Override
+    public void openProfileView() {
+        ProfileActivity.startProfileActivity(this);
     }
 
     /**

@@ -5,4 +5,6 @@ package com.tonyjhuang.tsunami.ui.main;
  */
 public interface MainView {
     public void showCelebration();
+
+    public void openProfileView();
 }
