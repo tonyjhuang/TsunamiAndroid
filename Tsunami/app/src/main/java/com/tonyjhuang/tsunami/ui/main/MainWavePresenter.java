@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by tony on 12/20/14.
  */
-public class WavePresenterImpl implements WavePresenter {
+public class MainWavePresenter implements WavePresenter {
 
     private TsunamiApiClient api;
     private LocationInfo locationInfo;
@@ -44,7 +44,7 @@ public class WavePresenterImpl implements WavePresenter {
      */
     private boolean loading = false;
 
-    public WavePresenterImpl(TsunamiApiClient api) {
+    public MainWavePresenter(TsunamiApiClient api) {
         this.api = api;
     }
 
@@ -176,7 +176,6 @@ public class WavePresenterImpl implements WavePresenter {
                         wavesToShow.addAll(waves);
                     }
 
-                    Timber.d("contentView wave: " + contentView.getContentWave());
                     // Show a new wave if we haven't yet.
                     if (contentView.getContentWave() == null && !contentView.isShowingSplashCard())
                         displayNewWave();
