@@ -21,6 +21,8 @@ import com.tonyjhuang.tsunami.injection.MainModule;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
 import com.tonyjhuang.tsunami.ui.customviews.button.FloatingActionButton;
+import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentScrollView;
+import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 
 import java.util.Arrays;

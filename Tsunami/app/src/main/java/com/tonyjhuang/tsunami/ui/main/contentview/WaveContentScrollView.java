@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami.ui.main;
+package com.tonyjhuang.tsunami.ui.main.contentview;
 
 import android.content.Context;
 import android.os.Bundle;
