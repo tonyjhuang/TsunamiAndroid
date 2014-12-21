@@ -11,6 +11,7 @@ import com.tonyjhuang.tsunami.ui.main.wave.mapview.WMVFinishSplashingCallback;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.utils.RxHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public class WavePresenterImpl implements WavePresenter {
     private WaveContentView contentView;
     private WaveMapView mapView;
 
-    private List<Wave> wavesToShow;
+    private List<Wave> wavesToShow = new ArrayList<>();
     /**
      * Index into wavesToShow. How close are we to the end of the list?
      */
@@ -42,9 +43,11 @@ public class WavePresenterImpl implements WavePresenter {
             fetchNewWaves(locationInfo, false);
         }
 
-        if (index < wavesToShow.size()) {
-            displayWave(wavesToShow.get(index));
-        }
+        Wave newWave = getWaveToShow();
+        if (newWave == null)
+            fetchNewWaves(locationInfo, true);
+        else
+            displayWave(newWave);
     }
 
     private void displayWave(Wave wave) {
@@ -53,7 +56,7 @@ public class WavePresenterImpl implements WavePresenter {
     }
 
     private Wave getWaveToShow() {
-        return wavesToShow.get(index);
+        return index < wavesToShow.size() ? wavesToShow.get(index) : null;
     }
 
     @Override
@@ -81,8 +84,7 @@ public class WavePresenterImpl implements WavePresenter {
             @Override
             public void onFinishSplashing() {
                 Timber.d("in callback..");
-                contentView.showContentCard(getWaveToShow());
-                mapView.displayWave(getWaveToShow());
+                displayNewWave();
             }
         });
     }
@@ -91,20 +93,18 @@ public class WavePresenterImpl implements WavePresenter {
     public void onSplashSwipedDown() {
         Timber.d("onSplashSwipedDown");
         mapView.cancelSplashing();
-        contentView.showContentCard(getWaveToShow());
-        mapView.displayWave(getWaveToShow());
+        displayNewWave();
     }
 
     @Override
     public void onCancelSplashButtonClicked() {
         mapView.cancelSplashing();
-        contentView.showContentCard(getWaveToShow());
-        mapView.displayWave(getWaveToShow());
+        displayNewWave();
     }
 
     @Override
     public void onSendSplashButtonClicked() {
-        //contentView.scrollUpOffscreen();
+        contentView.scrollUpOffscreen();
     }
 
     @Override

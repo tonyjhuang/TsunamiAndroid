@@ -118,6 +118,17 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         }
     }
 
+
+    @Override
+    public void scrollUpOffscreen() {
+        super.scrollUpOffscreen();
+    }
+
+    @Override
+    public void scrollDownOffscreen() {
+        super.scrollDownOffscreen();
+    }
+
     // Keep track of the last last scroll position.
     int oldoldt, oldoldoldt;
 
