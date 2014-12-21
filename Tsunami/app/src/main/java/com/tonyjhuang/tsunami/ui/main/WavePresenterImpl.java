@@ -104,7 +104,7 @@ public class WavePresenterImpl implements WavePresenter {
 
     @Override
     public void onSendSplashButtonClicked() {
-        contentView.scrollUpOffscreen();
+        //contentView.scrollUpOffscreen();
     }
 
     @Override
@@ -142,6 +142,7 @@ public class WavePresenterImpl implements WavePresenter {
                         wavesToShow.addAll(waves);
                     }
 
+                    Timber.d("contentView wave: " + contentView.getContentWave());
                     // Show a new wave if we haven't yet.
                     if (contentView.getContentWave() == null && !contentView.isShowingSplashCard())
                         displayNewWave();

@@ -47,16 +47,6 @@ public interface WaveContentView {
     public void clearSplashCard();
 
     /**
-     * Scroll the cardview up offscreen.
-     */
-    public void scrollUpOffscreen();
-
-    /**
-     * Scroll the cardview down offscreen.
-     */
-    public void scrollDownOffscreen();
-
-    /**
      * Set a custom OnScrollListener for this view that will be notified of scroll events.
      */
     public void setOnScrollListener(OnScrollListener onScrollListener);

@@ -70,7 +70,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     public void showContentCard(Wave wave) {
         contentCard.setWave(wave);
 
-        if (isShowingSplashCard()) {
+        if (!contentCard.equals(getCardView())) {
             setCardView(contentCard);
 
             if (onViewTypeChangedListener != null)
@@ -116,16 +116,6 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         if (splashCard != null) {
             splashCard.clear();
         }
-    }
-
-    @Override
-    public void scrollUpOffscreen() {
-        //super.scrollUpOffscreen();
-    }
-
-    @Override
-    public void scrollDownOffscreen() {
-        //super.scrollDownOffscreen();
     }
 
     // Keep track of the last last scroll position.

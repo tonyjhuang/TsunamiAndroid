@@ -68,7 +68,12 @@ public class CardScrollView extends ScrollView {
     /**
      * Simple reusable Runnable to make the card animate to the starting position.
      */
-    Runnable animateRunnable = slideCardFromBottom::start;
+    Runnable animateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            slideCardFromBottom.start();
+        }
+    };
 
     /**
      * Do we lower our CardView's alpha on touch outside of the CardView?
@@ -163,16 +168,17 @@ public class CardScrollView extends ScrollView {
      * Set this CardViews alpha value.
      */
     protected void setCardAlpha(float alpha) {
-        getCardView().setAlpha(alpha);
+        if (getCardView() != null)
+            getCardView().setAlpha(alpha);
     }
 
     /**
      * @param faded should we fade the card view?
      */
     private void setCardViewFaded(boolean faded) {
-        if(getCardView() == null)
+        if (getCardView() == null)
             return;
-        
+
         getCardView().clearAnimation();
         if (faded) {
             previousFullAlpha = getCardView().getAlpha();
@@ -181,7 +187,7 @@ public class CardScrollView extends ScrollView {
             fadeOutAnimation.setFillAfter(true);
             getCardView().startAnimation(fadeOutAnimation);
         } else {
-            if(FADED_ALPHA < previousFullAlpha) {
+            if (FADED_ALPHA < previousFullAlpha) {
                 fadeInAnimation = new AlphaAnimation(FADED_ALPHA, previousFullAlpha);
                 fadeInAnimation.setDuration(200);
                 fadeInAnimation.setFillAfter(true);
@@ -262,7 +268,7 @@ public class CardScrollView extends ScrollView {
      * Does this MotionEvent land on our CardView?
      */
     private boolean isTouchingCard(MotionEvent ev) {
-        if(getCardView() == null)
+        if (getCardView() == null)
             return false;
 
         int[] location = {0, 0};
@@ -367,7 +373,7 @@ public class CardScrollView extends ScrollView {
      * @return the total height of the children for this scrollview.
      */
     protected int getTotalHeight() {
-        return bottomSpacer.getHeight() + getCardView().getHeight() + topSpacer.getHeight();
+        return bottomSpacer.getHeight() + (getCardView() == null ? 0 : getCardView().getHeight()) + topSpacer.getHeight();
     }
 
     /**
@@ -393,7 +399,7 @@ public class CardScrollView extends ScrollView {
      */
     protected int getScrollOutTopThreshold() {
         int threshold = (int) getResources().getDimension(R.dimen.card_scroll_view_readability_threshold);
-        int cardViewHeight = getCardView().getHeight();
+        int cardViewHeight = getCardView() == null ? 0 : getCardView().getHeight();
         int screenHeight = getHeight();
         return screenHeight + cardViewHeight - threshold;
     }
