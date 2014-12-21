@@ -20,7 +20,7 @@ import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.injection.MainModule;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
-import com.tonyjhuang.tsunami.ui.customviews.button.SplashButton;
+import com.tonyjhuang.tsunami.ui.customviews.button.FloatingActionButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentScrollView;
 import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentView;
@@ -42,7 +42,7 @@ public class MainActivity extends TsunamiActivity implements
     @InjectView(R.id.content_scrollview)
     WaveContentScrollView contentView;
     @InjectView(R.id.splash_button)
-    SplashButton splashButton;
+    FloatingActionButton splashButton;
     @InjectView(R.id.profile)
     Button profileButton;
     @InjectView(R.id.ghetto_toolbar)

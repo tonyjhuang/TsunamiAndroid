@@ -49,11 +49,11 @@ public class SplashCard extends FrameLayout {
 
     public static class SplashContent {
         public String title;
-        public String text;
+        public String body;
 
-        public SplashContent(String title, String text) {
+        public SplashContent(String title, String body) {
             this.title = title;
-            this.text = text;
+            this.body = body;
         }
     }
 }

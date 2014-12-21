@@ -62,6 +62,10 @@ public class WavePresenterImpl implements WavePresenter {
     @Override
     public void onContentSwipedUp() {
         Timber.d("onContentSwipedUp");
+        api.ripple(contentView.getContentWave().getId(), locationInfo.lastLat, locationInfo.lastLong)
+                .publish()
+                .connect();
+
         index++;
         displayNewWave();
     }
@@ -77,8 +81,9 @@ public class WavePresenterImpl implements WavePresenter {
     public void onSplashSwipedUp() {
         Timber.d("onSplashSwipedUp");
         SplashCard.SplashContent splashContent = contentView.retrieveSplashContent();
-
-        api.splash(splashContent.title, locationInfo.lastLat, locationInfo.lastLong).publish().connect();
+        api.splash(splashContent.title, splashContent.body, locationInfo.lastLat, locationInfo.lastLong)
+                .publish()
+                .connect();
 
         mapView.finishSplashing(new WMVFinishSplashingCallback() {
             @Override

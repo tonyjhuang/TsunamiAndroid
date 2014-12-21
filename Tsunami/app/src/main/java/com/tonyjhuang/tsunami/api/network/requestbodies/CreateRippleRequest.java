@@ -12,7 +12,7 @@ import com.google.gson.annotations.Expose;
  */
 public class CreateRippleRequest {
     @Expose
-    final int waveId;
+    final long waveId;
     @Expose
     final String guid;
     @Expose
@@ -20,7 +20,7 @@ public class CreateRippleRequest {
     @Expose
     final double longitude;
 
-    public CreateRippleRequest(String guid, int waveId, double latitude, double longitude) {
+    public CreateRippleRequest(String guid, long waveId, double latitude, double longitude) {
         this.guid = guid;
         this.waveId = waveId;
         this.latitude = latitude;

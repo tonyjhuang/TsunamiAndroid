@@ -41,7 +41,7 @@ public class TsunamiApiClient {
         return service.createUser(request);
     }
 
-    public Observable<Ripple> ripple(int waveId, double latitude, double longitude) {
+    public Observable<Ripple> ripple(long waveId, double latitude, double longitude) {
         CreateRippleRequest request = new CreateRippleRequest(userId, waveId, latitude, longitude);
         return service.ripple(request);
     }
@@ -50,8 +50,8 @@ public class TsunamiApiClient {
         return service.getWaves(userId, latitude, longitude);
     }
 
-    public Observable<Wave> splash(String content, double latitude, double longitude) {
-        SplashRequest request = new SplashRequest(userId, content, latitude, longitude);
+    public Observable<Wave> splash(String title, String body, double latitude, double longitude) {
+        SplashRequest request = new SplashRequest(userId, title, body, latitude, longitude);
         return service.splash(request);
     }
 }
