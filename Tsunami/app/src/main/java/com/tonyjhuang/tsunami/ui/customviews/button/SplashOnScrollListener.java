@@ -6,14 +6,14 @@ import android.support.annotation.NonNull;
  * Created by tonyjhuang on 11/4/14.
  */
 public class SplashOnScrollListener extends ScrollDirectionDetector implements ScrollDirectionListener {
-    private SplashButton mSplashButton;
+    private FloatingActionButton mFloatingActionButton;
 
     public SplashOnScrollListener() {
         setScrollDirectionListener(this);
     }
 
-    public void setSplashButton(@NonNull SplashButton floatingActionButton) {
-        mSplashButton = floatingActionButton;
+    public void setSplashButton(@NonNull FloatingActionButton floatingActionButton) {
+        mFloatingActionButton = floatingActionButton;
     }
 
     /**
@@ -25,7 +25,7 @@ public class SplashOnScrollListener extends ScrollDirectionDetector implements S
      */
     @Override
     public void onScrollDown() {
-        mSplashButton.hide();
+        mFloatingActionButton.hide();
     }
 
     /**
@@ -37,6 +37,6 @@ public class SplashOnScrollListener extends ScrollDirectionDetector implements S
      */
     @Override
     public void onScrollUp() {
-        mSplashButton.show();
+        mFloatingActionButton.show();
     }
 }

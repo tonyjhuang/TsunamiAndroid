@@ -32,7 +32,7 @@ import com.tonyjhuang.tsunami.R;
 /**
  * Created by tonyjhuang on 11/4/14.
  */
-public class SplashButton extends ImageButton {
+public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
     private SplashOnScrollListener mOnScrollListener;
 
@@ -56,16 +56,16 @@ public class SplashButton extends ImageButton {
 
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
-    public SplashButton(Context context) {
+    public FloatingActionButton(Context context) {
         this(context, null);
     }
 
-    public SplashButton(Context context, AttributeSet attrs) {
+    public FloatingActionButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public SplashButton(Context context, AttributeSet attrs, int defStyle) {
+    public FloatingActionButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs);
     }
