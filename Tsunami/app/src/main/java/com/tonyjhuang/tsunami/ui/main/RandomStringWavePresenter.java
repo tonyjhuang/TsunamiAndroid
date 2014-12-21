@@ -6,11 +6,11 @@ import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.logging.Timber;
-import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
-import com.tonyjhuang.tsunami.ui.main.wave.contentview.SplashCard;
-import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentView;
-import com.tonyjhuang.tsunami.ui.main.wave.mapview.WMVFinishSplashingCallback;
-import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
+import com.tonyjhuang.tsunami.ui.main.WavePresenter;
+import com.tonyjhuang.tsunami.ui.main.SplashCard;
+import com.tonyjhuang.tsunami.ui.main.WaveContentView;
+import com.tonyjhuang.tsunami.ui.main.mapview.WMVFinishSplashingCallback;
+import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 
 import java.util.ArrayList;
 import java.util.List;

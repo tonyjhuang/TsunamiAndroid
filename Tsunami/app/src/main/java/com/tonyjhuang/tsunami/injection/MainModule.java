@@ -7,9 +7,9 @@ import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.ui.main.MainActivity;
 import com.tonyjhuang.tsunami.ui.main.RandomStringWavePresenter;
 import com.tonyjhuang.tsunami.ui.main.WavePresenterImpl;
-import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
-import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
-import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapViewImpl;
+import com.tonyjhuang.tsunami.ui.main.WavePresenter;
+import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
+import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapViewImpl;
 
 import dagger.Module;
 import dagger.Provides;

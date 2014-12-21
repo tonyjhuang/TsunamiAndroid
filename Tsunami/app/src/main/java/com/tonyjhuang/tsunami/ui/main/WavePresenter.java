@@ -1,8 +1,8 @@
-package com.tonyjhuang.tsunami.ui.main.wave;
+package com.tonyjhuang.tsunami.ui.main;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
-import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentView;
-import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
+import com.tonyjhuang.tsunami.ui.main.WaveContentView;
+import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 
 /**
  * Created by tonyjhuang on 10/21/14.

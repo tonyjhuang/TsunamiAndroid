@@ -21,10 +21,7 @@ import com.tonyjhuang.tsunami.injection.MainModule;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
 import com.tonyjhuang.tsunami.ui.customviews.button.FloatingActionButton;
-import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
-import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentScrollView;
-import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentView;
-import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
+import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -148,7 +145,7 @@ public class MainActivity extends TsunamiActivity implements
 
     @Override
     public void onBackPressed() {
-        if(contentView.isShowingSplashCard())
+        if (contentView.isShowingSplashCard())
             presenter.onCancelSplashButtonClicked();
         else
             super.onBackPressed();

@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami.ui.main.wave.mapview;
+package com.tonyjhuang.tsunami.ui.main.mapview;
 
 import android.animation.Animator;
 import android.animation.ArgbEvaluator;
@@ -22,7 +22,7 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.Wave;
-import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
+import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 import java.util.ArrayList;

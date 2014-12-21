@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami.ui.main.wave.contentview;
+package com.tonyjhuang.tsunami.ui.main;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.CardScrollView;
-import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
+import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 
 /**
  * Created by tonyjhuang on 9/6/14.

@@ -1,9 +1,9 @@
-package com.tonyjhuang.tsunami.ui.main.wave.mapview;
+package com.tonyjhuang.tsunami.ui.main.mapview;
 
 import com.google.android.gms.maps.MapFragment;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Wave;
-import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
+import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 
 /**
  * Created by tonyjhuang on 10/27/14.

@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami.ui.main.wave.contentview;
+package com.tonyjhuang.tsunami.ui.main;
 
 import android.content.Context;
 import android.util.AttributeSet;
