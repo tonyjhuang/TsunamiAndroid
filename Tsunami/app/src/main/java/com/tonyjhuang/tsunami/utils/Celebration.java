@@ -23,8 +23,16 @@ import java.util.Random;
 public class Celebration {
     public static final int MINIMUM_ROTATION = 100;
     public static final int MAXIMUM_ROTATION = 720;
+
     public static final int DEFAULT_DURATION = 1000;
-    public static final int NUM_OF_PARTICLES = 30;
+
+    public static final int MINIMUM_PARTICLES = 15;
+    public static final int MAXIMUM_PARTICLES = 30;
+
+    public static final float MINIMUM_SPEED = 0.2f;
+    public static final float MAXIMUM_SPEED = 0.5f;
+
+
     private static Random random = new Random();
     private static Handler handler = new Handler();
     private static Interpolator accelerateInterpolater = new AccelerateInterpolator();
@@ -49,12 +57,13 @@ public class Celebration {
 
         int minRotation = viewX < (screenSize.first / 2) ? MINIMUM_ROTATION : -MAXIMUM_ROTATION;
         int maxRotation = viewX < (screenSize.second / 2) ? MAXIMUM_ROTATION : -MINIMUM_ROTATION;
+        int numParticles = randInt(MINIMUM_PARTICLES, MAXIMUM_PARTICLES);
 
-        new ParticleSystem(activity, NUM_OF_PARTICLES, R.drawable.profile, duration)
-                .setSpeedRange(0.2f, 0.5f)
+        new ParticleSystem(activity, numParticles, R.drawable.profile, duration)
+                .setSpeedRange(MINIMUM_SPEED, MAXIMUM_SPEED)
                 .setRotationSpeedRange(minRotation, maxRotation)
                 .setFadeOut(DEFAULT_DURATION, accelerateInterpolater)
-                .oneShot(anchorView, NUM_OF_PARTICLES);
+                .oneShot(anchorView, numParticles);
 
         removeViewFromViewGroupAfter(new WeakReference<>(anchorView), new WeakReference<>(rootViewGroup), duration);
     }
