@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import rx.Observer;
-
 /**
  * Created by tony on 12/20/14.
  */
@@ -92,23 +90,6 @@ public class RandomStringWavePresenter implements WavePresenter {
     @Override
     public void onSplashSwipedUp() {
         Timber.d("onSplashSwipedUp");
-        SplashCard.SplashContent splashContent = contentView.retrieveSplashContent();
-        api.splash(splashContent.title, locationInfo.lastLat, locationInfo.lastLong).subscribe(new Observer<Wave>() {
-            @Override
-            public void onCompleted() {
-                Timber.d("oncompleted");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Timber.d("onerror");
-            }
-
-            @Override
-            public void onNext(Wave wave) {
-                Timber.d("onnext");
-            }
-        });
         mapView.finishSplashing(new WMVFinishSplashingCallback() {
             @Override
             public void onFinishSplashing() {
