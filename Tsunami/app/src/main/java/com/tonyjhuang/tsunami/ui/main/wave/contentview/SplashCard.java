@@ -17,8 +17,8 @@ import butterknife.InjectView;
 public class SplashCard extends FrameLayout {
     @InjectView(R.id.title)
     EditText title;
-    @InjectView(R.id.text)
-    EditText text;
+    @InjectView(R.id.body)
+    EditText body;
 
     public SplashCard(Context context) {
         this(context, null);
@@ -39,12 +39,12 @@ public class SplashCard extends FrameLayout {
     }
 
     public SplashContent retrieveSplashContent() {
-        return new SplashContent(title.getText().toString(), text.getText().toString());
+        return new SplashContent(title.getText().toString(), body.getText().toString());
     }
 
     public void clear() {
         title.setText("");
-        text.setText("");
+        body.setText("");
     }
 
     public static class SplashContent {
