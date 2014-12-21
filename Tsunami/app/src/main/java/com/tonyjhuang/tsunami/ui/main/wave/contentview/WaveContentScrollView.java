@@ -81,17 +81,10 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     }
 
     @Override
-    public boolean isShowingContentCard() {
-        return contentCard != null
-                && getCardView() != null
-                && getCardView().equals(contentCard);
-    }
-
-    @Override
     public void showContentCard(Wave wave) {
         contentCard.setWave(wave);
 
-        if (!isShowingContentCard()) {
+        if (isShowingSplashCard()) {
             setCardView(contentCard);
 
             if(onViewTypeChangedListener != null)
@@ -121,16 +114,15 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
             oldoldoldt = oldt;
         }
         if (t == 0) {
-            if (isShowingContentCard()) {
+            if (!isShowingSplashCard()) {
                 presenter.onContentSwipedDown();
             } else {
                 presenter.onSplashSwipedDown();
             }
         } else if (t >= getMaxScrollHeight()) {
-            if (isShowingContentCard()) {
+            if (!isShowingSplashCard()) {
                 presenter.onContentSwipedUp();
             } else {
-                Timber.d("splashswipedup");
                 presenter.onSplashSwipedUp();
             }
         }
