@@ -38,7 +38,7 @@ public class MainModule {
 
     @Provides
     public WavePresenter provideWavePresenter(TsunamiApiClient api) {
-        return new TestEmitterPresenter(api);
+        return new MainWavePresenter(api);
     }
 
 }

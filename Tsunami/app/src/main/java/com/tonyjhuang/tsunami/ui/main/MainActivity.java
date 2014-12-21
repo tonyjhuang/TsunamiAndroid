@@ -48,6 +48,8 @@ public class MainActivity extends TsunamiActivity implements
 
     public final static int MIN_CELEBRATION = 2;
     public final static int MAX_CELEBRATION = 5;
+
+    public final static int INITIAL_CELEBRATION_DELAY = 1000;
     public final static int CELEBRATION_DELAY = 250; // in millis
 
     @InjectView(R.id.container)
@@ -156,7 +158,7 @@ public class MainActivity extends TsunamiActivity implements
         Handler handler = new Handler();
         for (int i = 0; i < numOfCelebration; i++) {
             handler.postDelayed(() -> Celebration.createRandomOneShot(this, container),
-                    delayBetweenCelebrations * i);
+                    delayBetweenCelebrations * i + INITIAL_CELEBRATION_DELAY);
         }
 
     }
