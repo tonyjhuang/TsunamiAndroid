@@ -1,17 +1,13 @@
 package com.tonyjhuang.tsunami.ui.main.wave.contentview;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewTreeObserver;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.CardScrollView;
-import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 
 /**
@@ -60,24 +56,14 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     }
 
     @Override
-    public boolean isShowingSplashCard() {
-        return splashCard != null
-                && getCardView() != null
-                && getCardView().equals(splashCard);
+    public void setOnViewTypeChangedListener(OnViewTypeChangedListener onViewTypeChangedListener) {
+        this.onViewTypeChangedListener = onViewTypeChangedListener;
     }
 
+
     @Override
-    public void showSplashCard() {
-        if (isShowingSplashCard())
-            return;
-
-        if (splashCard == null)
-            splashCard = new SplashCard(getContext());
-
-        if(onViewTypeChangedListener != null)
-            onViewTypeChangedListener.onViewTypeChanged(ViewType.SPLASHING);
-
-        setCardView(splashCard);
+    public void setOnScrollListener(OnScrollListener onScrollListener) {
+        this.onScrollListener = onScrollListener;
     }
 
     @Override
@@ -87,7 +73,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         if (isShowingSplashCard()) {
             setCardView(contentCard);
 
-            if(onViewTypeChangedListener != null)
+            if (onViewTypeChangedListener != null)
                 onViewTypeChangedListener.onViewTypeChanged(ViewType.CONTENT);
         } else {
             animateCardView();
@@ -99,6 +85,50 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         return contentCard.getWave();
     }
 
+    @Override
+    public void showSplashCard() {
+        if (isShowingSplashCard())
+            return;
+
+        if (splashCard == null)
+            splashCard = new SplashCard(getContext());
+
+        if (onViewTypeChangedListener != null)
+            onViewTypeChangedListener.onViewTypeChanged(ViewType.SPLASHING);
+
+        setCardView(splashCard);
+    }
+
+    @Override
+    public boolean isShowingSplashCard() {
+        return splashCard != null
+                && getCardView() != null
+                && getCardView().equals(splashCard);
+    }
+
+    @Override
+    public SplashCard.SplashContent retrieveSplashContent() {
+        return splashCard == null ? null : splashCard.retrieveSplashContent();
+    }
+
+    @Override
+    public void clearSplashCard() {
+        if (splashCard != null) {
+            splashCard.clear();
+        }
+    }
+
+    @Override
+    public void scrollUpOffscreen() {
+        //super.scrollUpOffscreen();
+    }
+
+    @Override
+    public void scrollDownOffscreen() {
+        //super.scrollDownOffscreen();
+    }
+
+    // Keep track of the last last scroll position.
     int oldoldt, oldoldoldt;
 
     @Override
@@ -127,7 +157,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
             }
         }
 
-        if(onScrollListener != null)
+        if (onScrollListener != null)
             onScrollListener.onScroll(this, l, t, oldl, oldt);
 
         if (t < getCardViewStartingPosition()) {
@@ -137,17 +167,6 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         }
     }
 
-    @Override
-    public SplashCard.SplashContent retrieveSplashContent() {
-        return splashCard == null ? null : splashCard.retrieveSplashContent();
-    }
-
-    @Override
-    public void clearSplashCard() {
-        if (splashCard != null) {
-            splashCard.clear();
-        }
-    }
 
     @Override
     public Parcelable onSaveInstanceState() {
@@ -169,15 +188,5 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
             state = bundle.getParcelable("instanceState");
         }
         super.onRestoreInstanceState(state);
-    }
-
-    @Override
-    public void setOnScrollListener(OnScrollListener onScrollListener) {
-        this.onScrollListener = onScrollListener;
-    }
-
-    @Override
-    public void setOnViewTypeChangedListener(OnViewTypeChangedListener onViewTypeChangedListener) {
-        this.onViewTypeChangedListener = onViewTypeChangedListener;
     }
 }

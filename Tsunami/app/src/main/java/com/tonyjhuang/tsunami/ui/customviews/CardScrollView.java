@@ -68,12 +68,7 @@ public class CardScrollView extends ScrollView {
     /**
      * Simple reusable Runnable to make the card animate to the starting position.
      */
-    Runnable animateRunnable = new Runnable() {
-        @Override
-        public void run() {
-            slideCardFromBottom.start();
-        }
-    };
+    Runnable animateRunnable = slideCardFromBottom::start;
 
     /**
      * Do we lower our CardView's alpha on touch outside of the CardView?
@@ -332,35 +327,40 @@ public class CardScrollView extends ScrollView {
      */
     private void scrollOffScreenIfNecessary() {
         int scrollY = getScrollY();
-        ObjectAnimator animator = null;
 
         if (scrollY <= getScrollOutBottomThreshold()) {
             /**
              * Top of the CardView is sitting on the bottom edge of the screen
              */
             Timber.d("Should scroll CardView down.");
-            animator = ObjectAnimator.ofInt(this, "scrollY", getScrollY(), 0);
+            scrollDownOffscreen();
         } else if (scrollY >= getScrollOutTopThreshold()) {
             /**
              * Bottom of the CardView is sitting on the upper edge of the screen
              */
             Timber.d("Should scroll CardView up.");
-            animator = ObjectAnimator.ofInt(this, "scrollY", getScrollY(), getMaxScrollHeight());
-        }
-        if (animator != null) {
-            animator.setDuration(200);
-            animator.setInterpolator(new AccelerateInterpolator());
-            animate(animator);
+            scrollUpOffscreen();
         }
     }
 
+    protected void scrollUpOffscreen() {
+        scrollToPosition(getMaxScrollHeight(), 200);
+    }
+
+    protected void scrollDownOffscreen() {
+        scrollToPosition(0, 200);
+    }
+
+    protected void scrollToPosition(int position, int duration) {
+        int scrollY = getScrollY();
+        ObjectAnimator animator = ObjectAnimator.ofInt(this, "scrollY", scrollY, position);
+        animator.setDuration(duration);
+        animator.setInterpolator(new AccelerateInterpolator());
+        animate(animator);
+    }
+
     private void animate(final ObjectAnimator animator) {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                animator.start();
-            }
-        });
+        post(animator::start);
     }
 
     /**

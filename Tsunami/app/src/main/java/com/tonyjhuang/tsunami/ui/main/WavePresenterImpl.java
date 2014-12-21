@@ -104,7 +104,7 @@ public class WavePresenterImpl implements WavePresenter {
 
     @Override
     public void onSendSplashButtonClicked() {
-
+        contentView.scrollUpOffscreen();
     }
 
     @Override
