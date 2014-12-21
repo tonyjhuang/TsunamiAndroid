@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami.ui.main.button;
+package com.tonyjhuang.tsunami.ui.customviews.button;
 
 /**
  * Created by tonyjhuang on 11/4/14.

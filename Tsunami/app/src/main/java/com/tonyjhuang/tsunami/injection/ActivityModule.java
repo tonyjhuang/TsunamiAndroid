@@ -16,9 +16,6 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module(
-        injects = {
-                LoginActivity.class
-        },
         addsTo = ApplicationModule.class,
         library = true
 )

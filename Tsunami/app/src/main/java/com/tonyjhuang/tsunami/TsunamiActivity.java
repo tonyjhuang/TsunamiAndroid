@@ -8,11 +8,10 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.tonyjhuang.tsunami.injection.ActivityModule;
-import com.tonyjhuang.tsunami.injection.FragmentModule;
 import com.tonyjhuang.tsunami.injection.Injector;
-import com.tonyjhuang.tsunami.injection.ViewModule;
 import com.tonyjhuang.tsunami.ui.login.LoginActivity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +21,6 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.observables.AndroidObservable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -64,12 +62,20 @@ public abstract class TsunamiActivity extends Activity implements
     }
 
     /**
-     * allows subclasses to define their own modules. just make sure you
-     * append your list of modules to the super call
+     * Get the list of modules for this activity
      */
-    protected List<Object> getModules() {
-        return Arrays.asList(new ActivityModule(this), new FragmentModule(), new ViewModule());
+    private List<Object> getModules() {
+        List<Object> modules = new ArrayList<>(Arrays.asList(new ActivityModule(this)));
+        modules.addAll(getMyModules());
+        return modules;
     }
+
+    /**
+     * Override this method to declare your specific injection module for this TsunamiModule.
+     * Since all activities are injected into and injectors, you have to provide at the very least
+     * an empty module that injects into your particular subclass.
+     */
+    protected abstract List<Object> getMyModules();
 
     @Override
     public void inject(Object object) {
@@ -148,8 +154,7 @@ public abstract class TsunamiActivity extends Activity implements
         uiHelper.onSaveInstanceState(outState);
     }
 
-    @SuppressWarnings("unchecked")
-    protected void subscribe(Observable observable, Observer observer) {
+    protected <T> void subscribe(Observable<T> observable, Observer<T> observer) {
         Subscription subscription = AndroidObservable.bindActivity(this, observable)
                 .subscribeOn(Schedulers.io())
                 .subscribe(observer);

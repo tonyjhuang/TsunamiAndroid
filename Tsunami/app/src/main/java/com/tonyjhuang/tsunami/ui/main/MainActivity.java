@@ -20,13 +20,13 @@ import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.injection.MainModule;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
-import com.tonyjhuang.tsunami.ui.main.button.SplashButton;
+import com.tonyjhuang.tsunami.ui.customviews.button.SplashButton;
 import com.tonyjhuang.tsunami.ui.main.wave.WavePresenter;
 import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentScrollView;
 import com.tonyjhuang.tsunami.ui.main.wave.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.wave.mapview.WaveMapView;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -61,10 +61,8 @@ public class MainActivity extends TsunamiActivity implements
     }
 
     @Override
-    protected List<Object> getModules() {
-        List<Object> modules = new ArrayList<>(super.getModules());
-        modules.add(new MainModule(this));
-        return modules;
+    protected List<Object> getMyModules() {
+        return Arrays.asList(new MainModule(this));
     }
 
     @Override

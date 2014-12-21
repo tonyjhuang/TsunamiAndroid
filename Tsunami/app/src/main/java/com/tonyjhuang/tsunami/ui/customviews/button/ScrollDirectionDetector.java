@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami.ui.main.button;
+package com.tonyjhuang.tsunami.ui.customviews.button;
 
 import android.view.View;
 import android.widget.AbsListView;

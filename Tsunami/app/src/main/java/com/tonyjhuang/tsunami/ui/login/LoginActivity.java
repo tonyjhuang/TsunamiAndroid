@@ -8,7 +8,11 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
+import com.tonyjhuang.tsunami.injection.LoginModule;
 import com.tonyjhuang.tsunami.ui.main.MainActivity;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by tonyjhuang on 8/17/14.
@@ -23,6 +27,11 @@ public class LoginActivity extends TsunamiActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+    }
+
+    @Override
+    protected List<Object> getMyModules() {
+        return Arrays.asList(new LoginModule());
     }
 
     public void onSessionStateChange(Session session, SessionState state, Exception exception) {
