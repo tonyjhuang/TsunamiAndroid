@@ -5,6 +5,7 @@ import android.content.Context;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.ui.main.MainActivity;
 import com.tonyjhuang.tsunami.ui.main.MainWavePresenter;
+import com.tonyjhuang.tsunami.ui.main.TestEmitterPresenter;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapViewImpl;
@@ -37,7 +38,7 @@ public class MainModule {
 
     @Provides
     public WavePresenter provideWavePresenter(TsunamiApiClient api) {
-        return new MainWavePresenter(api);
+        return new TestEmitterPresenter(api);
     }
 
 }

@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.MapFragment;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
@@ -29,17 +31,23 @@ import com.tonyjhuang.tsunami.utils.Celebration;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 
 public class MainActivity extends TsunamiActivity implements
         MainView,
         WaveContentView.OnScrollListener,
         WaveContentView.OnViewTypeChangedListener {
+
+    public final static int MIN_CELEBRATION = 2;
+    public final static int MAX_CELEBRATION = 5;
+    public final static int CELEBRATION_DELAY = 250; // in millis
 
     @InjectView(R.id.container)
     FrameLayout container;
@@ -56,6 +64,8 @@ public class MainActivity extends TsunamiActivity implements
     WavePresenter presenter;
     @Inject
     WaveMapView mapView;
+
+    private static Random random = new Random();
 
     private final String STATE_WAVE = "wave";
     private final String STATE_SPLASHING = "splashing";
@@ -140,7 +150,18 @@ public class MainActivity extends TsunamiActivity implements
 
     @Override
     public void showCelebration() {
-        Celebration.createRandomOneShot(this, container);
+        int numOfCelebration = randInt(MIN_CELEBRATION, MAX_CELEBRATION);
+        int delayBetweenCelebrations = CELEBRATION_DELAY;
+        Handler handler = new Handler();
+        for (int i = 0; i < numOfCelebration; i++) {
+            handler.postDelayed(() -> Celebration.createRandomOneShot(this, container),
+                    delayBetweenCelebrations * i);
+        }
+
+    }
+
+    private int randInt(int min, int max) {
+        return random.nextInt((max - min) + 1) + min;
     }
 
     @OnClick(R.id.splash_button)
@@ -151,12 +172,39 @@ public class MainActivity extends TsunamiActivity implements
             presenter.onBeginSplashButtonClicked();
     }
 
+    @OnLongClick(R.id.splash_button)
+    boolean onSplashButtonLongClick() {
+        String msg;
+        if (contentView.isShowingSplashCard()) {
+            msg = "Splash";
+        } else {
+            msg = "New splash";
+        }
+
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+
     @OnClick(R.id.profile)
     public void onProfileButtonClick(View view) {
         if (contentView.isShowingSplashCard())
             presenter.onCancelSplashButtonClicked();
         else
             presenter.onProfileButtonClicked();
+    }
+
+    @OnLongClick(R.id.profile)
+    boolean onProfileButtonLongClick() {
+        String msg;
+        if (contentView.isShowingSplashCard()) {
+            msg = "Cancel";
+        } else {
+            msg = "Profile";
+        }
+
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        return true;
     }
 
     @Override
