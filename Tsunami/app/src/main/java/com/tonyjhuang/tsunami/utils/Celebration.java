@@ -44,10 +44,8 @@ public class Celebration {
     public static void createRandomOneShot(Activity activity, FrameLayout rootViewGroup, int duration) {
         Pair<Integer, Integer> screenSize = getScreenSize(activity);
 
-        // keep X within the middle 3/4 of the screen.
+        // keep X and Y within the middle 3/4 of the screen.
         int viewX = randInt(oneEighthOf(screenSize.first), sevenEightsOf(screenSize.first));
-
-        // same with Y
         int viewY = randInt(oneEighthOf(screenSize.second), sevenEightsOf(screenSize.second));
 
         View anchorView = new View(activity);
