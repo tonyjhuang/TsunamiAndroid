@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.google.android.gms.maps.MapFragment;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
@@ -24,6 +25,7 @@ import com.tonyjhuang.tsunami.ui.customviews.button.FloatingActionButton;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentScrollView;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
+import com.tonyjhuang.tsunami.utils.Celebration;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,9 +37,12 @@ import butterknife.OnClick;
 
 
 public class MainActivity extends TsunamiActivity implements
+        MainView,
         WaveContentView.OnScrollListener,
         WaveContentView.OnViewTypeChangedListener {
 
+    @InjectView(R.id.container)
+    FrameLayout container;
     @InjectView(R.id.content_scrollview)
     WaveContentScrollView contentView;
     @InjectView(R.id.splash_button)
@@ -69,6 +74,11 @@ public class MainActivity extends TsunamiActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         LocationLibrary.forceLocationUpdate(this);
+
+        /**
+         * Pass a reference to this MainView to our presenter.
+         */
+        presenter.setMainView(this);
 
         /**
          * Create our WaveMapView that will handle manipulating and drawing on our map fragment.
@@ -128,6 +138,10 @@ public class MainActivity extends TsunamiActivity implements
         super.onSaveInstanceState(savedInstanceState);
     }
 
+    @Override
+    public void showCelebration() {
+        Celebration.createRandomOneShot(this, container);
+    }
 
     @OnClick(R.id.splash_button)
     public void onSplashButtonClick(View view) {

@@ -6,6 +6,7 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.ui.main.MainActivity;
 import com.tonyjhuang.tsunami.ui.main.RandomStringWavePresenter;
+import com.tonyjhuang.tsunami.ui.main.TestEmitterPresenter;
 import com.tonyjhuang.tsunami.ui.main.WavePresenterImpl;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
@@ -39,7 +40,7 @@ public class MainModule {
 
     @Provides
     public WavePresenter provideWavePresenter(TsunamiApiClient api) {
-        return new WavePresenterImpl(api);
+        return new TestEmitterPresenter(api);
     }
 
 }

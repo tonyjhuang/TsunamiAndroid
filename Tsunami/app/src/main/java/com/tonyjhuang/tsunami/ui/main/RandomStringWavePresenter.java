@@ -21,8 +21,8 @@ public class RandomStringWavePresenter implements WavePresenter {
 
     private WaveContentView contentView;
     private WaveMapView mapView;
+    private MainView mainView;
 
-    private TsunamiApiClient api;
     private LocationInfo locationInfo;
 
     /**
@@ -41,9 +41,8 @@ public class RandomStringWavePresenter implements WavePresenter {
     RandomString randomTitleGen = new RandomString(16);
     RandomString randomTextGen = new RandomString(128);
 
-    public RandomStringWavePresenter(TsunamiApiClient api) {
-        this.api = api;
-    }
+    @SuppressWarnings("unused")
+    public RandomStringWavePresenter(TsunamiApiClient api) {}
 
     public void setContentView(WaveContentView contentView) {
         this.contentView = contentView;
@@ -53,6 +52,11 @@ public class RandomStringWavePresenter implements WavePresenter {
     public void setMapView(WaveMapView mapView) {
         this.mapView = mapView;
         mapView.setPresenter(this);
+    }
+
+    @Override
+    public void setMainView(MainView mainView) {
+        this.mainView = mainView;
     }
 
     private void displayNewWave() {
@@ -88,6 +92,7 @@ public class RandomStringWavePresenter implements WavePresenter {
     @Override
     public void onSplashSwipedUp() {
         Timber.d("onSplashSwipedUp");
+        mainView.showCelebration();
         mapView.finishSplashing(new WMVFinishSplashingCallback() {
             @Override
             public void onFinishSplashing() {

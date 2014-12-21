@@ -21,8 +21,17 @@ public class WavePresenterImpl implements WavePresenter {
     private TsunamiApiClient api;
     private LocationInfo locationInfo;
 
+    /**
+     * Collection of views that make up the UI for this presenter.
+     */
     private WaveContentView contentView;
     private WaveMapView mapView;
+    private MainView mainView;
+
+    /**
+     * Resident list of waves, we will index through this list as long as it is valid.
+     * It should be invalidated on location updates.
+     */
 
     private List<Wave> wavesToShow = new ArrayList<>();
     /**
@@ -30,10 +39,30 @@ public class WavePresenterImpl implements WavePresenter {
      */
     private int index = 0;
 
+    /**
+     * Are we currently fetching a list of waves from the server?
+     */
     private boolean loading = false;
 
     public WavePresenterImpl(TsunamiApiClient api) {
         this.api = api;
+    }
+
+    @Override
+    public void setContentView(WaveContentView contentView) {
+        this.contentView = contentView;
+        contentView.setPresenter(this);
+    }
+
+    @Override
+    public void setMapView(WaveMapView mapView) {
+        this.mapView = mapView;
+        mapView.setPresenter(this);
+    }
+
+    @Override
+    public void setMainView(MainView mainView) {
+        this.mainView = mainView;
     }
 
     private void displayNewWave() {
@@ -84,6 +113,7 @@ public class WavePresenterImpl implements WavePresenter {
                 .publish()
                 .connect();
 
+        mainView.showCelebration();
         mapView.finishSplashing(new WMVFinishSplashingCallback() {
             @Override
             public void onFinishSplashing() {
@@ -152,17 +182,5 @@ public class WavePresenterImpl implements WavePresenter {
                         displayNewWave();
                 },
                 (error) -> Timber.e(error, "uhoh"));
-    }
-
-    @Override
-    public void setContentView(WaveContentView contentView) {
-        this.contentView = contentView;
-        contentView.setPresenter(this);
-    }
-
-    @Override
-    public void setMapView(WaveMapView mapView) {
-        this.mapView = mapView;
-        mapView.setPresenter(this);
     }
 }

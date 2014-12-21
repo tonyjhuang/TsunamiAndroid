@@ -8,9 +8,11 @@ import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
  * Created by tonyjhuang on 10/21/14.
  */
 public interface WavePresenter {
-    public void setContentView(WaveContentView view);
+    public void setContentView(WaveContentView contentView);
 
-    public void setMapView(WaveMapView view);
+    public void setMapView(WaveMapView mapView);
+
+    public void setMainView(MainView mainView);
 
     public void onContentSwipedUp();
 
