@@ -60,6 +60,8 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
         scrollView.setOnScrollListener(this);
 
         setCoverImageHeight((int) (getScreenDimensions().y / 3.0f));
+        int resourceId = getResources().getIdentifier("cover_" + (coverPhotoIndex + 1), "drawable", getPackageName());
+        coverImage.setImageResource(resourceId);
     }
 
     @Override

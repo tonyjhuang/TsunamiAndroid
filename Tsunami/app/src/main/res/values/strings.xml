@@ -5,10 +5,11 @@
 
     <string name="app_name">Tsunami</string>
     <string name="app_name_actionbar">TSUNAMI</string>
+
+
     <string name="action_log_out">Log Out</string>
 
-    <string name="activity_label_view_wave">View Wave</string>
-    <string name="activity_label_wave_map">Wave Map</string>
+    <string name="activity_label_profile">Your Profile</string>
 
     <string name="content_splash">SPLASH</string>
 

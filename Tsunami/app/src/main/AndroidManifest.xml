@@ -58,6 +58,7 @@
             android:theme="@style/AppTheme.Main" />
         <activity
             android:name=".ui.profile.ProfileActivity"
+            android:label="@string/activity_label_profile"
             android:parentActivityName=".ui.main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
