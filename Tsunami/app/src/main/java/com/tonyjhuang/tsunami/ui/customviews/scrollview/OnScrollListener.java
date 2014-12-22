@@ -5,7 +5,7 @@ package com.tonyjhuang.tsunami.ui.customviews.scrollview;
  *
  * Created by tony on 11/23/14.
  */
-public interface OnScrollChangedListener {
+public interface OnScrollListener {
     /**
      * Called whenever this ScrollView is scrolled.
      *

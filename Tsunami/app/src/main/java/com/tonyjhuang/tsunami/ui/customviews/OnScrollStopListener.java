@@ -3,15 +3,16 @@ package com.tonyjhuang.tsunami.ui.customviews;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 
+import com.tonyjhuang.tsunami.ui.customviews.scrollview.CardScrollView;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnMotionEventListener;
-import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollChangedListener;
+import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollListener;
 
 /**
  * Created by tony on 11/23/14.
  */
 public abstract class OnScrollStopListener implements
         OnMotionEventListener,
-        OnScrollChangedListener {
+        OnScrollListener {
 
     /**
      * How often we should check if the ScrollView has stopped scrolling. See Runnable checkScrollView.
@@ -57,7 +58,7 @@ public abstract class OnScrollStopListener implements
     public void attach(CardScrollView scrollView) {
         this.scrollView = scrollView;
         scrollView.setOnMotionEventListener(this);
-        scrollView.setOnScrollChangedListener(this);
+        scrollView.setOnScrollListener(this);
     }
 
     @Override

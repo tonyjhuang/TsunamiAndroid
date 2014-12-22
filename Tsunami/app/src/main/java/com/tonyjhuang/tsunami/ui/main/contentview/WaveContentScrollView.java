@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.logging.Timber;
-import com.tonyjhuang.tsunami.ui.customviews.CardScrollView;
+import com.tonyjhuang.tsunami.ui.customviews.scrollview.CardScrollView;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 
 /**

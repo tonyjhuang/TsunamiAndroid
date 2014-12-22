@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami.ui.customviews;
+package com.tonyjhuang.tsunami.ui.customviews.scrollview;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -17,8 +17,7 @@ import android.widget.Space;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.logging.Timber;
-import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnMotionEventListener;
-import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollChangedListener;
+import com.tonyjhuang.tsunami.ui.customviews.OnScrollStopListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,7 +25,7 @@ import butterknife.InjectView;
 /**
  * Created by tony on 11/11/14.
  */
-public class CardScrollView extends ScrollView {
+public class CardScrollView extends ObservableScrollView {
     private final static float FADED_ALPHA = 0.3f;
 
     @InjectView(R.id.container)
@@ -38,11 +37,6 @@ public class CardScrollView extends ScrollView {
     protected Space topSpacer;
     @InjectView(R.id.bottom_spacer)
     protected Space bottomSpacer;
-
-    /**
-     * Listener for scroll events.
-     */
-    private OnScrollChangedListener onScrollChangedListener;
 
     /**
      * Listener for MotionEvents.
@@ -284,17 +278,6 @@ public class CardScrollView extends ScrollView {
                 && (x < right)
                 && (y > top - cardTopPadding)
                 && (y < bottom + cardBottomPadding);
-    }
-
-    public void setOnScrollChangedListener(OnScrollChangedListener onScrollChangedListener) {
-        this.onScrollChangedListener = onScrollChangedListener;
-    }
-
-    @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        if (onScrollChangedListener != null) {
-            onScrollChangedListener.onScrollChanged(l, t, oldl, oldt);
-        }
     }
 
     /**
