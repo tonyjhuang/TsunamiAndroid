@@ -1,8 +1,8 @@
 package com.tonyjhuang.tsunami;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -28,7 +28,7 @@ import rx.subscriptions.CompositeSubscription;
  * Handles all of the boring initialization stuff we would want for every activity
  * This includes injection, ui styling, logging setup
  */
-public abstract class TsunamiActivity extends Activity implements
+public abstract class TsunamiActivity extends ActionBarActivity implements
         Session.StatusCallback,
         Injector {
     private ObjectGraph objectGraph;

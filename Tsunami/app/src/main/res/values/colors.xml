@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#3F51B5</color>
-    <color name="color_primary_dark">#303F9F</color>
-    <color name="color_accent">#64FFDA</color>
+    <color name="primary">@color/material_indigo</color>
+    <color name="primary_dark">@color/material_indigo_dark</color>
+    <color name="primary_light">@color/material_indigo_light</color>
+    <color name="accent">@color/material_cyan</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#727272</color>
+    <color name="divider">#B6B6B6</color>
+
+    <color name="material_indigo">#3F51B5</color>
+    <color name="material_indigo_dark">#303F9F</color>
+    <color name="material_indigo_light">#C5CAE9</color>
+    <color name="material_blue">#448AFF</color>
+    <color name="material_light_blue">#03A9F4</color>
+    <color name="material_cyan">#00BCD4</color>
+    <color name="material_teal">#009688</color>
+    <color name="material_green">#4CAF50</color>
+    <color name="material_light_green">#8BC34A</color>
+    <color name="material_lime">#CDDC39</color>
     
-    <color name="text_default">#B000</color>
-    
-    <color name="content_view_card_divider">#1000</color>
-    <color name="content_view_map_current_location_fill">#00BFFF</color>
-    <color name="content_view_map_current_location_stroke">#1E90FF</color>
+    <color name="content_view_card_divider">@color/divider</color>
+    <color name="content_view_map_current_location_fill">@color/primary_light</color>
+    <color name="content_view_map_current_location_stroke">@color/primary</color>
     <color name="content_view_map_ripple_fill">#4448D1CC</color>
     <color name="content_view_map_ripple_stroke">#0000CED1</color>
     <color name="content_view_map_splashing_fill_begin">#009ACD32</color>
     <color name="content_view_map_splashing_fill_end">#559ACD32</color>
-    <color name="content_view_map_splashing_stroke">#9ACD32</color>
+    <color name="content_view_map_splashing_stroke">@color/material_light_green</color>
 </resources>

@@ -84,9 +84,9 @@ public class FloatingActionButton extends ImageButton {
 
     private void init(Context context, AttributeSet attributeSet) {
         mVisible = true;
-        mColorNormal = getColor(R.color.color_primary);
-        mColorPressed = getColor(R.color.color_primary_dark);
-        mColorRipple = getColor(R.color.color_accent);
+        mColorNormal = getColor(R.color.primary);
+        mColorPressed = getColor(R.color.primary_dark);
+        mColorRipple = getColor(R.color.accent);
         mType = TYPE_NORMAL;
         mShadow = true;
         if (attributeSet != null) {
@@ -100,11 +100,11 @@ public class FloatingActionButton extends ImageButton {
         if (attr != null) {
             try {
                 mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
-                        getColor(R.color.color_primary));
+                        getColor(R.color.primary));
                 mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
-                        getColor(R.color.color_primary_dark));
+                        getColor(R.color.primary_dark));
                 mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple,
-                        getColor(R.color.color_accent));
+                        getColor(R.color.accent));
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
                 mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
             } finally {
