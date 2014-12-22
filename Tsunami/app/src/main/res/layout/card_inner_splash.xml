@@ -7,6 +7,8 @@
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceEditText xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/title"
         style="@style/ContentTitle"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/splash_title_hint"
@@ -18,6 +20,8 @@
 
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceEditText
         android:id="@+id/body"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/splash_text_hint"
