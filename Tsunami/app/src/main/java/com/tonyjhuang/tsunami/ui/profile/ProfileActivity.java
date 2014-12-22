@@ -23,6 +23,7 @@ public class ProfileActivity extends TsunamiActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setElevation(0);
     }
 
     @Override
