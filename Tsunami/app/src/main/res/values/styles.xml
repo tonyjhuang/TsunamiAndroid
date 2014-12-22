@@ -8,7 +8,7 @@
 
         <item name="colorControlNormal">@color/divider</item>
         <item name="colorControlActivated">@color/accent</item>
-        <item name="colorControlHighlight">@color/primary_light</item>
+        <item name="colorControlHighlight">@color/accent</item>
 
         <item name="android:windowBackground">@color/fbutton_color_clouds</item>
         <item name="android:textViewStyle">@style/TextView.Tsunami</item>
