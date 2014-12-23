@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,11 +8,17 @@
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
         android:id="@+id/my_stats_label"
         android:layout_width="wrap_content"
-        android:padding="32dp"
-        android:textSize="32sp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cover"
+        android:padding="32dp"
         android:text="@string/profile_label_stats"
-        app:typeface="Roboto-Light"/>
+        android:textSize="32sp" />
+
+    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+        android:id="@+id/my_waves_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="32dp"
+        android:text="@string/profile_label_waves"
+        android:textSize="32sp" />
 
 </LinearLayout>

@@ -11,5 +11,6 @@
     <string name="splash_text_hint">Splash something with the world..</string>
 
     <string name="profile_label_stats">My Stats:</string>
+    <string name="profile_label_waves">My Waves:</string>
 
 </resources>

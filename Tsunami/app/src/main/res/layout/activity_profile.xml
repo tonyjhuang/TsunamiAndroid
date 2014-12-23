@@ -21,6 +21,12 @@
 
             <View
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/cover"
+                android:background="#3000" />
+
+            <View
+                android:layout_width="match_parent"
                 android:layout_height="6dp"
                 android:layout_alignBottom="@+id/cover"
                 android:background="@drawable/shadow_up" />
