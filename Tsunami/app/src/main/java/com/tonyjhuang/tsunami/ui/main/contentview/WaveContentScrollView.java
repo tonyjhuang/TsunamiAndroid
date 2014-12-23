@@ -147,14 +147,14 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
             oldoldoldt = oldt;
         }
         if (t == 0) {
-            cardContainer.setVisibility(INVISIBLE);
+            post(() -> cardContainer.setVisibility(INVISIBLE));
             if (!isShowingSplashCard()) {
                 presenter.onContentSwipedDown();
             } else {
                 presenter.onSplashSwipedDown();
             }
         } else if (t >= getMaxScrollHeight()) {
-            cardContainer.setVisibility(INVISIBLE);
+            post(() -> cardContainer.setVisibility(INVISIBLE));
             if (!isShowingSplashCard()) {
                 presenter.onContentSwipedUp();
             } else {
