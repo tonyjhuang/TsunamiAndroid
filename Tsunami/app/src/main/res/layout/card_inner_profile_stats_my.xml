@@ -13,7 +13,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/profile_stats_my_views" />
+            android:text="@string/profile_stats_my_title_views" />
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
             style="@style/ProfileStatNum"
@@ -29,7 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/profile_stats_my_ripples" />
+            android:text="@string/profile_stats_my_title_ripples" />
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
             style="@style/ProfileStatNum"
@@ -46,7 +46,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/profile_stats_my_ripple_percentage" />
+            android:text="@string/profile_stats_my_title_ripple_percentage" />
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
             style="@style/ProfileStatNum"

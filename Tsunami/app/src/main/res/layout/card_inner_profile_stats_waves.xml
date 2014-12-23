@@ -13,13 +13,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/profile_stats_my_views" />
+            android:text="@string/profile_stats_waves_title_waves" />
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
             style="@style/ProfileStatNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="405" />
+            android:text="6" />
     </LinearLayout>
 
     <LinearLayout style="@style/ProfileStatRow">
@@ -29,13 +29,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/profile_stats_my_ripples" />
+            android:text="@string/profile_stats_waves_title_views" />
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
             style="@style/ProfileStatNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="30" />
+            android:text="2119" />
 
     </LinearLayout>
 
@@ -46,13 +46,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/profile_stats_my_ripple_percentage" />
+            android:text="@string/profile_stats_waves_title_ripples" />
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
             style="@style/ProfileStatNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5%" />
+            android:text="91" />
 
     </LinearLayout>
 </LinearLayout>
