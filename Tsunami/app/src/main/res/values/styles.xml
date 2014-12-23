@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
@@ -12,7 +12,7 @@
 
         <item name="android:windowBackground">@color/fbutton_color_clouds</item>
         <item name="android:textViewStyle">@style/TextView.Tsunami</item>
-        <item name="android:editTextStyle">@style/EditText.Tsunami</item>
+        <!--<item name="android:editTextStyle">@style/EditText.Tsunami</item>-->
         <item name="android:scrollViewStyle">@style/ScrollView.Tsunami</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
@@ -25,14 +25,14 @@
     <style name="AppTheme.Main" parent="AppTheme.NoActionBar">
     </style>
 
-    <style name="TextView.Tsunami" parent="android:Widget.TextView">
-        <item name="android:textColor">@color/text_primary</item>
-        <item name="android:padding">@dimen/default_text_padding</item>
+    <style name="AppTheme.Toolbar" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
     </style>
 
-    <style name="EditText.Tsunami" parent="android:Widget.EditText">
+    <style name="TextView.Tsunami" parent="android:Widget.TextView">
         <item name="android:textColor">@color/text_primary</item>
-        <item name="android:textColorHint">@color/divider</item>
         <item name="android:padding">@dimen/default_text_padding</item>
     </style>
 

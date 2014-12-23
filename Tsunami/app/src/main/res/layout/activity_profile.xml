@@ -15,15 +15,30 @@
 
             <ImageView
                 android:id="@+id/cover"
-                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="0dp" />
+                android:layout_height="0dp"
+                android:scaleType="centerCrop" />
 
             <View
-                android:layout_alignBottom="@+id/cover"
-                android:background="@drawable/shadow_up"
                 android:layout_width="match_parent"
-                android:layout_height="6dp" />
+                android:layout_height="6dp"
+                android:layout_alignBottom="@+id/cover"
+                android:background="@drawable/shadow_up" />
+
+            <com.tonyjhuang.tsunami.ui.customviews.CircularImageView
+                android:id="@+id/profile_pic"
+                android:layout_centerHorizontal="true"
+                android:layout_alignBottom="@+id/cover"
+                app:border_color="#EEEEEE"
+                app:border_width="4dp"
+                app:shadow="true"
+                android:src="@drawable/kevin"
+                android:layout_width="@dimen/profile_pic_dimen"
+                android:layout_height="@dimen/profile_pic_dimen" />
+
+            <!--<com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                android:layout_width=""
+                android:layout_height="" />-->
 
         </RelativeLayout>
     </com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableScrollView>
@@ -34,6 +49,6 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+        app:theme="@style/AppTheme.Toolbar" />
 
 </FrameLayout>

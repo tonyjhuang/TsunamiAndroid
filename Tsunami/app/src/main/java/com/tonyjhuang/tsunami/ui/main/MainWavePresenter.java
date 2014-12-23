@@ -158,6 +158,11 @@ public class MainWavePresenter implements WavePresenter {
 
     @Override
     public void onLocationUpdate(LocationInfo newLocationInfo) {
+        if (locationInfo != null &&
+                locationInfo.lastLat == newLocationInfo.lastLat
+                && locationInfo.lastLong == newLocationInfo.lastLong)
+            return;
+
         locationInfo = newLocationInfo;
         Timber.d("locationInfo: lat " + newLocationInfo.lastLat + ", lon " + newLocationInfo.lastLong);
         mapView.setCurrentLocation(locationInfo);

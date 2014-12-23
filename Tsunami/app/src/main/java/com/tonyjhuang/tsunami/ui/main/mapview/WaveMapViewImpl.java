@@ -189,7 +189,9 @@ public class WaveMapViewImpl implements WaveMapView {
         if (splashingIndicatorRadiusAnimator != null) {
             splashingIndicatorRadiusAnimator.cancel();
         }
-        splashingIndicator.setVisible(false);
+        if(splashingIndicator != null) {
+            splashingIndicator.setVisible(false);
+        }
     }
 
     /* ========== DRAWING UTILITY FUNCTIONS =========== */
