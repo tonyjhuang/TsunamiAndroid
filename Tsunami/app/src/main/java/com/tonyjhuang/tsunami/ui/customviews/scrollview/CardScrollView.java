@@ -154,7 +154,10 @@ public class CardScrollView extends ObservableScrollView {
         /**
          * Scroll to y-pos 1 as 0 triggers a swiped down event.
          */
-        cardContainer.setVisibility(VISIBLE);
+        cardContainer.post(() -> {
+            cardContainer.setVisibility(VISIBLE);
+            setCardAlpha(1.0f);
+        });
         post(animateRunnable);
     }
 

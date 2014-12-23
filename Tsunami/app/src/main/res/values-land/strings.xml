@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="profile_stats_my_title_views">Views</string>
+    <string name="profile_stats_my_title_ripples">Ripples</string>
+    <string name="profile_stats_my_title_ripple_percentage">Percent Rippled</string>
+
+    <string name="profile_stats_waves_title_waves">Total Waves</string>
+    <string name="profile_stats_waves_title_views">Total Views</string>
+    <string name="profile_stats_waves_title_ripples">Total Ripples</string>
+</resources>
