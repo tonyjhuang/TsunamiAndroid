@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignBottom="@+id/cover"
-                android:background="#4000" />
+                android:background="#8000" />
 
             <View
                 android:layout_width="match_parent"
@@ -49,7 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cover"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="8dp">
 
 
                 <LinearLayout
@@ -74,7 +75,10 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp">
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
 
                     <include layout="@layout/card_inner_profile_stats_waves" />
                 </android.support.v7.widget.CardView>
@@ -101,7 +105,10 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp">
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
 
                     <include layout="@layout/card_inner_profile_stats_my" />
 
