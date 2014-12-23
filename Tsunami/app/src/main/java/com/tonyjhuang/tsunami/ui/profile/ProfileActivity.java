@@ -78,8 +78,8 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
 
     @Override
     public void onScrollChanged(int l, int t, int oldl, int oldt) {
-        int toolbarHeight = toolbar.getHeight();
-        int ratio = (int) (((float) Math.min(t, toolbarHeight)) / toolbarHeight * 255);
+        int coverImageHeight = coverImage.getHeight();
+        int ratio = (int) (((float) Math.min(t, coverImageHeight)) / coverImageHeight * 255);
         setToolbarBackgroundAlpha(ratio);
     }
 
