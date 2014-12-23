@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <LinearLayout style="@style/ProfileStatRow">
+
+        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+            style="@style/ProfileStatTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/profile_stats_my_views" />
+
+        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+            style="@style/ProfileStatNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="405" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/ProfileStatRow">
+
+        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+            style="@style/ProfileStatTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/profile_stats_my_ripples" />
+
+        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+            style="@style/ProfileStatNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ProfileStatRow">
+
+        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+            style="@style/ProfileStatTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/profile_stats_my_ripple_percentage" />
+
+        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+            style="@style/ProfileStatNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5%" />
+
+    </LinearLayout>
+</LinearLayout>

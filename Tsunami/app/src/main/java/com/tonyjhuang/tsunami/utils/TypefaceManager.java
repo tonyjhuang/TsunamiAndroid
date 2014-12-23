@@ -13,7 +13,7 @@ import java.util.Hashtable;
  */
 public class TypefaceManager {
     private static final Hashtable<String, Typeface> cache = new Hashtable<String, Typeface>();
-    private final static String DEFAULT_TYPEFACE = "Oswald-Regular.ttf";
+    private final static String DEFAULT_TYPEFACE = "Roboto-Regular.ttf";
 
     /**
      * Returns a default typeface if the passed in typeface path is not found

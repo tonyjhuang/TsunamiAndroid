@@ -61,8 +61,26 @@
         <item name="android:paddingTop">@dimen/profile_stats_label_padding_vertical</item>
         <item name="android:paddingBottom">@dimen/profile_stats_label_padding_vertical</item>
         <item name="android:textSize">@dimen/profile_stats_label_text_size</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ProfileStatRow">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <style name="ProfileStatTitle">
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="ProfileStatNum">
+        <item name="android:textColor">@color/material_cyan</item>
+        <item name="android:textSize">@dimen/profile_stats_num_text_size</item>
     </style>
 
 </resources>
