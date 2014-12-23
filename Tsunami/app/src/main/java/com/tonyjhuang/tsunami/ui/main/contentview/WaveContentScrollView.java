@@ -161,6 +161,9 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         if (onScrollListener != null)
             onScrollListener.onScroll(this, l, t, oldl, oldt);
 
+        /**
+         * Fade card out if it is below the start position
+         */
         if (t < getCardViewStartingPosition()) {
             setCardAlpha((float) Math.pow(((float) t) / getCardViewStartingPosition(), 1.6f));
         } else {
