@@ -27,4 +27,6 @@
     <color name="content_view_map_splashing_fill_begin">#009ACD32</color>
     <color name="content_view_map_splashing_fill_end">#559ACD32</color>
     <color name="content_view_map_splashing_stroke">@color/material_light_green</color>
+
+    <color name="profile_pic_border">#EEEEEE</color>
 </resources>

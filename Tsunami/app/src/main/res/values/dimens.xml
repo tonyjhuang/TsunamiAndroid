@@ -28,4 +28,8 @@
     <dimen name="fab_elevation_lollipop">8dp</dimen>
 
     <dimen name="profile_pic_dimen">96dp</dimen>
+    <dimen name="profile_pic_border_dimen">4dp</dimen>
+    <dimen name="profile_stats_label_padding_horizontal">16dp</dimen>
+    <dimen name="profile_stats_label_padding_vertical">24dp</dimen>
+    <dimen name="profile_stats_label_text_size">30dp</dimen>
 </resources>

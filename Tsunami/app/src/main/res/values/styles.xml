@@ -22,13 +22,13 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.Main" parent="AppTheme.NoActionBar">
-    </style>
+    <style name="AppTheme.Main" parent="AppTheme.NoActionBar"></style>
 
     <style name="AppTheme.Toolbar" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
     <style name="TextView.Tsunami" parent="android:Widget.TextView">
@@ -53,6 +53,16 @@
         <item name="android:layout_marginLeft">@dimen/content_divider_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/content_divider_margin_horizontal</item>
         <item name="android:background">@color/content_view_card_divider</item>
+    </style>
+
+    <style name="ProfileLabelText">
+        <item name="android:paddingLeft">@dimen/profile_stats_label_padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/profile_stats_label_padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/profile_stats_label_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/profile_stats_label_padding_vertical</item>
+        <item name="android:textSize">@dimen/profile_stats_label_text_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>
