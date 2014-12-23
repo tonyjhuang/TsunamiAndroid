@@ -6,7 +6,6 @@ import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateRippleRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateUserRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.SplashRequest;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.util.List;
@@ -23,16 +22,14 @@ import rx.Observable;
  * Created by tonyjhuang on 8/17/14.
  */
 @Singleton
-public class TsunamiApiClient {
+public class TsunamiApiClient implements TsunamiApi {
 
     private final TsunamiService service;
-    private final TsunamiPreferences preferences;
     private final String userId;
 
     @Inject
     public TsunamiApiClient(TsunamiService service, TsunamiPreferences preferences) {
         this.service = service;
-        this.preferences = preferences;
         this.userId = preferences.id.get();
     }
 

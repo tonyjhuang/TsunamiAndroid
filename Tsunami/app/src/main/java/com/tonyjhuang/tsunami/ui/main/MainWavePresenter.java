@@ -2,6 +2,7 @@ package com.tonyjhuang.tsunami.ui.main;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.contentview.SplashCard;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public class MainWavePresenter implements WavePresenter {
 
-    private TsunamiApiClient api;
+    private TsunamiApi api;
     private LocationInfo locationInfo;
 
     /**
@@ -44,7 +45,7 @@ public class MainWavePresenter implements WavePresenter {
      */
     private boolean loading = false;
 
-    public MainWavePresenter(TsunamiApiClient api) {
+    public MainWavePresenter(TsunamiApi api) {
         this.api = api;
     }
 

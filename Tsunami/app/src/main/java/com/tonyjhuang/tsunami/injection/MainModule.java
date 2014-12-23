@@ -2,6 +2,7 @@ package com.tonyjhuang.tsunami.injection;
 
 import android.content.Context;
 
+import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.ui.main.MainActivity;
 import com.tonyjhuang.tsunami.ui.main.MainWavePresenter;
@@ -37,7 +38,7 @@ public class MainModule {
     }
 
     @Provides
-    public WavePresenter provideWavePresenter(TsunamiApiClient api) {
+    public WavePresenter provideWavePresenter(TsunamiApi api) {
         return new MainWavePresenter(api);
     }
 

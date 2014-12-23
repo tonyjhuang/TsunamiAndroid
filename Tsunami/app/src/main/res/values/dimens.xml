@@ -17,7 +17,7 @@
 
     <dimen name="content_title_textsize">24sp</dimen>
     <dimen name="content_divider_margin_horizontal">16dp</dimen>
-    <dimen name="content_divider_margin_vertical">16dp</dimen>
+    <dimen name="content_divider_margin_vertical">8dp</dimen>
     <dimen name="content_divider_height">2px</dimen>
 
 
