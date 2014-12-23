@@ -27,30 +27,21 @@
 
             <com.tonyjhuang.tsunami.ui.customviews.CircularImageView
                 android:id="@+id/profile_pic"
-                android:layout_marginBottom="-24dp"
                 android:layout_width="@dimen/profile_pic_dimen"
                 android:layout_height="@dimen/profile_pic_dimen"
                 android:layout_alignBottom="@+id/cover"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="-24dp"
                 android:src="@drawable/kevin"
                 app:border_color="#EEEEEE"
                 app:border_width="4dp"
                 app:shadow="true" />
 
-            <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-                android:id="@+id/my_stats_label"
-                android:layout_width="wrap_content"
-                android:padding="32dp"
-                android:textSize="24sp"
+            <include
+                layout="@layout/stub_profile_stats"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cover"
-                android:text="@string/profile_label_stats"
-                app:typeface="Roboto-Light"/>
-
-            <View
-                android:layout_below="@+id/my_stats_label"
-                android:layout_width="0dp"
-                android:layout_height="2000dp" />
+                android:layout_below="@+id/cover" />
 
         </RelativeLayout>
     </com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableScrollView>
