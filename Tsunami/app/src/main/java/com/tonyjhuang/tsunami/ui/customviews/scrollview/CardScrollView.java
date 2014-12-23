@@ -272,8 +272,6 @@ public class CardScrollView extends ObservableScrollView {
         int right = left + getCardView().getWidth();
         int bottom = top + getCardView().getHeight();
 
-        Timber.d(String.format("t: %d, b: %d, y: %f", top, bottom, ev.getRawY()));
-
         float x = ev.getRawX();
         float y = ev.getRawY();
         return (x > left)
