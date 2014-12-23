@@ -1,5 +1,7 @@
 package com.tonyjhuang.tsunami.mock;
 
+import android.app.Application;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Ripple;
@@ -38,8 +40,9 @@ public class MockTsunamiApiClient implements TsunamiApi {
 
     @SuppressWarnings("unused")
     @Inject
-    public MockTsunamiApiClient(TsunamiService service, TsunamiPreferences preferences) {
-
+    public MockTsunamiApiClient(Application application, TsunamiService service, TsunamiPreferences preferences) {
+        locationInfo = new LocationInfo(application);
+        locationInfo.refresh(application);
     }
 
     @Override

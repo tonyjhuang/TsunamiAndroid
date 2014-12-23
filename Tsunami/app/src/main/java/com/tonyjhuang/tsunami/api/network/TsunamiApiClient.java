@@ -1,5 +1,7 @@
 package com.tonyjhuang.tsunami.api.network;
 
+import android.app.Application;
+
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.User;
 import com.tonyjhuang.tsunami.api.models.Wave;
@@ -27,8 +29,9 @@ public class TsunamiApiClient implements TsunamiApi {
     private final TsunamiService service;
     private final String userId;
 
+    @SuppressWarnings("unused")
     @Inject
-    public TsunamiApiClient(TsunamiService service, TsunamiPreferences preferences) {
+    public TsunamiApiClient(Application application, TsunamiService service, TsunamiPreferences preferences) {
         this.service = service;
         this.userId = preferences.id.get();
     }

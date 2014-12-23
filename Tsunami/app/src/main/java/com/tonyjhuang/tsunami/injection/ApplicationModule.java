@@ -48,7 +48,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     TsunamiApi provideTsunamiApi(TsunamiService service, TsunamiPreferences preferences) {
-        return new MockTsunamiApiClient(service, preferences);
+        return new MockTsunamiApiClient(application, service, preferences);
     }
 
     @Provides
