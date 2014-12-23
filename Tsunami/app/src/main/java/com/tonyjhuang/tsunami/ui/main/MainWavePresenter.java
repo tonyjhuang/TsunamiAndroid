@@ -114,6 +114,8 @@ public class MainWavePresenter implements WavePresenter {
                 .connect();
 
         mainView.showCelebration();
+        mainView.hideKeyboard();
+
         mapView.finishSplashing(new WMVFinishSplashingCallback() {
             @Override
             public void onFinishSplashing() {
@@ -126,6 +128,7 @@ public class MainWavePresenter implements WavePresenter {
     @Override
     public void onSplashSwipedDown() {
         Timber.d("onSplashSwipedDown");
+        mainView.hideKeyboard();
         mapView.cancelSplashing();
         displayNewWave();
     }

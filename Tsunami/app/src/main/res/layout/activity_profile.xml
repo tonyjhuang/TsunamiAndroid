@@ -19,7 +19,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
 
-
+            <View
+                android:layout_alignBottom="@+id/cover"
+                android:background="@drawable/shadow_up"
+                android:layout_width="match_parent"
+                android:layout_height="6dp" />
 
         </RelativeLayout>
     </com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableScrollView>

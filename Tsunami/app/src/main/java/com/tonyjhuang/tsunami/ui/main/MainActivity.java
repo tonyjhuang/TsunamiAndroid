@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -199,6 +200,12 @@ public class MainActivity extends TsunamiActivity implements
     @Override
     public void openProfileView() {
         ProfileActivity.startProfileActivity(this);
+    }
+
+    @Override
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(splashButton.getWindowToken(), 0);
     }
 
     /**

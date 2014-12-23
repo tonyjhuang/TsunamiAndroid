@@ -7,4 +7,6 @@ public interface MainView {
     public void showCelebration();
 
     public void openProfileView();
+
+    public void hideKeyboard();
 }
