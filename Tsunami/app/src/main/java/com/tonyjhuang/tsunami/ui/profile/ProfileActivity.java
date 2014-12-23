@@ -1,6 +1,7 @@
 package com.tonyjhuang.tsunami.ui.profile;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -59,7 +60,10 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
 
         scrollView.setOnScrollListener(this);
 
-        setCoverImageHeight((int) (getScreenDimensions().y / 3.0f));
+        int orientation = getResources().getConfiguration().orientation;
+        float screenModifier = orientation == Configuration.ORIENTATION_PORTRAIT ? 3.0f : 2.0f;
+        setCoverImageHeight((int) (getScreenDimensions().y / screenModifier));
+
         int resourceId = getResources().getIdentifier("cover_" + (coverPhotoIndex + 1), "drawable", getPackageName());
         coverImage.setImageResource(resourceId);
     }

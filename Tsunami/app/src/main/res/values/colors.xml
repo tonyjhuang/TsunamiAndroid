@@ -29,4 +29,5 @@
     <color name="content_view_map_splashing_stroke">@color/material_light_green</color>
 
     <color name="profile_pic_border">#EEEEEE</color>
+    <color name="profile_cover_protection">#4000</color>
 </resources>

@@ -32,5 +32,6 @@
     <dimen name="profile_stats_label_padding_horizontal">16dp</dimen>
     <dimen name="profile_stats_label_padding_vertical">24dp</dimen>
     <dimen name="profile_stats_label_text_size">30dp</dimen>
-    <dimen name="profile_stats_num_text_size">26dp</dimen>
+    <dimen name="profile_stats_title_text_size">22dp</dimen>
+    <dimen name="profile_stats_num_text_size">38dp</dimen>
 </resources>
