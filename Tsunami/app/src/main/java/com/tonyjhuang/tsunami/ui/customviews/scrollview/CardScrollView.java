@@ -347,11 +347,14 @@ public class CardScrollView extends ObservableScrollView {
         ObjectAnimator animator = ObjectAnimator.ofInt(this, "scrollY", scrollY, position);
         animator.setDuration(duration);
         animator.setInterpolator(new AccelerateInterpolator());
-        animate(animator);
+        post(animator::start);
     }
 
-    private void animate(final ObjectAnimator animator) {
-        post(animator::start);
+    /**
+     * @return the highest scroll y value possible for this scrollview
+     */
+    protected int getMaxScrollHeight() {
+        return getTotalHeight() - bottomSpacer.getHeight();
     }
 
     /**
@@ -361,12 +364,6 @@ public class CardScrollView extends ObservableScrollView {
         return bottomSpacer.getHeight() + (getCardView() == null ? 0 : getCardView().getHeight()) + topSpacer.getHeight();
     }
 
-    /**
-     * @return the highest scroll y value possible for this scrollview
-     */
-    protected int getMaxScrollHeight() {
-        return getTotalHeight() - bottomSpacer.getHeight();
-    }
 
     protected int getCardViewStartingPosition() {
         return getHeight() / 3;
