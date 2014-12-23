@@ -147,7 +147,7 @@ public class CardScrollView extends ObservableScrollView {
     }
 
     /**
-     * Animate the CardView if it isn't animating already.
+     * Animate the CardView if it isn't animating already, as in from the bottom to the start position.
      */
     public void animateCardView() {
         cardContainer.scrollTo(0, 1);

@@ -15,10 +15,10 @@ public abstract class OnScrollStopListener implements
         OnScrollListener {
 
     /**
-     * How often we should check if the ScrollView has stopped scrolling. See Runnable checkScrollView.
-     * This Runnable is only started after the user has started scrolling.
+     * How often we should check if the ScrollView has stopped scrolling in millis. See Runnable checkScrollView.
+     * This Runnable is only started after the user has started scrolling. 16millis = 1 frame @ 60fps.
      */
-    private static final int DELAY = 50;
+    private static final int DELAY = 16;
 
     /**
      * The ScrollView we're listening to.
