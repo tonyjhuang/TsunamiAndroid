@@ -44,8 +44,8 @@ public class CardScrollView extends ObservableScrollView {
     private OnMotionEventListener onMotionEventListener;
 
     /**
-     * Not actual padding, but we use this to increase the touch target of the
-     * cards, which determines whether we want to scroll or not.
+     * Not actual padding, but we use this to increase the "touch target" of the card.
+     * See isTouchingCard
      */
     private float cardBottomPadding, cardTopPadding;
 
@@ -272,8 +272,10 @@ public class CardScrollView extends ObservableScrollView {
         int right = left + getCardView().getWidth();
         int bottom = top + getCardView().getHeight();
 
-        float x = ev.getX();
-        float y = ev.getY();
+        Timber.d(String.format("t: %d, b: %d, y: %f", top, bottom, ev.getRawY()));
+
+        float x = ev.getRawX();
+        float y = ev.getRawY();
         return (x > left)
                 && (x < right)
                 && (y > top - cardTopPadding)
