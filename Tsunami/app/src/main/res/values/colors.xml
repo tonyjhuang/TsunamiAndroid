@@ -24,6 +24,7 @@
     <color name="content_view_map_current_location_stroke">@color/primary</color>
     <color name="content_view_map_ripple_fill">#4448D1CC</color>
     <color name="content_view_map_ripple_stroke">#0000CED1</color>
+    <color name="content_view_map_ripple_stroke_splash">#5500BCD4</color>
     <color name="content_view_map_splashing_fill_begin">#008BC34A</color>
     <color name="content_view_map_splashing_fill_end">#778BC34A</color>
     <color name="content_view_map_splashing_stroke">@color/material_light_green</color>

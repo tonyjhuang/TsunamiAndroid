@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by tony on 11/23/14.
  */
-public class ApiObject implements Serializable{
+public abstract class ApiObject implements Serializable{
     @Expose
     private long id;
     @Expose
@@ -26,5 +26,10 @@ public class ApiObject implements Serializable{
 
     public Date getUpdatedAt() {
         return updatedAt;
+    }
+
+    /* For debugging */
+    protected void setId(long id) {
+        this.id = id;
     }
 }

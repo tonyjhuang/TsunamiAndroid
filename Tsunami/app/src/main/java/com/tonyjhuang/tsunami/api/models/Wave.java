@@ -42,7 +42,7 @@ public class Wave{
      */
     @Expose
     @SerializedName("origin_ripple_id")
-    private int splashId;
+    private long splashId;
     @Expose
     private int views;
     @Expose
@@ -59,13 +59,14 @@ public class Wave{
     private Wave(WaveContent content, List<Ripple> ripples) {
         this.content = content;
         this.ripples = ripples;
+        this.splashId = ripples.get(0).getId();
     }
 
     public long getId() {
         return id;
     }
 
-    public int getSplashId() {
+    public long getSplashId() {
         return splashId;
     }
 

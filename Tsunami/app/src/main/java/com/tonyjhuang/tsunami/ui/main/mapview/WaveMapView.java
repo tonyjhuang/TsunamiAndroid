@@ -22,6 +22,11 @@ public interface WaveMapView {
     public void displaySplashing();
 
     /**
+     * Display the user's ripple
+     */
+    public void displayRipple();
+
+    /**
      * The user wants to splash their content.
      */
     public void finishSplashing(WMVFinishSplashingCallback callback);

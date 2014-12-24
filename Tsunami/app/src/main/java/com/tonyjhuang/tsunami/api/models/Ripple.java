@@ -2,6 +2,8 @@ package com.tonyjhuang.tsunami.api.models;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.Random;
+
 /*
 {
     "created_at": "2014-12-20T19:52:38Z",
@@ -76,6 +78,7 @@ public class Ripple extends ApiObject {
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = radius;
+        setId((long) new Random().nextInt(9999));
     }
 
 }

@@ -101,7 +101,7 @@ public class WaveMapViewImpl implements WaveMapView {
             clearRipples();
             this.wave = wave;
 
-            drawRipples(wave.getRipples());
+            drawRipples(wave.getRipples(), wave.getSplashId());
             zoomToFit(waveRipples);
         } else {
             throw new RuntimeException("No MapFragment set for this WaveMapView!");
@@ -216,6 +216,11 @@ public class WaveMapViewImpl implements WaveMapView {
         }
     }
 
+    @Override
+    public void displayRipple() {
+
+    }
+
     /* ========== DRAWING UTILITY FUNCTIONS =========== */
 
     /**
@@ -231,22 +236,27 @@ public class WaveMapViewImpl implements WaveMapView {
     /**
      * Adds/Draws a list of LatLngs as ripples to the map.
      */
-    private void drawRipples(List<Ripple> ripples) {
+    private void drawRipples(List<Ripple> ripples, long splashId) {
+        int fillColor = resources.getColor(R.color.content_view_map_ripple_fill);
+        int strokeColor = resources.getColor(R.color.content_view_map_ripple_stroke);
+        int splashStrokeColor = resources.getColor(R.color.content_view_map_ripple_stroke_splash);
         for (Ripple ripple : ripples) {
             LatLng latLng = new LatLng(ripple.getLatitude(), ripple.getLongitude());
-            waveRipples.add(drawLatLng(latLng));
+            waveRipples.add(drawLatLng(latLng,
+                    fillColor,
+                    ripple.getId() == splashId ? splashStrokeColor : strokeColor));
         }
     }
 
     /**
      * Draws a ripple represented by a LatLng at center
      */
-    private Circle drawLatLng(LatLng center) {
+    private Circle drawLatLng(LatLng center, int fillColor, int strokeColor) {
         return map.addCircle(new CircleOptions()
                 .center(center)
                 .radius(RIPPLE_RADIUS)
-                .fillColor(resources.getColor(R.color.content_view_map_ripple_fill))
-                .strokeColor(resources.getColor(R.color.content_view_map_ripple_stroke)));
+                .fillColor(fillColor)
+                .strokeColor(strokeColor));
     }
 
     /**
