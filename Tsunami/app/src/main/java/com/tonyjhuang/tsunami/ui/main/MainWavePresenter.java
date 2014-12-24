@@ -3,7 +3,6 @@ package com.tonyjhuang.tsunami.ui.main;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
-import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.contentview.SplashCard;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
@@ -12,12 +11,16 @@ import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.utils.RxHelper;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by tony on 12/20/14.
+ * Couple notes on how/when we retrieve a new list of waves from the api:
+ * Whenever
  */
 public class MainWavePresenter implements WavePresenter {
+    // How close do we want to run to the end of the list of stored waves before we ask for more?
+    public static final int BUFFER_SIZE = 5;
 
     private TsunamiApi api;
     private LocationInfo locationInfo;
@@ -35,8 +38,9 @@ public class MainWavePresenter implements WavePresenter {
      */
 
     private List<Wave> wavesToShow = new ArrayList<>();
+
     /**
-     * Index into wavesToShow. How close are we to the end of the list?
+     * Index into wavesToShow.
      */
     private int index = 0;
 
@@ -66,8 +70,13 @@ public class MainWavePresenter implements WavePresenter {
         this.mainView = mainView;
     }
 
+    /**
+     * By 'new', we mean appropriate, and by that we mean whatever wave 'index' is pointed to.
+     * We let other methods handle the index, we just pass the current wave to our views. Here,
+     * we also make sure that our
+     */
     private void displayNewWave() {
-        if (index > wavesToShow.size() - 5 && !loading) {
+        if (index > wavesToShow.size() - BUFFER_SIZE && !loading) {
             loading = true;
             fetchNewWaves(locationInfo, false);
         }
@@ -165,14 +174,47 @@ public class MainWavePresenter implements WavePresenter {
             return;
 
         locationInfo = newLocationInfo;
-        Timber.d("locationInfo: lat " + newLocationInfo.lastLat + ", lon " + newLocationInfo.lastLong);
         mapView.setCurrentLocation(locationInfo);
 
-        fetchNewWaves(locationInfo, true);
+        invalidateWaves(newLocationInfo);
+        if (index + BUFFER_SIZE >= wavesToShow.size())
+            fetchNewWaves(locationInfo, false);
+    }
+
+    /**
+     * Given a new LocationInfo representing the user's new location, prune waves out of
+     * our current list of wavesToShow that no longer apply to their new location.
+     * <p>
+     * TODO: use accuracy.
+     */
+    private void invalidateWaves(LocationInfo newLocationInfo) {
+        double lat = newLocationInfo.lastLat;
+        double lon = newLocationInfo.lastLong;
+
+        Wave currentWave = getWaveToShow();
+        Iterator<Wave> iterator = wavesToShow.iterator();
+
+        while (iterator.hasNext()) {
+            Wave next = iterator.next();
+            if (next.equals(currentWave)) // Don't delete the current wave
+                continue;
+
+            if (!next.isValidFor(lat, lon))
+                iterator.remove();
+        }
+
+        index = 0; // Reset index and set it to the correct new value.
+        for (Wave wave : wavesToShow) {
+            if (wave.equals(currentWave))
+                return;
+            else
+                index++;
+        }
     }
 
     /**
      * Retrieve a new list of waves from the backend.
+     * @param refresh: start from scratch? will delete all current waves and reset index to 0
      */
     private void fetchNewWaves(LocationInfo locationInfo, boolean refresh) {
         RxHelper.bindAsync(api.getWaves(locationInfo.lastLat, locationInfo.lastLong),

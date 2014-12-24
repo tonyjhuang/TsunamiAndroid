@@ -54,6 +54,20 @@ public class Ripple extends ApiObject {
         return status;
     }
 
+    public boolean isValidFor(double lat, double lon) {
+        return squared(lat - latitude) + squared(lon - longitude) <= squared(radius);
+    }
+
+    private double squared(double n) {
+        return n * n;
+    }
+
+    public static enum RippleStatus {
+        ACTIVE, INACTIVE
+    }
+
+    /* DEBUG */
+
     public static Ripple createDebugRipple(double latitude, double longitude) {
         return new Ripple(latitude, longitude, 0.025);
     }
@@ -64,7 +78,4 @@ public class Ripple extends ApiObject {
         this.radius = radius;
     }
 
-    public static enum RippleStatus {
-        ACTIVE, INACTIVE
-    }
 }

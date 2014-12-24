@@ -15,6 +15,8 @@ import dagger.ObjectGraph;
  * Created by tonyhuang on 7/29/14.
  */
 public class TsunamiApplication extends Application implements Injector {
+    private static final int TWO_HOURS = 2 * 60 * 60 * 1000;
+    private static final int ONE_MINUTE = 60 * 1000;
 
     private ObjectGraph applicationGraph;
 
@@ -28,7 +30,10 @@ public class TsunamiApplication extends Application implements Injector {
         Timber.plant(new Timber.DebugTree());
 
         try {
-            LocationLibrary.initialiseLibrary(getBaseContext(), 60 * 1000, 2 * 60 * 1000, "com.tonyjhuang.tsunami");
+            LocationLibrary.initialiseLibrary(getBaseContext(),
+                    ONE_MINUTE, // check location frequency
+                    TWO_HOURS,  // oldest valid location.
+                    "com.tonyjhuang.tsunami");
         } catch (UnsupportedOperationException e) {
             Timber.e("No location providers", e);
             Toast.makeText(this, "Sorry, but you need a device that has gps to use this app!", Toast.LENGTH_LONG).show();

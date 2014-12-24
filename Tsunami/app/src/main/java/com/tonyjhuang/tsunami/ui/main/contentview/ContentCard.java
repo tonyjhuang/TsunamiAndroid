@@ -50,8 +50,10 @@ public class ContentCard extends FrameLayout {
 
     public void setWave(Wave wave) {
         this.wave = wave;
-        title.setText(wave.getContent().getTitle());
-        text.setText(wave.getContent().getBody());
+        if (wave != null) {
+            title.setText(wave.getContent().getTitle());
+            text.setText(wave.getContent().getBody());
+        }
     }
 
     public Wave getWave() {

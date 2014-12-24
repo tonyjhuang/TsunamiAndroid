@@ -84,4 +84,15 @@ public class Wave{
     public User getUser() {
         return user;
     }
+
+    /**
+     * Do the passed in coordinates correspond with at least one ripple within this wave?
+     */
+    public boolean isValidFor(double lat, double lon) {
+        for(Ripple ripple : ripples) {
+            if(ripple.isValidFor(lat, lon))
+                return true;
+        }
+        return false;
+    }
 }
