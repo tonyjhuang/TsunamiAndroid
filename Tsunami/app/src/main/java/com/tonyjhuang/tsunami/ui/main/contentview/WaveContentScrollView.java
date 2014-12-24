@@ -32,8 +32,12 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
      */
     private WavePresenter presenter;
 
+    /**
+     * State listeners.
+     */
     private OnScrollListener onScrollListener;
     private OnViewTypeChangedListener onViewTypeChangedListener;
+
 
     public WaveContentScrollView(Context context) {
         this(context, null);
