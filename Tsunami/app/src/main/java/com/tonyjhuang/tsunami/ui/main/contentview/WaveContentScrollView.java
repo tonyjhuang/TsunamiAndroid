@@ -91,6 +91,11 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     }
 
     @Override
+    public void clearContentWave() {
+        contentCard.setWave(null);
+    }
+
+    @Override
     public void showSplashCard() {
         cardContainer.setVisibility(VISIBLE);
         if (isShowingSplashCard())
@@ -124,7 +129,6 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         }
     }
 
-
     @Override
     public void scrollUpOffscreen() {
         super.scrollUpOffscreen();
@@ -153,7 +157,6 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         if (t == 0) {
             post(() -> cardContainer.setVisibility(INVISIBLE));
             if (!isShowingSplashCard()) {
-                contentCard.setWave(null);
                 presenter.onContentSwipedDown();
             } else {
                 presenter.onSplashSwipedDown();
@@ -161,7 +164,6 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         } else if (t >= getMaxScrollHeight()) {
             post(() -> cardContainer.setVisibility(INVISIBLE));
             if (!isShowingSplashCard()) {
-                contentCard.setWave(null);
                 presenter.onContentSwipedUp();
             } else {
                 presenter.onSplashSwipedUp();

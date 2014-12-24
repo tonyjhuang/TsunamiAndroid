@@ -103,7 +103,7 @@ public class MainWavePresenter implements WavePresenter {
         api.ripple(contentView.getContentWave().getId(), locationInfo.lastLat, locationInfo.lastLong)
                 .publish()
                 .connect();
-
+        contentView.clearContentWave();
         index++;
         displayNewWave();
     }
@@ -111,6 +111,7 @@ public class MainWavePresenter implements WavePresenter {
     @Override
     public void onContentSwipedDown() {
         Timber.d("onContentSwipedDown");
+        contentView.clearContentWave();
         index++;
         displayNewWave();
     }

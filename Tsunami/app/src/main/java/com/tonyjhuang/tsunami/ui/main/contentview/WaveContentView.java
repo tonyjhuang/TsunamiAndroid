@@ -37,6 +37,11 @@ public interface WaveContentView {
     public Wave getContentWave();
 
     /**
+     * Null out the current Wave.
+     */
+    public void clearContentWave();
+
+    /**
      * Retrieve all user input from the splash card.
      */
     public SplashCard.SplashContent retrieveSplashContent();
