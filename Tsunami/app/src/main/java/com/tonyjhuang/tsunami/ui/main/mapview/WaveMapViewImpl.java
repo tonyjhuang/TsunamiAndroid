@@ -172,9 +172,8 @@ public class WaveMapViewImpl implements WaveMapView {
     }
 
     @Override
-    public void finishSplashing(final WMVFinishSplashingCallback callback) {
+    public void finishSplashing(final FinishedSplashingCallback callback) {
         if (splashingIndicatorRadiusAnimator != null) {
-            Timber.d("booyah");
             splashingIndicatorRadiusAnimator.cancel();
         }
         final Integer colorFrom = resources.getColor(R.color.content_view_map_splashing_fill_begin);
@@ -217,7 +216,9 @@ public class WaveMapViewImpl implements WaveMapView {
     }
 
     @Override
-    public void displayRipple() {
+    public void displayRipple(FinishedRipplingCallback callback) {
+        if(callback != null)
+            callback.onFinishRippling();
 
     }
 

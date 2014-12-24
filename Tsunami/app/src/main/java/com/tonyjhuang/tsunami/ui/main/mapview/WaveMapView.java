@@ -24,12 +24,20 @@ public interface WaveMapView {
     /**
      * Display the user's ripple
      */
-    public void displayRipple();
+    public void displayRipple(FinishedRipplingCallback callback);
+
+    public static interface FinishedRipplingCallback {
+        public void onFinishRippling();
+    }
 
     /**
      * The user wants to splash their content.
      */
-    public void finishSplashing(WMVFinishSplashingCallback callback);
+    public void finishSplashing(FinishedSplashingCallback callback);
+
+    public static interface FinishedSplashingCallback {
+        public void onFinishSplashing();
+    }
 
     /**
      * The user has cancelled the splash.

@@ -6,7 +6,6 @@ import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.contentview.SplashCard;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
-import com.tonyjhuang.tsunami.ui.main.mapview.WMVFinishSplashingCallback;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.utils.RxHelper;
 
@@ -103,9 +102,12 @@ public class MainWavePresenter implements WavePresenter {
         api.ripple(contentView.getContentWave().getId(), locationInfo.lastLat, locationInfo.lastLong)
                 .publish()
                 .connect();
+
         contentView.clearContentWave();
         index++;
-        displayNewWave();
+
+        mapView.displayRipple(this::displayNewWave);
+
     }
 
     @Override
@@ -127,13 +129,7 @@ public class MainWavePresenter implements WavePresenter {
         mainView.showCelebration();
         mainView.hideKeyboard();
 
-        mapView.finishSplashing(new WMVFinishSplashingCallback() {
-            @Override
-            public void onFinishSplashing() {
-                Timber.d("in callback..");
-                displayNewWave();
-            }
-        });
+        mapView.finishSplashing(this::displayNewWave);
     }
 
     @Override
@@ -216,6 +212,7 @@ public class MainWavePresenter implements WavePresenter {
 
     /**
      * Retrieve a new list of waves from the backend.
+     *
      * @param refresh: start from scratch? will delete all current waves and reset index to 0
      */
     private void fetchNewWaves(LocationInfo locationInfo, boolean refresh) {

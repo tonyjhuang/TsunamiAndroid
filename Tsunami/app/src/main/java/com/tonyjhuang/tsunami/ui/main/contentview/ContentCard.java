@@ -59,6 +59,8 @@ public class ContentCard extends FrameLayout {
             body.setText(wave.getContent().getBody());
             if(wave.getUser() != null) {
                 //TODO: set author field
+            } else {
+                author.setText("Anonymous");
             }
             //TODO: set date field.
         }
