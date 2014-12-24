@@ -158,9 +158,9 @@ public class MainActivity extends TsunamiActivity implements
     boolean onSplashButtonLongClick() {
         String msg;
         if (contentView.isShowingSplashCard()) {
-            msg = "Splash";
+            msg = getString(R.string.main_splash_send_description);
         } else {
-            msg = "New splash";
+            msg = getString(R.string.main_splash_begin_description);
         }
 
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
@@ -180,9 +180,9 @@ public class MainActivity extends TsunamiActivity implements
     boolean onProfileButtonLongClick() {
         String msg;
         if (contentView.isShowingSplashCard()) {
-            msg = "Cancel";
+            msg = getString(R.string.main_splash_cancel_description);
         } else {
-            msg = "Profile";
+            msg = getString(R.string.main_profile_description);
         }
 
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
