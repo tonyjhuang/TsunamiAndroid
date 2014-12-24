@@ -1,5 +1,6 @@
 package com.tonyjhuang.tsunami;
 
+import android.app.AlarmManager;
 import android.app.Application;
 import android.util.Log;
 import android.widget.Toast;
@@ -32,7 +33,8 @@ public class TsunamiApplication extends Application implements Injector {
         try {
             LocationLibrary.initialiseLibrary(getBaseContext(),
                     ONE_MINUTE, // check location frequency
-                    TWO_HOURS,  // oldest valid location.
+                    100000000,
+                    true,
                     "com.tonyjhuang.tsunami");
         } catch (UnsupportedOperationException e) {
             Timber.e("No location providers", e);

@@ -30,7 +30,7 @@ public interface TsunamiService {
     /**
      * Ripple a wave.
      */
-    @POST("/ocean/ripple")
+    @POST("/ripple")
     Observable<Ripple> ripple(@Body CreateRippleRequest body);
 
     /**

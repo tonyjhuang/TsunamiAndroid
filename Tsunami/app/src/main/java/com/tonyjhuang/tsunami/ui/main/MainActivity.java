@@ -110,8 +110,10 @@ public class MainActivity extends TsunamiActivity implements
     public void onResume() {
         super.onResume();
         Timber.d("registering broadcast receiver");
-        registerReceiver(mainLocationBroadcastReceiver,
-                new IntentFilter(LocationLibraryConstants.getLocationChangedPeriodicBroadcastAction()));
+        IntentFilter locationIntentFilter = new IntentFilter();
+        locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedPeriodicBroadcastAction());
+        locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedTickerBroadcastAction());
+        registerReceiver(mainLocationBroadcastReceiver, locationIntentFilter);
     }
 
     @Override
