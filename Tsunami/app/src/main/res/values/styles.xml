@@ -33,16 +33,22 @@
 
     <style name="TextView.Tsunami" parent="android:Widget.TextView">
         <item name="android:textColor">@color/text_primary</item>
-        <item name="android:padding">@dimen/default_text_padding</item>
     </style>
 
     <style name="ScrollView.Tsunami" parent="android:Widget.ScrollView">
         <item name="android:overScrollMode">never</item>
     </style>
 
-    <style name="ContentTitle">
+    <style name="WaveContentTitle">
         <item name="typeface">Roboto-Light</item>
         <item name="android:textSize">@dimen/content_title_textsize</item>
+    </style>
+
+    <style name="CardContainer">
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
     </style>
 
     <style name="CardDivider">
@@ -53,6 +59,12 @@
         <item name="android:layout_marginLeft">@dimen/content_divider_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/content_divider_margin_horizontal</item>
         <item name="android:background">@color/content_view_card_divider</item>
+    </style>
+
+    <style name="ProfilePic">
+        <item name="border_color">@color/profile_pic_border</item>
+        <item name="border_width">@dimen/profile_pic_border_dimen</item>
+        <item name="shadow">true</item>
     </style>
 
     <style name="ProfileLabelText">

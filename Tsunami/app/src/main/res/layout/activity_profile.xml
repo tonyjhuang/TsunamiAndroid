@@ -40,9 +40,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="-24dp"
                 android:src="@drawable/kevin"
-                app:border_color="@color/profile_pic_border"
-                app:border_width="@dimen/profile_pic_border_dimen"
-                app:shadow="true" />
+                style="@style/ProfilePic"/>
 
             <!-- !!!!!!!!!!STATS!!!!!!!!!! -->
 

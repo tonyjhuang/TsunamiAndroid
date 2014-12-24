@@ -19,8 +19,12 @@ public class ContentCard extends FrameLayout {
 
     @InjectView(R.id.title)
     TextView title;
-    @InjectView(R.id.text)
-    TextView text;
+    @InjectView(R.id.body)
+    TextView body;
+    @InjectView(R.id.author)
+    TextView author;
+    @InjectView(R.id.date)
+    TextView date;
 
     /**
      * The wave that we should be displaying currently.
@@ -52,7 +56,11 @@ public class ContentCard extends FrameLayout {
         this.wave = wave;
         if (wave != null) {
             title.setText(wave.getContent().getTitle());
-            text.setText(wave.getContent().getBody());
+            body.setText(wave.getContent().getBody());
+            if(wave.getUser() != null) {
+                //TODO: set author field
+            }
+            //TODO: set date field.
         }
     }
 

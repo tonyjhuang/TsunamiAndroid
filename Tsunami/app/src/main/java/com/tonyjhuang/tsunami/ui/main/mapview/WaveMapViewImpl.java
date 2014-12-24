@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.res.Resources;
+import android.os.Handler;
 import android.view.animation.OvershootInterpolator;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -22,6 +23,7 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
@@ -33,7 +35,9 @@ import java.util.List;
  */
 public class WaveMapViewImpl implements WaveMapView {
     private static final int RIPPLE_RADIUS = 3000;
-    private static final int FINISH_SPLASH_ANIMATION_DURATION = 3000;
+    private static final int FINISH_SPLASH_ANIMATION_DURATION = 1000;
+    // How long to wait after the animation has finished to notify the callback.
+    private static final int FINISH_SPLASH_ANIMATION_POST_DELAY = 1500;
 
     private Resources resources;
 
@@ -139,18 +143,7 @@ public class WaveMapViewImpl implements WaveMapView {
             int strokeColor = resources.getColor(R.color.content_view_map_splashing_stroke);
             zoomTo(currentLocation, 12);
             if (splashingIndicator == null) {
-                splashingIndicator = map.addCircle(new CircleOptions()
-                        .center(currentLocation)
-                        .radius(RIPPLE_RADIUS)
-                        .strokeColor(strokeColor));
-
-                splashingIndicatorRadiusAnimator = ValueAnimator.ofInt(RIPPLE_RADIUS + 100, RIPPLE_RADIUS)
-                        .setDuration(1000);
-                splashingIndicatorRadiusAnimator.setRepeatMode(ValueAnimator.REVERSE);
-                splashingIndicatorRadiusAnimator.setRepeatCount(ValueAnimator.INFINITE);
-                splashingIndicatorRadiusAnimator.addUpdateListener((ValueAnimator animator) -> {
-                    splashingIndicator.setRadius((Integer) animator.getAnimatedValue());
-                });
+                addSplashingIndicator(strokeColor);
             } else {
                 splashingIndicator.setCenter(currentLocation);
             }
@@ -160,24 +153,53 @@ public class WaveMapViewImpl implements WaveMapView {
         }
     }
 
+    /**
+     * Adds a pulsating circle outline to the map to represent the current user's splash radius
+     */
+    private void addSplashingIndicator(int strokeColor) {
+        splashingIndicator = map.addCircle(new CircleOptions()
+                .center(currentLocation)
+                .radius(RIPPLE_RADIUS)
+                .strokeColor(strokeColor));
+
+        splashingIndicatorRadiusAnimator = ValueAnimator.ofInt(RIPPLE_RADIUS + 100, RIPPLE_RADIUS)
+                .setDuration(1000);
+        splashingIndicatorRadiusAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        splashingIndicatorRadiusAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        splashingIndicatorRadiusAnimator.addUpdateListener((ValueAnimator animator) -> {
+            splashingIndicator.setRadius((Integer) animator.getAnimatedValue());
+        });
+    }
+
     @Override
     public void finishSplashing(final WMVFinishSplashingCallback callback) {
         if (splashingIndicatorRadiusAnimator != null) {
+            Timber.d("booyah");
             splashingIndicatorRadiusAnimator.cancel();
         }
         final Integer colorFrom = resources.getColor(R.color.content_view_map_splashing_fill_begin);
         final Integer colorTo = resources.getColor(R.color.content_view_map_splashing_fill_end);
         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-        colorAnimation.setInterpolator(new OvershootInterpolator());
-        colorAnimation.addUpdateListener((ValueAnimator animator) ->
-                        splashingIndicator.setFillColor((Integer) animator.getAnimatedValue())
+        colorAnimation.setInterpolator(new OvershootInterpolator(3.0f));
+
+        colorAnimation.addUpdateListener(
+                (ValueAnimator animator) -> {
+                    if (splashingIndicator != null)
+                        splashingIndicator.setFillColor((Integer) animator.getAnimatedValue());
+                }
         );
+
         colorAnimation.addListener(new SimpleAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animator) {
-                splashingIndicator.setVisible(false);
-                splashingIndicator.setFillColor(colorFrom);
-                callback.onFinishSplashing();
+                new Handler().postDelayed(() -> {
+                    if (splashingIndicator != null) {
+                        splashingIndicator.setVisible(false);
+                        splashingIndicator.setFillColor(colorFrom);
+                    }
+                    if (callback != null)
+                        callback.onFinishSplashing();
+                }, FINISH_SPLASH_ANIMATION_POST_DELAY);
             }
         });
         colorAnimation.setDuration(FINISH_SPLASH_ANIMATION_DURATION);
@@ -189,7 +211,7 @@ public class WaveMapViewImpl implements WaveMapView {
         if (splashingIndicatorRadiusAnimator != null) {
             splashingIndicatorRadiusAnimator.cancel();
         }
-        if(splashingIndicator != null) {
+        if (splashingIndicator != null) {
             splashingIndicator.setVisible(false);
         }
     }

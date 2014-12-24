@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CardContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
     android:orientation="vertical">
 
     <!-- For some reason, we need this view to expand the view across the whole screen-->
@@ -11,10 +11,10 @@
 
     <EditText xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/title"
-        style="@style/ContentTitle"
+        style="@style/WaveContentTitle"
         android:layout_width="match_parent"
-        android:layout_marginBottom="8dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:hint="@string/splash_title_hint"
         android:imeOptions="actionNext"
         android:nextFocusDown="@+id/body"
