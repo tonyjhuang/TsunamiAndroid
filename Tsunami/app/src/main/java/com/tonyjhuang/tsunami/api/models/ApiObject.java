@@ -32,4 +32,12 @@ public abstract class ApiObject implements Serializable{
     protected void setId(long id) {
         this.id = id;
     }
+
+    protected void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    protected void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

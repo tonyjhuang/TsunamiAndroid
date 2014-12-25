@@ -3,8 +3,9 @@ package com.tonyjhuang.tsunami.api.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.RowId;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /*
 {
@@ -33,10 +34,8 @@ import java.util.List;
     "user": null
 }
  */
-public class Wave{
+public class Wave extends ApiObject {
 
-    @Expose
-    private long id;
     /**
      * Id of the Splash for this Wave (the original Ripple).
      */
@@ -51,20 +50,6 @@ public class Wave{
     private List<Ripple> ripples;
     @Expose
     private User user;
-
-    public static Wave createDebugWave(String title, String body, List<Ripple> ripples) {
-        return new Wave(WaveContent.createDebugWaveContent(title, body), ripples);
-    }
-
-    private Wave(WaveContent content, List<Ripple> ripples) {
-        this.content = content;
-        this.ripples = ripples;
-        this.splashId = ripples.get(0).getId();
-    }
-
-    public long getId() {
-        return id;
-    }
 
     public long getSplashId() {
         return splashId;
@@ -90,10 +75,29 @@ public class Wave{
      * Do the passed in coordinates correspond with at least one ripple within this wave?
      */
     public boolean isValidFor(double lat, double lon) {
-        for(Ripple ripple : ripples) {
-            if(ripple.isValidFor(lat, lon))
+        for (Ripple ripple : ripples) {
+            if (ripple.isValidFor(lat, lon))
                 return true;
         }
         return false;
+    }
+
+    /* Debugging */
+
+    public static Wave createDebugWave(String title, String body, List<Ripple> ripples) {
+        return new Wave(WaveContent.createDebugWaveContent(title, body), ripples);
+    }
+
+    private Wave(WaveContent content, List<Ripple> ripples) {
+        this.content = content;
+        this.ripples = ripples;
+        this.splashId = ripples.get(0).getId();
+
+        long earliestDate = 1400000000000l;
+        long now = System.currentTimeMillis();
+        long mod = now - earliestDate;
+        Date rand = new Date((new Random().nextLong() % mod) + earliestDate);
+        setCreatedAt(rand);
+        setUpdatedAt(rand);
     }
 }

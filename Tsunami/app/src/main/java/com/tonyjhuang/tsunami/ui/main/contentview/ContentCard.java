@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -16,15 +18,14 @@ import butterknife.InjectView;
  * Created by tonyjhuang on 9/7/14.
  */
 public class ContentCard extends FrameLayout {
+    PrettyTime prettyTime = new PrettyTime();
 
     @InjectView(R.id.title)
     TextView title;
     @InjectView(R.id.body)
     TextView body;
-    @InjectView(R.id.author)
-    TextView author;
-    @InjectView(R.id.date)
-    TextView date;
+    @InjectView(R.id.info)
+    TextView info;
 
     /**
      * The wave that we should be displaying currently.
@@ -57,12 +58,12 @@ public class ContentCard extends FrameLayout {
         if (wave != null) {
             title.setText(wave.getContent().getTitle());
             body.setText(wave.getContent().getBody());
-            if(wave.getUser() != null) {
-                //TODO: set author field
-            } else {
-                author.setText("Anonymous");
-            }
-            //TODO: set date field.
+
+            String infoText = "";
+            infoText += (wave.getUser() == null ? "Anonymous" : "");
+            infoText += " " + getResources().getString(R.string.content_info_text_divider) + " ";
+            infoText += prettyTime.format(wave.getCreatedAt());
+            this.info.setText(infoText);
         }
     }
 

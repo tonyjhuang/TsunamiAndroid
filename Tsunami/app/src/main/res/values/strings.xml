@@ -12,6 +12,8 @@
     <string name="main_splash_cancel_description">Cancel splash</string>
     <string name="main_profile_description">Profile</string>
 
+    <string name="content_info_text_divider">•</string>
+
     <string name="splash_title_hint">Title</string>
     <string name="splash_text_hint">Splash something with the world..</string>
 

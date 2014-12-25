@@ -97,5 +97,8 @@ dependencies {
     compile project(':facebook')
     // JSON parsing
     compile 'com.google.code.gson:gson:2.3'
+    // Location
     compile files('libs/littlefluffylocationlibrary_r17.jar')
+    // DateTime formatting
+    compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
 }
