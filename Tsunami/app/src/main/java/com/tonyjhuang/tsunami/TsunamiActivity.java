@@ -21,6 +21,8 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.observables.AndroidObservable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -156,8 +158,24 @@ public abstract class TsunamiActivity extends ActionBarActivity implements
 
     protected <T> void subscribe(Observable<T> observable, Observer<T> observer) {
         Subscription subscription = AndroidObservable.bindActivity(this, observable)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .subscribe(observer);
+
+        compositeSubscription.add(subscription);
+    }
+
+    protected <T> void subscribe(Observable<T> observable, Action1<T> onNext) {
+        Subscription subscription = AndroidObservable.bindActivity(this, observable)
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(onNext);
+
+        compositeSubscription.add(subscription);
+    }
+
+    protected <T> void subscribe(Observable<T> observable, Action1<T> onNext, Action1<Throwable> onError) {
+        Subscription subscription = AndroidObservable.bindActivity(this, observable)
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(onNext, onError);
 
         compositeSubscription.add(subscription);
     }

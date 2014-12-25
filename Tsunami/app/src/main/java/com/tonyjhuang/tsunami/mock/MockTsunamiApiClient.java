@@ -6,6 +6,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.User;
+import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
@@ -14,6 +15,7 @@ import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -48,6 +50,29 @@ public class MockTsunamiApiClient implements TsunamiApi {
     @Override
     public Observable<User> createUser() {
         return Observable.just(new User());
+    }
+
+    @Override
+    public Observable<UserStats> getCurrentUserStats() {
+        return getUserStats(null);
+    }
+
+    private UserStats lastUserStats;
+
+    @Override
+    public Observable<UserStats> getUserStats(String userId) {
+        Observable<UserStats> apiCall = Observable.just(UserStats.createDebugUserStats()).delay(2, TimeUnit.SECONDS)
+                .map((userStats) -> {
+                    lastUserStats = userStats;
+                    return userStats;
+                });
+        Observable<UserStats> cacheFetch;
+        if (lastUserStats == null) {
+            cacheFetch = Observable.empty();
+        } else {
+            cacheFetch = Observable.just(lastUserStats);
+        }
+        return Observable.concat(cacheFetch, apiCall);
     }
 
     @Override

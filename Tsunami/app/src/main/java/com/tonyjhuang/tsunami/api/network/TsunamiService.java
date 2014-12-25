@@ -2,6 +2,7 @@ package com.tonyjhuang.tsunami.api.network;
 
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.User;
+import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateRippleRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateUserRequest;
@@ -26,6 +27,9 @@ public interface TsunamiService {
      */
     @POST("/users")
     Observable<User> createUser(@Body CreateUserRequest body);
+
+    @GET("/api/users/stats")
+    Observable<UserStats> getUserStats(@Query("guid") String guid);
 
     /**
      * Ripple a wave.

@@ -43,6 +43,7 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -54,13 +55,19 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 
+    packagingOptions {
+        exclude 'AndroidManifest.xml'
+    }
+
+    dexOptions {
+        preDexLibraries = false
+        incremental true
+        javaMaxHeapSize "4g"
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    packagingOptions {
-        exclude 'AndroidManifest.xml'
     }
 }
 
@@ -92,7 +99,8 @@ dependencies {
     compile 'com.android.support:support-annotations:21.0.0'
     compile 'com.android.support:support-v13:21.0.0'
     compile 'com.android.support:support-v4:21.0.0'
-    compile "com.android.support:appcompat-v7:21.0.+"
+    // MultiDex
+    compile 'com.android.support:multidex:1.0.0'
     // Facebook
     compile project(':facebook')
     // JSON parsing

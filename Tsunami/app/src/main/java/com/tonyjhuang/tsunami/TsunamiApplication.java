@@ -2,6 +2,7 @@ package com.tonyjhuang.tsunami;
 
 import android.app.AlarmManager;
 import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,7 +16,7 @@ import dagger.ObjectGraph;
 /**
  * Created by tonyhuang on 7/29/14.
  */
-public class TsunamiApplication extends Application implements Injector {
+public class TsunamiApplication extends MultiDexApplication implements Injector {
     private static final int TWO_HOURS = 2 * 60 * 60 * 1000;
     private static final int ONE_MINUTE = 60 * 1000;
 

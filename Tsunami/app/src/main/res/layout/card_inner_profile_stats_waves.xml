@@ -17,6 +17,7 @@
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
             style="@style/ProfileStatNum"
+            android:id="@+id/num_waves"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="6" />
@@ -33,6 +34,7 @@
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
             style="@style/ProfileStatNum"
+            android:id="@+id/num_waves_views"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2119" />
@@ -50,6 +52,7 @@
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
             style="@style/ProfileStatNum"
+            android:id="@+id/num_waves_ripples"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="91" />

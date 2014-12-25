@@ -1,9 +1,11 @@
 package com.tonyjhuang.tsunami.api.network;
 
 import android.app.Application;
+import android.util.LruCache;
 
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.User;
+import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateRippleRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateUserRequest;
@@ -41,6 +43,19 @@ public class TsunamiApiClient implements TsunamiApi {
         return service.createUser(request);
     }
 
+    @Override
+    public Observable<UserStats> getCurrentUserStats() {
+        return getUserStats(this.userId);
+    }
+
+    private LruCache<String, UserStats> getUserStatsCache = new LruCache<>(64);
+    @Override
+    public Observable<UserStats> getUserStats(String userId) {
+        return Observable.concat(
+                getCacheObservable(getUserStatsCache.get(userId)),
+                service.getUserStats(userId).map((userStat -> getUserStatsCache.put(userId, userStat))));
+    }
+
     public Observable<Ripple> ripple(long waveId, double latitude, double longitude) {
         CreateRippleRequest request = new CreateRippleRequest(userId, waveId, latitude, longitude);
         return service.ripple(request);
@@ -53,5 +68,12 @@ public class TsunamiApiClient implements TsunamiApi {
     public Observable<Wave> splash(String title, String body, double latitude, double longitude) {
         SplashRequest request = new SplashRequest(userId, title, body, latitude, longitude);
         return service.splash(request);
+    }
+
+    private <T> Observable<T> getCacheObservable(T cachedResult) {
+        if (cachedResult == null)
+            return Observable.empty();
+        else
+            return Observable.just(cachedResult);
     }
 }

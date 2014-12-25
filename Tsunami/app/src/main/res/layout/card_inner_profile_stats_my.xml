@@ -33,6 +33,7 @@
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
             style="@style/ProfileStatNum"
+            android:id="@+id/num_ripples"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="30" />

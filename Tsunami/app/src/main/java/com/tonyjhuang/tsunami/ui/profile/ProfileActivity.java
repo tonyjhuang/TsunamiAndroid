@@ -10,9 +10,11 @@ import android.view.Display;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
+import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.injection.ProfileModule;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableScrollView;
@@ -22,6 +24,8 @@ import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import javax.inject.Inject;
 
 import butterknife.InjectView;
 
@@ -36,6 +40,19 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
     ObservableScrollView scrollView;
     @InjectView(R.id.cover)
     ImageView coverImage;
+
+    @InjectView(R.id.num_waves)
+    TextView numWaves;
+    @InjectView(R.id.num_waves_views)
+    TextView numWavesViews;
+    @InjectView(R.id.num_waves_ripples)
+    TextView numWavesRipples;
+
+    @InjectView(R.id.num_ripples)
+    TextView numRipples;
+
+    @Inject
+    TsunamiApi api;
 
     private static int coverPhotoIndex;
     static {
@@ -66,6 +83,13 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
 
         int resourceId = getResources().getIdentifier("cover_" + (coverPhotoIndex + 1), "drawable", getPackageName());
         coverImage.setImageResource(resourceId);
+
+        subscribe(api.getCurrentUserStats(), (userStats) -> {
+            numWaves.setText(userStats.getSplashes() + "");
+            numWavesViews.setText(userStats.getViewsAcrossWaves() + "");
+            numWavesRipples.setText(userStats.getRipplesAcrossWaves() + "");
+            numRipples.setText(userStats.getRipples() + "");
+        });
     }
 
     @Override
