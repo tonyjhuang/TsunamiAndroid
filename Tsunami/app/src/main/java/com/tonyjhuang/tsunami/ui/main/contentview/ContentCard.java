@@ -18,7 +18,7 @@ import butterknife.InjectView;
  * Created by tonyjhuang on 9/7/14.
  */
 public class ContentCard extends FrameLayout {
-    PrettyTime prettyTime = new PrettyTime();
+    private static PrettyTime prettyTime = new PrettyTime();
 
     @InjectView(R.id.title)
     TextView title;
@@ -62,7 +62,7 @@ public class ContentCard extends FrameLayout {
             String infoText = "";
             infoText += (wave.getUser() == null ? "Anonymous" : "");
             infoText += " " + getResources().getString(R.string.content_info_text_divider) + " ";
-            infoText += prettyTime.format(wave.getCreatedAt());
+            infoText += ContentCard.prettyTime.format(wave.getCreatedAt());
             this.info.setText(infoText);
         }
     }
