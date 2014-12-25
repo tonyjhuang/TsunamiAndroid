@@ -20,14 +20,18 @@
     <color name="material_lime">#CDDC39</color>
     
     <color name="content_view_card_divider">@color/divider</color>
-    <color name="content_view_map_current_location_fill">@color/primary_light</color>
-    <color name="content_view_map_current_location_stroke">@color/primary</color>
-    <color name="content_view_map_ripple_fill">#4448D1CC</color>
-    <color name="content_view_map_ripple_stroke">#0000CED1</color>
-    <color name="content_view_map_ripple_stroke_splash">#3300BCD4</color>
-    <color name="content_view_map_splashing_fill_begin">#008BC34A</color>
-    <color name="content_view_map_splashing_fill_end">#778BC34A</color>
-    <color name="content_view_map_splashing_stroke">@color/material_light_green</color>
+
+    <color name="map_view_current_location_fill">@color/primary_light</color>
+    <color name="map_view_current_location_stroke">@color/primary</color>
+    <color name="map_view_ripple_fill">#4448D1CC</color>
+    <color name="map_view_ripple_stroke">#0000CED1</color>
+    <color name="map_view_ripple_stroke_splash">#3300BCD4</color>
+    <color name="map_view_splashing_fill_begin">#008BC34A</color>
+    <color name="map_view_splashing_fill_end">#778BC34A</color>
+    <color name="map_view_splashing_stroke">@color/material_light_green</color>
+    <color name="map_view_ripple_new_fill_begin">#0FFF</color>
+    <color name="map_view_ripple_new_fill_end">#443F51B5</color>
+    <color name="map_view_ripple_new_stroke">#55FFFFFF</color>
 
     <color name="profile_pic_border">#EEEEEE</color>
     <color name="profile_cover_protection">#4000</color>

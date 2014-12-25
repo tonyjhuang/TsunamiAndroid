@@ -23,7 +23,6 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.Wave;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
@@ -38,6 +37,9 @@ public class WaveMapViewImpl implements WaveMapView {
     private static final int FINISH_SPLASH_ANIMATION_DURATION = 1000;
     // How long to wait after the animation has finished to notify the callback.
     private static final int FINISH_SPLASH_ANIMATION_POST_DELAY = 1500;
+
+    private static final int DISPLAY_RIPPLE_ANIMATION_DURATION = 500;
+    private static final int DISPLAY_RIPPLE_ANIMATION_POST_DELAY = 250;
 
     private Resources resources;
 
@@ -140,14 +142,18 @@ public class WaveMapViewImpl implements WaveMapView {
         if (currentLocation == null) {
                 /* Uh oh, it looks like the user has tried to splash content without a location*/
         } else {
-            int strokeColor = resources.getColor(R.color.content_view_map_splashing_stroke);
+            int strokeColor = resources.getColor(R.color.map_view_splashing_stroke);
+            int fillColor = resources.getColor(R.color.map_view_splashing_fill_begin);
+
             zoomTo(currentLocation, 12);
+
             if (splashingIndicator == null) {
                 addSplashingIndicator(strokeColor);
             } else {
                 splashingIndicator.setCenter(currentLocation);
             }
 
+            splashingIndicator.setFillColor(fillColor);
             splashingIndicatorRadiusAnimator.start();
             splashingIndicator.setVisible(true);
         }
@@ -176,33 +182,26 @@ public class WaveMapViewImpl implements WaveMapView {
         if (splashingIndicatorRadiusAnimator != null) {
             splashingIndicatorRadiusAnimator.cancel();
         }
-        final Integer colorFrom = resources.getColor(R.color.content_view_map_splashing_fill_begin);
-        final Integer colorTo = resources.getColor(R.color.content_view_map_splashing_fill_end);
-        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-        colorAnimation.setInterpolator(new OvershootInterpolator(3.0f));
+        int startColor = resources.getColor(R.color.map_view_splashing_fill_begin);
+        int endColor = resources.getColor(R.color.map_view_splashing_fill_end);
 
-        colorAnimation.addUpdateListener(
-                (ValueAnimator animator) -> {
-                    if (splashingIndicator != null)
-                        splashingIndicator.setFillColor((Integer) animator.getAnimatedValue());
-                }
-        );
+        ValueAnimator colorAnimator =
+                createCircleColorAnimator(splashingIndicator, startColor, endColor, FINISH_SPLASH_ANIMATION_DURATION);
 
-        colorAnimation.addListener(new SimpleAnimatorListener() {
+        colorAnimator.addListener(new SimpleAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 new Handler().postDelayed(() -> {
                     if (splashingIndicator != null) {
                         splashingIndicator.setVisible(false);
-                        splashingIndicator.setFillColor(colorFrom);
                     }
-                    if (callback != null)
+                    if (callback != null) {
                         callback.onFinishSplashing();
+                    }
                 }, FINISH_SPLASH_ANIMATION_POST_DELAY);
             }
         });
-        colorAnimation.setDuration(FINISH_SPLASH_ANIMATION_DURATION);
-        colorAnimation.start();
+        colorAnimator.start();
     }
 
     @Override
@@ -217,9 +216,37 @@ public class WaveMapViewImpl implements WaveMapView {
 
     @Override
     public void displayRipple(FinishedRipplingCallback callback) {
-        if(callback != null)
-            callback.onFinishRippling();
+        int startColor = resources.getColor(R.color.map_view_ripple_new_fill_begin);
+        int endColor = resources.getColor(R.color.map_view_ripple_fill);
+        int strokeColor = resources.getColor(R.color.map_view_ripple_new_stroke);
 
+        Circle rippleCircle = drawLatLng(currentLocation, startColor, strokeColor);
+        waveRipples.add(rippleCircle);
+        ValueAnimator colorAnimator =
+                createCircleColorAnimator(rippleCircle, startColor, endColor, DISPLAY_RIPPLE_ANIMATION_DURATION);
+        if (callback != null) {
+            colorAnimator.addListener(new SimpleAnimatorListener() {
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    new Handler().postDelayed(callback::onFinishRippling, DISPLAY_RIPPLE_ANIMATION_POST_DELAY);
+                }
+            });
+        }
+
+        colorAnimator.start();
+    }
+
+    private ValueAnimator createCircleColorAnimator(Circle circle, int startColor, int endColor, int duration) {
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), startColor, endColor);
+        colorAnimation.setInterpolator(new OvershootInterpolator(3.0f));
+        colorAnimation.setDuration(duration);
+        colorAnimation.addUpdateListener(
+                (ValueAnimator animator) -> {
+                    if (circle != null)
+                        circle.setFillColor((Integer) animator.getAnimatedValue());
+                }
+        );
+        return colorAnimation;
     }
 
     /* ========== DRAWING UTILITY FUNCTIONS =========== */
@@ -238,9 +265,9 @@ public class WaveMapViewImpl implements WaveMapView {
      * Adds/Draws a list of LatLngs as ripples to the map.
      */
     private void drawRipples(List<Ripple> ripples, long splashId) {
-        int fillColor = resources.getColor(R.color.content_view_map_ripple_fill);
-        int strokeColor = resources.getColor(R.color.content_view_map_ripple_stroke);
-        int splashStrokeColor = resources.getColor(R.color.content_view_map_ripple_stroke_splash);
+        int fillColor = resources.getColor(R.color.map_view_ripple_fill);
+        int strokeColor = resources.getColor(R.color.map_view_ripple_stroke);
+        int splashStrokeColor = resources.getColor(R.color.map_view_ripple_stroke_splash);
         for (Ripple ripple : ripples) {
             LatLng latLng = new LatLng(ripple.getLatitude(), ripple.getLongitude());
             waveRipples.add(drawLatLng(latLng,
