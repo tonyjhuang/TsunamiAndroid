@@ -29,7 +29,7 @@
     <color name="map_view_splashing_fill_begin">#008BC34A</color>
     <color name="map_view_splashing_fill_end">#778BC34A</color>
     <color name="map_view_splashing_stroke">@color/material_light_green</color>
-    <color name="map_view_ripple_new_fill_end">#443F51B5</color>
+    <color name="map_view_ripple_new_fill_begin">#0FFF</color>
     <color name="map_view_ripple_new_stroke">#55FFFFFF</color>
 
     <color name="profile_pic_border">#EEEEEE</color>
