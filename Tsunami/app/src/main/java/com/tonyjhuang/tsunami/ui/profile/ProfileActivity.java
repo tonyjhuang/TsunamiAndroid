@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
@@ -57,6 +58,7 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
     TsunamiApi api;
 
     private static int coverPhotoIndex;
+
     static {
         coverPhotoIndex = new Random().nextInt(4);
     }
@@ -78,6 +80,13 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
         setToolbarBackgroundAlpha(0);
 
         scrollView.setOnScrollListener(this);
+        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                onScrollChanged(scrollView.getScrollX(), scrollView.getScrollY(), 0, 0);
+            }
+        });
 
         int orientation = getResources().getConfiguration().orientation;
         float screenModifier = orientation == Configuration.ORIENTATION_PORTRAIT ? 3.0f : 2.0f;
