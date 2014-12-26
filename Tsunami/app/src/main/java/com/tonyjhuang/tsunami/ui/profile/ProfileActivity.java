@@ -10,13 +10,17 @@ import android.view.Display;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 
+import com.nirhart.parallaxscroll.views.ParallaxScrollView;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.injection.ProfileModule;
 import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.ui.customviews.ParallaxImageView;
+import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScrollView;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableScrollView;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollListener;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
@@ -37,19 +41,23 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
     @InjectView(R.id.scrollview)
-    ObservableScrollView scrollView;
+    ObservableParallaxScrollView scrollView;
     @InjectView(R.id.cover)
     ImageView coverImage;
 
     @InjectView(R.id.num_waves)
-    TextView numWaves;
+    TextSwitcher numWaves;
     @InjectView(R.id.num_waves_views)
-    TextView numWavesViews;
+    TextSwitcher numWavesViews;
     @InjectView(R.id.num_waves_ripples)
-    TextView numWavesRipples;
+    TextSwitcher numWavesRipples;
 
+    @InjectView(R.id.num_views)
+    TextSwitcher numViews;
     @InjectView(R.id.num_ripples)
-    TextView numRipples;
+    TextSwitcher numRipples;
+    @InjectView(R.id.percent_rippled)
+    TextSwitcher percentRippled;
 
     @Inject
     TsunamiApi api;
@@ -88,7 +96,9 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
             numWaves.setText(userStats.getSplashes() + "");
             numWavesViews.setText(userStats.getViewsAcrossWaves() + "");
             numWavesRipples.setText(userStats.getRipplesAcrossWaves() + "");
+            numViews.setText(userStats.getViews() + "");
             numRipples.setText(userStats.getRipples() + "");
+            percentRippled.setText(userStats.getPercentRippled() + "%");
         });
     }
 

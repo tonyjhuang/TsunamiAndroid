@@ -13,7 +13,7 @@
     <dimen name="card_max_width">450dp</dimen>
 
     <!-- Something to do with how close to the edges of the screen we allow the card to be -->
-    <dimen name="card_scroll_view_readability_threshold">120dp</dimen>
+    <dimen name="card_scroll_view_readability_threshold">96dp</dimen>
 
     <dimen name="content_title_textsize">24sp</dimen>
     <dimen name="content_divider_margin_horizontal">16dp</dimen>

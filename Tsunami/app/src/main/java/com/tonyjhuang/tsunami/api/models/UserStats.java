@@ -16,11 +16,15 @@ public class UserStats {
     @Expose
     private int splashes;
     @Expose
-    private int ripples;
-    @Expose
     private long viewsAcrossWaves;
     @Expose
     private long ripplesAcrossWaves;
+    @Expose
+    private int views;
+    @Expose
+    private int ripples;
+    @Expose
+    private int percentRippled;
 
     public int getSplashes() {
         return splashes;
@@ -38,16 +42,30 @@ public class UserStats {
         return ripplesAcrossWaves;
     }
 
+    public int getViews() {
+        return views;
+    }
+
+    public int getPercentRippled() {
+        return percentRippled;
+    }
+
     /* Debugging */
     public static UserStats createDebugUserStats() {
         Random random = new Random();
-        return new UserStats(random.nextInt(), random.nextInt(), random.nextLong(), random.nextLong());
+        return new UserStats(Math.abs(random.nextInt() % 30),
+                Math.abs(random.nextInt() % 30000),
+                Math.abs(random.nextLong() % 3000),
+                Math.abs(random.nextInt() % 30000),
+                Math.abs(random.nextInt() % 3000));
     }
 
-    private UserStats(int splashes, int ripples, long viewsAcrossWaves, long ripplesAcrossWaves) {
-        this.splashes = Math.abs(splashes % 30);
-        this.ripples = Math.abs(ripples % 3000);
-        this.viewsAcrossWaves = Math.abs(viewsAcrossWaves % 30000);
-        this.ripplesAcrossWaves = Math.abs(ripplesAcrossWaves % 3000);
+    private UserStats(int splashes, long viewsAcrossWaves, long ripplesAcrossWaves, int views, int ripples) {
+        this.splashes = splashes;
+        this.viewsAcrossWaves = viewsAcrossWaves;
+        this.ripplesAcrossWaves = ripplesAcrossWaves;
+        this.views = Math.max(views, ripples);
+        this.ripples = Math.min(views, ripples);
+        this.percentRippled = this.views / this.ripples;
     }
 }
