@@ -66,6 +66,6 @@ public class UserStats {
         this.ripplesAcrossWaves = ripplesAcrossWaves;
         this.views = Math.max(views, ripples);
         this.ripples = Math.min(views, ripples);
-        this.percentRippled = this.views / this.ripples;
+        this.percentRippled = (int) (((float) this.ripples) / this.views) * 100;
     }
 }
