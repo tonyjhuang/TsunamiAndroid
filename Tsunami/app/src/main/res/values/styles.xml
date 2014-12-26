@@ -120,5 +120,9 @@
         <item name="android:gravity">end</item>
     </style>
 
+    <style name="ProfileStatSwitcher" />
 
+    <style name="ProfileStatSwitcher.Oriented">
+        <item name="android:gravity">end</item>
+    </style>
 </resources>

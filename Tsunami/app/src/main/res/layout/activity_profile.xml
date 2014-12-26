@@ -87,6 +87,7 @@
 
                             <com.tonyjhuang.tsunami.ui.profile.ProfileStatTextSwitcher
                                 android:id="@+id/num_waves"
+                                style="@style/ProfileStatSwitcher.Oriented"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
@@ -99,6 +100,7 @@
 
                             <com.tonyjhuang.tsunami.ui.profile.ProfileStatTextSwitcher
                                 android:id="@+id/num_waves_views"
+                                style="@style/ProfileStatSwitcher.Oriented"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
@@ -112,6 +114,7 @@
 
                             <com.tonyjhuang.tsunami.ui.profile.ProfileStatTextSwitcher
                                 android:id="@+id/num_waves_ripples"
+                                style="@style/ProfileStatSwitcher.Oriented"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
@@ -163,6 +166,7 @@
 
                             <com.tonyjhuang.tsunami.ui.profile.ProfileStatTextSwitcher
                                 android:id="@+id/num_views"
+                                style="@style/ProfileStatSwitcher.Oriented"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
@@ -175,6 +179,7 @@
 
                             <com.tonyjhuang.tsunami.ui.profile.ProfileStatTextSwitcher
                                 android:id="@+id/num_ripples"
+                                style="@style/ProfileStatSwitcher.Oriented"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
@@ -188,6 +193,7 @@
 
                             <com.tonyjhuang.tsunami.ui.profile.ProfileStatTextSwitcher
                                 android:id="@+id/percent_rippled"
+                                style="@style/ProfileStatSwitcher.Oriented"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 

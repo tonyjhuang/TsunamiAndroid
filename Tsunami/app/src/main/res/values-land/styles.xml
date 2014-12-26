@@ -21,4 +21,7 @@
     <style name="ProfileStatNum.Oriented">
         <item name="android:gravity">center</item>
     </style>
+    <style name="ProfileStatSwitcher.Oriented">
+        <item name="android:gravity">center</item>
+    </style>
 </resources>
