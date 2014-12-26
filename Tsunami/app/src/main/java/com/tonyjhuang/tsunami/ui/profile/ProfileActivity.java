@@ -4,24 +4,18 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
-import android.widget.TextView;
 
-import com.nirhart.parallaxscroll.views.ParallaxScrollView;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.injection.ProfileModule;
-import com.tonyjhuang.tsunami.logging.Timber;
-import com.tonyjhuang.tsunami.ui.customviews.ParallaxImageView;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScrollView;
-import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableScrollView;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollListener;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 
@@ -98,7 +92,7 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
             numWavesRipples.setText(userStats.getRipplesAcrossWaves() + "");
             numViews.setText(userStats.getViews() + "");
             numRipples.setText(userStats.getRipples() + "");
-            percentRippled.setText(userStats.getPercentRippled() + "%");
+            percentRippled.setText(userStats.getRippleChance() + "%");
         });
     }
 

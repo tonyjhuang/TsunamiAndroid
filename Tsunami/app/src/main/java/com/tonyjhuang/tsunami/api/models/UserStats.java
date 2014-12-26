@@ -2,6 +2,8 @@ package com.tonyjhuang.tsunami.api.models;
 
 import com.google.gson.annotations.Expose;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Random;
 
 /*
@@ -24,7 +26,8 @@ public class UserStats {
     @Expose
     private int ripples;
     @Expose
-    private int percentRippled;
+    private double rippleChance;
+
 
     public int getSplashes() {
         return splashes;
@@ -46,8 +49,8 @@ public class UserStats {
         return views;
     }
 
-    public int getPercentRippled() {
-        return percentRippled;
+    public double getRippleChance() {
+        return rippleChance;
     }
 
     /* Debugging */
@@ -66,6 +69,9 @@ public class UserStats {
         this.ripplesAcrossWaves = ripplesAcrossWaves;
         this.views = Math.max(views, ripples);
         this.ripples = Math.min(views, ripples);
-        this.percentRippled = (int) (((float) this.ripples) / this.views) * 100;
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.HALF_UP);
+        this.rippleChance = Double.valueOf(df.format(((float) ripples) / views * 100));
     }
 }
