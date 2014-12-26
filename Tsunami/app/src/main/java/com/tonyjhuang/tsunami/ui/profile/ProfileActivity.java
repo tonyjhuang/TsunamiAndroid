@@ -3,6 +3,7 @@ package com.tonyjhuang.tsunami.ui.profile;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
@@ -83,7 +84,11 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
         scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                if(Build.VERSION.SDK_INT >= 16)
+                    scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                else
+                    scrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                
                 onScrollChanged(scrollView.getScrollX(), scrollView.getScrollY(), 0, 0);
             }
         });
