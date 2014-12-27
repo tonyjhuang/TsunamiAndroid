@@ -1,8 +1,10 @@
 package com.tonyjhuang.tsunami.ui.main.contentview;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -22,10 +24,13 @@ public class ContentCard extends FrameLayout {
 
     @InjectView(R.id.title)
     TextView title;
-    @InjectView(R.id.body)
-    TextView body;
     @InjectView(R.id.info)
     TextView info;
+    @InjectView(R.id.divider)
+    View divider;
+    @InjectView(R.id.body)
+    TextView body;
+
 
     /**
      * The wave that we should be displaying currently.
@@ -56,7 +61,12 @@ public class ContentCard extends FrameLayout {
     public void setWave(Wave wave) {
         this.wave = wave;
         if (wave != null) {
-            title.setText(wave.getContent().getTitle());
+            String titleText = wave.getContent().getTitle();
+            String bodyText = wave.getContent().getBody();
+
+            hideBody(TextUtils.isEmpty(bodyText) || TextUtils.isEmpty(titleText));
+
+            title.setText(TextUtils.isEmpty(titleText) ? bodyText : titleText);
             body.setText(wave.getContent().getBody());
 
             String infoText = wave.getUser().getName();
@@ -66,6 +76,12 @@ public class ContentCard extends FrameLayout {
             }
             this.info.setText(infoText);
         }
+    }
+
+    private void hideBody(boolean hide) {
+        int visibility = hide ? GONE : VISIBLE;
+        divider.setVisibility(visibility);
+        body.setVisibility(visibility);
     }
 
     public Wave getWave() {

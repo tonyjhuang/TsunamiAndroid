@@ -53,7 +53,7 @@ public class UserStats extends ApiObject implements Serializable {
     }
 
     public int getRippleChance() {
-        return (int) rippleChance * 100;
+        return (int) (rippleChance * 100);
     }
 
     /* Debugging */
