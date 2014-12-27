@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextSwitcher;
+import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 /**
@@ -37,6 +39,7 @@ public class ProfileStatTextSwitcher extends TextSwitcher {
     @Override
     public void setText(CharSequence text) {
         if (getInAnimation().hasStarted() && !getInAnimation().hasEnded()) {
+            Timber.d("deferring");
             getInAnimation().setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
@@ -46,6 +49,7 @@ public class ProfileStatTextSwitcher extends TextSwitcher {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     setText(text);
+                    getInAnimation().setAnimationListener(null);
                 }
 
                 @Override
@@ -54,7 +58,16 @@ public class ProfileStatTextSwitcher extends TextSwitcher {
                 }
             });
         } else {
-            super.setText(text);
+            if(getCurrentText() != null && !getCurrentText().equals(text)) {
+                Timber.d("setting text to " + text);
+                super.setText(text);
+            } else {
+                Timber.d("trying to re-set the current text. ignoring.");
+            }
         }
+    }
+
+    private CharSequence getCurrentText() {
+        return ((TextView) super.getCurrentView()).getText();
     }
 }

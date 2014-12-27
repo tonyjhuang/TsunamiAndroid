@@ -38,6 +38,11 @@ public interface TsunamiService {
     Observable<Ripple> ripple(@Body CreateRippleRequest body);
 
     /**
+     * Dismiss a wave (mark as viewed).
+     */
+    //@POST("/ripple/dismiss")
+
+    /**
      * Get the list of applicable waves that this user is in.
      */
     @GET("/ocean/local_waves")

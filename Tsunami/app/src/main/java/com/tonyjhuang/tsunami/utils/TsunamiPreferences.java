@@ -25,6 +25,7 @@ public class TsunamiPreferences {
 
     public TsunamiPreferences(Context context) {
         preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        id.initialize();
     }
 
     abstract class TsunamiPreference<T> {
@@ -34,31 +35,14 @@ public class TsunamiPreferences {
     }
 
     public class IdPreference extends StringPreference {
-        /**
-         * In memory instance of our id so we don't have to keep fetching it from file. The reason for
-         * this is because we'll probably be retrieving the user's id a lot.
-         */
-        private String id = null;
-
         public IdPreference(String key) {
             super(key, null);
         }
 
-        public String get() {
-            if(id == null) {
-                initialize();
+        public void initialize() {
+            if(get() == null) {
+                set(UUID.randomUUID().toString());
             }
-            return id;
-        }
-
-        private void initialize() {
-            set(UUID.randomUUID().toString());
-        }
-
-        @Override
-        public void set(String value) {
-            super.set(value);
-            id = value;
         }
     }
 

@@ -48,7 +48,7 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
 
     @InjectViews({R.id.num_waves, R.id.num_waves_views, R.id.num_waves_ripples,
             R.id.num_views, R.id.num_ripples, R.id.percent_rippled})
-    List<TextSwitcher> statViews;
+    List<ProfileStatTextSwitcher> statViews;
 
     @Inject
     TsunamiApi api;
@@ -59,9 +59,19 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
     }
 
     @Override
+    protected List<Object> getMyModules() {
+        return Arrays.asList(new ProfileModule());
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        subscribe(api.getCurrentUserStats(), this::populateStats, (throwable) -> {
+            Timber.e(throwable, "error getting userstats");
+            showToast("error getting user stats");
+        });
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
@@ -77,20 +87,21 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
         setCoverImageHeight((int) (getScreenDimensions().y / screenModifier));
 
         Picasso.with(this).load(TsunamiApplication.profileCoverResourceId).into(coverImage);
-
-        subscribe(api.getCurrentUserStats(), this::populateStats, (throwable) -> {
-            Timber.e(throwable, "error getting userstats");
-            showToast("error getting user stats");
-        });
     }
 
+    Handler handler = new Handler();
+    boolean set = false;
     private void populateStats(UserStats stats) {
-        List<String> statStrings = statsToList(stats);
-        for (int i = 0; i < statViews.size(); i++) {
-            TextSwitcher view = statViews.get(i);
-            String stat = statStrings.get(i);
-            view.post(() -> view.setText(stat));
-        }
+        this.handler.post(() -> {
+            List<String> statStrings = statsToList(stats);
+            for (int i = 0; i < statViews.size(); i++) {
+                TextSwitcher view = statViews.get(i);
+                String stat = statStrings.get(i);
+                handler.postDelayed(() -> {
+                    view.post(() -> view.setText(stat));
+                }, 150 * i);
+            }
+        });
     }
 
     private List<String> statsToList(UserStats stats) {
@@ -102,11 +113,6 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
         strings.add(stats.getRipples() + "");
         strings.add(stats.getRippleChance() + "%");
         return strings;
-    }
-
-    @Override
-    protected List<Object> getMyModules() {
-        return Arrays.asList(new ProfileModule());
     }
 
     /**

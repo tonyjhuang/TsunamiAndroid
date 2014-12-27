@@ -3,11 +3,13 @@ package com.tonyjhuang.tsunami.api.dal;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.util.LruCache;
 
 import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.logging.Timber;
 
 import java.io.IOException;
+import java.io.NotSerializableException;
 import java.io.Serializable;
 
 import javax.inject.Singleton;
@@ -39,34 +41,49 @@ public class TsunamiCache {
         }
     }
 
+    private LruCache<String, UserStats> userStatsCache = new LruCache<>(16);
     /**
      * Note: this is a blocking function, you should never call this from the main thread!
      */
     public UserStats getUserStats(String userId) {
-        return get(userId, UserStats.class);
+        return get(userId, UserStats.class, userStatsCache);
     }
 
     public UserStats putUserStats(String userId, UserStats userStats) {
-        put(userId, userStats, UserStats.class);
-        return userStats;
+        return put(userId, userStats, userStatsCache);
     }
 
-    private <T> T get(String key, Class<T> clazz) {
+    private <T> T get(String key, Class<T> clazz, LruCache<String, T> localCache) {
+        if (localCache != null && localCache.get(key) != null) {
+            Timber.i("retrieved value from localCache");
+            return localCache.get(key);
+        }
+
         try {
             T value = cache.getApiObject(key, clazz);
             Timber.i("successfully retrieved " + value + " from cache with key: " + key);
+            if (localCache != null)
+                localCache.put(key, value);
             return value;
         } catch (IOException | NullPointerException e) {
             return null;
         }
     }
 
-    private void put(String key, Serializable value, Class clazz) {
+    @SuppressWarnings("unchecked")
+    private <T> T put(String key, T value, LruCache<String, T> localCache) {
         try {
-            cache.put(key, value, clazz);
+            if (localCache != null) localCache.put(key, value);
+            cache.put(key, (Serializable) value, value.getClass());
             Timber.i("successfully put " + value + " into cache with key: " + key);
+        } catch (NotSerializableException e) {
+            Timber.e(e, "object must implement Serializable interface to be placed in DiskCache!");
+            return null;
         } catch (IOException | NullPointerException e) {
-            // silently fail.
+            Timber.e(e, "uh oh spaghettio! key: " + key + ", value: " + value);
+            return null;
         }
+
+        return value;
     }
 }
