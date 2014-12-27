@@ -1,6 +1,8 @@
 package com.tonyjhuang.tsunami.api.models;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
+import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,7 +10,9 @@ import java.util.Date;
 /**
  * Created by tony on 11/23/14.
  */
-public abstract class ApiObject implements Serializable{
+public abstract class ApiObject implements Serializable {
+    private static Gson gson = TsunamiGson.buildGson();
+
     @Expose
     private long id;
     @Expose
@@ -39,5 +43,10 @@ public abstract class ApiObject implements Serializable{
 
     protected void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return gson.toJson(this);
     }
 }

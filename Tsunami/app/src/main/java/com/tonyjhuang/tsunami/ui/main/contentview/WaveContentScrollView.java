@@ -1,5 +1,6 @@
 package com.tonyjhuang.tsunami.ui.main.contentview;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -9,6 +10,7 @@ import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.CardScrollView;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
+import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 /**
  * Created by tonyjhuang on 9/6/14.
@@ -155,6 +157,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
             oldoldoldt = oldt;
         }
         if (t == 0) {
+            setScrollAssist(false);
             post(() -> cardContainer.setVisibility(INVISIBLE));
             if (!isShowingSplashCard()) {
                 presenter.onContentSwipedDown();
@@ -162,6 +165,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
                 presenter.onSplashSwipedDown();
             }
         } else if (t >= getMaxScrollHeight()) {
+            setScrollAssist(false);
             post(() -> cardContainer.setVisibility(INVISIBLE));
             if (!isShowingSplashCard()) {
                 presenter.onContentSwipedUp();
@@ -183,6 +187,18 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         }
     }
 
+    SimpleAnimatorListener scrollAssistListener = new SimpleAnimatorListener() {
+        @Override
+        public void onAnimationEnd(Animator animator) {
+            setScrollAssist(true);
+        }
+    };
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        addAnimationListener(scrollAssistListener);
+    }
 
     @Override
     public Parcelable onSaveInstanceState() {

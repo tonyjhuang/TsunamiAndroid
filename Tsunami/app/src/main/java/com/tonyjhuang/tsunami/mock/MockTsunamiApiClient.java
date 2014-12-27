@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
+import com.tonyjhuang.tsunami.api.dal.TsunamiCache;
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.User;
 import com.tonyjhuang.tsunami.api.models.UserStats;
@@ -42,7 +43,10 @@ public class MockTsunamiApiClient implements TsunamiApi {
 
     @SuppressWarnings("unused")
     @Inject
-    public MockTsunamiApiClient(Application application, TsunamiService service, TsunamiPreferences preferences) {
+    public MockTsunamiApiClient(Application application,
+                                TsunamiService service,
+                                TsunamiPreferences preferences,
+                                TsunamiCache cache) {
         locationInfo = new LocationInfo(application);
         locationInfo.refresh(application);
     }
@@ -66,6 +70,7 @@ public class MockTsunamiApiClient implements TsunamiApi {
                     lastUserStats = userStats;
                     return userStats;
                 });
+
         Observable<UserStats> cacheFetch;
         if (lastUserStats == null) {
             cacheFetch = Observable.empty();

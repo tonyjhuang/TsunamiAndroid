@@ -3,12 +3,10 @@ package com.tonyjhuang.tsunami.ui.profile;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.MenuItem;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
@@ -17,6 +15,7 @@ import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.injection.ProfileModule;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScrollView;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollListener;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
@@ -81,19 +80,9 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
         setToolbarBackgroundAlpha(0);
 
         scrollView.setOnScrollListener(this);
-        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if(Build.VERSION.SDK_INT >= 16)
-                    scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                else
-                    scrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                
-                onScrollChanged(scrollView.getScrollX(), scrollView.getScrollY(), 0, 0);
-            }
-        });
 
         int orientation = getResources().getConfiguration().orientation;
+        // If portrait, coverImage takes 1/3 of screen height, else 1/2
         float screenModifier = orientation == Configuration.ORIENTATION_PORTRAIT ? 3.0f : 2.0f;
         setCoverImageHeight((int) (getScreenDimensions().y / screenModifier));
 
@@ -101,12 +90,16 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
         coverImage.setImageResource(resourceId);
 
         subscribe(api.getCurrentUserStats(), (userStats) -> {
+            Timber.d(userStats.toString());
             numWaves.setText(userStats.getSplashes() + "");
             numWavesViews.setText(userStats.getViewsAcrossWaves() + "");
             numWavesRipples.setText(userStats.getRipplesAcrossWaves() + "");
-            numViews.setText(userStats.getViews() + "");
+            numViews.setText(userStats.getViewed() + "");
             numRipples.setText(userStats.getRipples() + "");
-            percentRippled.setText(userStats.getRippleChance() + "%");
+            percentRippled.setText((int) userStats.getRippleChance() + "%");
+        }, (throwable) -> {
+            Timber.e(throwable, "error getting userstats");
+            showToast("error getting user stats");
         });
     }
 
@@ -125,7 +118,7 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
     @Override
     public void onScrollChanged(int l, int t, int oldl, int oldt) {
         int coverImageHeight = coverImage.getHeight();
-        int ratio = (int) (((float) Math.min(t, coverImageHeight)) / coverImageHeight * 255);
+        int ratio = (int) (((float) Math.min(Math.max(t, 0), coverImageHeight)) / coverImageHeight * 255);
         setToolbarBackgroundAlpha(ratio);
     }
 

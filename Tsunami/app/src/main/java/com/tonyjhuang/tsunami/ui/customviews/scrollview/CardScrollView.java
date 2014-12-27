@@ -1,5 +1,6 @@
 package com.tonyjhuang.tsunami.ui.customviews.scrollview;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
@@ -90,6 +92,11 @@ public class CardScrollView extends ObservableScrollView {
      * Is the user currently touching or dragging the area outside of our CardView?
      */
     private boolean draggingOutside = false;
+
+    /**
+     * Should we autoscroll the card when it lies outside of the readability threshold?
+     */
+    private boolean scrollAssist = true;
 
     public CardScrollView(Context context) {
         this(context, null);
@@ -312,12 +319,23 @@ public class CardScrollView extends ObservableScrollView {
         }
     }
 
+    public void addAnimationListener(Animator.AnimatorListener listener) {
+        slideCardFromBottom.addListener(listener);
+    }
+
+    public void setScrollAssist(boolean scrollAssist) {
+        this.scrollAssist = scrollAssist;
+    }
+
     /**
      * Check if our cardview is beyond the thresholds of readability (eg if either the top edge
      * of the CardView is near the bottom edge of the screen and vice versa). If so, scroll the
      * CardView entirely off screen.
      */
     private void scrollOffScreenIfNecessary() {
+        if(!scrollAssist)
+            return;
+
         int scrollY = getScrollY();
 
         if (scrollY <= getScrollOutBottomThreshold()) {

@@ -1,20 +1,24 @@
 package com.tonyjhuang.tsunami.api.models;
 
 import com.google.gson.annotations.Expose;
+import com.tonyjhuang.tsunami.api.parsers.TsunamiDouble;
 
+import java.io.Serializable;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Random;
 
 /*
 {
-  "splashes": 2,
-  "ripples": 3,
-  "views_across_waves": 94,
-  "ripples_across_waves": 3
+    "viewed": 2,
+    "ripples": 0,
+    "splashes": 0,
+    "ripple_chance": 0,
+    "views_across_waves": 0,
+    "ripples_across_waves": 0
 }
- */
-public class UserStats {
+*/
+public class UserStats extends ApiObject implements Serializable {
     @Expose
     private int splashes;
     @Expose
@@ -22,7 +26,7 @@ public class UserStats {
     @Expose
     private long ripplesAcrossWaves;
     @Expose
-    private int views;
+    private int viewed;
     @Expose
     private int ripples;
     @Expose
@@ -45,12 +49,12 @@ public class UserStats {
         return ripplesAcrossWaves;
     }
 
-    public int getViews() {
-        return views;
+    public int getViewed() {
+        return viewed;
     }
 
     public double getRippleChance() {
-        return rippleChance;
+        return TsunamiDouble.format(rippleChance * 100);
     }
 
     /* Debugging */
@@ -63,15 +67,15 @@ public class UserStats {
                 Math.abs(random.nextInt() % 3000));
     }
 
-    private UserStats(int splashes, long viewsAcrossWaves, long ripplesAcrossWaves, int views, int ripples) {
+    private UserStats(int splashes, long viewsAcrossWaves, long ripplesAcrossWaves, int viewed, int ripples) {
         this.splashes = splashes;
         this.viewsAcrossWaves = viewsAcrossWaves;
         this.ripplesAcrossWaves = ripplesAcrossWaves;
-        this.views = Math.max(views, ripples);
-        this.ripples = Math.min(views, ripples);
+        this.viewed = Math.max(viewed, ripples);
+        this.ripples = Math.min(viewed, ripples);
 
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.HALF_UP);
-        this.rippleChance = Double.valueOf(df.format(((float) ripples) / views * 100));
+        this.rippleChance = Double.valueOf(df.format(((float) ripples) / viewed * 100));
     }
 }

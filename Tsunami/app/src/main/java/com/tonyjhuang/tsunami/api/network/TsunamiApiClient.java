@@ -3,6 +3,7 @@ package com.tonyjhuang.tsunami.api.network;
 import android.app.Application;
 import android.util.LruCache;
 
+import com.tonyjhuang.tsunami.api.dal.TsunamiCache;
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.User;
 import com.tonyjhuang.tsunami.api.models.UserStats;
@@ -28,14 +29,28 @@ import rx.Observable;
 @Singleton
 public class TsunamiApiClient implements TsunamiApi {
 
+    /**
+     * Network connectivity.
+     */
     private final TsunamiService service;
+    /**
+     * Current user's GUID
+     */
     private final String userId;
+    /**
+     * Running on disk cache for everything.
+     */
+    private final TsunamiCache cache;
 
     @SuppressWarnings("unused")
     @Inject
-    public TsunamiApiClient(Application application, TsunamiService service, TsunamiPreferences preferences) {
+    public TsunamiApiClient(Application application,
+                            TsunamiService service,
+                            TsunamiPreferences preferences,
+                            TsunamiCache cache) {
         this.service = service;
         this.userId = preferences.id.get();
+        this.cache = cache;
     }
 
     public Observable<User> createUser() {
@@ -48,12 +63,11 @@ public class TsunamiApiClient implements TsunamiApi {
         return getUserStats(this.userId);
     }
 
-    private LruCache<String, UserStats> getUserStatsCache = new LruCache<>(64);
     @Override
     public Observable<UserStats> getUserStats(String userId) {
         return Observable.concat(
-                getCacheObservable(getUserStatsCache.get(userId)),
-                service.getUserStats(userId).map((userStat -> getUserStatsCache.put(userId, userStat))));
+                getCacheObservable(cache.getUserStats(userId)),
+                service.getUserStats(userId).map((userStat -> cache.putUserStats(userId, userStat))));
     }
 
     public Observable<Ripple> ripple(long waveId, double latitude, double longitude) {

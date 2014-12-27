@@ -61,8 +61,10 @@ public class ContentCard extends FrameLayout {
 
             String infoText = "";
             infoText += (wave.getUser() == null ? "Anonymous" : "");
-            infoText += " " + getResources().getString(R.string.content_info_text_divider) + " ";
-            infoText += ContentCard.prettyTime.format(wave.getCreatedAt());
+            if (wave.getCreatedAt() != null) {
+                infoText += " " + getResources().getString(R.string.content_info_text_divider) + " ";
+                infoText += ContentCard.prettyTime.format(wave.getCreatedAt());
+            }
             this.info.setText(infoText);
         }
     }

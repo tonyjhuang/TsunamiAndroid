@@ -28,7 +28,7 @@ public interface TsunamiService {
     @POST("/users")
     Observable<User> createUser(@Body CreateUserRequest body);
 
-    @GET("/api/users/stats")
+    @GET("/users/stats")
     Observable<UserStats> getUserStats(@Query("guid") String guid);
 
     /**

@@ -5,6 +5,7 @@ import android.content.res.Resources;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.TsunamiApplication;
+import com.tonyjhuang.tsunami.api.dal.TsunamiCache;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
@@ -47,8 +48,14 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    TsunamiApi provideTsunamiApi(TsunamiService service, TsunamiPreferences preferences) {
-        return new MockTsunamiApiClient(application, service, preferences);
+    TsunamiApi provideTsunamiApi(TsunamiService service, TsunamiPreferences preferences, TsunamiCache cache) {
+        return new TsunamiApiClient(application, service, preferences, cache);
+    }
+
+    @Provides
+    @Singleton
+    TsunamiCache provideTsunamiCache() {
+        return new TsunamiCache(application);
     }
 
     @Provides

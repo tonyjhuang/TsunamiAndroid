@@ -3,6 +3,7 @@ package com.tonyjhuang.tsunami;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -178,5 +179,9 @@ public abstract class TsunamiActivity extends ActionBarActivity implements
                 .subscribe(onNext, onError);
 
         compositeSubscription.add(subscription);
+    }
+
+    protected final void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
