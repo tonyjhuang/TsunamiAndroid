@@ -44,7 +44,7 @@
         <item name="android:textSize">@dimen/content_title_textsize</item>
     </style>
 
-    <style name="CardContainer">
+    <style name="CardContainer"> 
         <item name="android:minHeight">96dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingTop">6dp</item>
