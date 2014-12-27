@@ -59,8 +59,7 @@ public class ContentCard extends FrameLayout {
             title.setText(wave.getContent().getTitle());
             body.setText(wave.getContent().getBody());
 
-            String infoText = "";
-            infoText += (wave.getUser() == null ? "Anonymous" : "");
+            String infoText = wave.getUser().getName();
             if (wave.getCreatedAt() != null) {
                 infoText += " " + getResources().getString(R.string.content_info_text_divider) + " ";
                 infoText += ContentCard.prettyTime.format(wave.getCreatedAt());

@@ -12,8 +12,14 @@ public class User extends ApiObject {
      */
     @Expose
     private String guid;
+    @Expose
+    private String name;
 
     public String getGuid() {
         return guid;
+    }
+
+    public String getName() {
+        return name == null ? "Anonymous" : name;
     }
 }

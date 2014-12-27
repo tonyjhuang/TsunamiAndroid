@@ -8,11 +8,14 @@ import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.TsunamiApplication;
@@ -24,6 +27,7 @@ import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScroll
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollListener;
 import com.tonyjhuang.tsunami.utils.ScreenManager;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
+import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +49,8 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
     ObservableParallaxScrollView scrollView;
     @InjectView(R.id.cover)
     ImageView coverImage;
-
+    @InjectView(R.id.user_id)
+    TextView userId;
 
     @InjectViews({R.id.num_waves, R.id.num_waves_views, R.id.num_waves_ripples,
             R.id.num_views, R.id.num_ripples, R.id.percent_rippled})
@@ -53,6 +58,8 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
 
     @Inject
     TsunamiApi api;
+    @Inject
+    TsunamiPreferences preferences;
 
     public static void startProfileActivity(TsunamiActivity activity) {
         activity.startActivityForResult(
@@ -71,7 +78,6 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
 
         subscribe(api.getCurrentUserStats(), this::populateStats, (throwable) -> {
             Timber.e(throwable, "error getting userstats");
-            showToast("error getting user stats");
         });
 
         setSupportActionBar(toolbar);
@@ -88,6 +94,11 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
         setCoverImageHeight((int) (ScreenManager.getScreenDimens(this).y / screenModifier));
 
         Picasso.with(this).load(TsunamiApplication.profileCoverResourceId).into(coverImage);
+
+        if(BuildConfig.DEBUG) {
+            userId.setVisibility(View.VISIBLE);
+            userId.setText(preferences.id.get());
+        }
     }
 
     Handler handler = new Handler();

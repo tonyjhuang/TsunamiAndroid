@@ -214,15 +214,26 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="-24dp"
                 android:src="@drawable/kevin" />
+
+            <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                android:id="@+id/user_id"
+                android:textColor="#DFFF"
+                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/profile_pic"
+                android:layout_centerHorizontal="true"
+                android:textSize="20sp"
+                android:visibility="gone" />
         </RelativeLayout>
     </com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScrollView>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        android:gravity="center_vertical"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/AppTheme.Toolbar" />
 
