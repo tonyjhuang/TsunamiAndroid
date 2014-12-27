@@ -45,6 +45,16 @@ android {
         versionName "1.0"
         multiDexEnabled true
     }
+
+    signingConfigs {
+        release {
+            storeFile file("../keystore.jks")
+            storePassword "D967m8"
+            keyAlias "tsunamikeystore"
+            keyPassword "D967m8"
+        }
+    }
+
     buildTypes {
         release {
         }

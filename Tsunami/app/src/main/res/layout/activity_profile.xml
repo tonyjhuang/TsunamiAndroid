@@ -217,13 +217,14 @@
 
             <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
                 android:id="@+id/user_id"
-                android:textColor="#DFFF"
+                android:textColor="#EFFF"
                 android:layout_marginBottom="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/profile_pic"
+                android:gravity="center_horizontal"
                 android:layout_centerHorizontal="true"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:visibility="gone" />
         </RelativeLayout>
     </com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScrollView>

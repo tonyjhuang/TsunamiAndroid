@@ -144,19 +144,21 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     // Keep track of the last last scroll position.
     int oldoldt, oldoldoldt;
 
+    boolean pendingEvent = false;
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         /**
          * Seems like theres a bug where the last scroll event gets repeated if overscroll is off.
          */
-        if (t == oldoldt && oldt == oldoldoldt) {
+        if (t == oldoldt && oldt == oldoldoldt || pendingEvent) {
             return;
         } else {
             oldoldt = t;
             oldoldoldt = oldt;
         }
         if (t == 0) {
+            pendingEvent = true;
             setScrollAssist(false);
             post(() -> cardContainer.setVisibility(INVISIBLE));
             if (!isShowingSplashCard()) {
@@ -165,6 +167,8 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
                 presenter.onSplashSwipedDown();
             }
         } else if (t >= getMaxScrollHeight()) {
+            pendingEvent = true;
+            Timber.d("maxScrollHeight reached t: " + t + " oldt: " + oldt);
             setScrollAssist(false);
             post(() -> cardContainer.setVisibility(INVISIBLE));
             if (!isShowingSplashCard()) {
@@ -191,6 +195,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         @Override
         public void onAnimationEnd(Animator animator) {
             setScrollAssist(true);
+            pendingEvent = false;
         }
     };
 

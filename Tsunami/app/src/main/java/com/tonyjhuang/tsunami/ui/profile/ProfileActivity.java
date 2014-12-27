@@ -1,12 +1,13 @@
 package com.tonyjhuang.tsunami.ui.profile;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
-import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,6 +38,7 @@ import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.InjectViews;
+import butterknife.OnLongClick;
 
 /**
  * Created by tony on 12/21/14.
@@ -95,13 +97,14 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
 
         Picasso.with(this).load(TsunamiApplication.profileCoverResourceId).into(coverImage);
 
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             userId.setVisibility(View.VISIBLE);
             userId.setText(preferences.id.get());
         }
     }
 
     Handler handler = new Handler();
+
     private void populateStats(UserStats stats) {
         handler.post(() -> {
             List<String> statStrings = statsToList(stats);
@@ -157,5 +160,14 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnLongClick(R.id.user_id)
+    public boolean onUserIdLongClick(View view) {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("user id", userId.getText());
+        clipboard.setPrimaryClip(clip);
+        showToast("User id copied to clipboard");
+        return true;
     }
 }
