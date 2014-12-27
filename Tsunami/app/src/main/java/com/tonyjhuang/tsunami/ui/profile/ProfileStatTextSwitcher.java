@@ -39,7 +39,6 @@ public class ProfileStatTextSwitcher extends TextSwitcher {
     @Override
     public void setText(CharSequence text) {
         if (getInAnimation().hasStarted() && !getInAnimation().hasEnded()) {
-            Timber.d("deferring");
             getInAnimation().setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
@@ -59,10 +58,9 @@ public class ProfileStatTextSwitcher extends TextSwitcher {
             });
         } else {
             if(getCurrentText() != null && !getCurrentText().equals(text)) {
-                Timber.d("setting text to " + text);
                 super.setText(text);
             } else {
-                Timber.d("trying to re-set the current text. ignoring.");
+                Timber.v("trying to re-set the current text. ignoring.");
             }
         }
     }

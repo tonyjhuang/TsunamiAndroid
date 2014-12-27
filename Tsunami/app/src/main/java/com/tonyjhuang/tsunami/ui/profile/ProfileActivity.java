@@ -22,6 +22,7 @@ import com.tonyjhuang.tsunami.injection.ProfileModule;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScrollView;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollListener;
+import com.tonyjhuang.tsunami.utils.ScreenManager;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 
 import java.util.ArrayList;
@@ -84,15 +85,14 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
         int orientation = getResources().getConfiguration().orientation;
         // If portrait, coverImage takes 1/3 of screen height, else 1/2
         float screenModifier = orientation == Configuration.ORIENTATION_PORTRAIT ? 3.0f : 2.0f;
-        setCoverImageHeight((int) (getScreenDimensions().y / screenModifier));
+        setCoverImageHeight((int) (ScreenManager.getScreenDimens(this).y / screenModifier));
 
         Picasso.with(this).load(TsunamiApplication.profileCoverResourceId).into(coverImage);
     }
 
     Handler handler = new Handler();
-    boolean set = false;
     private void populateStats(UserStats stats) {
-        this.handler.post(() -> {
+        handler.post(() -> {
             List<String> statStrings = statsToList(stats);
             for (int i = 0; i < statViews.size(); i++) {
                 TextSwitcher view = statViews.get(i);
@@ -127,13 +127,6 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
         int coverImageHeight = coverImage.getHeight();
         int ratio = (int) (((float) Math.min(Math.max(t, 0), coverImageHeight)) / coverImageHeight * 255);
         setToolbarBackgroundAlpha(ratio);
-    }
-
-    private Point getScreenDimensions() {
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size;
     }
 
     private void setCoverImageHeight(int height) {
