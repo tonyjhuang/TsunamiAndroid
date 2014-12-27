@@ -16,15 +16,23 @@ import rx.Observable;
  * Created by tony on 12/22/14.
  */
 public interface TsunamiApi {
+    /* USERS USERS USERS USERS USERS USERS USERS USERS */
+
     public Observable<User> createUser();
 
     public Observable<UserStats> getCurrentUserStats();
 
     public Observable<UserStats> getUserStats(String userId);
 
+    /* RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE */
+
     public Observable<Ripple> ripple(long waveId, double latitude, double longitude);
+
+    /* OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN */
 
     public Observable<List<Wave>> getWaves(double latitude, double longitude);
 
     public Observable<Wave> splash(String title, String body, double latitude, double longitude);
+
+    public Observable<Void> dismissWave(long waveId);
 }

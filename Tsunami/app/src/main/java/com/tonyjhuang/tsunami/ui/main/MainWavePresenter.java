@@ -113,6 +113,8 @@ public class MainWavePresenter implements WavePresenter {
     @Override
     public void onContentSwipedDown() {
         Timber.d("onContentSwipedDown");
+        api.dismissWave(getWaveToShow().getId()).publish().connect();
+
         contentView.clearContentWave();
         index++;
         displayNewWave();

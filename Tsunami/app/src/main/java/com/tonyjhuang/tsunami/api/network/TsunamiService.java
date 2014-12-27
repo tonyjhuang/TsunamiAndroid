@@ -6,6 +6,7 @@ import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateRippleRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateUserRequest;
+import com.tonyjhuang.tsunami.api.network.requestbodies.DismissWaveRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.SplashRequest;
 
 import java.util.List;
@@ -22,6 +23,8 @@ import rx.Observable;
  */
 public interface TsunamiService {
 
+    /* USERS USERS USERS USERS USERS USERS USERS USERS */
+
     /**
      * Create a new user.
      */
@@ -31,16 +34,15 @@ public interface TsunamiService {
     @GET("/users/stats")
     Observable<UserStats> getUserStats(@Query("guid") String guid);
 
+    /* RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE */
+
     /**
      * Ripple a wave.
      */
     @POST("/ripple")
     Observable<Ripple> ripple(@Body CreateRippleRequest body);
 
-    /**
-     * Dismiss a wave (mark as viewed).
-     */
-    //@POST("/ripple/dismiss")
+    /* OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN */
 
     /**
      * Get the list of applicable waves that this user is in.
@@ -55,4 +57,10 @@ public interface TsunamiService {
      */
     @POST("/ocean/splash")
     Observable<Wave> splash(@Body SplashRequest body);
+
+    /**
+     * Dismiss a wave (mark as viewed).
+     */
+    @POST("/ocean/dismiss")
+    Observable<Void> dismissWave(@Body DismissWaveRequest body);
 }

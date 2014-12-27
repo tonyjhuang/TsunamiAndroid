@@ -10,6 +10,7 @@ import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateRippleRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateUserRequest;
+import com.tonyjhuang.tsunami.api.network.requestbodies.DismissWaveRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.SplashRequest;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
@@ -53,6 +54,8 @@ public class TsunamiApiClient implements TsunamiApi {
         this.cache = cache;
     }
 
+    /* USERS USERS USERS USERS USERS USERS USERS USERS */
+
     public Observable<User> createUser() {
         CreateUserRequest request = new CreateUserRequest(userId);
         return service.createUser(request);
@@ -70,10 +73,14 @@ public class TsunamiApiClient implements TsunamiApi {
                 service.getUserStats(userId).map((userStat -> cache.putUserStats(userId, userStat))));
     }
 
+    /* RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE */
+
     public Observable<Ripple> ripple(long waveId, double latitude, double longitude) {
         CreateRippleRequest request = new CreateRippleRequest(userId, waveId, latitude, longitude);
         return service.ripple(request);
     }
+
+    /* OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN */
 
     public Observable<List<Wave>> getWaves(double latitude, double longitude) {
         return service.getWaves(userId, latitude, longitude);
@@ -83,6 +90,14 @@ public class TsunamiApiClient implements TsunamiApi {
         SplashRequest request = new SplashRequest(userId, title, body, latitude, longitude);
         return service.splash(request);
     }
+
+    @Override
+    public Observable<Void> dismissWave(long waveId) {
+        DismissWaveRequest request = new DismissWaveRequest(userId, waveId);
+        return service.dismissWave(request);
+    }
+
+    /* MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC */
 
     private <T> Observable<T> getCacheObservable(T cachedResult) {
         if (cachedResult == null)

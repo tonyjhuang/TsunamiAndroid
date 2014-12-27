@@ -100,6 +100,11 @@ public class MockTsunamiApiClient implements TsunamiApi {
         return Observable.just(generateRandomWave());
     }
 
+    @Override
+    public Observable<Void> dismissWave(long waveId) {
+        return Observable.just(null);
+    }
+
     private Wave generateRandomWave() {
         List<Ripple> ripples = new ArrayList<>();
         List<LatLng> latLngs = getRandomLatLngs();
