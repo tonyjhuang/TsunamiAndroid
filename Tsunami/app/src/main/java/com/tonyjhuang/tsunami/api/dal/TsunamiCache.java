@@ -39,6 +39,9 @@ public class TsunamiCache {
         }
     }
 
+    /**
+     * Note: this is a blocking function, you should never call this from the main thread!
+     */
     public UserStats getUserStats(String userId) {
         return get(userId, UserStats.class);
     }

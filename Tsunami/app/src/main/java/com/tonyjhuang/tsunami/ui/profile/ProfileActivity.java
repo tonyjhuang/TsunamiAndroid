@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.MenuItem;
@@ -11,8 +12,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 
+import com.squareup.picasso.Picasso;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
+import com.tonyjhuang.tsunami.TsunamiApplication;
+import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.injection.ProfileModule;
 import com.tonyjhuang.tsunami.logging.Timber;
@@ -20,13 +24,14 @@ import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScroll
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollListener;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import javax.inject.Inject;
 
 import butterknife.InjectView;
+import butterknife.InjectViews;
 
 /**
  * Created by tony on 12/21/14.
@@ -40,28 +45,13 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
     @InjectView(R.id.cover)
     ImageView coverImage;
 
-    @InjectView(R.id.num_waves)
-    TextSwitcher numWaves;
-    @InjectView(R.id.num_waves_views)
-    TextSwitcher numWavesViews;
-    @InjectView(R.id.num_waves_ripples)
-    TextSwitcher numWavesRipples;
 
-    @InjectView(R.id.num_views)
-    TextSwitcher numViews;
-    @InjectView(R.id.num_ripples)
-    TextSwitcher numRipples;
-    @InjectView(R.id.percent_rippled)
-    TextSwitcher percentRippled;
+    @InjectViews({R.id.num_waves, R.id.num_waves_views, R.id.num_waves_ripples,
+            R.id.num_views, R.id.num_ripples, R.id.percent_rippled})
+    List<TextSwitcher> statViews;
 
     @Inject
     TsunamiApi api;
-
-    private static int coverPhotoIndex;
-
-    static {
-        coverPhotoIndex = new Random().nextInt(4);
-    }
 
     public static void startProfileActivity(TsunamiActivity activity) {
         activity.startActivityForResult(
@@ -86,21 +76,32 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
         float screenModifier = orientation == Configuration.ORIENTATION_PORTRAIT ? 3.0f : 2.0f;
         setCoverImageHeight((int) (getScreenDimensions().y / screenModifier));
 
-        int resourceId = getResources().getIdentifier("cover_" + (coverPhotoIndex + 1), "drawable", getPackageName());
-        coverImage.setImageResource(resourceId);
+        Picasso.with(this).load(TsunamiApplication.profileCoverResourceId).into(coverImage);
 
-        subscribe(api.getCurrentUserStats(), (userStats) -> {
-            Timber.d(userStats.toString());
-            numWaves.setText(userStats.getSplashes() + "");
-            numWavesViews.setText(userStats.getViewsAcrossWaves() + "");
-            numWavesRipples.setText(userStats.getRipplesAcrossWaves() + "");
-            numViews.setText(userStats.getViewed() + "");
-            numRipples.setText(userStats.getRipples() + "");
-            percentRippled.setText((int) userStats.getRippleChance() + "%");
-        }, (throwable) -> {
+        subscribe(api.getCurrentUserStats(), this::populateStats, (throwable) -> {
             Timber.e(throwable, "error getting userstats");
             showToast("error getting user stats");
         });
+    }
+
+    private void populateStats(UserStats stats) {
+        List<String> statStrings = statsToList(stats);
+        for (int i = 0; i < statViews.size(); i++) {
+            TextSwitcher view = statViews.get(i);
+            String stat = statStrings.get(i);
+            view.post(() -> view.setText(stat));
+        }
+    }
+
+    private List<String> statsToList(UserStats stats) {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add(stats.getSplashes() + "");
+        strings.add(stats.getViewsAcrossWaves() + "");
+        strings.add(stats.getRipplesAcrossWaves() + "");
+        strings.add(stats.getViewed() + "");
+        strings.add(stats.getRipples() + "");
+        strings.add(stats.getRippleChance() + "%");
+        return strings;
     }
 
     @Override
@@ -130,9 +131,11 @@ public class ProfileActivity extends TsunamiActivity implements OnScrollListener
     }
 
     private void setCoverImageHeight(int height) {
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) coverImage.getLayoutParams();
-        layoutParams.height = height;
-        coverImage.setLayoutParams(layoutParams);
+        coverImage.post(() -> {
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) coverImage.getLayoutParams();
+            layoutParams.height = height;
+            coverImage.setLayoutParams(layoutParams);
+        });
     }
 
     @Override

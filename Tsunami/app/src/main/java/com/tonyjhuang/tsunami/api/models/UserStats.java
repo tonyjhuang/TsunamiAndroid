@@ -1,7 +1,6 @@
 package com.tonyjhuang.tsunami.api.models;
 
 import com.google.gson.annotations.Expose;
-import com.tonyjhuang.tsunami.api.parsers.TsunamiDouble;
 
 import java.io.Serializable;
 import java.math.RoundingMode;
@@ -53,8 +52,8 @@ public class UserStats extends ApiObject implements Serializable {
         return viewed;
     }
 
-    public double getRippleChance() {
-        return TsunamiDouble.format(rippleChance * 100);
+    public int getRippleChance() {
+        return (int) rippleChance * 100;
     }
 
     /* Debugging */
@@ -74,8 +73,6 @@ public class UserStats extends ApiObject implements Serializable {
         this.viewed = Math.max(viewed, ripples);
         this.ripples = Math.min(viewed, ripples);
 
-        DecimalFormat df = new DecimalFormat("#.##");
-        df.setRoundingMode(RoundingMode.HALF_UP);
-        this.rippleChance = Double.valueOf(df.format(((float) ripples) / viewed * 100));
+        this.rippleChance = (double) ripples / viewed;
     }
 }

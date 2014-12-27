@@ -3,10 +3,12 @@ package com.tonyjhuang.tsunami.ui.profile;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextSwitcher;
 
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 /**
  * Created by tony on 12/25/14.
@@ -21,13 +23,38 @@ public class ProfileStatTextSwitcher extends TextSwitcher {
     public ProfileStatTextSwitcher(Context context, AttributeSet attrs) {
         super(context, attrs);
         initFactoryIfDoesntExit();
-        setInAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-        setOutAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+        setInAnimation(AnimationUtils.loadAnimation(getContext().getApplicationContext(), android.R.anim.fade_in));
+        setOutAnimation(AnimationUtils.loadAnimation(getContext().getApplicationContext(), android.R.anim.fade_out));
         setFactory(factory);
     }
 
     private void initFactoryIfDoesntExit() {
         if (factory == null)
             factory = (() -> View.inflate(getContext(), R.layout.stub_profile_stat_num, null));
+    }
+
+
+    @Override
+    public void setText(CharSequence text) {
+        if (getInAnimation().hasStarted() && !getInAnimation().hasEnded()) {
+            getInAnimation().setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    setText(text);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        } else {
+            super.setText(text);
+        }
     }
 }

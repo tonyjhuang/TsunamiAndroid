@@ -1,15 +1,22 @@
 package com.tonyjhuang.tsunami;
 
-import android.app.AlarmManager;
-import android.app.Application;
+import android.graphics.Point;
 import android.support.multidex.MultiDexApplication;
-import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
+import com.squareup.picasso.Picasso;
 import com.tonyjhuang.tsunami.injection.ApplicationModule;
 import com.tonyjhuang.tsunami.injection.Injector;
 import com.tonyjhuang.tsunami.logging.Timber;
+
+import java.util.Random;
 
 import dagger.ObjectGraph;
 
@@ -21,6 +28,7 @@ public class TsunamiApplication extends MultiDexApplication implements Injector 
     private static final int ONE_MINUTE = 60 * 1000;
 
     private ObjectGraph applicationGraph;
+    public static int profileCoverResourceId;
 
     @Override
     public void onCreate() {
@@ -28,7 +36,6 @@ public class TsunamiApplication extends MultiDexApplication implements Injector 
         applicationGraph = ObjectGraph.create(new ApplicationModule(this));
 
         LocationLibrary.showDebugOutput(true);
-
         Timber.plant(new Timber.DebugTree());
 
         try {
@@ -41,6 +48,12 @@ public class TsunamiApplication extends MultiDexApplication implements Injector 
             Timber.e("No location providers", e);
             Toast.makeText(this, "Sorry, but you need a device that has gps to use this app!", Toast.LENGTH_LONG).show();
         }
+
+        profileCoverResourceId = getResources().getIdentifier(
+                "cover_" + (new Random().nextInt(4) + 1), "drawable", getPackageName());
+
+        // preload cover image
+        Picasso.with(this).load(profileCoverResourceId).fetch();
     }
 
     @Override
@@ -49,7 +62,7 @@ public class TsunamiApplication extends MultiDexApplication implements Injector 
     }
 
     @Override
-    public void inject(Object injectee) {
-        applicationGraph.inject(injectee);
+    public void inject(Object target) {
+        applicationGraph.inject(target);
     }
 }

@@ -65,11 +65,11 @@ android {
         javaMaxHeapSize "4g"
     }
 
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
@@ -78,6 +78,7 @@ dependencies {
     compile 'info.hoang8f:fbutton:1.0.5'
     compile 'com.joanzapata.android:android-iconify:1.0.6'
     compile 'com.github.nirhart:parallaxscroll:1.0'
+    compile 'com.squareup.picasso:picasso:2.4.0'
     // Injection
     compile 'com.squareup.dagger:dagger-compiler:1.2.1'
     compile 'com.squareup.dagger:dagger:1.2.2'
