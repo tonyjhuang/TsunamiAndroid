@@ -5,9 +5,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -17,10 +19,12 @@ import com.google.android.gms.maps.MapFragment;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants;
+import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.injection.MainModule;
 import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.mock.DebugLocationControls;
 import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
 import com.tonyjhuang.tsunami.ui.customviews.fab.FloatingActionButton;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentScrollView;
@@ -61,6 +65,10 @@ public class MainActivity extends TsunamiActivity implements
     Button profileButton;
     @InjectView(R.id.ghetto_toolbar)
     GhettoToolbar toolbar;
+    @InjectView(R.id.debug_controls_stub)
+    ViewStub debugControlsStub;
+
+    DebugLocationControls debugLocationControls;
 
     @Inject
     WavePresenter presenter;
@@ -104,6 +112,10 @@ public class MainActivity extends TsunamiActivity implements
         presenter.setContentView(contentView);
         contentView.setOnScrollListener(this);
         contentView.setOnViewTypeChangedListener(this);
+
+        if(BuildConfig.DEBUG) {
+            debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
+        }
     }
 
     @Override
@@ -122,6 +134,15 @@ public class MainActivity extends TsunamiActivity implements
         Timber.d("unregistering broadcast receiver");
         unregisterReceiver(mainLocationBroadcastReceiver);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(BuildConfig.DEBUG) {
+            debugLocationControls.disconnect();
+        }
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -217,8 +238,12 @@ public class MainActivity extends TsunamiActivity implements
         @Override
         public void onReceive(Context context, Intent intent) {
             // extract the location info in the broadcast
-            presenter.onLocationUpdate((LocationInfo) intent
-                    .getSerializableExtra(LocationLibraryConstants.LOCATION_BROADCAST_EXTRA_LOCATIONINFO));
+            LocationInfo locationInfo = (LocationInfo) intent
+                    .getSerializableExtra(LocationLibraryConstants.LOCATION_BROADCAST_EXTRA_LOCATIONINFO);
+            presenter.onLocationUpdate(locationInfo);
+            if(BuildConfig.DEBUG) {
+                debugLocationControls.setCurrentLocation(locationInfo.lastLat, locationInfo.lastLong);
+            }
         }
     };
 

@@ -28,13 +28,21 @@
         android:fillViewport="true"
         android:scrollbars="none" />
 
+    <ViewStub
+        android:id="@+id/debug_controls_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:inflatedId="@+id/debug_controls"
+        android:layout="@layout/stub_debug_location_controls" />
+
     <com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar
         android:id="@+id/ghetto_toolbar"
-        android:paddingTop="@dimen/ghetto_toolbar_padding_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/ghetto_toolbar_padding_top">
 
         <Button
             android:id="@+id/profile"
