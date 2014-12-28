@@ -81,10 +81,9 @@ public class MainWavePresenter implements WavePresenter {
         }
 
         Wave newWave = getWaveToShow();
-        if (newWave == null)
-            fetchNewWaves(locationInfo, true);
-        else
-            displayWave(newWave);
+        displayWave(newWave);
+        if(newWave == null)
+            fetchNewWaves(locationInfo, false);
     }
 
     private void displayWave(Wave wave) {
@@ -167,15 +166,6 @@ public class MainWavePresenter implements WavePresenter {
 
     @Override
     public void onLocationUpdate(LocationInfo newLocationInfo) {
-        Timber.d(String.format("new location : %f, %f", newLocationInfo.lastLat, newLocationInfo.lastLong));
-        if (locationInfo != null &&
-                locationInfo.lastLat == newLocationInfo.lastLat
-                && locationInfo.lastLong == newLocationInfo.lastLong) {
-            ;//Timber.d("returning");
-            //return;
-        }
-        Timber.d("setting mapView location..");
-
         locationInfo = newLocationInfo;
         mapView.setCurrentLocation(locationInfo);
 
@@ -202,8 +192,9 @@ public class MainWavePresenter implements WavePresenter {
             if (next.equals(currentWave)) // Don't delete the current wave
                 continue;
 
-            if (!next.isValidFor(lat, lon))
+            if (!next.isValidFor(lat, lon)) {
                 iterator.remove();
+            }
         }
 
         index = 0; // Reset index and set it to the correct new value.
@@ -216,13 +207,16 @@ public class MainWavePresenter implements WavePresenter {
     }
 
     /**
-     * Retrieve a new list of waves from the backend.
+     * Retrieve a new list of waves from the backend, adds it to the list of waves to show.
+     * Will also call displayNewWave if there is no current wave.
      *
      * @param refresh: start from scratch? will delete all current waves and reset index to 0
      */
     private void fetchNewWaves(LocationInfo locationInfo, boolean refresh) {
+        Timber.d("fetching new waves");
         RxHelper.bindAsync(api.getWaves(locationInfo.lastLat, locationInfo.lastLong),
                 (List<Wave> waves) -> {
+                    Timber.d("got new waves: " + waves.size());
                     loading = false;
                     if (refresh) {
                         wavesToShow = waves;

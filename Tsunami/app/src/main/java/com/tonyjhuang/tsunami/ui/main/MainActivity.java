@@ -79,6 +79,11 @@ public class MainActivity extends TsunamiActivity implements
     private final String STATE_WAVE = "wave";
     private final String STATE_SPLASHING = "splashing";
 
+    /**
+     * keep track of the last reported location to avoid sending duplicate reports to our poor presenter.
+     */
+    private float lastLat, lastLng;
+
     public static void startMainActivity(Activity activity) {
         activity.startActivity(new Intent(activity, MainActivity.class));
     }
@@ -234,9 +239,19 @@ public class MainActivity extends TsunamiActivity implements
     private final BroadcastReceiver mainLocationBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            float tmpLastLat = lastLat;
+            float tmpLastLng = lastLng;
+
             // extract the location info in the broadcast
             LocationInfo locationInfo = (LocationInfo) intent
                     .getSerializableExtra(LocationLibraryConstants.LOCATION_BROADCAST_EXTRA_LOCATIONINFO);
+
+            lastLat = locationInfo.lastLat;
+            lastLng = locationInfo.lastLong;
+
+            if (locationInfo.lastLat == tmpLastLat && locationInfo.lastLong == tmpLastLng)
+                return;
+
             presenter.onLocationUpdate(locationInfo);
             if (BuildConfig.DEBUG) {
                 debugLocationControls.setCurrentLocation(locationInfo);

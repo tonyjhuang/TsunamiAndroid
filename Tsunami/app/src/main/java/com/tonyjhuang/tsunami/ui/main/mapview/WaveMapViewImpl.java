@@ -104,8 +104,10 @@ public class WaveMapViewImpl implements WaveMapView {
             clearRipples();
             this.wave = wave;
 
-            drawRipples(wave.getRipples(), wave.getSplashId());
-            zoomToFit(waveRipples);
+            if(wave != null) {
+                drawRipples(wave.getRipples(), wave.getSplashId());
+                zoomToFit(waveRipples);
+            }
         } else {
             throw new RuntimeException("No MapFragment set for this WaveMapView!");
         }
