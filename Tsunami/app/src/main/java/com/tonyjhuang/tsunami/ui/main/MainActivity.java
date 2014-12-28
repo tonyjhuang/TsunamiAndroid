@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -113,8 +112,9 @@ public class MainActivity extends TsunamiActivity implements
         contentView.setOnScrollListener(this);
         contentView.setOnViewTypeChangedListener(this);
 
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
+            debugLocationControls.setLocationListener(presenter::onLocationUpdate);
         }
     }
 
@@ -138,9 +138,6 @@ public class MainActivity extends TsunamiActivity implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(BuildConfig.DEBUG) {
-            debugLocationControls.disconnect();
-        }
     }
 
 
@@ -241,8 +238,8 @@ public class MainActivity extends TsunamiActivity implements
             LocationInfo locationInfo = (LocationInfo) intent
                     .getSerializableExtra(LocationLibraryConstants.LOCATION_BROADCAST_EXTRA_LOCATIONINFO);
             presenter.onLocationUpdate(locationInfo);
-            if(BuildConfig.DEBUG) {
-                debugLocationControls.setCurrentLocation(locationInfo.lastLat, locationInfo.lastLong);
+            if (BuildConfig.DEBUG) {
+                debugLocationControls.setCurrentLocation(locationInfo);
             }
         }
     };

@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class MainWavePresenter implements WavePresenter {
     // How close do we want to run to the end of the list of stored waves before we ask for more?
-    public static final int BUFFER_SIZE = 5;
+    public static final int BUFFER_SIZE = 2;
 
     private TsunamiApi api;
     private LocationInfo locationInfo;
@@ -170,8 +170,11 @@ public class MainWavePresenter implements WavePresenter {
         Timber.d(String.format("new location : %f, %f", newLocationInfo.lastLat, newLocationInfo.lastLong));
         if (locationInfo != null &&
                 locationInfo.lastLat == newLocationInfo.lastLat
-                && locationInfo.lastLong == newLocationInfo.lastLong)
-            return;
+                && locationInfo.lastLong == newLocationInfo.lastLong) {
+            ;//Timber.d("returning");
+            //return;
+        }
+        Timber.d("setting mapView location..");
 
         locationInfo = newLocationInfo;
         mapView.setCurrentLocation(locationInfo);

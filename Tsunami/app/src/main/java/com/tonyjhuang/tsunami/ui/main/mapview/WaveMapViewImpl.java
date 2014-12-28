@@ -23,6 +23,7 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
@@ -33,7 +34,7 @@ import java.util.List;
  * Created by tonyjhuang on 10/27/14.
  */
 public class WaveMapViewImpl implements WaveMapView {
-    private static final int RIPPLE_RADIUS = 3000;
+    private static final int RIPPLE_RADIUS = 1900;
     private static final int FINISH_SPLASH_ANIMATION_DURATION = 1000;
     // How long to wait after the animation has finished to notify the callback.
     private static final int FINISH_SPLASH_ANIMATION_POST_DELAY = 1500;
@@ -119,6 +120,7 @@ public class WaveMapViewImpl implements WaveMapView {
     @Override
     public void setCurrentLocation(LocationInfo locationInfo) {
         currentLocation = new LatLng(locationInfo.lastLat, locationInfo.lastLong);
+        Timber.d("new location: " + locationInfo);
 
         if (currentLocationMarker == null) {
             BitmapDescriptor markerBitmap = BitmapDescriptorFactory.fromResource(R.drawable.current_location);

@@ -1,17 +1,12 @@
 package com.tonyjhuang.tsunami.mock;
 
 import android.content.Context;
-import android.location.Location;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderApi;
-import com.google.android.gms.location.LocationServices;
+import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
 
 import butterknife.ButterKnife;
@@ -21,19 +16,17 @@ import butterknife.OnClick;
 /**
  * Created by tony on 12/27/14.
  */
-public class DebugLocationControls extends LinearLayout implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
-    private static final String PROVIDER = "flp";
-    private static final float ACCURACY = 3.0f;
-
-    private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi;
-    private GoogleApiClient apiClient;
-    private boolean connected = false;
+public class DebugLocationControls extends LinearLayout {
+    private static final double INTERVAL = 0.0025;
 
     @InjectView(R.id.latitude)
     TextView latitude;
     @InjectView(R.id.longitude)
     TextView longitude;
+
+    private LocationInfo locationInfo;
+    private float lastMockLat;
+    private float lastMockLong;
 
     public DebugLocationControls(Context context) {
         this(context, null);
@@ -46,55 +39,52 @@ public class DebugLocationControls extends LinearLayout implements GoogleApiClie
     public DebugLocationControls(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         ButterKnife.inject(this, inflate(context, R.layout.view_debug_location_controls, this));
-
-        apiClient = new GoogleApiClient.Builder(context)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-    }
-
-    private void connect() {
-        locationProviderApi.setMockMode(apiClient, true);
-    }
-
-    public void disconnect() {
-        locationProviderApi.setMockMode(apiClient, false);
     }
 
 
     @OnClick(R.id.left)
     public void onLeftClick(View view) {
-        connect();
-        locationProviderApi.setMockLocation(apiClient, createLocation(0, 0));
+        setMockLocation(0, -INTERVAL);
     }
 
-    public void setCurrentLocation(double lat, double lng) {
-        latitude.setText(lat + "");
-        longitude.setText(lng + "");
+    @OnClick(R.id.right)
+    public void onRightClick(View view) {
+        setMockLocation(0, INTERVAL);
     }
 
-    public Location createLocation(double lat, double lng) {
-        // Create a new Location
-        Location newLocation = new Location(PROVIDER);
-        newLocation.setLatitude(lat);
-        newLocation.setLongitude(lng);
-        newLocation.setAccuracy(ACCURACY);
-        return newLocation;
+    @OnClick(R.id.up)
+    public void onUpClick(View view) {
+        setMockLocation(INTERVAL, 0);
     }
 
-    @Override
-    public void onConnected(Bundle bundle) {
-
+    @OnClick(R.id.down)
+    public void onDownClick(View view) {
+        setMockLocation(-INTERVAL, 0);
     }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-
+    public void setCurrentLocation(LocationInfo locationInfo) {
+        this.locationInfo = locationInfo;
+        lastMockLat = locationInfo.lastLat;
+        lastMockLong = locationInfo.lastLong;
+        latitude.setText(locationInfo.lastLat + "");
+        longitude.setText(locationInfo.lastLong + "");
     }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public static interface LocationListener {
+        public void onLocationChanged(LocationInfo locationInfo);
+    }
 
+    private LocationListener locationListener;
+
+    public void setLocationListener(LocationListener locationListener) {
+        this.locationListener = locationListener;
+    }
+
+    private void setMockLocation(double dLat, double dLng) {
+        locationInfo.lastLat = (float) dLat + lastMockLat;
+        locationInfo.lastLong = (float) dLng + lastMockLong;
+        if (locationListener != null)
+            locationListener.onLocationChanged(locationInfo);
+        setCurrentLocation(locationInfo);
     }
 }
