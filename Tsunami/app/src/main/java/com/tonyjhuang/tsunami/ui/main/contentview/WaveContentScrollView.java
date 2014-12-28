@@ -79,6 +79,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
 
         if (wave == null) {
             cardContainer.setVisibility(INVISIBLE);
+            scrollTo(0, 1);
             return;
         }
 

@@ -42,7 +42,7 @@ public class WaveMapViewImpl implements WaveMapView {
     private static final int DISPLAY_RIPPLE_ANIMATION_DURATION = 500;
     private static final int DISPLAY_RIPPLE_ANIMATION_POST_DELAY = 250;
 
-    private static final int MAX_ZOOM = 12;
+    private static final int MAX_ZOOM = 13;
 
     private Resources resources;
 
@@ -109,6 +109,10 @@ public class WaveMapViewImpl implements WaveMapView {
             if (wave != null) {
                 drawRipples(wave.getRipples(), wave.getSplashId());
                 zoomToFit(waveRipples);
+            } else {
+                if(currentLocation != null) {
+                    zoomTo(currentLocation, MAX_ZOOM);
+                }
             }
         } else {
             throw new RuntimeException("No MapFragment set for this WaveMapView!");

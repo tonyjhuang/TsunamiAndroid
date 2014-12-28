@@ -110,6 +110,8 @@ public class MainWavePresenter implements WavePresenter {
                     .connect();
 
             mapView.displayRipple(this::displayNewWave);
+        } else {
+            displayNewWave();
         }
 
     }
@@ -197,7 +199,7 @@ public class MainWavePresenter implements WavePresenter {
 
         while (iterator.hasNext()) {
             Wave next = iterator.next();
-            if (next.equals(currentWave)) // Don't delete the current wave
+            if (next == currentWave)  // Don't delete the current wave
                 continue;
 
             if (!next.isValidFor(lat, lon)) {
