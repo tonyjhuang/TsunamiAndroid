@@ -170,6 +170,7 @@ public class MainWavePresenter implements WavePresenter {
         mapView.setCurrentLocation(locationInfo);
 
         invalidateWaves(newLocationInfo);
+        Timber.d("number of waves: " + wavesToShow.size());
         if (index + BUFFER_SIZE >= wavesToShow.size())
             fetchNewWaves(locationInfo, false);
     }
@@ -223,6 +224,11 @@ public class MainWavePresenter implements WavePresenter {
                         index = 0;
                     } else {
                         wavesToShow.addAll(waves);
+                    }
+
+                    if(waves.size() == 0) {
+                        Timber.d("uh oh, didnt get any waves, lets just chill out here");
+                        return;
                     }
 
                     // Show a new wave if we haven't yet.

@@ -77,6 +77,11 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         cardContainer.setVisibility(VISIBLE);
         contentCard.setWave(wave);
 
+        if (wave == null) {
+            cardContainer.setVisibility(INVISIBLE);
+            return;
+        }
+
         if (!contentCard.equals(getCardView())) {
             setCardView(contentCard);
 
@@ -148,6 +153,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
+        Timber.d("t: " + t + " oldt: " + oldt);
         /**
          * Seems like theres a bug where the last scroll event gets repeated if overscroll is off.
          */
@@ -168,7 +174,6 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
             }
         } else if (t >= getMaxScrollHeight()) {
             pendingEvent = true;
-            Timber.d("maxScrollHeight reached t: " + t + " oldt: " + oldt);
             setScrollAssist(false);
             post(() -> cardContainer.setVisibility(INVISIBLE));
             if (!isShowingSplashCard()) {

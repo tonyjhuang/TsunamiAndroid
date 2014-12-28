@@ -42,6 +42,8 @@ public class WaveMapViewImpl implements WaveMapView {
     private static final int DISPLAY_RIPPLE_ANIMATION_DURATION = 500;
     private static final int DISPLAY_RIPPLE_ANIMATION_POST_DELAY = 250;
 
+    private static final int MAX_ZOOM = 12;
+
     private Resources resources;
 
     /**
@@ -104,7 +106,7 @@ public class WaveMapViewImpl implements WaveMapView {
             clearRipples();
             this.wave = wave;
 
-            if(wave != null) {
+            if (wave != null) {
                 drawRipples(wave.getRipples(), wave.getSplashId());
                 zoomToFit(waveRipples);
             }
@@ -134,6 +136,11 @@ public class WaveMapViewImpl implements WaveMapView {
             currentLocationMarker.setPosition(currentLocation);
         }
 
+        if (waveRipples.size() == 0)
+            zoomTo(currentLocation, MAX_ZOOM);
+        else
+            zoomToFit(waveRipples);
+
         if (splashingIndicator != null) {
             splashingIndicator.setCenter(currentLocation);
         }
@@ -149,7 +156,7 @@ public class WaveMapViewImpl implements WaveMapView {
             int strokeColor = resources.getColor(R.color.map_view_splashing_stroke);
             int fillColor = resources.getColor(R.color.map_view_splashing_fill_begin);
 
-            zoomTo(currentLocation, 12);
+            zoomTo(currentLocation, MAX_ZOOM);
 
             if (splashingIndicator == null) {
                 addSplashingIndicator(strokeColor);
