@@ -119,6 +119,22 @@ public class WaveMapViewImpl implements WaveMapView {
     public void setMapFragment(MapFragment mapFragment) {
         this.mapFragment = mapFragment;
         this.map = mapFragment.getMap();
+        if (pendingStartLat != -1 && pendingStartLng != -1) {
+            zoomTo(new LatLng(pendingStartLat, pendingStartLng), MAX_ZOOM);
+        }
+    }
+
+    float pendingStartLat = -1, pendingStartLng = -1;
+
+    public void setStartingLocation(float lat, float lng) {
+        if(waveRipples.size() == 0 && currentLocation == null) {
+            if (map != null) {
+                zoomTo(new LatLng(lat, lng), MAX_ZOOM);
+            } else {
+                pendingStartLat = lat;
+                pendingStartLng = lng;
+            }
+        }
     }
 
     @Override

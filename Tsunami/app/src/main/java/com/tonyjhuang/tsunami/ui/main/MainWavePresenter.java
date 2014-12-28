@@ -10,8 +10,10 @@ import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.utils.RxHelper;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Couple notes on how/when we retrieve a new list of waves from the api:
@@ -75,6 +77,7 @@ public class MainWavePresenter implements WavePresenter {
      * we also make sure that our
      */
     private void displayNewWave() {
+        contentView.showContentCard(null);
         if (index > wavesToShow.size() - BUFFER_SIZE && !loading) {
             loading = true;
             fetchNewWaves(locationInfo, false);
@@ -82,7 +85,7 @@ public class MainWavePresenter implements WavePresenter {
 
         Wave newWave = getWaveToShow();
         displayWave(newWave);
-        if(newWave == null)
+        if (newWave == null)
             fetchNewWaves(locationInfo, false);
     }
 
@@ -98,14 +101,16 @@ public class MainWavePresenter implements WavePresenter {
     @Override
     public void onContentSwipedUp() {
         Timber.d("onContentSwipedUp");
-        api.ripple(contentView.getContentWave().getId(), locationInfo.lastLat, locationInfo.lastLong)
-                .publish()
-                .connect();
-
+        Wave wave = contentView.getContentWave();
         contentView.clearContentWave();
         index++;
+        if (wave.isValidFor(locationInfo.lastLat, locationInfo.lastLong)) {
+            api.ripple(wave.getId(), locationInfo.lastLat, locationInfo.lastLong)
+                    .publish()
+                    .connect();
 
-        mapView.displayRipple(this::displayNewWave);
+            mapView.displayRipple(this::displayNewWave);
+        }
 
     }
 
@@ -126,6 +131,8 @@ public class MainWavePresenter implements WavePresenter {
         api.splash(splashContent.title, splashContent.body, locationInfo.lastLat, locationInfo.lastLong)
                 .publish()
                 .connect();
+
+        dedupWaves();
 
         mainView.showCelebration();
         mainView.hideKeyboard();
@@ -207,6 +214,19 @@ public class MainWavePresenter implements WavePresenter {
         }
     }
 
+    private void dedupWaves() {
+        Set<Wave> dedup = new HashSet<>();
+        dedup.addAll(wavesToShow);
+        wavesToShow = new ArrayList<>(dedup);
+        ArrayList<Long> ids = new ArrayList<Long>();
+        for (Wave wave : wavesToShow) {
+            ids.add(wave.getId());
+        }
+
+        Timber.d("number of waves in list after dedup: " + wavesToShow.size());
+        Timber.d("wave ids: " + ids);
+    }
+
     /**
      * Retrieve a new list of waves from the backend, adds it to the list of waves to show.
      * Will also call displayNewWave if there is no current wave.
@@ -226,7 +246,7 @@ public class MainWavePresenter implements WavePresenter {
                         wavesToShow.addAll(waves);
                     }
 
-                    if(waves.size() == 0) {
+                    if (waves.size() == 0) {
                         Timber.d("uh oh, didnt get any waves, lets just chill out here");
                         return;
                     }

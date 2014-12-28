@@ -11,8 +11,6 @@
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        map:cameraTargetLat="42.098223"
-        map:cameraTargetLng="-70.940553"
         map:cameraZoom="11"
         map:uiCompass="false"
         map:uiRotateGestures="false"

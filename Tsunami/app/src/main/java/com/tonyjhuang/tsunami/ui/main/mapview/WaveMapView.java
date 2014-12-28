@@ -53,4 +53,9 @@ public interface WaveMapView {
      * Should probably display where the user is on the map.
      */
     public void setCurrentLocation(LocationInfo locationInfo);
+
+    /**
+     * Starting position of the map.
+     */
+    public void setStartingLocation(float lat, float lng);
 }

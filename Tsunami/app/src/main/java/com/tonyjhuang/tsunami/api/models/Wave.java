@@ -82,6 +82,16 @@ public class Wave extends ApiObject {
         return false;
     }
 
+    @Override
+    public boolean equals(Object otherWave) {
+        return otherWave instanceof Wave && getId() == ((Wave) otherWave).getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getId() % Integer.MAX_VALUE);
+    }
+
     /* Debugging */
 
     public static Wave createDebugWave(String title, String body, List<Ripple> ripples) {

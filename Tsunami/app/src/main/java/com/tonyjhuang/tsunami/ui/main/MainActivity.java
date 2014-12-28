@@ -31,6 +31,7 @@ import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.ui.profile.ProfileActivity;
 import com.tonyjhuang.tsunami.utils.Celebration;
+import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.util.Arrays;
 import java.util.List;
@@ -73,6 +74,10 @@ public class MainActivity extends TsunamiActivity implements
     WavePresenter presenter;
     @Inject
     WaveMapView mapView;
+    @Inject
+    TsunamiPreferences preferences;
+    @Inject
+    LocationInfo locationInfo;
 
     private static Random random = new Random();
 
@@ -109,6 +114,9 @@ public class MainActivity extends TsunamiActivity implements
          */
         presenter.setMapView(mapView);
         mapView.setMapFragment((MapFragment) getFragmentManager().findFragmentById(R.id.map));
+        if(savedInstanceState == null) {
+            mapView.setStartingLocation(preferences.lastSeenLat.get(), preferences.lastSeenLng.get());
+        }
 
         /**
          * Initialize our WaveContentView which will handle the displaying of wave info.
@@ -137,6 +145,8 @@ public class MainActivity extends TsunamiActivity implements
     public void onPause() {
         super.onPause();
         Timber.d("unregistering broadcast receiver");
+        preferences.lastSeenLat.set(locationInfo.lastLat);
+        preferences.lastSeenLng.set(locationInfo.lastLong);
         unregisterReceiver(mainLocationBroadcastReceiver);
     }
 
@@ -251,6 +261,8 @@ public class MainActivity extends TsunamiActivity implements
 
             if (locationInfo.lastLat == tmpLastLat && locationInfo.lastLong == tmpLastLng)
                 return;
+
+            MainActivity.this.locationInfo = locationInfo;
 
             presenter.onLocationUpdate(locationInfo);
             if (BuildConfig.DEBUG) {

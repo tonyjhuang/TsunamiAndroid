@@ -20,6 +20,8 @@ public class TsunamiPreferences {
      * Preference key-value pairs that you can get-set
      */
     public final IdPreference id = new IdPreference("com.tonyjhuang.tsunami.id");
+    public final FloatPreference lastSeenLat = new FloatPreference("com.tonyjhuang.tsunami.last_seen_lat", -1f);
+    public final FloatPreference lastSeenLng = new FloatPreference("com.tonyjhuang.tsunami.last_seen_lng", -1f);
 
     private SharedPreferences preferences;
 
@@ -29,6 +31,14 @@ public class TsunamiPreferences {
     }
 
     abstract class TsunamiPreference<T> {
+        String key;
+        T defaultValue;
+
+        public TsunamiPreference(String key, T defaultValue) {
+            this.key = key;
+            this.defaultValue = defaultValue;
+        }
+
         public abstract T get();
 
         public abstract void set(T value);
@@ -47,12 +57,9 @@ public class TsunamiPreferences {
     }
 
     public class StringPreference extends TsunamiPreference<String> {
-        private String key;
-        private String defaultValue;
 
         public StringPreference(String key, String defaultValue) {
-            this.key = key;
-            this.defaultValue = defaultValue;
+            super(key, defaultValue);
         }
 
         public StringPreference(String key) {
@@ -70,13 +77,26 @@ public class TsunamiPreferences {
         }
     }
 
+    public class FloatPreference extends TsunamiPreference<Float> {
+        public FloatPreference(String key, Float defaultValue) {
+            super(key, defaultValue);
+        }
+
+        @Override
+        public Float get() {
+            return preferences.getFloat(key, defaultValue);
+        }
+
+        @Override
+        public void set(Float value) {
+            preferences.edit().putFloat(key, value).apply();
+        }
+    }
+
     public class BooleanPreference extends TsunamiPreference<Boolean> {
-        private String key;
-        private boolean defaultValue;
 
         public BooleanPreference(String key, boolean defaultValue) {
-            this.key = key;
-            this.defaultValue = defaultValue;
+            super(key, defaultValue);
         }
 
         public BooleanPreference(String key) {
