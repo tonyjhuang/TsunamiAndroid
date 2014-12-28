@@ -34,7 +34,7 @@ import java.util.List;
  * Created by tonyjhuang on 10/27/14.
  */
 public class WaveMapViewImpl implements WaveMapView {
-    private static final int RIPPLE_RADIUS = 1900;
+    private static final int RIPPLE_RADIUS = 2430;
     private static final int FINISH_SPLASH_ANIMATION_DURATION = 1000;
     // How long to wait after the animation has finished to notify the callback.
     private static final int FINISH_SPLASH_ANIMATION_POST_DELAY = 1500;
@@ -110,7 +110,7 @@ public class WaveMapViewImpl implements WaveMapView {
                 drawRipples(wave.getRipples(), wave.getSplashId());
                 zoomToFit(waveRipples);
             } else {
-                if(currentLocation != null) {
+                if (currentLocation != null) {
                     zoomTo(currentLocation, MAX_ZOOM);
                 }
             }
@@ -131,7 +131,7 @@ public class WaveMapViewImpl implements WaveMapView {
     float pendingStartLat = -1, pendingStartLng = -1;
 
     public void setStartingLocation(float lat, float lng) {
-        if(waveRipples.size() == 0 && currentLocation == null) {
+        if (waveRipples.size() == 0 && currentLocation == null) {
             if (map != null) {
                 zoomTo(new LatLng(lat, lng), MAX_ZOOM);
             } else {
