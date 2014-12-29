@@ -34,7 +34,7 @@ import java.util.List;
  * Created by tonyjhuang on 10/27/14.
  */
 public class WaveMapViewImpl implements WaveMapView {
-    private static final int RIPPLE_RADIUS = 2430;
+    private static final int RIPPLE_RADIUS = 2400;
     private static final int FINISH_SPLASH_ANIMATION_DURATION = 1000;
     // How long to wait after the animation has finished to notify the callback.
     private static final int FINISH_SPLASH_ANIMATION_POST_DELAY = 1500;
