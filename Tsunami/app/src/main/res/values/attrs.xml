@@ -25,4 +25,13 @@
     <declare-styleable name="Theme">
         <attr name="circularImageViewStyle" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="BouncyScrollView">
+        <attr name="starting_position" format="float" />
+        <attr name="anim_duration" format="integer" />
+        <attr name="scroll_assist" format="boolean" />
+        <attr name="scroll_assist_anim_duration" format="integer" />
+        <attr name="scroll_assist_threshold" format="float"/>
+        <attr name="scrollable" format="boolean" />
+    </declare-styleable>
 </resources>

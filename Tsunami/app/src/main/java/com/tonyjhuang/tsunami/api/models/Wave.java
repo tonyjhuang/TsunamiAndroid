@@ -94,14 +94,15 @@ public class Wave extends ApiObject {
 
     /* Debugging */
 
-    public static Wave createDebugWave(String title, String body, List<Ripple> ripples) {
-        return new Wave(WaveContent.createDebugWaveContent(title, body), ripples);
+    public static Wave createDebugWave(String title, String body, List<Ripple> ripples, User user) {
+        return new Wave(WaveContent.createDebugWaveContent(title, body), ripples, user);
     }
 
-    private Wave(WaveContent content, List<Ripple> ripples) {
+    private Wave(WaveContent content, List<Ripple> ripples, User user) {
         this.content = content;
         this.ripples = ripples;
         this.splashId = ripples.get(0).getId();
+        this.user = user;
 
         long earliestDate = 1400000000000l;
         long now = System.currentTimeMillis();
@@ -109,5 +110,7 @@ public class Wave extends ApiObject {
         Date rand = new Date((new Random().nextLong() % mod) + earliestDate);
         setCreatedAt(rand);
         setUpdatedAt(rand);
+
+        setId(new Random().nextLong());
     }
 }

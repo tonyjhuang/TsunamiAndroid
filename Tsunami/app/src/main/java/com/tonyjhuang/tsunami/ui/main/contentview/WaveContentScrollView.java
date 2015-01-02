@@ -1,23 +1,21 @@
 package com.tonyjhuang.tsunami.ui.main.contentview;
 
-import android.animation.Animator;
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.logging.Timber;
-import com.tonyjhuang.tsunami.ui.customviews.scrollview.CardScrollView;
+import com.tonyjhuang.tsunami.ui.customviews.scrollview.BouncyScrollView;
+import com.tonyjhuang.tsunami.ui.customviews.scrollview.FadingBouncyScrollView;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
-import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 /**
  * Created by tonyjhuang on 9/6/14.
  */
-public class WaveContentScrollView extends CardScrollView implements WaveContentView {
-
-    private final String STATE_SPLASHING = "splashing";
+public class WaveContentScrollView extends FadingBouncyScrollView implements
+        WaveContentView,
+        BouncyScrollView.EventListener {
 
     /**
      * The card that contains information about the current wave.
@@ -28,6 +26,11 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
      * The card that allows users to splash new waves.
      */
     private SplashCard splashCard;
+
+    /**
+     * Are we currently showing the user the splash card?
+     */
+    private boolean splashing = false;
 
     /**
      * Our view presenter.
@@ -53,7 +56,7 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         super(context, attrs, defStyle);
 
         contentCard = new ContentCard(context);
-        setFadeCardView(true);
+        setEventListener(this);
     }
 
     @Override
@@ -74,22 +77,19 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
 
     @Override
     public void showContentCard(Wave wave) {
-        cardContainer.setVisibility(VISIBLE);
         contentCard.setWave(wave);
+        resetPosition();
 
-        if (wave == null) {
-            cardContainer.setVisibility(INVISIBLE);
-            scrollTo(0, 1);
-            return;
-        }
+        if (splashing && onViewTypeChangedListener != null)
+            onViewTypeChangedListener.onViewTypeChanged(ViewType.CONTENT);
+        splashing = false;
 
-        if (!contentCard.equals(getCardView())) {
-            setCardView(contentCard);
-
-            if (onViewTypeChangedListener != null)
-                onViewTypeChangedListener.onViewTypeChanged(ViewType.CONTENT);
-        } else {
-            animateCardView();
+        if (wave != null) {
+            Timber.d(wave.toString());
+            if (getCustomView() != contentCard)
+                setCustomView(contentCard, true);
+            else
+                animateToStartingPosition();
         }
     }
 
@@ -105,9 +105,8 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
 
     @Override
     public void showSplashCard() {
-        cardContainer.setVisibility(VISIBLE);
-        if (isShowingSplashCard())
-            return;
+        if (splashing) return;
+        splashing = true;
 
         if (splashCard == null)
             splashCard = new SplashCard(getContext());
@@ -115,14 +114,12 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         if (onViewTypeChangedListener != null)
             onViewTypeChangedListener.onViewTypeChanged(ViewType.SPLASHING);
 
-        setCardView(splashCard);
+        setCustomView(splashCard, true);
     }
 
     @Override
     public boolean isShowingSplashCard() {
-        return splashCard != null
-                && getCardView() != null
-                && getCardView().equals(splashCard);
+        return splashing;
     }
 
     @Override
@@ -147,89 +144,31 @@ public class WaveContentScrollView extends CardScrollView implements WaveContent
         super.scrollDownOffscreen();
     }
 
-    // Keep track of the last last scroll position.
-    int oldoldt, oldoldoldt;
-
-    boolean pendingEvent = false;
     @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        super.onScrollChanged(l, t, oldl, oldt);
-        //Timber.d("t: " + t + " oldt: " + oldt);
-        /**
-         * Seems like theres a bug where the last scroll event gets repeated if overscroll is off.
-         */
-        if (t == oldoldt && oldt == oldoldoldt || pendingEvent) {
-            return;
-        } else {
-            oldoldt = t;
-            oldoldoldt = oldt;
-        }
-        if (t == 0) {
-            pendingEvent = true;
-            setScrollAssist(false);
-            post(() -> cardContainer.setVisibility(INVISIBLE));
-            if (!isShowingSplashCard()) {
-                presenter.onContentSwipedDown();
-            } else {
-                presenter.onSplashSwipedDown();
-            }
-        } else if (t >= getMaxScrollHeight()) {
-            pendingEvent = true;
-            setScrollAssist(false);
-            post(() -> cardContainer.setVisibility(INVISIBLE));
-            if (!isShowingSplashCard()) {
-                presenter.onContentSwipedUp();
-            } else {
-                presenter.onSplashSwipedUp();
-            }
-        }
+    public void onViewHitBottom(View view) {
+        Timber.d("onViewHitBottom");
 
-        if (onScrollListener != null)
-            onScrollListener.onScroll(this, l, t, oldl, oldt);
-
-        /**
-         * Fade card out if it is below the start position
-         */
-        if (t < getCardViewStartingPosition()) {
-            setCardAlpha((float) Math.pow(((float) t) / getCardViewStartingPosition(), 1.6f));
-        } else {
-            setCardAlpha(1.0f);
-        }
-    }
-
-    SimpleAnimatorListener scrollAssistListener = new SimpleAnimatorListener() {
-        @Override
-        public void onAnimationEnd(Animator animator) {
-            setScrollAssist(true);
-            pendingEvent = false;
-        }
-    };
-
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
-        addAnimationListener(scrollAssistListener);
+        if (presenter == null) return;
+        if (splashing)
+            presenter.onSplashSwipedDown();
+        else
+            presenter.onContentSwipedDown();
     }
 
     @Override
-    public Parcelable onSaveInstanceState() {
+    public void onViewHitTop(View view) {
+        Timber.d("onViewHitTop");
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("instanceState", super.onSaveInstanceState());
-        bundle.putBoolean(STATE_SPLASHING, isShowingSplashCard());
-        // ... save everything
-        return bundle;
+        if (presenter == null) return;
+        if (splashing)
+            presenter.onSplashSwipedUp();
+        else
+            presenter.onContentSwipedUp();
     }
 
     @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        if (state instanceof Bundle) {
-            Bundle bundle = (Bundle) state;
-            if (bundle.getBoolean(STATE_SPLASHING)) {
-                Timber.d("should be splashing!");
-            }
-            state = bundle.getParcelable("instanceState");
-        }
-        super.onRestoreInstanceState(state);
+    public void onScrollChanged(BouncyScrollView scrollView, int l, int t, int oldl, int oldt) {
+        if (onScrollListener != null) onScrollListener.onScroll(this, l, t, oldl, oldt);
     }
+
 }

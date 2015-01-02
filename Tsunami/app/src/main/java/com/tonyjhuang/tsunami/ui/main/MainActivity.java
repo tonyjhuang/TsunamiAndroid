@@ -126,8 +126,8 @@ public class MainActivity extends TsunamiActivity implements
         contentView.setOnViewTypeChangedListener(this);
 
         if (BuildConfig.DEBUG) {
-            debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
-            debugLocationControls.setLocationListener(presenter::onLocationUpdate);
+           // debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
+           // debugLocationControls.setLocationListener(presenter::onLocationUpdate);
         }
     }
 
@@ -259,13 +259,11 @@ public class MainActivity extends TsunamiActivity implements
             lastLat = locationInfo.lastLat;
             lastLng = locationInfo.lastLong;
 
-            if (locationInfo.lastLat == tmpLastLat && locationInfo.lastLong == tmpLastLng)
-                return;
+            if (locationInfo.lastLat == tmpLastLat && locationInfo.lastLong == tmpLastLng) return;
 
             MainActivity.this.locationInfo = locationInfo;
-
             presenter.onLocationUpdate(locationInfo);
-            if (BuildConfig.DEBUG) {
+            if (BuildConfig.DEBUG && debugLocationControls != null) {
                 debugLocationControls.setCurrentLocation(locationInfo);
             }
         }
