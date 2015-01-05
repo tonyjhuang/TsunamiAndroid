@@ -17,6 +17,8 @@ import android.widget.ScrollView;
 import android.widget.Space;
 
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.ui.customviews.OnScrollStopListener;
 
 /**
  * Created by tony on 12/28/14.
@@ -98,6 +100,7 @@ public class BouncyScrollView extends ScrollView {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
         if (changed) {
+            Timber.d("onLayoutChanged. new height: " + getHeight());
             /**
              * Set the height of the top and bottom spacers to the same size as this container so
              * the card has space to scroll out of screen.
@@ -241,9 +244,11 @@ public class BouncyScrollView extends ScrollView {
         post(new Runnable() {
             @Override
             public void run() {
+                Timber.d("resetting position");
                 viewContainer.setVisibility(INVISIBLE);
                 viewContainer.scrollTo(0, 1);
                 viewContainer.setVisibility(VISIBLE);
+                Timber.d("scroll position: " + getScrollY());
             }
         });
     }
@@ -262,6 +267,47 @@ public class BouncyScrollView extends ScrollView {
         return topSpacer.getHeight() + (customView == null ? 0 : customView.getHeight());
     }
 
+
+
+    public View getCustomView() {
+        return customView;
+    }
+
+    public void setCustomView(final View customView) {
+        setCustomView(customView, false);
+    }
+
+    public void setCustomView(final View customView, boolean animate) {
+        setCustomView(customView, animate, 200);
+    }
+
+    public void setCustomView(final View customView, boolean animate, int duration) {
+        if (this.customView == null || !animate) {
+            Timber.d("no animation view swap");
+            resetPosition();
+            this.customView = customView;
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    viewContainer.removeAllViews();
+                    viewContainer.addView(customView);
+                }
+            });
+            animateToStartingPosition();
+        } else {
+            Timber.d("animating new view in");
+            onScrollStopListener.setPause(true);
+            ObjectAnimator scrollDown = scrollToPosition(1, duration);
+            scrollDown.addListener(new SimpleAnimationListener() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    setCustomView(customView);
+                }
+            });
+            scrollDown.start();
+        }
+    }
+
     /* Scroll Assist */
 
     /**
@@ -272,6 +318,8 @@ public class BouncyScrollView extends ScrollView {
     private void scrollOffScreenIfNecessary() {
         if (!scrollAssist)
             return;
+
+        Timber.d("yep ,scroll?");
 
         int scrollY = getScrollY();
         //
@@ -291,6 +339,7 @@ public class BouncyScrollView extends ScrollView {
     }
 
     protected void scrollUpOffscreen() {
+        Timber.d("scrolling offscreen. maxscrollheight: " + getMaxScrollHeight());
         scrollToPosition(getMaxScrollHeight(), scrollAssistDuration).start();
     }
 
@@ -365,43 +414,6 @@ public class BouncyScrollView extends ScrollView {
 
     public float getAbsoluteStartingPosition() {
         return absoluteStartingPosition;
-    }
-
-    public View getCustomView() {
-        return customView;
-    }
-
-    public void setCustomView(final View customView) {
-        setCustomView(customView, false);
-    }
-
-    public void setCustomView(final View customView, boolean animate) {
-        setCustomView(customView, animate, 200);
-    }
-
-    public void setCustomView(final View customView, boolean animate, int duration) {
-        if (this.customView == null || !animate) {
-            resetPosition();
-            this.customView = customView;
-            post(new Runnable() {
-                @Override
-                public void run() {
-                    viewContainer.removeAllViews();
-                    viewContainer.addView(customView);
-                }
-            });
-            animateToStartingPosition();
-        } else {
-            onScrollStopListener.setPause(true);
-            ObjectAnimator scrollDown = scrollToPosition(1, duration);
-            scrollDown.addListener(new SimpleAnimationListener() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    setCustomView(customView);
-                }
-            });
-            scrollDown.start();
-        }
     }
 
     public boolean isScrollable() {

@@ -104,7 +104,7 @@ public class Wave extends ApiObject {
         this.splashId = ripples.get(0).getId();
         this.user = user;
 
-        long earliestDate = 1400000000000l;
+        long earliestDate = 1420000000000l;
         long now = System.currentTimeMillis();
         long mod = now - earliestDate;
         Date rand = new Date((new Random().nextLong() % mod) + earliestDate);

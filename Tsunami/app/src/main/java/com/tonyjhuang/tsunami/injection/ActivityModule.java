@@ -15,6 +15,7 @@ import javax.inject.Qualifier;
 import dagger.Module;
 import dagger.Provides;
 
+@SuppressWarnings("unused")
 @Module(
         addsTo = ApplicationModule.class,
         library = true

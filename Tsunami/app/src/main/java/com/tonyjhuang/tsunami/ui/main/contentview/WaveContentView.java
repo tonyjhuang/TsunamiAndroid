@@ -26,6 +26,13 @@ public interface WaveContentView {
     public void showContentCard(Wave wave);
 
     /**
+     * Set the current viewtype to CONTENT and display a wave in the content cardview. Also
+     * gives the opportunity to specify whether this method call is following up a successful splash.
+     * Just in case you want to queue up an extra effect post splash.
+     */
+    public void showContentCard(Wave wave, boolean postSuccessfulSplash);
+
+    /**
      * Are we showing the splash card?
      */
     public boolean isShowingSplashCard();
@@ -60,6 +67,11 @@ public interface WaveContentView {
      * Scroll the cardview down offscreen.
      */
     public void scrollDownOffscreen();
+
+    /**
+     * Hide the content view.
+     */
+    public void hideContent();
 
     /**
      * Set a custom OnScrollListener for this view that will be notified of scroll events.

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.logging.Timber;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -66,6 +67,7 @@ public class ContentCard extends FrameLayout {
 
             hideBody(TextUtils.isEmpty(bodyText) || TextUtils.isEmpty(titleText));
 
+            Timber.d("setting text");
             title.setText(TextUtils.isEmpty(titleText) ? bodyText : titleText);
             body.setText(wave.getContent().getBody());
 

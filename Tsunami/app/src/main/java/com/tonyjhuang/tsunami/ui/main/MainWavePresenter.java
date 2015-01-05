@@ -1,30 +1,26 @@
 package com.tonyjhuang.tsunami.ui.main;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
+import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.contentview.SplashCard;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
-import com.tonyjhuang.tsunami.utils.RxHelper;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import rx.android.observables.AndroidObservable;
+import rx.schedulers.Schedulers;
 
 /**
  * Couple notes on how/when we retrieve a new list of waves from the api:
  * Whenever
  */
 public class MainWavePresenter implements WavePresenter {
-    // How close do we want to run to the end of the list of stored waves before we ask for more?
-    public static final int BUFFER_SIZE = 2;
-
     private TsunamiApi api;
+    private TsunamiActivity activity;
     private LocationInfo locationInfo;
+    private WaveProvider waveProvider;
 
     /**
      * Collection of views that make up the UI for this presenter.
@@ -33,25 +29,12 @@ public class MainWavePresenter implements WavePresenter {
     private WaveMapView mapView;
     private MainView mainView;
 
-    /**
-     * Resident list of waves, we will index through this list as long as it is valid.
-     * It should be invalidated on location updates.
-     */
+    private Wave currentWave;
 
-    private List<Wave> wavesToShow = new ArrayList<>();
-
-    /**
-     * Index into wavesToShow.
-     */
-    private int index = 0;
-
-    /**
-     * Are we currently fetching a list of waves from the server?
-     */
-    private boolean loading = false;
-
-    public MainWavePresenter(TsunamiApi api) {
+    public MainWavePresenter(TsunamiApi api, TsunamiActivity activity, WaveProvider waveProvider) {
         this.api = api;
+        this.activity = activity;
+        this.waveProvider = waveProvider;
     }
 
     @Override
@@ -77,25 +60,19 @@ public class MainWavePresenter implements WavePresenter {
      * we also make sure that our
      */
     private void displayNewWave() {
-        contentView.showContentCard(null);
-        if (index > wavesToShow.size() - BUFFER_SIZE && !loading) {
-            loading = true;
-            fetchNewWaves(locationInfo, false);
-        }
-
-        Wave newWave = getWaveToShow();
-        displayWave(newWave);
-        if (newWave == null)
-            fetchNewWaves(locationInfo, false);
+        AndroidObservable.bindActivity(activity, waveProvider.getNextWave())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(this::displayWave, (error) -> Timber.e(error, "fuck."));
     }
 
     private void displayWave(Wave wave) {
-        contentView.showContentCard(wave);
-        mapView.displayWave(wave);
+        displayWave(wave, false);
     }
 
-    private Wave getWaveToShow() {
-        return index < wavesToShow.size() ? wavesToShow.get(index) : null;
+    private void displayWave(Wave wave, boolean postSuccessfulSplash) {
+        currentWave = wave;
+        contentView.showContentCard(wave, postSuccessfulSplash);
+        mapView.displayWave(wave);
     }
 
     @Override
@@ -103,12 +80,12 @@ public class MainWavePresenter implements WavePresenter {
         Timber.d("onContentSwipedUp");
         Wave wave = contentView.getContentWave();
         contentView.clearContentWave();
-        index++;
+
         if (wave.isValidFor(locationInfo.lastLat, locationInfo.lastLong)) {
             api.ripple(wave.getId(), locationInfo.lastLat, locationInfo.lastLong)
                     .publish()
                     .connect();
-
+            contentView.hideContent();
             mapView.displayRipple(this::displayNewWave);
         } else {
             displayNewWave();
@@ -119,10 +96,7 @@ public class MainWavePresenter implements WavePresenter {
     @Override
     public void onContentSwipedDown() {
         Timber.d("onContentSwipedDown");
-        api.dismissWave(getWaveToShow().getId()).publish().connect();
-
-        contentView.clearContentWave();
-        index++;
+        api.dismissWave(currentWave.getId()).publish().connect();
         displayNewWave();
     }
 
@@ -134,12 +108,10 @@ public class MainWavePresenter implements WavePresenter {
                 .publish()
                 .connect();
 
-        dedupWaves();
-
         mainView.showCelebration();
-        mainView.hideKeyboard();
+        //mainView.hideKeyboard();
 
-        mapView.finishSplashing(this::displayNewWave);
+        mapView.finishSplashing(() -> displayWave(currentWave, true));
     }
 
     @Override
@@ -147,13 +119,13 @@ public class MainWavePresenter implements WavePresenter {
         Timber.d("onSplashSwipedDown");
         mainView.hideKeyboard();
         mapView.cancelSplashing();
-        displayNewWave();
+        displayWave(currentWave);
     }
 
     @Override
     public void onCancelSplashButtonClicked() {
         mapView.cancelSplashing();
-        displayNewWave();
+        displayWave(currentWave);
     }
 
     @Override
@@ -177,19 +149,16 @@ public class MainWavePresenter implements WavePresenter {
     public void onLocationUpdate(LocationInfo newLocationInfo) {
         locationInfo = newLocationInfo;
         mapView.setCurrentLocation(locationInfo);
-
-        invalidateWaves(newLocationInfo);
-        Timber.d("number of waves: " + wavesToShow.size());
-        if (index + BUFFER_SIZE >= wavesToShow.size())
-            fetchNewWaves(locationInfo, false);
+        waveProvider.setLocationInfo(locationInfo);
+        displayNewWave();
     }
-
-    /**
+/*
+    *//**
      * Given a new LocationInfo representing the user's new location, prune waves out of
      * our current list of wavesToShow that no longer apply to their new location.
      * <p>
      * TODO: use accuracy.
-     */
+     *//*
     private void invalidateWaves(LocationInfo newLocationInfo) {
         double lat = newLocationInfo.lastLat;
         double lon = newLocationInfo.lastLong;
@@ -214,49 +183,5 @@ public class MainWavePresenter implements WavePresenter {
             else
                 index++;
         }
-    }
-
-    private void dedupWaves() {
-        Set<Wave> dedup = new HashSet<>();
-        dedup.addAll(wavesToShow);
-        wavesToShow = new ArrayList<>(dedup);
-        ArrayList<Long> ids = new ArrayList<Long>();
-        for (Wave wave : wavesToShow) {
-            ids.add(wave.getId());
-        }
-
-        Timber.d("number of waves in list after dedup: " + wavesToShow.size());
-        Timber.d("wave ids: " + ids);
-    }
-
-    /**
-     * Retrieve a new list of waves from the backend, adds it to the list of waves to show.
-     * Will also call displayNewWave if there is no current wave.
-     *
-     * @param refresh: start from scratch? will delete all current waves and reset index to 0
-     */
-    private void fetchNewWaves(LocationInfo locationInfo, boolean refresh) {
-        Timber.d("fetching new waves");
-        RxHelper.bindAsync(api.getWaves(locationInfo.lastLat, locationInfo.lastLong),
-                (List<Wave> waves) -> {
-                    Timber.d("got new waves: " + waves.size());
-                    loading = false;
-                    if (refresh) {
-                        wavesToShow = waves;
-                        index = 0;
-                    } else {
-                        wavesToShow.addAll(waves);
-                    }
-
-                    if (waves.size() == 0) {
-                        Timber.d("uh oh, didnt get any waves, lets just chill out here");
-                        return;
-                    }
-
-                    // Show a new wave if we haven't yet.
-                    if (contentView.getContentWave() == null && !contentView.isShowingSplashCard())
-                        displayNewWave();
-                },
-                (error) -> Timber.e(error, "uhoh"));
-    }
+    }*/
 }

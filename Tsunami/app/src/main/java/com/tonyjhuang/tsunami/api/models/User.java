@@ -32,8 +32,16 @@ public class User extends ApiObject {
         return new User();
     }
 
+    public static User createDebugUser(String name) {
+        return new User(name);
+    }
+
     private User() {
+        this((new Random().nextInt(2) == 0) ? "Anonymous" : new RandomString(10).nextString());
+    }
+
+    private User(String name) {
         this.guid = UUID.randomUUID().toString();
-        this.name = (new Random().nextInt(2) == 0) ? "Anonymous" : new RandomString(10).nextString();
+        this.name = name;
     }
 }

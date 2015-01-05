@@ -82,8 +82,7 @@ public class MockTsunamiApiClient implements TsunamiApi {
 
     @Override
     public Observable<Ripple> ripple(long waveId, double latitude, double longitude) {
-        LatLng latLng = getRandomLatLng(42.331665, -71.108093); // mission hill?
-        return Observable.just(Ripple.createDebugRipple(latLng.latitude, latLng.longitude));
+        return Observable.just(Ripple.createDebugRipple(latitude, longitude));
     }
 
     @Override
@@ -110,36 +109,38 @@ public class MockTsunamiApiClient implements TsunamiApi {
      * ========================= utility =========================
      */
 
-    private Wave generateRandomWave() {
+    protected Wave generateRandomWave() {
+        return Wave.createDebugWave(randomTitleGen.nextString(),
+                randomTextGen.nextString(),
+                generateRandomRipples(),
+                User.createDebugUser());
+    }
+
+    protected int randInt() {
+        return (int) Math.max(2 + Math.abs((6 * random.nextGaussian())), 0);
+    }
+
+
+    protected double randomDoubleInRange(double min, double max) {
+        return min + (max - min) * random.nextDouble();
+    }
+
+    protected LatLng getRandomLatLng(double lat, double lng) {
+        return new LatLng(
+                lat + randomDoubleInRange(-0.02, 0.02),
+                lng + randomDoubleInRange(-0.02, 0.02));
+    }
+
+    protected List<Ripple> generateRandomRipples() {
         List<Ripple> ripples = new ArrayList<>();
         List<LatLng> latLngs = getRandomLatLngs();
         for (LatLng latLng : latLngs) {
             ripples.add(Ripple.createDebugRipple(latLng.latitude, latLng.longitude));
         }
-
-        return Wave.createDebugWave(randomTitleGen.nextString(),
-                randomTextGen.nextString(),
-                ripples,
-                User.createDebugUser());
+        return ripples;
     }
 
-
-    private int randInt() {
-        return (int) Math.max(2 + Math.abs((6 * random.nextGaussian())), 0);
-    }
-
-
-    private double randomDoubleInRange(double min, double max) {
-        return min + (max - min) * random.nextDouble();
-    }
-
-    private LatLng getRandomLatLng(double lat, double lng) {
-        return new LatLng(
-                lat + randomDoubleInRange(-0.025, 0.025),
-                lng + randomDoubleInRange(-0.025, 0.025));
-    }
-
-    private List<LatLng> getRandomLatLngs() {
+    protected List<LatLng> getRandomLatLngs() {
         ArrayList<LatLng> ripples = new ArrayList<LatLng>();
         LatLng last = null;
 

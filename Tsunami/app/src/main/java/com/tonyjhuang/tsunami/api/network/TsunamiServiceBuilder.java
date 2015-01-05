@@ -1,5 +1,6 @@
 package com.tonyjhuang.tsunami.api.network;
 
+import com.google.gson.GsonBuilder;
 import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 

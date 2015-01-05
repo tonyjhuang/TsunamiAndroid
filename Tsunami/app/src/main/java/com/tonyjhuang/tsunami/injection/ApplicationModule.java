@@ -11,6 +11,7 @@ import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
 import com.tonyjhuang.tsunami.api.network.TsunamiServiceBuilder;
 import com.tonyjhuang.tsunami.mock.MockTsunamiApiClient;
+import com.tonyjhuang.tsunami.mock.reddit.RedditApiClient;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.lang.annotation.Retention;
@@ -25,6 +26,7 @@ import dagger.Provides;
 /**
  * Place all application-scoped injections here. For instance, one-per-application singletons
  */
+@SuppressWarnings("unused")
 @Module(library = true)
 public class ApplicationModule {
     TsunamiApplication application;
@@ -49,7 +51,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     TsunamiApi provideTsunamiApi(TsunamiService service, TsunamiPreferences preferences, TsunamiCache cache) {
-        return new MockTsunamiApiClient(application, service, preferences, cache);
+        return new RedditApiClient(application, service, preferences, cache);
     }
 
     @Provides

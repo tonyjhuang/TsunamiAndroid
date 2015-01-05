@@ -77,17 +77,20 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
 
     @Override
     public void showContentCard(Wave wave) {
+        showContentCard(wave, false);
+    }
+
+    @Override
+    public void showContentCard(Wave wave, boolean postSuccessfulSplash) {
         contentCard.setWave(wave);
-        resetPosition();
 
         if (splashing && onViewTypeChangedListener != null)
             onViewTypeChangedListener.onViewTypeChanged(ViewType.CONTENT);
         splashing = false;
 
         if (wave != null) {
-            Timber.d(wave.toString());
             if (getCustomView() != contentCard)
-                setCustomView(contentCard, true);
+                setCustomView(contentCard, !postSuccessfulSplash);
             else
                 animateToStartingPosition();
         }
@@ -145,6 +148,11 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     }
 
     @Override
+    public void hideContent() {
+        resetPosition();
+    }
+
+    @Override
     public void onViewHitBottom(View view) {
         Timber.d("onViewHitBottom");
 
@@ -158,7 +166,6 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     @Override
     public void onViewHitTop(View view) {
         Timber.d("onViewHitTop");
-
         if (presenter == null) return;
         if (splashing)
             presenter.onSplashSwipedUp();
