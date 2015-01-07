@@ -14,8 +14,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
- * Couple notes on how/when we retrieve a new list of waves from the api:
- * Whenever
+ * TODO: need to clean up interaction with loading.
  */
 public class MainWavePresenter implements WavePresenter {
     private TsunamiApi api;
