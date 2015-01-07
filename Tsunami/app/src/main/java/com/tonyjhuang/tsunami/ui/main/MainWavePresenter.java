@@ -64,11 +64,21 @@ public class MainWavePresenter implements WavePresenter {
         Timber.d("displayNewWave");
         Action1<Wave> onNextWave;
         if (waveProvider.hasNextWave()) {
-            onNextWave = this::displayWave;
+            onNextWave = (wave) -> {
+                if (!contentView.isShowingSplashCard())
+                    displayWave(wave);
+                else
+                    currentWave = wave;
+            };
         } else {
-            contentView.showLoading();
+            if (!contentView.isShowingSplashCard()) contentView.showLoading();
             mapView.displayWave(null);
-            onNextWave = (wave) -> displayWave(wave, true);
+            onNextWave = (wave) -> {
+                if (!contentView.isShowingSplashCard())
+                    displayWave(wave, true);
+                else
+                    currentWave = wave;
+            };
         }
 
         AndroidObservable.bindActivity(activity, waveProvider.getNextWave())
@@ -122,7 +132,12 @@ public class MainWavePresenter implements WavePresenter {
         mainView.showCelebration();
         mainView.hideKeyboard();
 
-        mapView.finishSplashing(() -> displayWave(currentWave, true));
+        mapView.finishSplashing(() -> {
+            if (currentWave != null)
+                displayWave(currentWave, true);
+            else
+                contentView.showLoading();
+        });
     }
 
     @Override
@@ -130,13 +145,19 @@ public class MainWavePresenter implements WavePresenter {
         Timber.d("onSplashSwipedDown");
         mainView.hideKeyboard();
         mapView.cancelSplashing();
-        displayWave(currentWave);
+        if (currentWave != null)
+            displayWave(currentWave);
+        else
+            contentView.showLoading();
     }
 
     @Override
     public void onCancelSplashButtonClicked() {
         mapView.cancelSplashing();
-        displayWave(currentWave);
+        if (currentWave != null)
+            displayWave(currentWave);
+        else
+            contentView.showLoading();
     }
 
     @Override
@@ -163,39 +184,7 @@ public class MainWavePresenter implements WavePresenter {
         mapView.setLocationInfo(locationInfo);
         waveProvider.setLocationInfo(locationInfo);
 
-        if(firstRun) displayNewWave();
+        if (firstRun) displayNewWave();
         firstRun = false;
     }
-/*
-    *//**
-     * Given a new LocationInfo representing the user's new location, prune waves out of
-     * our current list of wavesToShow that no longer apply to their new location.
-     * <p>
-     * TODO: use accuracy.
-     *//*
-    private void invalidateWaves(LocationInfo newLocationInfo) {
-        double lat = newLocationInfo.lastLat;
-        double lon = newLocationInfo.lastLong;
-
-        Wave currentWave = getWaveToShow();
-        Iterator<Wave> iterator = wavesToShow.iterator();
-
-        while (iterator.hasNext()) {
-            Wave next = iterator.next();
-            if (next == currentWave)  // Don't delete the current wave
-                continue;
-
-            if (!next.isValidFor(lat, lon)) {
-                iterator.remove();
-            }
-        }
-
-        index = 0; // Reset index and set it to the correct new value.
-        for (Wave wave : wavesToShow) {
-            if (wave.equals(currentWave))
-                return;
-            else
-                index++;
-        }
-    }*/
 }
