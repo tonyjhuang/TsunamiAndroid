@@ -84,7 +84,6 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
 
     @Override
     public void showLoading() {
-        Timber.d("showLoading");
         setScrollable(false);
         setCustomView(loadingView);
     }
@@ -160,20 +159,16 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
 
     @Override
     public void scrollDownOffscreen() {
-        Timber.d("scrollDownOffscreen");
         super.scrollDownOffscreen();
     }
 
     @Override
     public void hideContent() {
-        Timber.d("hideContent");
         resetPosition();
     }
 
     @Override
     public void onViewHitBottom(View view) {
-        Timber.d("onViewHitBottom");
-
         if (presenter == null) return;
         if (splashing)
             presenter.onSplashSwipedDown();
@@ -183,7 +178,6 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
 
     @Override
     public void onViewHitTop(View view) {
-        Timber.d("onViewHitTop");
         if (presenter == null) return;
         if (splashing)
             presenter.onSplashSwipedUp();

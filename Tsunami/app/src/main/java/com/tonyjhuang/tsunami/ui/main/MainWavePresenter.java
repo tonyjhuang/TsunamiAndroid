@@ -81,7 +81,6 @@ public class MainWavePresenter implements WavePresenter {
     }
 
     private void displayWave(Wave wave, boolean postSuccessfulSplash) {
-        Timber.d("displayWave: " + wave + ", " + postSuccessfulSplash);
         currentWave = wave;
         contentView.showContentCard(wave, postSuccessfulSplash);
         mapView.displayWave(wave);
@@ -121,7 +120,7 @@ public class MainWavePresenter implements WavePresenter {
                 .connect();
 
         mainView.showCelebration();
-        //mainView.hideKeyboard();
+        mainView.hideKeyboard();
 
         mapView.finishSplashing(() -> displayWave(currentWave, true));
     }

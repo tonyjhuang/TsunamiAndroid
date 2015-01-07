@@ -12,7 +12,7 @@
     <dimen name="card_padding">16dp</dimen>
     <dimen name="card_max_width">450dp</dimen>
 
-    <dimen name="content_scroll_assist_threshold">120dp</dimen>
+    <dimen name="content_scroll_assist_threshold">156dp</dimen>
 
     <dimen name="content_title_textsize">24sp</dimen>
     <dimen name="content_divider_margin_horizontal">16dp</dimen>

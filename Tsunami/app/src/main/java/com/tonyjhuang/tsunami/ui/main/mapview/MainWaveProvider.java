@@ -63,7 +63,7 @@ public class MainWaveProvider implements WaveProvider {
             Timber.d("returning " + index + " out of " + waves.size());
             return Observable.just(waves.get(index++));
         } else {
-            Timber.d("no more waves, retrying.");
+            Timber.d("no more waves, fetching from api.");
             return getMoreWaves().flatMap((object) -> getNextWave(true));
         }
     }
