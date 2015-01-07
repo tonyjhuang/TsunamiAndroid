@@ -9,6 +9,9 @@ import com.google.gson.GsonBuilder;
  * objects into Tsunami ApiObjects
  */
 public class TsunamiGson {
+
+    public static final Gson gson = buildGson();
+
     public static Gson buildGson() {
         return new GsonBuilder()
                 .serializeNulls()

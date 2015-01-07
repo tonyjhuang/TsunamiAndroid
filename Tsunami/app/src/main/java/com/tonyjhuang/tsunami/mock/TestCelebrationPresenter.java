@@ -89,4 +89,12 @@ public class TestCelebrationPresenter implements WavePresenter {
         mapView.setLocationInfo(newLocationInfo);
         onBeginSplashButtonClicked();
     }
+
+    @Override
+    public String getMemento() {
+        return null;
+    }
+
+    @Override
+    public void fromMemento(String string) { }
 }

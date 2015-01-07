@@ -76,7 +76,6 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
         this.onViewTypeChangedListener = onViewTypeChangedListener;
     }
 
-
     @Override
     public void setOnScrollListener(OnScrollListener onScrollListener) {
         this.onScrollListener = onScrollListener;

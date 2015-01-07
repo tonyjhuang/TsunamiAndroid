@@ -1,8 +1,10 @@
 package com.tonyjhuang.tsunami.ui.main.mapview;
 
+import com.google.gson.annotations.Expose;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
+import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.WaveProvider;
 
@@ -81,6 +83,32 @@ public class MainWaveProvider implements WaveProvider {
             Wave wave = iter.next();
             if (pos++ < index + 1) continue; // Only invalidate waves we haven't seen yet.
             if (!wave.isValidFor(locationInfo.lastLat, locationInfo.lastLong)) iter.remove();
+        }
+    }
+
+    @Override
+    public String getMemento() {
+        MainWaveProviderMemento memento = new MainWaveProviderMemento();
+        memento.waves = waves;
+        memento.index = index;
+        return memento.toString();
+    }
+
+    @Override
+    public void fromMemento(String string) {
+        MainWaveProviderMemento memento = TsunamiGson.gson.fromJson(string, MainWaveProviderMemento.class);
+        waves = memento.waves;
+        index = memento.index;
+    }
+
+    private static class MainWaveProviderMemento {
+        @Expose
+        List<Wave> waves;
+        @Expose
+        int index;
+
+        public String toString() {
+            return TsunamiGson.gson.toJson(this);
         }
     }
 }

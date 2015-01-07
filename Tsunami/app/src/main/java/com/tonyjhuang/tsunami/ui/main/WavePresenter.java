@@ -31,4 +31,8 @@ public interface WavePresenter {
     public void onProfileButtonClicked();
 
     public void onLocationUpdate(LocationInfo newLocationInfo);
+
+    public String getMemento();
+
+    public void fromMemento(String string);
 }

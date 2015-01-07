@@ -72,4 +72,14 @@ public class TestScrollPresenter implements WavePresenter {
     public void onLocationUpdate(LocationInfo newLocationInfo) {
 
     }
+
+    @Override
+    public String getMemento() {
+        return null;
+    }
+
+    @Override
+    public void fromMemento(String string) {
+
+    }
 }

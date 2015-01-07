@@ -55,6 +55,8 @@ public class MainActivity extends TsunamiActivity implements
     public final static int INITIAL_CELEBRATION_DELAY = 1000;
     public final static int CELEBRATION_DELAY = 250; // in millis
 
+    private final static String STATE_PRESENTER = "state_presenter";
+
     @InjectView(R.id.container)
     FrameLayout container;
     @InjectView(R.id.content_scrollview)
@@ -80,9 +82,6 @@ public class MainActivity extends TsunamiActivity implements
     LocationInfo locationInfo;
 
     private static Random random = new Random();
-
-    private final String STATE_WAVE = "wave";
-    private final String STATE_SPLASHING = "splashing";
 
     /**
      * keep track of the last reported location to avoid sending duplicate reports to our poor presenter.
@@ -129,6 +128,10 @@ public class MainActivity extends TsunamiActivity implements
            //debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
            //debugLocationControls.setLocationListener(presenter::onLocationUpdate);
         }
+
+        if(savedInstanceState != null) {
+            presenter.fromMemento(savedInstanceState.getString(STATE_PRESENTER));
+        }
     }
 
     @Override
@@ -158,8 +161,7 @@ public class MainActivity extends TsunamiActivity implements
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        //savedInstanceState.putParcelable(STATE_WAVE, contentView.getContentWave());
-        //savedInstanceState.putBoolean(STATE_SPLASHING, contentView.isShowingSplashCard());
+        savedInstanceState.putString(STATE_PRESENTER, presenter.getMemento());
 
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);

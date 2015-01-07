@@ -14,4 +14,8 @@ public interface WaveProvider {
     public boolean hasNextWave();
 
     public void setLocationInfo(LocationInfo locationInfo);
+
+    public String getMemento();
+
+    public void fromMemento(String string);
 }

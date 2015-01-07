@@ -23,7 +23,6 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.Wave;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
@@ -91,6 +90,11 @@ public class WaveMapViewImpl implements WaveMapView {
      */
     private ValueAnimator splashingIndicatorRadiusAnimator;
 
+    /**
+     * Are we currently splashing?
+     */
+    private boolean splashing;
+
     public WaveMapViewImpl(Resources resources) {
         this.resources = resources;
     }
@@ -102,6 +106,7 @@ public class WaveMapViewImpl implements WaveMapView {
 
     @Override
     public void displayWave(Wave wave) {
+        splashing = false;
         if (mapFragment != null && map != null) {
             clearRipples();
             this.wave = wave;
@@ -154,19 +159,20 @@ public class WaveMapViewImpl implements WaveMapView {
             currentLocationMarker.setPosition(currentLocation);
         }
 
-        if (waveRipples.size() == 0)
-            zoomTo(currentLocation, MAX_ZOOM);
-        else
-            zoomToFit(waveRipples);
-
-        if (splashingIndicator != null) {
-            splashingIndicator.setCenter(currentLocation);
+        if (!splashing) {
+            if (waveRipples.size() == 0)
+                zoomTo(currentLocation, MAX_ZOOM);
+            else
+                zoomToFit(waveRipples);
+        } else {
+            displaySplashing();
         }
     }
 
 
     @Override
     public void displaySplashing() {
+        splashing = true;
         clearRipples();
         if (currentLocation == null) {
                 /* Uh oh, it looks like the user has tried to splash content without a location*/
@@ -183,7 +189,8 @@ public class WaveMapViewImpl implements WaveMapView {
             }
 
             splashingIndicator.setFillColor(fillColor);
-            splashingIndicatorRadiusAnimator.start();
+            if(!splashingIndicatorRadiusAnimator.isRunning())
+                splashingIndicatorRadiusAnimator.start();
             splashingIndicator.setVisible(true);
         }
     }

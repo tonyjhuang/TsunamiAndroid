@@ -1,9 +1,11 @@
 package com.tonyjhuang.tsunami.ui.main;
 
+import com.google.gson.annotations.Expose;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
+import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.contentview.SplashCard;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
@@ -185,5 +187,58 @@ public class MainWavePresenter implements WavePresenter {
 
         if (firstRun) displayNewWave();
         firstRun = false;
+    }
+
+    @Override
+    public String getMemento() {
+        MainWavePresenterMemento memento = new MainWavePresenterMemento();
+        memento.isSplashing = contentView.isShowingSplashCard();
+        memento.waveProviderMemento = waveProvider.getMemento();
+        memento.currentWave = currentWave;
+        memento.lastLat = locationInfo.lastLat;
+        memento.lastLong = locationInfo.lastLong;
+        return memento.toString();
+    }
+
+    @Override
+    public void fromMemento(String string) {
+        MainWavePresenterMemento memento =
+                TsunamiGson.gson.fromJson(string, MainWavePresenterMemento.class);
+
+        waveProvider.fromMemento(memento.waveProviderMemento);
+        currentWave = memento.currentWave;
+        firstRun = false;
+        if (locationInfo == null) locationInfo = new LocationInfo(activity);
+        locationInfo.lastLat = memento.lastLat;
+        locationInfo.lastLong = memento.lastLong;
+
+        if (memento.isSplashing) {
+            mapView.setLocationInfo(locationInfo);
+            onBeginSplashButtonClicked();
+        } else {
+            if (currentWave != null) {
+                displayWave(currentWave);
+            } else {
+                displayNewWave();
+            }
+            mapView.setLocationInfo(locationInfo);
+        }
+    }
+
+    private static class MainWavePresenterMemento {
+        @Expose
+        boolean isSplashing;
+        @Expose
+        String waveProviderMemento;
+        @Expose
+        Wave currentWave;
+        @Expose
+        float lastLat;
+        @Expose
+        float lastLong;
+
+        public String toString() {
+            return TsunamiGson.gson.toJson(this);
+        }
     }
 }
