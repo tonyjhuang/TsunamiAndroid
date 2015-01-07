@@ -6,6 +6,7 @@ import java.util.List;
 
 import retrofit.http.GET;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import rx.Observable;
 
 /**
@@ -14,6 +15,8 @@ import rx.Observable;
 public interface RedditApi {
 
     @GET("/r/{subreddit}/top.json")
-    public Observable<RedditGetTopResponse> getTop(@Path("subreddit") String subreddit);
+    public Observable<RedditGetTopResponse> getTop(@Path("subreddit") String subreddit,
+                                                   @Query("limit") int limit,
+                                                   @Query("after") String after);
 
 }

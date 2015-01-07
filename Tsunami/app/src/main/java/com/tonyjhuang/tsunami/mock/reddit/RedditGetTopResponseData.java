@@ -10,4 +10,7 @@ import java.util.List;
 public class RedditGetTopResponseData {
     @Expose
     List<RedditGetTopResponseDataChild> children;
+
+    @Expose
+    String after;
 }

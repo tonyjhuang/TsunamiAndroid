@@ -7,6 +7,7 @@ import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.WaveProvider;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import rx.Observable;
@@ -40,6 +41,11 @@ public class MainWaveProvider implements WaveProvider {
     }
 
     @Override
+    public boolean hasNextWave() {
+        return index < waves.size();
+    }
+
+    @Override
     public Observable<Wave> getNextWave() {
         return getNextWave(false);
     }
@@ -65,6 +71,16 @@ public class MainWaveProvider implements WaveProvider {
     @Override
     public void setLocationInfo(LocationInfo locationInfo) {
         this.locationInfo = locationInfo;
-        getMoreWaves().publish().connect();
+        invalidateWaves();
+    }
+
+    public void invalidateWaves() {
+        int pos = 0;
+        Iterator<Wave> iter = waves.iterator();
+        while (iter.hasNext()) {
+            Wave wave = iter.next();
+            if (pos++ < index + 1) continue; // Only invalidate waves we haven't seen yet.
+            if (!wave.isValidFor(locationInfo.lastLat, locationInfo.lastLong)) iter.remove();
+        }
     }
 }

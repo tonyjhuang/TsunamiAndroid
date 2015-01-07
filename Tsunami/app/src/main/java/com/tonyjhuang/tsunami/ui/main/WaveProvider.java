@@ -11,5 +11,7 @@ import rx.Observable;
 public interface WaveProvider {
     public Observable<Wave> getNextWave();
 
+    public boolean hasNextWave();
+
     public void setLocationInfo(LocationInfo locationInfo);
 }

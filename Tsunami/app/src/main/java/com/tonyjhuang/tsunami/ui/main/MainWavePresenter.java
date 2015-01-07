@@ -10,6 +10,7 @@ import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 
 import rx.android.observables.AndroidObservable;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -30,6 +31,7 @@ public class MainWavePresenter implements WavePresenter {
     private MainView mainView;
 
     private Wave currentWave;
+    private boolean firstRun = true;
 
     public MainWavePresenter(TsunamiApi api, TsunamiActivity activity, WaveProvider waveProvider) {
         this.api = api;
@@ -55,14 +57,22 @@ public class MainWavePresenter implements WavePresenter {
     }
 
     /**
-     * By 'new', we mean appropriate, and by that we mean whatever wave 'index' is pointed to.
-     * We let other methods handle the index, we just pass the current wave to our views. Here,
-     * we also make sure that our
+     * Grab a new wave from the provider. If we have an appropriate Wave sitting in 'currentWave'
+     * (i.e. cached during splashing), you should be calling #displayWave instead.
      */
     private void displayNewWave() {
+        Timber.d("displayNewWave");
+        Action1<Wave> onNextWave;
+        if (waveProvider.hasNextWave()) {
+            onNextWave = this::displayWave;
+        } else {
+            contentView.showLoading();
+            onNextWave = (wave) -> displayWave(wave, true);
+        }
+
         AndroidObservable.bindActivity(activity, waveProvider.getNextWave())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(this::displayWave, (error) -> Timber.e(error, "fuck."));
+                .subscribe(onNextWave, (error) -> Timber.e(error, "fuck."));
     }
 
     private void displayWave(Wave wave) {
@@ -70,6 +80,7 @@ public class MainWavePresenter implements WavePresenter {
     }
 
     private void displayWave(Wave wave, boolean postSuccessfulSplash) {
+        Timber.d("displayWave: " + wave + ", " + postSuccessfulSplash);
         currentWave = wave;
         contentView.showContentCard(wave, postSuccessfulSplash);
         mapView.displayWave(wave);
@@ -147,10 +158,13 @@ public class MainWavePresenter implements WavePresenter {
 
     @Override
     public void onLocationUpdate(LocationInfo newLocationInfo) {
+        Timber.d("onLocationUpdate!");
         locationInfo = newLocationInfo;
-        mapView.setCurrentLocation(locationInfo);
+        mapView.setLocationInfo(locationInfo);
         waveProvider.setLocationInfo(locationInfo);
-        displayNewWave();
+
+        if(firstRun) displayNewWave();
+        firstRun = false;
     }
 /*
     *//**

@@ -3,6 +3,7 @@ package com.tonyjhuang.tsunami.ui.main.contentview;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.logging.Timber;
@@ -43,6 +44,11 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     private OnScrollListener onScrollListener;
     private OnViewTypeChangedListener onViewTypeChangedListener;
 
+    /**
+     * View we show to indicate loading.
+     */
+    private ProgressBar loadingView;
+
 
     public WaveContentScrollView(Context context) {
         this(context, null);
@@ -57,6 +63,7 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
 
         contentCard = new ContentCard(context);
         setEventListener(this);
+        loadingView = new ProgressBar(context);
     }
 
     @Override
@@ -76,12 +83,20 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     }
 
     @Override
+    public void showLoading() {
+        Timber.d("showLoading");
+        setScrollable(false);
+        setCustomView(loadingView, true);
+    }
+
+    @Override
     public void showContentCard(Wave wave) {
         showContentCard(wave, false);
     }
 
     @Override
     public void showContentCard(Wave wave, boolean postSuccessfulSplash) {
+        setScrollable(true);
         contentCard.setWave(wave);
 
         if (splashing && onViewTypeChangedListener != null)
@@ -110,6 +125,7 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     public void showSplashCard() {
         if (splashing) return;
         splashing = true;
+        setScrollable(true);
 
         if (splashCard == null)
             splashCard = new SplashCard(getContext());
@@ -144,11 +160,13 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
 
     @Override
     public void scrollDownOffscreen() {
+        Timber.d("scrollDownOffscreen");
         super.scrollDownOffscreen();
     }
 
     @Override
     public void hideContent() {
+        Timber.d("hideContent");
         resetPosition();
     }
 

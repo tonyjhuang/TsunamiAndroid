@@ -25,7 +25,8 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:scrollbars="none"
-        tsunami:scroll_assist="true" />
+        tsunami:scroll_assist="true"
+        tsunami:scroll_assist_threshold="@dimen/content_scroll_assist_threshold"/>
 
     <ViewStub
         android:id="@+id/debug_controls_stub"

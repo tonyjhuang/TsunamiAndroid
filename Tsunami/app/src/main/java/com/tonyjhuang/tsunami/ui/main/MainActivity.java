@@ -262,7 +262,11 @@ public class MainActivity extends TsunamiActivity implements
             if (locationInfo.lastLat == tmpLastLat && locationInfo.lastLong == tmpLastLng) return;
 
             MainActivity.this.locationInfo = locationInfo;
+
+            //TODO remove
+            //new Handler().postDelayed(() -> presenter.onLocationUpdate(locationInfo), 3000);
             presenter.onLocationUpdate(locationInfo);
+
             if (BuildConfig.DEBUG && debugLocationControls != null) {
                 debugLocationControls.setCurrentLocation(locationInfo);
             }

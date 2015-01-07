@@ -86,7 +86,7 @@ public class TestCelebrationPresenter implements WavePresenter {
 
     @Override
     public void onLocationUpdate(LocationInfo newLocationInfo) {
-        mapView.setCurrentLocation(newLocationInfo);
+        mapView.setLocationInfo(newLocationInfo);
         onBeginSplashButtonClicked();
     }
 }

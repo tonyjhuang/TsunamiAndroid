@@ -142,10 +142,8 @@ public class WaveMapViewImpl implements WaveMapView {
     }
 
     @Override
-    public void setCurrentLocation(LocationInfo locationInfo) {
+    public void setLocationInfo(LocationInfo locationInfo) {
         currentLocation = new LatLng(locationInfo.lastLat, locationInfo.lastLong);
-        Timber.d("new location: " + locationInfo);
-
         if (currentLocationMarker == null) {
             BitmapDescriptor markerBitmap = BitmapDescriptorFactory.fromResource(R.drawable.current_location);
             currentLocationMarker = map.addMarker(new MarkerOptions()

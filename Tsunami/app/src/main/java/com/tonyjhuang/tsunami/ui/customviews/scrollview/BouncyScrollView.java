@@ -81,7 +81,7 @@ public class BouncyScrollView extends ScrollView {
         viewAnimationDuration = attributes.getInteger(R.styleable.BouncyScrollView_anim_duration, 500);
         scrollAssist = attributes.getBoolean(R.styleable.BouncyScrollView_scroll_assist, false);
         scrollAssistDuration = attributes.getInteger(R.styleable.BouncyScrollView_scroll_assist_anim_duration, 200);
-        scrollAssistThreshold = attributes.getFloat(R.styleable.BouncyScrollView_scroll_assist_threshold, 0.5f);
+        scrollAssistThreshold = attributes.getDimension(R.styleable.BouncyScrollView_scroll_assist_threshold, 0);
         scrollable = attributes.getBoolean(R.styleable.BouncyScrollView_scrollable, true);
         attributes.recycle();
     }
@@ -99,7 +99,6 @@ public class BouncyScrollView extends ScrollView {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
         if (changed) {
-            Timber.d("onLayoutChanged. new height: " + getHeight());
             /**
              * Set the height of the top and bottom spacers to the same size as this container so
              * the card has space to scroll out of screen.
@@ -209,6 +208,7 @@ public class BouncyScrollView extends ScrollView {
 
     private int lastT, lastOldT;
     private int lastMaxScrollHeight;
+
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
@@ -313,7 +313,6 @@ public class BouncyScrollView extends ScrollView {
     private void scrollOffScreenIfNecessary() {
         if (!scrollAssist)
             return;
-
         int scrollY = getScrollY();
         //
         if (scrollY <= getBottomScrollAssistThreshold()) { // Should scroll down
@@ -323,11 +322,11 @@ public class BouncyScrollView extends ScrollView {
         }
     }
 
-    protected int getBottomScrollAssistThreshold() {
-        return (int) ((customView == null ? 0 : customView.getHeight()) * scrollAssistThreshold);
+    protected float getBottomScrollAssistThreshold() {
+        return scrollAssistThreshold;
     }
 
-    protected int getTopScrollAssistThreshold() {
+    protected float getTopScrollAssistThreshold() {
         return getMaxScrollHeight() - getBottomScrollAssistThreshold();
     }
 
@@ -368,7 +367,7 @@ public class BouncyScrollView extends ScrollView {
         return scrollAssistThreshold;
     }
 
-    public void setScrollAssistThreshold(float scrollAssistThreshold) {
+    public void setScrollAssistThreshold(int scrollAssistThreshold) {
         this.scrollAssistThreshold = scrollAssistThreshold;
     }
 

@@ -14,8 +14,8 @@ import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.mock.MockTsunamiApiClient;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -43,24 +43,26 @@ public class RedditApiClient extends MockTsunamiApiClient {
         this.service = build();
     }
 
+
+    private String after;
+
     @Override
     public Observable<List<Wave>> getWaves(double latitude, double longitude) {
-        return getTop("showerthoughts").map((posts) -> {
-            List<Wave> waves = new ArrayList<>();
-            for (RedditPost post : posts) {
-                waves.add(createWave(post));
-            }
-            return waves;
-        });
+        return getTop("showerthoughts", 5)
+                .flatMap(Observable::from)
+                .map(this::createWave)
+                .toList()
+                .delay(3, TimeUnit.SECONDS);
     }
 
-    public Observable<List<RedditPost>> getTop(String subreddit) {
-        return service.getTop(subreddit).map((response) -> {
-            List<RedditPost> posts = new ArrayList<>();
-            for (RedditGetTopResponseDataChild data : response.data.children)
-                posts.add(data.post);
-            return posts;
-        });
+    public Observable<List<RedditPost>> getTop(String subreddit, int limit) {
+        return service.getTop(subreddit, limit, after)
+                .map((response) -> {
+                    this.after = response.data.after;
+                    return response.data.children;
+                }).flatMap(Observable::from)
+                .map((data) -> data.post)
+                .toList();
     }
 
     private Wave createWave(RedditPost post) {
