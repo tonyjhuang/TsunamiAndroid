@@ -1,6 +1,5 @@
 <com.tonyjhuang.tsunami.ui.customviews.ScrimInsetsFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tsunami="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,9 +23,9 @@
         android:id="@+id/content_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:scroll_assist="true"
         android:fillViewport="true"
-        android:scrollbars="none" />
+        android:scrollbars="none"
+        tsunami:scroll_assist="true" />
 
     <ViewStub
         android:id="@+id/debug_controls_stub"

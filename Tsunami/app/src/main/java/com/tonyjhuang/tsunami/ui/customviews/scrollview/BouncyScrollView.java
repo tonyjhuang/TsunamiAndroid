@@ -18,7 +18,6 @@ import android.widget.Space;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.logging.Timber;
-import com.tonyjhuang.tsunami.ui.customviews.OnScrollStopListener;
 
 /**
  * Created by tony on 12/28/14.
@@ -78,7 +77,7 @@ public class BouncyScrollView extends ScrollView {
 
         // load the styled attributes and set their properties
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.BouncyScrollView, defStyleAttr, 0);
-        relativeStartingPosition = attributes.getFloat(R.styleable.BouncyScrollView_starting_position, 0.66f);
+        relativeStartingPosition = attributes.getFloat(R.styleable.BouncyScrollView_starting_position, 0.5f);
         viewAnimationDuration = attributes.getInteger(R.styleable.BouncyScrollView_anim_duration, 500);
         scrollAssist = attributes.getBoolean(R.styleable.BouncyScrollView_scroll_assist, false);
         scrollAssistDuration = attributes.getInteger(R.styleable.BouncyScrollView_scroll_assist_anim_duration, 200);
@@ -209,7 +208,7 @@ public class BouncyScrollView extends ScrollView {
     }
 
     private int lastT, lastOldT;
-
+    private int lastMaxScrollHeight;
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
@@ -223,7 +222,9 @@ public class BouncyScrollView extends ScrollView {
 
         if (t == 0) {
             if (eventListener != null) eventListener.onViewHitBottom(customView);
-        } else if (t == getMaxScrollHeight()) {
+        } else if (t == getMaxScrollHeight() && oldt != lastMaxScrollHeight) {
+            lastMaxScrollHeight = getMaxScrollHeight();
+            Timber.d("getMaxScrollHeight is: " + getMaxScrollHeight() + ", oldt: " + oldt + ", t: " + t);
             if (eventListener != null) eventListener.onViewHitTop(customView);
         } else {
             onScrollStopListener.onScrollChanged(l, t, oldl, oldt);
@@ -244,11 +245,9 @@ public class BouncyScrollView extends ScrollView {
         post(new Runnable() {
             @Override
             public void run() {
-                Timber.d("resetting position");
                 viewContainer.setVisibility(INVISIBLE);
                 viewContainer.scrollTo(0, 1);
                 viewContainer.setVisibility(VISIBLE);
-                Timber.d("scroll position: " + getScrollY());
             }
         });
     }
@@ -264,9 +263,8 @@ public class BouncyScrollView extends ScrollView {
     }
 
     private int getMaxScrollHeight() {
-        return topSpacer.getHeight() + (customView == null ? 0 : customView.getHeight());
+        return getChildAt(0).getHeight() - getHeight();
     }
-
 
 
     public View getCustomView() {
@@ -283,7 +281,6 @@ public class BouncyScrollView extends ScrollView {
 
     public void setCustomView(final View customView, boolean animate, int duration) {
         if (this.customView == null || !animate) {
-            Timber.d("no animation view swap");
             resetPosition();
             this.customView = customView;
             post(new Runnable() {
@@ -295,7 +292,6 @@ public class BouncyScrollView extends ScrollView {
             });
             animateToStartingPosition();
         } else {
-            Timber.d("animating new view in");
             onScrollStopListener.setPause(true);
             ObjectAnimator scrollDown = scrollToPosition(1, duration);
             scrollDown.addListener(new SimpleAnimationListener() {
@@ -319,8 +315,6 @@ public class BouncyScrollView extends ScrollView {
         if (!scrollAssist)
             return;
 
-        Timber.d("yep ,scroll?");
-
         int scrollY = getScrollY();
         //
         if (scrollY <= getBottomScrollAssistThreshold()) { // Should scroll down
@@ -335,11 +329,10 @@ public class BouncyScrollView extends ScrollView {
     }
 
     protected int getTopScrollAssistThreshold() {
-        return getHeight() - getBottomScrollAssistThreshold();
+        return getMaxScrollHeight() - getBottomScrollAssistThreshold();
     }
 
     protected void scrollUpOffscreen() {
-        Timber.d("scrolling offscreen. maxscrollheight: " + getMaxScrollHeight());
         scrollToPosition(getMaxScrollHeight(), scrollAssistDuration).start();
     }
 
@@ -520,8 +513,7 @@ public class BouncyScrollView extends ScrollView {
         }
 
         private void onScrollStopped() {
-            if (scrollAssist && !pause)
-                scrollOffScreenIfNecessary();
+            if (scrollAssist && !pause) scrollOffScreenIfNecessary();
         }
     }
 

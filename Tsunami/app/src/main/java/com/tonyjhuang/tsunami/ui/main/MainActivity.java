@@ -126,8 +126,8 @@ public class MainActivity extends TsunamiActivity implements
         contentView.setOnViewTypeChangedListener(this);
 
         if (BuildConfig.DEBUG) {
-           debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
-           debugLocationControls.setLocationListener(presenter::onLocationUpdate);
+           //debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
+           //debugLocationControls.setLocationListener(presenter::onLocationUpdate);
         }
     }
 
