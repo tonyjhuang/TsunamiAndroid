@@ -224,7 +224,6 @@ public class BouncyScrollView extends ScrollView {
             if (eventListener != null) eventListener.onViewHitBottom(customView);
         } else if (t == getMaxScrollHeight() && oldt != lastMaxScrollHeight) {
             lastMaxScrollHeight = getMaxScrollHeight();
-            Timber.d("getMaxScrollHeight is: " + getMaxScrollHeight() + ", oldt: " + oldt + ", t: " + t);
             if (eventListener != null) eventListener.onViewHitTop(customView);
         } else {
             onScrollStopListener.onScrollChanged(l, t, oldl, oldt);
