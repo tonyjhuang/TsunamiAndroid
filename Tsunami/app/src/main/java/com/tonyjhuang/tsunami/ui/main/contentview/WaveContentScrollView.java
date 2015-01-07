@@ -86,7 +86,7 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     public void showLoading() {
         Timber.d("showLoading");
         setScrollable(false);
-        setCustomView(loadingView, true);
+        setCustomView(loadingView);
     }
 
     @Override

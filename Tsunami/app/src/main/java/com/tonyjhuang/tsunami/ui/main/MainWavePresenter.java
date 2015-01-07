@@ -67,6 +67,7 @@ public class MainWavePresenter implements WavePresenter {
             onNextWave = this::displayWave;
         } else {
             contentView.showLoading();
+            mapView.displayWave(null);
             onNextWave = (wave) -> displayWave(wave, true);
         }
 
