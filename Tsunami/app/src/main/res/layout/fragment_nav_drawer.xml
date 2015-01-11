@@ -6,9 +6,9 @@
     android:fitsSystemWindows="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/drawer"
         android:background="@android:color/white"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
@@ -16,14 +16,15 @@
         <ImageView
             android:id="@+id/cover"
             android:layout_width="match_parent"
-            android:layout_height="144dp"
+            android:layout_height="@dimen/drawer_cover_height"
             android:scaleType="centerCrop"
             android:src="@drawable/cover_1" />
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="2px"
-            android:background="@color/divider" />
+            android:background="@color/divider"
+            android:layout_marginBottom="8dp" />
 
     </LinearLayout>
 </com.tonyjhuang.tsunami.ui.customviews.ScrimInsetsFrameLayout>

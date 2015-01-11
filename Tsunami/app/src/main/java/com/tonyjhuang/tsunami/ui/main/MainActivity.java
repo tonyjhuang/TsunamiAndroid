@@ -132,6 +132,8 @@ public class MainActivity extends TsunamiActivity implements
         contentView.setOnScrollListener(this);
         contentView.setOnViewTypeChangedListener(this);
 
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+
         if (BuildConfig.DEBUG) {
             //debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
             //debugLocationControls.setLocationListener(presenter::onLocationUpdate);

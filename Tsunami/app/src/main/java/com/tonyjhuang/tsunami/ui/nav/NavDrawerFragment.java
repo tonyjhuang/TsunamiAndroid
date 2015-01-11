@@ -85,8 +85,13 @@ public class NavDrawerFragment extends TsunamiFragment {
     private void addNavigationItems() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View discoverRow = inflater.inflate(R.layout.row_nav, null);
-        ((ImageView) ButterKnife.findById(discoverRow, R.id.icon)).setImageResource(R.drawable.nav_discover_unselected);
+        ((ImageView) ButterKnife.findById(discoverRow, R.id.icon)).setImageResource(R.drawable.nav_explore_grey);
         ((TextView) ButterKnife.findById(discoverRow, R.id.text)).setText("Discover");
         drawer.addView(discoverRow);
+
+        View statsRow = inflater.inflate(R.layout.row_nav, null);
+        ((ImageView) ButterKnife.findById(statsRow, R.id.icon)).setImageResource(R.drawable.nav_stats_grey);
+        ((TextView) ButterKnife.findById(statsRow, R.id.text)).setText("Stats");
+        drawer.addView(statsRow );
     }
 }
