@@ -57,14 +57,18 @@ public class NavDrawerFragment extends TsunamiFragment {
         Point size = new Point();
         display.getSize(size);
 
-        int drawerWidth;
+        float drawerMaxWidth = getResources().getDimension(R.dimen.drawer_max_width);
+        float drawerWidth;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             drawerWidth = (int) (size.x - getResources().getDimension(R.dimen.action_bar_height));
         } else {
             drawerWidth = size.x / 2;
         }
+
+        drawerWidth = Math.min(drawerWidth, drawerMaxWidth);
+
         ViewGroup.LayoutParams layoutParams = container.getLayoutParams();
-        layoutParams.width = drawerWidth;
+        layoutParams.width = (int) drawerWidth;
         container.setLayoutParams(layoutParams);
     }
 

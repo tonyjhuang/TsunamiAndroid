@@ -4,6 +4,7 @@
     <dimen name="default_text_padding">8dp</dimen>
     <dimen name="action_bar_height">56dp</dimen>
     <dimen name="status_bar_height">24dp</dimen>
+    <dimen name="drawer_max_width">280dp</dimen>
 
     <dimen name="ghetto_toolbar_padding_top">0dp</dimen>
 
