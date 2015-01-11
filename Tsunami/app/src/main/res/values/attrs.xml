@@ -26,6 +26,10 @@
         <attr name="circularImageViewStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="ScrimInsetsView">
+        <attr name="insetForeground" format="reference|color" />
+    </declare-styleable>
+
     <declare-styleable name="BouncyScrollView">
         <attr name="starting_position" format="float" />
         <attr name="anim_duration" format="integer" />

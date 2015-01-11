@@ -5,8 +5,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.inputmethod.InputMethodManager;
@@ -29,6 +34,7 @@ import com.tonyjhuang.tsunami.ui.customviews.fab.FloatingActionButton;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentScrollView;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
+import com.tonyjhuang.tsunami.ui.nav.NavDrawerFragment;
 import com.tonyjhuang.tsunami.ui.profile.ProfileActivity;
 import com.tonyjhuang.tsunami.utils.Celebration;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
@@ -57,6 +63,8 @@ public class MainActivity extends TsunamiActivity implements
 
     private final static String STATE_PRESENTER = "state_presenter";
 
+    @InjectView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
     @InjectView(R.id.container)
     FrameLayout container;
     @InjectView(R.id.content_scrollview)
@@ -113,7 +121,7 @@ public class MainActivity extends TsunamiActivity implements
          */
         presenter.setMapView(mapView);
         mapView.setMapFragment((MapFragment) getFragmentManager().findFragmentById(R.id.map));
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             mapView.setStartingLocation(preferences.lastSeenLat.get(), preferences.lastSeenLng.get());
         }
 
@@ -125,11 +133,11 @@ public class MainActivity extends TsunamiActivity implements
         contentView.setOnViewTypeChangedListener(this);
 
         if (BuildConfig.DEBUG) {
-           //debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
-           //debugLocationControls.setLocationListener(presenter::onLocationUpdate);
+            //debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
+            //debugLocationControls.setLocationListener(presenter::onLocationUpdate);
         }
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             presenter.fromMemento(savedInstanceState.getString(STATE_PRESENTER));
         }
     }
@@ -207,10 +215,11 @@ public class MainActivity extends TsunamiActivity implements
 
     @OnClick(R.id.profile)
     public void onProfileButtonClick(View view) {
-        if (contentView.isShowingSplashCard())
+        drawerLayout.openDrawer(Gravity.START);
+        /*if (contentView.isShowingSplashCard())
             presenter.onCancelSplashButtonClicked();
         else
-            presenter.onProfileButtonClicked();
+            presenter.onProfileButtonClicked();*/
     }
 
     @OnLongClick(R.id.profile)

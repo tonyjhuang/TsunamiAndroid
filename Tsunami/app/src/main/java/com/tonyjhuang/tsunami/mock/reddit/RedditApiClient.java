@@ -52,7 +52,7 @@ public class RedditApiClient extends MockTsunamiApiClient {
                 .flatMap(Observable::from)
                 .map(this::createWave)
                 .toList()
-                .delay(3, TimeUnit.SECONDS);
+                .delay(1, TimeUnit.SECONDS);
     }
 
     public Observable<List<RedditPost>> getTop(String subreddit, int limit) {

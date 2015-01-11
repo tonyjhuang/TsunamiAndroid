@@ -5,12 +5,15 @@ package com.tonyjhuang.tsunami.ui.customviews;
  */
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
+
+import com.tonyjhuang.tsunami.R;
 
 /**
  * A layout that draws something in the insets passed to {@link #fitSystemWindows(Rect)}, i.e. the area above UI chrome
@@ -39,13 +42,13 @@ public class ScrimInsetsFrameLayout extends FrameLayout {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
-        /*final TypedArray a = context.obtainStyledAttributes(attrs,
+        final TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.ScrimInsetsView, defStyle, 0);
         if (a == null) {
             return;
         }
         mInsetForeground = a.getDrawable(R.styleable.ScrimInsetsView_insetForeground);
-        a.recycle();*/
+        a.recycle();
 
         setWillNotDraw(true);
     }

@@ -13,6 +13,7 @@ import com.tonyjhuang.tsunami.ui.main.WaveProvider;
 import com.tonyjhuang.tsunami.ui.main.mapview.MainWaveProvider;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapViewImpl;
+import com.tonyjhuang.tsunami.ui.nav.NavDrawerFragment;
 
 import dagger.Module;
 import dagger.Provides;
@@ -23,7 +24,8 @@ import dagger.Provides;
 @SuppressWarnings("unused")
 @Module(
         injects = {
-                MainActivity.class
+                MainActivity.class,
+                NavDrawerFragment.class
         },
         addsTo = ActivityModule.class,
         complete = false

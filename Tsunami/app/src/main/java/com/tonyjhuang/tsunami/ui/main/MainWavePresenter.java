@@ -189,6 +189,8 @@ public class MainWavePresenter implements WavePresenter {
         firstRun = false;
     }
 
+    /* Save state */
+
     @Override
     public String getMemento() {
         MainWavePresenterMemento memento = new MainWavePresenterMemento();
