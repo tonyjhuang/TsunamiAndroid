@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiFragment;
-import com.tonyjhuang.tsunami.logging.Timber;
 
 import java.lang.ref.WeakReference;
 
@@ -120,7 +119,6 @@ public class NavDrawerFragment extends TsunamiFragment implements DrawerLayout.D
     }
 
     private void selectNavigationItem(NavigationItem navItem) {
-        Timber.d("selectNavigationItem");
         if (navItem.isSelected()) {
             closeDrawers();
             return;
@@ -138,32 +136,25 @@ public class NavDrawerFragment extends TsunamiFragment implements DrawerLayout.D
 
     public void setOnDrawerItemSelectedListener(OnDrawerItemSelectedListener listener) {
         this.listener = listener;
-        Timber.d("set listener");
     }
 
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
-
     }
 
     @Override
     public void onDrawerOpened(View drawerView) {
-
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-
     }
 
     @Override
     public void onDrawerStateChanged(int newState) {
-        Timber.d("onDrawerStateChanged; " + newState);
         if (newState == DrawerLayout.STATE_IDLE) {
-            Timber.d("idle!");
             if (listener != null) {
                 listener.onDrawerItemSelected(selectedNavigationItem.drawerItem);
-                Timber.d("notifying listener");
             }
         }
     }
