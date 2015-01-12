@@ -5,12 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewStub;
@@ -49,11 +46,13 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
+import static com.tonyjhuang.tsunami.ui.nav.NavDrawerFragment.DrawerItem;
 
 public class MainActivity extends TsunamiActivity implements
         MainView,
         WaveContentView.OnScrollListener,
-        WaveContentView.OnViewTypeChangedListener {
+        WaveContentView.OnViewTypeChangedListener,
+        NavDrawerFragment.OnDrawerItemSelectedListener {
 
     public final static int MIN_CELEBRATION = 2;
     public final static int MAX_CELEBRATION = 5;
@@ -95,6 +94,7 @@ public class MainActivity extends TsunamiActivity implements
      * keep track of the last reported location to avoid sending duplicate reports to our poor presenter.
      */
     private float lastLat, lastLng;
+    private DrawerItem currentDrawerItem;
 
     public static void startMainActivity(Activity activity) {
         activity.startActivity(new Intent(activity, MainActivity.class));
@@ -133,6 +133,10 @@ public class MainActivity extends TsunamiActivity implements
         contentView.setOnViewTypeChangedListener(this);
 
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+        NavDrawerFragment drawerFragment =
+                (NavDrawerFragment) getFragmentManager().findFragmentById(R.id.drawer);
+        drawerFragment.setDrawerLayout(drawerLayout);
+        drawerFragment.setOnDrawerItemSelectedListener(this);
 
         if (BuildConfig.DEBUG) {
             //debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
@@ -141,6 +145,19 @@ public class MainActivity extends TsunamiActivity implements
 
         if (savedInstanceState != null) {
             presenter.fromMemento(savedInstanceState.getString(STATE_PRESENTER));
+        }
+    }
+
+    @Override
+    public void onDrawerItemSelected(DrawerItem drawerItem) {
+        if (drawerItem.equals(currentDrawerItem)) return;
+        currentDrawerItem = drawerItem;
+        switch (drawerItem) {
+            case DISCOVER:
+                break;
+            case STATS:
+                presenter.onProfileButtonClicked();
+                break;
         }
     }
 
@@ -217,11 +234,11 @@ public class MainActivity extends TsunamiActivity implements
 
     @OnClick(R.id.profile)
     public void onProfileButtonClick(View view) {
-        drawerLayout.openDrawer(Gravity.START);
-        /*if (contentView.isShowingSplashCard())
+
+        if (contentView.isShowingSplashCard())
             presenter.onCancelSplashButtonClicked();
         else
-            presenter.onProfileButtonClicked();*/
+            drawerLayout.openDrawer(Gravity.START);
     }
 
     @OnLongClick(R.id.profile)

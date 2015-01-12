@@ -4,9 +4,11 @@
     <color name="primary_dark">@color/material_indigo_dark</color>
     <color name="primary_light">@color/material_indigo_light</color>
     <color name="accent">@color/material_cyan</color>
+    <color name="text_black">#000</color>
     <color name="text_primary">#212121</color>
     <color name="text_secondary">#727272</color>
     <color name="divider">#B6B6B6</color>
+    <color name="selected_item_overlay">#1A000000</color>
 
     <color name="material_indigo">#3F51B5</color>
     <color name="material_indigo_dark">#303F9F</color>

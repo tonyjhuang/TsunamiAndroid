@@ -1,10 +1,13 @@
 package com.tonyjhuang.tsunami.ui.nav;
 
+import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,9 @@ import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiFragment;
+import com.tonyjhuang.tsunami.logging.Timber;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -23,7 +29,7 @@ import butterknife.InjectView;
 /**
  * Created by tony on 1/10/15.
  */
-public class NavDrawerFragment extends TsunamiFragment {
+public class NavDrawerFragment extends TsunamiFragment implements DrawerLayout.DrawerListener {
 
     @InjectView(R.id.container)
     FrameLayout container;
@@ -31,6 +37,10 @@ public class NavDrawerFragment extends TsunamiFragment {
     LinearLayout drawer;
     @InjectView(R.id.cover)
     ImageView cover;
+
+    private OnDrawerItemSelectedListener listener;
+    private NavigationItem selectedNavigationItem;
+    private WeakReference<DrawerLayout> drawerLayoutWeakReference;
 
     @Nullable
     @Override
@@ -41,6 +51,11 @@ public class NavDrawerFragment extends TsunamiFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    public void setDrawerLayout(DrawerLayout drawerLayout) {
+        drawerLayoutWeakReference = new WeakReference<>(drawerLayout);
+        drawerLayout.setDrawerListener(this);
     }
 
     @Override
@@ -83,15 +98,133 @@ public class NavDrawerFragment extends TsunamiFragment {
     }
 
     private void addNavigationItems() {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View discoverRow = inflater.inflate(R.layout.row_nav, null);
-        ((ImageView) ButterKnife.findById(discoverRow, R.id.icon)).setImageResource(R.drawable.nav_explore_grey);
-        ((TextView) ButterKnife.findById(discoverRow, R.id.text)).setText("Discover");
-        drawer.addView(discoverRow);
+        NavigationItem discoverNavItem = addNavigationItem("Discover",
+                R.drawable.nav_explore_grey,
+                R.drawable.nav_explore_black,
+                DrawerItem.DISCOVER);
 
-        View statsRow = inflater.inflate(R.layout.row_nav, null);
-        ((ImageView) ButterKnife.findById(statsRow, R.id.icon)).setImageResource(R.drawable.nav_stats_grey);
-        ((TextView) ButterKnife.findById(statsRow, R.id.text)).setText("Stats");
-        drawer.addView(statsRow );
+        addNavigationItem("Stats",
+                R.drawable.nav_stats_grey,
+                R.drawable.nav_stats_black,
+                DrawerItem.STATS);
+
+        selectNavigationItem(discoverNavItem);
+    }
+
+    private NavigationItem addNavigationItem(String text, int imageResource, int selectedImageResource, DrawerItem drawerItem) {
+        NavigationItem navItem = new NavigationItem(text, imageResource, selectedImageResource, drawerItem);
+        View navItemView = navItem.createView(getActivity().getLayoutInflater());
+        drawer.addView(navItemView);
+        navItemView.setOnClickListener((view) -> selectNavigationItem(navItem));
+        return navItem;
+    }
+
+    private void selectNavigationItem(NavigationItem navItem) {
+        Timber.d("selectNavigationItem");
+        if (navItem.isSelected()) {
+            closeDrawers();
+            return;
+        }
+        if (selectedNavigationItem != null) selectedNavigationItem.setSelected(false);
+        navItem.setSelected(true);
+        selectedNavigationItem = navItem;
+        closeDrawers();
+    }
+
+    private void closeDrawers() {
+        if (drawerLayoutWeakReference.get() != null)
+            drawerLayoutWeakReference.get().closeDrawers();
+    }
+
+    public void setOnDrawerItemSelectedListener(OnDrawerItemSelectedListener listener) {
+        this.listener = listener;
+        Timber.d("set listener");
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+        Timber.d("onDrawerStateChanged; " + newState);
+        if (newState == DrawerLayout.STATE_IDLE) {
+            Timber.d("idle!");
+            if (listener != null) {
+                listener.onDrawerItemSelected(selectedNavigationItem.drawerItem);
+                Timber.d("notifying listener");
+            }
+        }
+    }
+
+    public static interface OnDrawerItemSelectedListener {
+        public void onDrawerItemSelected(DrawerItem drawerItem);
+    }
+
+    public static enum DrawerItem {
+        DISCOVER, STATS
+    }
+
+    private static class NavigationItem {
+        String text;
+        int imageResource, selectedImageResource;
+        int textColorResource, selectedTextColorResource;
+        int backgroundColorResource, selectedBackgroundColorResource;
+        DrawerItem drawerItem;
+        WeakReference<View> view;
+        private boolean selected;
+
+        private NavigationItem(String text, int imageResource, int selectedImageResource, DrawerItem drawerItem) {
+            this.text = text;
+            this.imageResource = imageResource;
+            this.selectedImageResource = selectedImageResource;
+            this.drawerItem = drawerItem;
+        }
+
+        public View createView(LayoutInflater inflater) {
+            init(inflater.getContext());
+
+            View view = inflater.inflate(R.layout.row_nav, null);
+            ((ImageView) ButterKnife.findById(view, R.id.icon)).setImageResource(imageResource);
+            ((TextView) ButterKnife.findById(view, R.id.text)).setText(text);
+            this.view = new WeakReference<>(view);
+            return view;
+        }
+
+        private void init(Context context) {
+            Resources resources = context.getResources();
+            textColorResource = resources.getColor(R.color.text_primary);
+            selectedTextColorResource = resources.getColor(R.color.text_primary);
+            backgroundColorResource = resources.getColor(android.R.color.transparent);
+            selectedBackgroundColorResource = resources.getColor(R.color.selected_item_overlay);
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected = selected;
+            if (view.get() == null) return;
+            View view = this.view.get();
+            int imageResource = selected ? this.selectedImageResource : this.imageResource;
+            int textColorResource = selected ? this.selectedTextColorResource : this.textColorResource;
+            int backgroundColorResource = selected ? this.selectedBackgroundColorResource : this.backgroundColorResource;
+
+            ((TextView) ButterKnife.findById(view, R.id.text)).setTextColor(textColorResource);
+            ((ImageView) ButterKnife.findById(view, R.id.icon)).setImageResource(imageResource);
+            ButterKnife.findById(view, R.id.background).setBackgroundColor(backgroundColorResource);
+        }
+
+        public boolean isSelected() {
+            return selected;
+        }
     }
 }
