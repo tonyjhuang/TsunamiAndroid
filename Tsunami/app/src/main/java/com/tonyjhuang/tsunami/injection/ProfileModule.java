@@ -1,6 +1,7 @@
 package com.tonyjhuang.tsunami.injection;
 
 import com.tonyjhuang.tsunami.ui.profile.ProfileActivity;
+import com.tonyjhuang.tsunami.ui.profile.ProfileFragment;
 
 import dagger.Module;
 
@@ -9,7 +10,8 @@ import dagger.Module;
  */
 @Module(
         injects = {
-                ProfileActivity.class
+                ProfileActivity.class,
+                ProfileFragment.class
         },
         addsTo = ActivityModule.class,
         complete = false,

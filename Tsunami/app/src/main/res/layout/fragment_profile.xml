@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/cover"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/cover"
+                android:layout_alignParentTop="true"
+                android:background="@color/profile_cover_protection" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_alignBottom="@+id/cover"
+                android:background="@drawable/shadow_up" />
+
+            <!-- !!!!!!!!!!STATS!!!!!!!!!! -->
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cover"
+                android:background="@color/background_material_light"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+
+                <LinearLayout
+                    android:id="@+id/container_waves_stats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="4dp"
+                    android:paddingTop="8dp">
+
+                    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                        android:id="@+id/label_stats_waves"
+                        style="@style/ProfileLabelText"
+                        android:padding="0dp"
+                        android:text="@string/profile_stats_waves_label" />
+
+                    <Button
+                        android:id="@+id/waves"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_button_waves" />
+
+                </LinearLayout>
+
+                <!-- Wave stats -->
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        style="@style/ProfileStatContainer.Oriented"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout style="@style/ProfileStatRow.Oriented">
+
+                            <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                                style="@style/ProfileStatTitle.Oriented"
+                                android:text="@string/profile_stats_waves_title_waves" />
+
+                            <com.tonyjhuang.tsunami.ui.profile.ProfileStatTextSwitcher
+                                android:id="@+id/num_waves"
+                                style="@style/ProfileStatSwitcher.Oriented"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <LinearLayout style="@style/ProfileStatRow.Oriented">
+
+                            <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                                style="@style/ProfileStatTitle.Oriented"
+                                android:text="@string/profile_stats_waves_title_views" />
+
+                            <com.tonyjhuang.tsunami.ui.profile.ProfileStatTextSwitcher
+                                android:id="@+id/num_waves_views"
+                                style="@style/ProfileStatSwitcher.Oriented"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout style="@style/ProfileStatRow.Oriented">
+
+                            <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                                style="@style/ProfileStatTitle.Oriented"
+                                android:text="@string/profile_stats_waves_title_ripples" />
+
+                            <com.tonyjhuang.tsunami.ui.profile.ProfileStatTextSwitcher
+                                android:id="@+id/num_waves_ripples"
+                                style="@style/ProfileStatSwitcher.Oriented"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/container_my_stats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="4dp"
+                    android:paddingTop="8dp">
+
+                    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                        android:id="@+id/label_stats_my"
+                        style="@style/ProfileLabelText"
+                        android:padding="0dp"
+                        android:text="@string/profile_stats_my_label" />
+
+                    <Button
+                        android:id="@+id/history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_button_history" />
+
+                </LinearLayout>
+
+                <!-- My stats -->
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        style="@style/ProfileStatContainer.Oriented"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout style="@style/ProfileStatRow.Oriented">
+
+                            <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                                style="@style/ProfileStatTitle.Oriented"
+                                android:text="@string/profile_stats_my_title_views" />
+
+                            <com.tonyjhuang.tsunami.ui.profile.ProfileStatTextSwitcher
+                                android:id="@+id/num_views"
+                                style="@style/ProfileStatSwitcher.Oriented"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <LinearLayout style="@style/ProfileStatRow.Oriented">
+
+                            <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                                style="@style/ProfileStatTitle.Oriented"
+                                android:text="@string/profile_stats_my_title_ripples" />
+
+                            <com.tonyjhuang.tsunami.ui.profile.ProfileStatTextSwitcher
+                                android:id="@+id/num_ripples"
+                                style="@style/ProfileStatSwitcher.Oriented"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout style="@style/ProfileStatRow.Oriented">
+
+                            <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                                style="@style/ProfileStatTitle.Oriented"
+                                android:text="@string/profile_stats_my_title_ripple_percentage" />
+
+                            <com.tonyjhuang.tsunami.ui.profile.ProfileStatTextSwitcher
+                                android:id="@+id/percent_rippled"
+                                style="@style/ProfileStatSwitcher.Oriented"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <com.tonyjhuang.tsunami.ui.customviews.CircularImageView
+                android:id="@+id/profile_pic"
+                style="@style/ProfilePic"
+                android:layout_width="@dimen/profile_pic_dimen"
+                android:layout_height="@dimen/profile_pic_dimen"
+                android:layout_alignBottom="@+id/cover"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="-24dp"
+                android:src="@drawable/kevin" />
+
+            <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                android:id="@+id/user_id"
+                android:textColor="#EFFF"
+                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/profile_pic"
+                android:gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                android:textSize="18sp"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:gravity="center_vertical"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/AppTheme.Toolbar" />
+
+</FrameLayout>

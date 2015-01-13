@@ -1,11 +1,7 @@
 package com.tonyjhuang.tsunami.injection;
 
-import android.app.Activity;
-import android.content.Context;
-
 import com.tonyjhuang.tsunami.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
-import com.tonyjhuang.tsunami.mock.TestCelebrationPresenter;
 import com.tonyjhuang.tsunami.ui.main.MainActivity;
 import com.tonyjhuang.tsunami.ui.main.MainWavePresenter;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
@@ -13,7 +9,7 @@ import com.tonyjhuang.tsunami.ui.main.WaveProvider;
 import com.tonyjhuang.tsunami.ui.main.mapview.MainWaveProvider;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapViewImpl;
-import com.tonyjhuang.tsunami.ui.nav.NavDrawerFragment;
+import com.tonyjhuang.tsunami.ui.drawer.NavDrawerFragment;
 
 import dagger.Module;
 import dagger.Provides;

@@ -77,7 +77,7 @@
     <fragment
         android:fitsSystemWindows="true"
         android:id="@+id/drawer"
-        android:name="com.tonyjhuang.tsunami.ui.nav.NavDrawerFragment"
+        android:name="com.tonyjhuang.tsunami.ui.drawer.NavDrawerFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="start" />

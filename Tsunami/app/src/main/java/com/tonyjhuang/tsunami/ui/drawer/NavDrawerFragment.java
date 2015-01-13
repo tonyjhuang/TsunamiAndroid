@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami.ui.nav;
+package com.tonyjhuang.tsunami.ui.drawer;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.TsunamiFragment;
 
@@ -50,6 +51,7 @@ public class NavDrawerFragment extends TsunamiFragment implements DrawerLayout.D
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Picasso.with(getActivity()).load(R.drawable.cover_1).into(cover);
     }
 
     public void setDrawerLayout(DrawerLayout drawerLayout) {

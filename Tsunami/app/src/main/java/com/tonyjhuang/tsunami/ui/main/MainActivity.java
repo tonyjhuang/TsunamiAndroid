@@ -31,7 +31,7 @@ import com.tonyjhuang.tsunami.ui.customviews.fab.FloatingActionButton;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentScrollView;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
-import com.tonyjhuang.tsunami.ui.nav.NavDrawerFragment;
+import com.tonyjhuang.tsunami.ui.drawer.NavDrawerFragment;
 import com.tonyjhuang.tsunami.ui.profile.ProfileActivity;
 import com.tonyjhuang.tsunami.utils.Celebration;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
@@ -46,7 +46,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
-import static com.tonyjhuang.tsunami.ui.nav.NavDrawerFragment.DrawerItem;
+import static com.tonyjhuang.tsunami.ui.drawer.NavDrawerFragment.DrawerItem;
 
 public class MainActivity extends TsunamiActivity implements
         MainView,
