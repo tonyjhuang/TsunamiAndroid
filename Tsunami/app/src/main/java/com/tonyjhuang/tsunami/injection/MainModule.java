@@ -1,6 +1,6 @@
 package com.tonyjhuang.tsunami.injection;
 
-import com.tonyjhuang.tsunami.TsunamiActivity;
+import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.ui.main.MainActivity;
 import com.tonyjhuang.tsunami.ui.main.MainWavePresenter;

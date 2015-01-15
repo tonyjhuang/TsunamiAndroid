@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tonyjhuang.tsunami.R;
-import com.tonyjhuang.tsunami.TsunamiFragment;
+import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 
 import java.lang.ref.WeakReference;
 

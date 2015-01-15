@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
-import com.tonyjhuang.tsunami.TsunamiFragment;
+import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScrollView;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.tonyjhuang.tsunami.R;
-import com.tonyjhuang.tsunami.TsunamiActivity;
+import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.injection.LoginModule;
 import com.tonyjhuang.tsunami.ui.main.MainActivity;
 

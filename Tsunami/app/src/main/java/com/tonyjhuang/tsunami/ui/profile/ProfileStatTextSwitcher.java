@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.logging.Timber;
-import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 /**
  * Created by tony on 12/25/14.

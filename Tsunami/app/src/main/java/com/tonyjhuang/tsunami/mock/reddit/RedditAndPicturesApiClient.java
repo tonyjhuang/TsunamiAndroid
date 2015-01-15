@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Random;
 
 import rx.Observable;
-import rx.functions.Action1;
 
 /**
  * Created by tony on 1/12/15.

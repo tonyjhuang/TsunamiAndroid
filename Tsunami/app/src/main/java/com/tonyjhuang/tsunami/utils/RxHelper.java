@@ -5,7 +5,6 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Action2;
 import rx.schedulers.Schedulers;
 
 /**

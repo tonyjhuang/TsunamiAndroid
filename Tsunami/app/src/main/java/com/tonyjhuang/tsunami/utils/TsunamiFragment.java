@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami;
+package com.tonyjhuang.tsunami.utils;
 
 import android.app.Fragment;
 import android.os.Bundle;

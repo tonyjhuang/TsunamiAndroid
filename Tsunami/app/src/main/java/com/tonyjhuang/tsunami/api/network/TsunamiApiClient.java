@@ -1,7 +1,6 @@
 package com.tonyjhuang.tsunami.api.network;
 
 import android.app.Application;
-import android.util.LruCache;
 
 import com.tonyjhuang.tsunami.api.dal.TsunamiCache;
 import com.tonyjhuang.tsunami.api.models.Ripple;

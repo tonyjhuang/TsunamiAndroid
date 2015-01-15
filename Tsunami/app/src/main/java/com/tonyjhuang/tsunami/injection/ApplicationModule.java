@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
-import com.tonyjhuang.tsunami.TsunamiApplication;
+import com.tonyjhuang.tsunami.utils.TsunamiApplication;
 import com.tonyjhuang.tsunami.api.dal.TsunamiCache;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
-import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
 import com.tonyjhuang.tsunami.api.network.TsunamiServiceBuilder;
-import com.tonyjhuang.tsunami.mock.MockTsunamiApiClient;
-import com.tonyjhuang.tsunami.mock.reddit.RedditAndPicturesApiClient;
 import com.tonyjhuang.tsunami.mock.reddit.RedditApiClient;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 

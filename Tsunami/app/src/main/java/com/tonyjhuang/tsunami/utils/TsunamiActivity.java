@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami;
+package com.tonyjhuang.tsunami.utils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +23,6 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.observables.AndroidObservable;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 

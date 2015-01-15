@@ -2,12 +2,11 @@ package com.tonyjhuang.tsunami.ui.main;
 
 import com.google.gson.annotations.Expose;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
-import com.tonyjhuang.tsunami.TsunamiActivity;
+import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 import com.tonyjhuang.tsunami.logging.Timber;
-import com.tonyjhuang.tsunami.mock.reddit.RedditAndPicturesApiClient;
 import com.tonyjhuang.tsunami.ui.main.contentview.SplashCard;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
