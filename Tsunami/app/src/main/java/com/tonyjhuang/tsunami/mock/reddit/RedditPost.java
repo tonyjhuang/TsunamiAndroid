@@ -9,34 +9,28 @@ import com.google.gson.annotations.Expose;
 public class RedditPost {
 
     @Expose
-    private String title;
+    public int ups;
     @Expose
-    private String author;
+    public long created;
     @Expose
-    private String selftext;
+    public String domain;
     @Expose
-    private boolean isSelf;
+    public String title;
+    @Expose
+    public String author;
+    @Expose
+    public String selftext;
+    @Expose
+    public boolean isSelf;
+    @Expose
+    public int numComments;
+    @Expose
+    public String url;
 
     public RedditPost(String title, String author, boolean isSelf) {
         this.title = title;
         this.author = author;
         this.isSelf = isSelf;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public boolean isSelf() {
-        return isSelf;
-    }
-
-    public String getSelftext() {
-        return selftext;
     }
 
     @Override

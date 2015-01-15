@@ -7,10 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.api.dal.TsunamiCache;
-import com.tonyjhuang.tsunami.api.models.User;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.mock.MockTsunamiApiClient;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
@@ -48,11 +46,18 @@ public class RedditApiClient extends MockTsunamiApiClient {
 
     @Override
     public Observable<List<Wave>> getWaves(double latitude, double longitude) {
-        return getTop("showerthoughts", 5)
+        return getTop("pics", 5)
                 .flatMap(Observable::from)
+                .filter(this::isValidRedditPost)
                 .map(this::createWave)
                 .toList()
                 .delay(1, TimeUnit.SECONDS);
+    }
+
+    // Returns true only for self posts and i.imgur.com links!
+    private boolean isValidRedditPost(RedditPost redditPost) {
+        String domain = redditPost.domain;
+        return redditPost.isSelf || domain.equals("i.imgur.com");
     }
 
     public Observable<List<RedditPost>> getTop(String subreddit, int limit) {
@@ -66,8 +71,7 @@ public class RedditApiClient extends MockTsunamiApiClient {
     }
 
     private Wave createWave(RedditPost post) {
-        User author = User.createDebugUser(post.getAuthor());
-        return Wave.createDebugWave(post.getTitle(), post.getSelftext(), generateRandomRipples(), author);
+        return Wave.createDebugWave(post, generateRandomRipples(post.ups / 10));
     }
 
     private RedditApi build() {

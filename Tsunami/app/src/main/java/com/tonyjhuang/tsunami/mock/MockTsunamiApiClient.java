@@ -65,11 +65,10 @@ public class MockTsunamiApiClient implements TsunamiApi {
 
     @Override
     public Observable<UserStats> getUserStats(String userId) {
-        Observable<UserStats> apiCall = Observable.just(UserStats.createDebugUserStats()).delay(2, TimeUnit.SECONDS)
-                .map((userStats) -> {
-                    lastUserStats = userStats;
-                    return userStats;
-                });
+        Observable<UserStats> apiCall =
+                Observable.just(UserStats.createDebugUserStats())
+                        .delay(2, TimeUnit.SECONDS)
+                        .doOnNext((userStats) -> lastUserStats = userStats);
 
         Observable<UserStats> cacheFetch;
         if (lastUserStats == null) {
@@ -113,11 +112,12 @@ public class MockTsunamiApiClient implements TsunamiApi {
         return Wave.createDebugWave(randomTitleGen.nextString(),
                 randomTextGen.nextString(),
                 generateRandomRipples(),
-                User.createDebugUser());
+                User.createDebugUser(),
+                random.nextInt(25));
     }
 
     protected int randInt() {
-        return (int) Math.max(2 + Math.abs((6 * random.nextGaussian())), 0);
+        return (int) Math.max(Math.abs((100 * random.nextGaussian())), 1);
     }
 
 
@@ -132,19 +132,24 @@ public class MockTsunamiApiClient implements TsunamiApi {
     }
 
     protected List<Ripple> generateRandomRipples() {
+        return generateRandomRipples(randInt());
+    }
+
+    protected List<Ripple> generateRandomRipples(int numRipples) {
         List<Ripple> ripples = new ArrayList<>();
-        List<LatLng> latLngs = getRandomLatLngs();
+        List<LatLng> latLngs = getRandomLatLngs(numRipples);
         for (LatLng latLng : latLngs) {
             ripples.add(Ripple.createDebugRipple(latLng.latitude, latLng.longitude));
         }
         return ripples;
+
     }
 
-    protected List<LatLng> getRandomLatLngs() {
-        ArrayList<LatLng> ripples = new ArrayList<LatLng>();
+    protected List<LatLng> getRandomLatLngs(int num) {
+        ArrayList<LatLng> ripples = new ArrayList<>();
         LatLng last = null;
 
-        for (int i = 0; i < randInt(); i++) {
+        for (int i = 0; i < num; i++) {
             if (last == null) {
                 if (locationInfo == null) {
                     last = getRandomLatLng(42.331665, -71.108093);
@@ -158,4 +163,5 @@ public class MockTsunamiApiClient implements TsunamiApi {
         }
         return ripples;
     }
+
 }

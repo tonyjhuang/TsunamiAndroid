@@ -214,7 +214,7 @@ public class MainWavePresenter implements WavePresenter {
         waveProvider.fromMemento(memento.waveProviderMemento);
         currentWave = memento.currentWave;
         firstRun = false;
-        
+
         if(memento.hasLatLong) {
             if (locationInfo == null) locationInfo = new LocationInfo(activity);
             locationInfo.lastLat = memento.lastLat;

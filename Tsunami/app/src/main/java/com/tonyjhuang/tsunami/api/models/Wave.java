@@ -2,6 +2,8 @@ package com.tonyjhuang.tsunami.api.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.mock.reddit.RedditPost;
 
 import java.util.Date;
 import java.util.List;
@@ -41,15 +43,17 @@ public class Wave extends ApiObject {
      */
     @Expose
     @SerializedName("origin_ripple_id")
-    private long splashId;
+    long splashId;
     @Expose
-    private int views;
+    int views;
     @Expose
-    private WaveContent content;
+    WaveContent content;
     @Expose
-    private List<Ripple> ripples;
+    List<Ripple> ripples;
     @Expose
-    private User user;
+    User user;
+    @Expose
+    int numComments;
 
     public long getSplashId() {
         return splashId;
@@ -69,6 +73,10 @@ public class Wave extends ApiObject {
 
     public User getUser() {
         return user;
+    }
+
+    public int getNumComments() {
+        return numComments;
     }
 
     /**
@@ -94,15 +102,45 @@ public class Wave extends ApiObject {
 
     /* Debugging */
 
-    public static Wave createDebugWave(String title, String body, List<Ripple> ripples, User user) {
-        return new Wave(WaveContent.createDebugWaveContent(title, body), ripples, user);
+    public static Wave createDebugWave(String title,
+                                       String body,
+                                       List<Ripple> ripples,
+                                       User user,
+                                       int numComments) {
+        return new Wave(WaveContent.createDebugWaveContent(title, body), ripples, user, numComments);
     }
 
-    private Wave(WaveContent content, List<Ripple> ripples, User user) {
+    public static Wave createDebugWave(RedditPost post, List<Ripple> ripples) {
+        String title = post.title;
+        String body = post.isSelf ? post.selftext : post.url;
+        WaveContent.ContentType contentType = post.isSelf ? WaveContent.ContentType.TEXT : WaveContent.ContentType.IMAGE_LINK;
+        User user = User.createDebugUser(post.author);
+        Date createdAt = new Date(post.created * 1000);
+        Timber.d("createdAt: " + createdAt + ", millis: " + (post.created * 1000));
+        int views = post.ups;
+        int numComments = post.numComments;
+
+        Wave wave = new Wave();
+        wave.content = WaveContent.createDebugWaveContent(title, body, contentType);
+        wave.user = user;
+        wave.setCreatedAt(createdAt);
+        wave.views = views;
+        wave.ripples = ripples;
+        wave.numComments = numComments;
+        wave.setId(Math.abs(new Random().nextLong()));
+
+        return wave;
+    }
+
+    private Wave() {
+    }
+
+    private Wave(WaveContent content, List<Ripple> ripples, User user, int numComments) {
         this.content = content;
         this.ripples = ripples;
         this.splashId = ripples.get(0).getId();
         this.user = user;
+        this.numComments = numComments;
 
         long earliestDate = 1420000000000l;
         long now = System.currentTimeMillis();

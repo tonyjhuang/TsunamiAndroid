@@ -41,7 +41,7 @@ public class TypefaceManager {
 
     private static void initDefaultTypeface(Context context) {
         if (defaultTypeface == null)
-            defaultTypeface = context.getString(R.string.fonttype);
+            defaultTypeface = context.getString(R.string.fonttype) + ".ttf";
     }
 }
 

@@ -13,6 +13,9 @@ import com.tonyjhuang.tsunami.api.models.Wave;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -49,12 +52,25 @@ public class ContentInnerImage extends LinearLayout {
     public void setWave(Wave wave) {
         if (wave == null) return;
 
+        String viewCount = "";
+        if (wave.getViews() >= 1000) {
+            DecimalFormat df = new DecimalFormat("#.#");
+            df.setRoundingMode(RoundingMode.HALF_EVEN);
+            viewCount += df.format(wave.getViews() / 1000f) + "k";
+        } else {
+            viewCount += wave.getViews();
+        }
+
+        viewCount += " views";
+
         Picasso.with(getContext())
                 .load(wave.getContent().getBody())
                 .fit()
                 .centerCrop()
                 .into(imageView);
 
+        caption.setText(wave.getContent().getTitle());
         timestamp.setText(prettyTime.format(wave.getCreatedAt()));
+        viewCounter.setText(viewCount);
     }
 }

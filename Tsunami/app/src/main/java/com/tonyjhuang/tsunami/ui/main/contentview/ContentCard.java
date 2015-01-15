@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
@@ -20,6 +21,12 @@ import butterknife.InjectView;
 public class ContentCard extends FrameLayout {
     private static PrettyTime prettyTime = new PrettyTime();
 
+    @InjectView(R.id.alias)
+    TextView alias;
+    @InjectView(R.id.ripples)
+    TextView ripples;
+    @InjectView(R.id.comments_text)
+    TextView comments;
     @InjectView(R.id.content_container)
     FrameLayout container;
 
@@ -52,6 +59,16 @@ public class ContentCard extends FrameLayout {
         this.wave = wave;
         container.removeAllViews();
         if (wave == null) return;
+
+        String numRipples;
+        if(wave.getRipples().size() < 1000)
+            numRipples = String.valueOf(wave.getRipples().size());
+        else
+            numRipples = String.valueOf(wave.getRipples().size() / 1000f) + "k";
+
+        alias.setText(wave.getUser().getName());
+        comments.setText("See " + wave.getNumComments() + " comments...");
+        ripples.setText(numRipples);
 
         if(wave.getContent().getContentType().equals(WaveContent.ContentType.IMAGE_LINK)) {
             ContentInnerImage innerImage = new ContentInnerImage(getContext());
