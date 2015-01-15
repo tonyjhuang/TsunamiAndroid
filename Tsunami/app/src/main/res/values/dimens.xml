@@ -10,15 +10,16 @@
     <dimen name="card_background_default_radius">3dp</dimen>
     <dimen name="card_padding_top">16dp</dimen>
     <dimen name="card_padding_bottom">16dp</dimen>
-    <dimen name="card_padding">16dp</dimen>
+    <dimen name="card_padding">8dp</dimen>
     <dimen name="card_max_width">450dp</dimen>
 
     <dimen name="content_scroll_assist_threshold">156dp</dimen>
 
     <dimen name="content_title_textsize">24sp</dimen>
+    <dimen name="content_avatar_size">56dp</dimen>
     <dimen name="content_divider_margin_horizontal">16dp</dimen>
     <dimen name="content_divider_margin_vertical">8dp</dimen>
-    <dimen name="content_divider_height">2px</dimen>
+    <dimen name="content_padding_horizontal">8dp</dimen>
 
     <!-- Floating Action Button -->
     <dimen name="fab_size_normal">56dp</dimen>

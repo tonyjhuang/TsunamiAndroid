@@ -13,7 +13,7 @@ import com.tonyjhuang.tsunami.logging.Timber;
  * Created by tony on 12/30/14.
  */
 public class FadingBouncyScrollView extends BouncyScrollView {
-    private static final float FADE_ALPHA = 0.25f;
+    private static final float FADE_ALPHA = 0.1f;
     private static final int FADE_ANIM_DURATION = 200;
 
     private View customView;

@@ -11,6 +11,7 @@ import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
 import com.tonyjhuang.tsunami.api.network.TsunamiServiceBuilder;
 import com.tonyjhuang.tsunami.mock.MockTsunamiApiClient;
+import com.tonyjhuang.tsunami.mock.reddit.RedditAndPicturesApiClient;
 import com.tonyjhuang.tsunami.mock.reddit.RedditApiClient;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
@@ -51,7 +52,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     TsunamiApi provideTsunamiApi(TsunamiService service, TsunamiPreferences preferences, TsunamiCache cache) {
-        return new RedditApiClient(application, service, preferences, cache);
+        return new RedditAndPicturesApiClient(application, service, preferences, cache);
     }
 
     @Provides

@@ -44,23 +44,14 @@
         <item name="android:textSize">@dimen/content_title_textsize</item>
     </style>
 
-    <style name="CardContainer"> 
-        <item name="android:minHeight">96dp</item>
+    <style name="CardContainer">
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingTop">6dp</item>
-        <item name="android:paddingBottom">6dp</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
     </style>
 
-    <style name="CardDivider">
+    <style name="Divider">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/content_divider_height</item>
-        <item name="android:layout_marginBottom">@dimen/content_divider_margin_vertical</item>
-        <item name="android:layout_marginTop">@dimen/content_divider_margin_vertical</item>
-        <item name="android:layout_marginLeft">@dimen/content_divider_margin_horizontal</item>
-        <item name="android:layout_marginRight">@dimen/content_divider_margin_horizontal</item>
-        <item name="android:background">@color/content_view_card_divider</item>
+        <item name="android:layout_height">2px</item>
+        <item name="android:background">@color/divider</item>
     </style>
 
     <style name="ProfilePic">
@@ -113,7 +104,7 @@
 
     <style name="ProfileStatNum">
         <item name="android:padding">0dp</item>
-        <item name="typeface">Roboto-Light</item>
+        <item name="typeface">@string/fonttype_light</item>
         <item name="android:textColor">@color/accent</item>
         <item name="android:textSize">@dimen/profile_stats_num_text_size</item>
     </style>

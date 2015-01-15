@@ -5,6 +5,11 @@
 
     <string name="app_name">Tsunami</string>
 
+    <string name="fonttype">OpenSans-Regular</string>
+    <string name="fonttype_light">OpenSans-Light</string>
+    <string name="fonttype_medium">OpenSans-Medium</string>
+    <string name="fonttype_heavy">OpenSans-Heavy</string>
+
     <string name="activity_label_profile">Your Profile</string>
 
     <string name="main_splash_begin_description">New splash</string>

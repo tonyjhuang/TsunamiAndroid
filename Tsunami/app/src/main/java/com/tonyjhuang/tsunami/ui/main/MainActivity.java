@@ -238,7 +238,7 @@ public class MainActivity extends TsunamiActivity implements
         if (contentView.isShowingSplashCard())
             presenter.onCancelSplashButtonClicked();
         else
-            drawerLayout.openDrawer(Gravity.START);
+            presenter.onProfileButtonClicked();
     }
 
     @OnLongClick(R.id.profile)

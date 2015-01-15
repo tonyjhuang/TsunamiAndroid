@@ -9,28 +9,34 @@
         android:layout_width="match_parent"
         android:layout_height="0dp" />
 
-    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-        android:id="@+id/title"
-        style="@style/WaveContentTitle"
+    <include layout="@layout/card_inner_content_profile" />
+
+    <View style="@style/Divider" />
+
+    <FrameLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View style="@style/Divider" />
+
+    <LinearLayout
+        android:id="@+id/comments_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="false" />
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/content_padding_horizontal">
 
-    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-        android:id="@+id/info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/text_secondary" />
+        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+            android:id="@+id/comments_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:text="See 7 comments.."
+            android:textColor="@color/primary" />
+    </LinearLayout>
 
-    <View
-        android:id="@+id/divider"
-        style="@style/CardDivider" />
-
-    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-        android:id="@+id/body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:textSize="18sp" />
 </LinearLayout>

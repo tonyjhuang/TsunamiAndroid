@@ -31,7 +31,7 @@ import rx.Observable;
 public class RedditApiClient extends MockTsunamiApiClient {
     public static final String ENDPOINT = "https://www.reddit.com";
 
-    private RedditApi service;
+    protected RedditApi service;
 
     @SuppressWarnings("unused")
     @Inject

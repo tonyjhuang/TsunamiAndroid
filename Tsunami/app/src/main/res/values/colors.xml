@@ -21,8 +21,6 @@
     <color name="material_light_green">#8BC34A</color>
     <color name="material_lime">#CDDC39</color>
     
-    <color name="content_view_card_divider">@color/divider</color>
-
     <color name="map_view_current_location_fill">@color/primary_light</color>
     <color name="map_view_current_location_stroke">@color/primary</color>
     <color name="map_view_ripple_fill">#4448D1CC</color>

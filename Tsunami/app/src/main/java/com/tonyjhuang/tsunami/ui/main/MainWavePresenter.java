@@ -7,6 +7,7 @@ import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.mock.reddit.RedditAndPicturesApiClient;
 import com.tonyjhuang.tsunami.ui.main.contentview.SplashCard;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
@@ -197,8 +198,11 @@ public class MainWavePresenter implements WavePresenter {
         memento.isSplashing = contentView.isShowingSplashCard();
         memento.waveProviderMemento = waveProvider.getMemento();
         memento.currentWave = currentWave;
-        memento.lastLat = locationInfo.lastLat;
-        memento.lastLong = locationInfo.lastLong;
+        if(locationInfo != null) {
+            memento.lastLat = locationInfo.lastLat;
+            memento.lastLong = locationInfo.lastLong;
+        }
+        memento.hasLatLong = locationInfo != null;
         return memento.toString();
     }
 
@@ -210,9 +214,12 @@ public class MainWavePresenter implements WavePresenter {
         waveProvider.fromMemento(memento.waveProviderMemento);
         currentWave = memento.currentWave;
         firstRun = false;
-        if (locationInfo == null) locationInfo = new LocationInfo(activity);
-        locationInfo.lastLat = memento.lastLat;
-        locationInfo.lastLong = memento.lastLong;
+        
+        if(memento.hasLatLong) {
+            if (locationInfo == null) locationInfo = new LocationInfo(activity);
+            locationInfo.lastLat = memento.lastLat;
+            locationInfo.lastLong = memento.lastLong;
+        }
 
         if (memento.isSplashing) {
             mapView.setLocationInfo(locationInfo);
@@ -238,6 +245,8 @@ public class MainWavePresenter implements WavePresenter {
         float lastLat;
         @Expose
         float lastLong;
+        @Expose
+        boolean hasLatLong;
 
         public String toString() {
             return TsunamiGson.gson.toJson(this);

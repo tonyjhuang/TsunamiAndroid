@@ -113,4 +113,9 @@ public class Wave extends ApiObject {
 
         setId(new Random().nextLong());
     }
+
+    public void convertToImageLink(String imageUrl) {
+        content.setBody(imageUrl);
+        content.setContentType(WaveContent.ContentType.IMAGE_LINK);
+    }
 }

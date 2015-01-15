@@ -1,16 +1,13 @@
 package com.tonyjhuang.tsunami.ui.main.contentview;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
-import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.api.models.WaveContent;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -23,15 +20,8 @@ import butterknife.InjectView;
 public class ContentCard extends FrameLayout {
     private static PrettyTime prettyTime = new PrettyTime();
 
-    @InjectView(R.id.title)
-    TextView title;
-    @InjectView(R.id.info)
-    TextView info;
-    @InjectView(R.id.divider)
-    View divider;
-    @InjectView(R.id.body)
-    TextView body;
-
+    @InjectView(R.id.content_container)
+    FrameLayout container;
 
     /**
      * The wave that we should be displaying currently.
@@ -55,36 +45,21 @@ public class ContentCard extends FrameLayout {
 
     public void setup(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.card_content, this, true);
-        ButterKnife.inject(this, this);
+        ButterKnife.inject(this, inflater.inflate(R.layout.card_content, this, true));
     }
 
     public void setWave(Wave wave) {
         this.wave = wave;
-        if (wave != null) {
-            String titleText = wave.getContent().getTitle();
-            String bodyText = wave.getContent().getBody();
+        container.removeAllViews();
+        if (wave == null) return;
 
-            hideBody(TextUtils.isEmpty(bodyText) || TextUtils.isEmpty(titleText));
-
-            Timber.d("setting text");
-            title.setText(TextUtils.isEmpty(titleText) ? bodyText : titleText);
-            body.setText(wave.getContent().getBody());
-
-            String infoText = wave.getUser().getName();
-            if (wave.getCreatedAt() != null) {
-                infoText += " " + getResources().getString(R.string.content_info_text_divider) + " ";
-                infoText += ContentCard.prettyTime.format(wave.getCreatedAt());
-            }
-            this.info.setText(infoText);
+        if(wave.getContent().getContentType().equals(WaveContent.ContentType.IMAGE_LINK)) {
+            ContentInnerImage innerImage = new ContentInnerImage(getContext());
+            innerImage.setWave(wave);
+            container.addView(innerImage);
         }
     }
 
-    private void hideBody(boolean hide) {
-        int visibility = hide ? GONE : VISIBLE;
-        divider.setVisibility(visibility);
-        body.setVisibility(visibility);
-    }
 
     public Wave getWave() {
         return wave;
