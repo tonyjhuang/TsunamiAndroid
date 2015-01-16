@@ -11,7 +11,7 @@
     <dimen name="card_padding_top">16dp</dimen>
     <dimen name="card_padding_bottom">16dp</dimen>
     <dimen name="card_padding">8dp</dimen>
-    <dimen name="card_max_width">450dp</dimen>
+    <dimen name="card_max_width">448dp</dimen>
 
     <dimen name="content_scroll_assist_threshold">156dp</dimen>
 
