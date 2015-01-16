@@ -3,6 +3,7 @@ package com.tonyjhuang.tsunami.utils;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.tonyjhuang.tsunami.injection.Injector;
 
@@ -70,6 +71,10 @@ public abstract class TsunamiFragment extends Fragment implements Injector{
     public void onDestroy() {
         super.onDestroy();
         compositeSubscription.clear();
+    }
+
+    protected final void showToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     protected <T> void subscribe(Observable<T> observable, Observer<T> observer) {

@@ -92,6 +92,7 @@ dependencies {
     compile 'com.joanzapata.android:android-iconify:1.0.6'
     compile 'com.github.nirhart:parallaxscroll:1.0'
     compile 'com.squareup.picasso:picasso:2.4.0'
+    compile 'com.github.chrisbanes.photoview:library:1.2.3'
     // Injection
     compile 'com.squareup.dagger:dagger-compiler:1.2.1'
     compile 'com.squareup.dagger:dagger:1.2.2'

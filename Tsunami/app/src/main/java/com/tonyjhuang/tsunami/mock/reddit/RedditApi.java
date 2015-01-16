@@ -14,7 +14,7 @@ import rx.Observable;
  */
 public interface RedditApi {
 
-    @GET("/r/{subreddit}/top.json")
+    @GET("/r/{subreddit}/new.json")
     public Observable<RedditGetTopResponse> getTop(@Path("subreddit") String subreddit,
                                                    @Query("limit") int limit,
                                                    @Query("after") String after);

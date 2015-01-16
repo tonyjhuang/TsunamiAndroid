@@ -117,7 +117,7 @@ public class Wave extends ApiObject {
         User user = User.createDebugUser(post.author);
         Date createdAt = new Date(post.created * 1000);
         Timber.d("createdAt: " + createdAt + ", millis: " + (post.created * 1000));
-        int views = post.ups;
+        int views = post.ups * 10;
         int numComments = post.numComments;
 
         Wave wave = new Wave();

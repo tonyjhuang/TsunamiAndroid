@@ -3,6 +3,7 @@ package com.tonyjhuang.tsunami.ui.main.contentview;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.ui.shared.PhotoViewActivity;
+import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -18,6 +21,7 @@ import java.text.DecimalFormat;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by tony on 1/14/15.
@@ -35,6 +39,8 @@ public class ContentInnerImage extends LinearLayout {
     @InjectView(R.id.caption)
     TextView caption;
 
+    private Wave wave;
+
     public ContentInnerImage(Context context) {
         this(context, null);
     }
@@ -50,6 +56,7 @@ public class ContentInnerImage extends LinearLayout {
     }
 
     public void setWave(Wave wave) {
+        this.wave = wave;
         if (wave == null) return;
 
         String viewCount = "";
@@ -72,5 +79,10 @@ public class ContentInnerImage extends LinearLayout {
         caption.setText(wave.getContent().getTitle());
         timestamp.setText(prettyTime.format(wave.getCreatedAt()));
         viewCounter.setText(viewCount);
+    }
+
+    @OnClick(R.id.image)
+    public void onImageClick(View view) {
+        PhotoViewActivity.startPhotoViewActivity(((TsunamiActivity) getContext()), wave.getContent().getBody());
     }
 }

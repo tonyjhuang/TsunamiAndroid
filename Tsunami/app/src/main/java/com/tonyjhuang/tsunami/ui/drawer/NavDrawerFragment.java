@@ -213,7 +213,7 @@ public class NavDrawerFragment extends TsunamiFragment implements DrawerLayout.D
 
             ((TextView) ButterKnife.findById(view, R.id.text)).setTextColor(textColorResource);
             ((ImageView) ButterKnife.findById(view, R.id.icon)).setImageResource(imageResource);
-            ButterKnife.findById(view, R.id.background).setBackgroundColor(backgroundColorResource);
+            ButterKnife.findById(view, R.id.photo_view_background).setBackgroundColor(backgroundColorResource);
         }
 
         public boolean isSelected() {

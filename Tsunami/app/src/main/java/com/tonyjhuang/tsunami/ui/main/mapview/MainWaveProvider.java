@@ -1,5 +1,7 @@
 package com.tonyjhuang.tsunami.ui.main.mapview;
 
+import android.content.Context;
+
 import com.google.gson.annotations.Expose;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Wave;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 
 /**
@@ -19,13 +23,16 @@ import rx.Observable;
  */
 public class MainWaveProvider implements WaveProvider {
 
+    private Context context;
     private TsunamiApi api;
     private LocationInfo locationInfo;
 
     List<Wave> waves = new ArrayList<>();
     private int index = 0;
 
-    public MainWaveProvider(TsunamiApi api) {
+    @Inject
+    public MainWaveProvider(Context context, TsunamiApi api) {
+        this.context = context;
         this.api = api;
     }
 
@@ -33,6 +40,7 @@ public class MainWaveProvider implements WaveProvider {
      * gets the next set of waves, replaces our local cache and emits an Object representing success.
      */
     protected Observable<Object> getMoreWaves() {
+        if(locationInfo == null) locationInfo = new LocationInfo(context);
         return api.getWaves(locationInfo.lastLat, locationInfo.lastLong)
                 .map((waves) -> {
                     Timber.d("got " + waves.size() + " new waves!");

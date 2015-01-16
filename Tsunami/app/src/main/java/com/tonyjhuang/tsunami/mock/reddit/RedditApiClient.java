@@ -62,16 +62,16 @@ public class RedditApiClient extends MockTsunamiApiClient {
 
     public Observable<List<RedditPost>> getTop(String subreddit, int limit) {
         return service.getTop(subreddit, limit, after)
-                .map((response) -> {
-                    this.after = response.data.after;
-                    return response.data.children;
-                }).flatMap(Observable::from)
+                .doOnNext((response) -> this.after = response.data.after)
+                .map((response) -> response.data.children)
+                .flatMap(Observable::from)
                 .map((data) -> data.post)
                 .toList();
     }
 
     private Wave createWave(RedditPost post) {
-        return Wave.createDebugWave(post, generateRandomRipples(post.ups / 10));
+        int numRipples = Math.max(post.ups, 1);
+        return Wave.createDebugWave(post, generateRandomRipples(numRipples));
     }
 
     private RedditApi build() {

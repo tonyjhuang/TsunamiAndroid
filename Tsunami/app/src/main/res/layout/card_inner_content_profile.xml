@@ -43,19 +43,20 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginRight="2dp"
-                android:src="@drawable/google_plus" />
-
             <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
                 android:id="@+id/handle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="+kyang"
                 app:typeface="@string/fonttype_light" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/google_plus" />
 
         </LinearLayout>
     </LinearLayout>
