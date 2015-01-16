@@ -155,6 +155,11 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     }
 
     @Override
+    public View getView() {
+        return getCustomView();
+    }
+
+    @Override
     public void scrollUpOffscreen() {
         super.scrollUpOffscreen();
     }
@@ -188,8 +193,8 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     }
 
     @Override
-    public void onScrollChanged(BouncyScrollView scrollView, int l, int t, int oldl, int oldt) {
-        if (onScrollListener != null) onScrollListener.onScroll(this, l, t, oldl, oldt);
+    public void onScrollChanged(View view, int l, int t, int oldl, int oldt) {
+        if (onScrollListener != null) onScrollListener.onScroll(view, l, t, oldl, oldt);
     }
 
 }

@@ -33,6 +33,11 @@ public interface WaveContentView {
     public void showContentCard(Wave wave, boolean postSuccessfulSplash);
 
     /**
+     * Get the currently shown view.
+     */
+    public View getView();
+
+    /**
      * Display a loading indicator;
      */
     public void showLoading();

@@ -22,18 +22,18 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants;
 import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
-import com.tonyjhuang.tsunami.ui.profile.ProfileActivity;
-import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.injection.MainModule;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.mock.DebugLocationControls;
 import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
 import com.tonyjhuang.tsunami.ui.customviews.fab.FloatingActionButton;
+import com.tonyjhuang.tsunami.ui.drawer.NavDrawerFragment;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentScrollView;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
-import com.tonyjhuang.tsunami.ui.drawer.NavDrawerFragment;
+import com.tonyjhuang.tsunami.ui.profile.ProfileActivity;
 import com.tonyjhuang.tsunami.utils.Celebration;
+import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.util.Arrays;
@@ -74,6 +74,8 @@ public class MainActivity extends TsunamiActivity implements
     Button profileButton;
     @InjectView(R.id.ghetto_toolbar)
     GhettoToolbar toolbar;
+    @InjectView(R.id.profile)
+    Button profile;
     @InjectView(R.id.debug_controls_stub)
     ViewStub debugControlsStub;
 
@@ -305,6 +307,22 @@ public class MainActivity extends TsunamiActivity implements
 
     @Override
     public void onScroll(View view, int l, int t, int oldl, int oldt) {
+        int[] viewPos = new int[2];
+        view.getLocationOnScreen(viewPos);
+        int viewPosX = viewPos[0];
+
+        int[] profilePos = new int[2];
+        profile.getLocationOnScreen(profilePos);
+        int profilePosX = profilePos[0];
+
+        int[] splashPos = new int[2];
+        splashButton.getLocationOnScreen(splashPos);
+        int splashPosX = splashPos[0];
+
+        // If the content doesnt overlap with our profile or splash button, don't do anything.
+        if (profilePosX + profile.getWidth() < viewPosX
+                && viewPosX + view.getWidth() < splashPosX) return;
+
         /**
          * If our card is touching or above the lower edge of our splash button, hide it.
          */

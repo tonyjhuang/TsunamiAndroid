@@ -218,7 +218,7 @@ public class BouncyScrollView extends ScrollView {
         lastT = t;
         lastOldT = oldt;
 
-        if (eventListener != null) eventListener.onScrollChanged(this, l, t, oldl, oldt);
+        if (eventListener != null) eventListener.onScrollChanged(customView, l, t, oldl, oldt);
 
         if (t == 0) {
             if (eventListener != null) eventListener.onViewHitBottom(customView);
@@ -237,7 +237,7 @@ public class BouncyScrollView extends ScrollView {
 
         public void onViewHitTop(View view);
 
-        public void onScrollChanged(BouncyScrollView scrollView, int l, int t, int oldl, int oldt);
+        public void onScrollChanged(View view, int l, int t, int oldl, int oldt);
     }
 
     public void resetPosition() {
