@@ -309,24 +309,27 @@ public class MainActivity extends TsunamiActivity implements
     public void onScroll(View view, int l, int t, int oldl, int oldt) {
         int[] viewPos = new int[2];
         view.getLocationOnScreen(viewPos);
-        int viewPosX = viewPos[0];
+        int viewLeft = viewPos[0];
+        int viewRight = viewLeft + view.getWidth();
+        int viewTop = viewPos[1];
 
         int[] profilePos = new int[2];
         profile.getLocationOnScreen(profilePos);
-        int profilePosX = profilePos[0];
+        int profileLeft = profilePos[0];
+        int profileRight = profileLeft + profile.getWidth();
 
         int[] splashPos = new int[2];
         splashButton.getLocationOnScreen(splashPos);
-        int splashPosX = splashPos[0];
+        int splashLeft = splashPos[0];
+        //int splashRight = splashLeft + splashButton.getWidth();
 
         // If the content doesnt overlap with our profile or splash button, don't do anything.
-        if (profilePosX + profile.getWidth() < viewPosX
-                && viewPosX + view.getWidth() < splashPosX) return;
+        if (profileRight < viewLeft && viewRight < splashLeft) return;
 
         /**
          * If our card is touching or above the lower edge of our splash button, hide it.
          */
-        if (t >= view.getHeight() - (toolbar.getTop() + toolbar.getHeight())) {
+        if (toolbar.getTop() + toolbar.getHeight() >= viewTop) {
             toolbar.hide();
         } else {
             toolbar.show();
