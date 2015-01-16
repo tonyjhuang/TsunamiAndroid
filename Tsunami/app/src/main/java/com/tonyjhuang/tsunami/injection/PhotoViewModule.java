@@ -1,7 +1,6 @@
 package com.tonyjhuang.tsunami.injection;
 
 import com.tonyjhuang.tsunami.ui.shared.PhotoViewActivity;
-import com.tonyjhuang.tsunami.ui.shared.PhotoViewFragment;
 
 import dagger.Module;
 
@@ -10,8 +9,7 @@ import dagger.Module;
  */
 @Module(
         injects = {
-                PhotoViewActivity.class,
-                PhotoViewFragment.class
+                PhotoViewActivity.class
         },
         addsTo = ActivityModule.class,
         complete = false,
