@@ -2,7 +2,6 @@ package com.tonyjhuang.tsunami.ui.main;
 
 import com.google.gson.annotations.Expose;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
-import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
@@ -10,6 +9,7 @@ import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.contentview.SplashCard;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
+import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
 import rx.android.observables.AndroidObservable;
 import rx.functions.Action1;
@@ -103,6 +103,7 @@ public class MainWavePresenter implements WavePresenter {
         Wave wave = contentView.getContentWave();
         contentView.clearContentWave();
 
+        if (wave == null) return;
         if (wave.isValidFor(locationInfo.lastLat, locationInfo.lastLong)) {
             api.ripple(wave.getId(), locationInfo.lastLat, locationInfo.lastLong)
                     .publish()
@@ -197,7 +198,7 @@ public class MainWavePresenter implements WavePresenter {
         memento.isSplashing = contentView.isShowingSplashCard();
         memento.waveProviderMemento = waveProvider.getMemento();
         memento.currentWave = currentWave;
-        if(locationInfo != null) {
+        if (locationInfo != null) {
             memento.lastLat = locationInfo.lastLat;
             memento.lastLong = locationInfo.lastLong;
         }
@@ -214,7 +215,7 @@ public class MainWavePresenter implements WavePresenter {
         currentWave = memento.currentWave;
         firstRun = false;
 
-        if(memento.hasLatLong) {
+        if (memento.hasLatLong) {
             if (locationInfo == null) locationInfo = new LocationInfo(activity);
             locationInfo.lastLat = memento.lastLat;
             locationInfo.lastLong = memento.lastLong;

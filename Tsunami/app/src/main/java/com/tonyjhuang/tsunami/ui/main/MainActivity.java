@@ -321,7 +321,7 @@ public class MainActivity extends TsunamiActivity implements
         int[] splashPos = new int[2];
         splashButton.getLocationOnScreen(splashPos);
         int splashLeft = splashPos[0];
-        //int splashRight = splashLeft + splashButton.getWidth();
+        //  int splashRight = splashLeft + splashButton.getWidth();
 
         // If the content doesnt overlap with our profile or splash button, don't do anything.
         if (profileRight < viewLeft && viewRight < splashLeft) return;
