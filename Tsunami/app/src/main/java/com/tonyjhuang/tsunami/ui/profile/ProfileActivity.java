@@ -44,12 +44,7 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toolbar = inflateToolbar();
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setElevation(0);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        toolbar = inflateToolbar(true);
         setToolbarBackgroundAlpha(0);
 
         new Handler().post(() -> fragment.scrollView.setOnScrollListener(this));

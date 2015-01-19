@@ -65,8 +65,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity" />
         </activity>
-        <activity android:name=".ui.shared.PhotoViewActivity"
-            android:theme="@style/AppTheme.Transparent"/>
+        <activity
+            android:name=".ui.shared.PhotoViewActivity"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
+            android:name=".ui.main.comments.CommentsActivity"
+            android:label="@string/activity_label_comments"
+            android:parentActivityName=".ui.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.MainActivity" />
+        </activity>
 
 
         <!-- little fluffy location library -->

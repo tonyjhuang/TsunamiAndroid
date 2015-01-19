@@ -13,6 +13,8 @@
     <dimen name="card_padding">8dp</dimen>
     <dimen name="card_max_width">448dp</dimen>
 
+    <dimen name="comment_profile_pic_dimen">56dp</dimen>
+
     <dimen name="content_scroll_assist_threshold">156dp</dimen>
 
     <dimen name="content_title_textsize">24sp</dimen>

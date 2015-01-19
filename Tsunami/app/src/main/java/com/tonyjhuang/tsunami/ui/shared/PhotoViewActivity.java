@@ -2,12 +2,10 @@ package com.tonyjhuang.tsunami.ui.shared;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import com.squareup.picasso.Picasso;
 import com.tonyjhuang.tsunami.R;
-import com.tonyjhuang.tsunami.injection.PhotoViewModule;
-import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.injection.MainModule;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 
@@ -15,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.InjectView;
-import butterknife.OnClick;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -50,6 +47,6 @@ public class PhotoViewActivity extends TsunamiActivity {
 
     @Override
     protected List<Object> getMyModules() {
-        return Arrays.asList(new PhotoViewModule());
+        return Arrays.asList(new MainModule(this));
     }
 }

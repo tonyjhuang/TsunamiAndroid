@@ -40,7 +40,7 @@
             android:layout_marginTop="-2dp"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
-            android:gravity="center_vertical"
+            android:gravity="bottom"
             android:orientation="horizontal">
 
             <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
@@ -52,6 +52,7 @@
                 app:typeface="@string/fonttype_light" />
 
             <ImageView
+                android:id="@+id/handle_icon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginStart="2dp"

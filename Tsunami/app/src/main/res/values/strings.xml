@@ -11,13 +11,18 @@
     <string name="fonttype_heavy">OpenSans-Heavy</string>
 
     <string name="activity_label_profile">Your Profile</string>
+    <string name="activity_label_comments">Comments</string>
 
     <string name="main_splash_begin_description">New splash</string>
     <string name="main_splash_send_description">Create splash</string>
     <string name="main_splash_cancel_description">Cancel splash</string>
     <string name="main_profile_description">Profile</string>
 
-    <string name="content_info_text_divider">•</string>
+    <string name="content_comment_prompt_zero">Add a comment&#8320;</string>
+    <plurals name="content_comment_prompts">
+        <item quantity="one">See 1 comment...</item>
+        <item quantity="other">See %1$d comments...</item>
+    </plurals>
 
     <string name="splash_title_hint">Title</string>
     <string name="splash_text_hint">Splash something with the world..</string>

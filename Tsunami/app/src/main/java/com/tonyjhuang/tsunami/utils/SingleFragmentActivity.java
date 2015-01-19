@@ -41,8 +41,16 @@ public abstract class SingleFragmentActivity extends TsunamiActivity {
         return (TsunamiFragment) getFragmentManager().findFragmentById(R.id.container);
     }
 
-    protected Toolbar inflateToolbar() {
+    protected Toolbar inflateToolbar(boolean setup) {
+        Toolbar toolbar = (Toolbar) toolbarStub.inflate();
 
-        return (Toolbar) toolbarStub.inflate();
+        if(setup) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setElevation(0);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
+
+        return toolbar;
     }
 }
