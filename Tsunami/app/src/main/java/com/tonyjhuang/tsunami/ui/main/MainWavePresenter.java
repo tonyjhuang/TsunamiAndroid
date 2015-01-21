@@ -11,6 +11,7 @@ import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
+import rx.Observable;
 import rx.android.observables.AndroidObservable;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -81,9 +82,7 @@ public class MainWavePresenter implements WavePresenter {
             };
         }
 
-        AndroidObservable.bindActivity(activity, waveProvider.getNextWave())
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(onNextWave, (error) -> Timber.e(error, "fuck."));
+        subscribe(waveProvider.getNextWave(), onNextWave, (error) -> Timber.e(error, "fuck."));
     }
 
     private void displayWave(Wave wave) {
@@ -118,8 +117,14 @@ public class MainWavePresenter implements WavePresenter {
     @Override
     public void onContentSwipedDown() {
         Timber.d("onContentSwipedDown");
-        api.dismissWave(currentWave.getId()).publish().connect();
-        displayNewWave();
+        if (waveProvider.hasNextWave()) {
+            api.dismissWave(currentWave.getId()).publish().connect();
+            displayNewWave();
+        } else {
+            subscribe(api.dismissWave(currentWave.getId()),
+                    (aVoid) -> displayNewWave(),
+                    (error) -> Timber.e(error, "couldnt dismiss"));
+        }
     }
 
     @Override
@@ -191,6 +196,12 @@ public class MainWavePresenter implements WavePresenter {
 
         if (firstRun) displayNewWave();
         firstRun = false;
+    }
+
+    private <T> void subscribe(Observable<T> observable, Action1<T> onNext, Action1<Throwable> onError) {
+        AndroidObservable.bindActivity(activity, observable)
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(onNext, onError);
     }
 
     /* Save state */
