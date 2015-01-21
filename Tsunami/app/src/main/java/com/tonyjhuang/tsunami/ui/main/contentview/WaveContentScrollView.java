@@ -143,7 +143,7 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     }
 
     @Override
-    public SplashCard.SplashContent retrieveSplashContent() {
+    public SplashContent retrieveSplashContent() {
         return splashCard == null ? null : splashCard.retrieveSplashContent();
     }
 

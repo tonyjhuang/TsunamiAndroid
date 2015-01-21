@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
+import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.utils.TsunamiApplication;
 import com.tonyjhuang.tsunami.api.dal.TsunamiCache;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
@@ -49,7 +50,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     TsunamiApi provideTsunamiApi(TsunamiService service, TsunamiPreferences preferences, TsunamiCache cache) {
-        return new RedditApiClient(application, service, preferences, cache);
+        return new TsunamiApiClient(application, service, preferences, cache);
     }
 
     @Provides

@@ -1,9 +1,7 @@
 package com.tonyjhuang.tsunami.api.models;
 
 import com.google.gson.annotations.Expose;
-import com.tonyjhuang.tsunami.mock.RandomString;
 
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -28,20 +26,11 @@ public class User extends ApiObject {
     }
 
     /* Debugging */
-    public static User createDebugUser() {
-        return new User();
-    }
 
     public static User createDebugUser(String name) {
-        return new User(name);
-    }
-
-    private User() {
-        this((new Random().nextInt(2) == 0) ? "Anonymous" : new RandomString(10).nextString());
-    }
-
-    private User(String name) {
-        this.guid = UUID.randomUUID().toString();
-        this.name = name;
+        User user = new User();
+        user.guid = UUID.randomUUID().toString();
+        user.name = name == null ? "Anonymous" : name;
+        return user;
     }
 }

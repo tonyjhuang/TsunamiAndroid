@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:id="@+id/handle_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/comment_input"
+        android:orientation="horizontal">
+
+        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+            android:id="@+id/handle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+tonyjhuang" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/comment_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/confirm"
+        android:layout_toStartOf="@+id/confirm"
+        android:gravity="bottom"
+        android:maxLines="4"
+        android:minHeight="48dp" />
+
+    <ImageButton
+        android:id="@+id/confirm"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
+
+    <View
+        android:id="@+id/divider"
+        style="@style/Divider"
+        android:layout_above="@+id/comment_input" />
+
+</RelativeLayout>

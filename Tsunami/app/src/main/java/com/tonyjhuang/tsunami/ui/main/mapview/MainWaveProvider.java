@@ -41,7 +41,7 @@ public class MainWaveProvider implements WaveProvider {
      */
     protected Observable<Object> getMoreWaves() {
         if(locationInfo == null) locationInfo = new LocationInfo(context);
-        return api.getWaves(locationInfo.lastLat, locationInfo.lastLong)
+        return api.getLocalWaves(locationInfo.lastLat, locationInfo.lastLong)
                 .map((waves) -> {
                     Timber.d("got " + waves.size() + " new waves!");
                     index = 0;
@@ -67,13 +67,11 @@ public class MainWaveProvider implements WaveProvider {
      */
     protected Observable<Wave> getNextWave(boolean retry) {
         if (retry && index >= waves.size()) {
-            Timber.e("errored out trying to get new waves");
+            // No waves...
             return Observable.error(new RuntimeException("Failed to retrieve new waves"));
         } else if (index < waves.size()) {
-            Timber.d("returning " + index + " out of " + waves.size());
             return Observable.just(waves.get(index++));
         } else {
-            Timber.d("no more waves, fetching from api.");
             return getMoreWaves().flatMap((object) -> getNextWave(true));
         }
     }

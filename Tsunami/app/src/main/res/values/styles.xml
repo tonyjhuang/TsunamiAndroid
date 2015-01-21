@@ -49,8 +49,9 @@
         <item name="android:textSize">@dimen/content_title_textsize</item>
     </style>
 
-    <style name="CardContainer">
-        <item name="android:gravity">center_vertical</item>
+    <style name="WaveContentMetaData">
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="Divider">

@@ -7,6 +7,7 @@ import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.User;
 import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.api.models.WaveContent;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateRippleRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateUserRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.DismissWaveRequest;
@@ -68,8 +69,8 @@ public class TsunamiApiClient implements TsunamiApi {
     @Override
     public Observable<UserStats> getUserStats(String userId) {
         return Observable.concat(
-                getCacheObservable(cache.getUserStats(userId)),
-                service.getUserStats(userId).map((userStat -> cache.putUserStats(userId, userStat))));
+                checkCache(cache.get(userId, UserStats.class)),
+                service.getUserStats(userId).map((userStat -> cache.put(userId, userStat))));
     }
 
     /* RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE */
@@ -81,12 +82,25 @@ public class TsunamiApiClient implements TsunamiApi {
 
     /* OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN */
 
-    public Observable<List<Wave>> getWaves(double latitude, double longitude) {
-        return service.getWaves(userId, latitude, longitude);
+    public Observable<List<Wave>> getLocalWaves(double latitude, double longitude) {
+        return service.getWaves(userId, latitude, longitude)
+                .flatMap(Observable::from)
+                .map((wave) -> cache.put(wave.getId(), wave))
+                .toList();
     }
 
-    public Observable<Wave> splash(String title, String body, double latitude, double longitude) {
-        SplashRequest request = new SplashRequest(userId, title, body, latitude, longitude);
+    @Override
+    public Observable<Wave> getWave(long waveId) {
+        return checkCache(cache.get(waveId, Wave.class));
+    }
+
+    @Override
+    public Observable<Wave> splash(String title,
+                                   String body,
+                                   WaveContent.ContentType contentType,
+                                   double latitude,
+                                   double longitude) {
+        SplashRequest request = new SplashRequest(userId, title, body, contentType, latitude, longitude);
         return service.splash(request);
     }
 
@@ -98,7 +112,7 @@ public class TsunamiApiClient implements TsunamiApi {
 
     /* MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC */
 
-    private <T> Observable<T> getCacheObservable(T cachedResult) {
+    private <T> Observable<T> checkCache(T cachedResult) {
         if (cachedResult == null)
             return Observable.empty();
         else

@@ -14,8 +14,6 @@ import com.tonyjhuang.tsunami.api.models.WaveContent;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
-import org.ocpsoft.prettytime.PrettyTime;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -24,8 +22,6 @@ import butterknife.OnClick;
  * Created by tonyjhuang on 9/7/14.
  */
 public class ContentCard extends FrameLayout {
-    private static PrettyTime prettyTime = new PrettyTime();
-
     @InjectView(R.id.alias)
     TextView alias;
     @InjectView(R.id.ripples)
@@ -73,8 +69,8 @@ public class ContentCard extends FrameLayout {
 
         Resources resources = getResources();
         String commentsText;
-        int numComments = wave.getNumComments();
-        if(wave.getNumComments() == 0) {
+        int numComments = wave.getComments().size();
+        if (numComments == 0) {
             commentsText = resources.getString(R.string.content_comment_prompt_zero);
         } else {
             commentsText = resources.getQuantityString(R.plurals.content_comment_prompts,
@@ -85,11 +81,16 @@ public class ContentCard extends FrameLayout {
         comments.setText(commentsText);
         ripples.setText(numRipples);
 
+        ContentInnerView innerView;
+
         if (wave.getContent().getContentType().equals(WaveContent.ContentType.IMAGE_LINK)) {
-            ContentInnerImage innerImage = new ContentInnerImage(getContext());
-            innerImage.setWave(wave);
-            container.addView(innerImage);
+            innerView = new ContentInnerImage(getContext());
+        } else {
+            innerView = new ContentInnerText(getContext());
         }
+
+        innerView.setWave(wave);
+        container.addView((View) innerView);
     }
 
 

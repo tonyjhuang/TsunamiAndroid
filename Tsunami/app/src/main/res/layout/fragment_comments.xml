@@ -5,9 +5,24 @@
     android:orientation="vertical">
 
     <ListView
-        android:layout_alignParentBottom="true"
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/material_blue"
+        android:layout_above="@+id/divider"
+        android:layout_alignParentBottom="true"
+        android:divider="?android:attr/listDivider" />
+
+    <View
+        android:id="@+id/divider"
+        style="@style/Divider"
+        android:layout_above="@+id/input"
+        android:layout_alignParentBottom="true" />
+
+    <com.tonyjhuang.tsunami.ui.main.comments.CommentInputView
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

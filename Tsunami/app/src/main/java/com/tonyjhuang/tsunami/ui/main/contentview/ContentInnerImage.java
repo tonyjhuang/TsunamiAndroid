@@ -26,16 +26,14 @@ import butterknife.OnClick;
 /**
  * Created by tony on 1/14/15.
  */
-public class ContentInnerImage extends LinearLayout {
+public class ContentInnerImage extends LinearLayout implements ContentInnerView{
 
     private static PrettyTime prettyTime = new PrettyTime();
 
     @InjectView(R.id.image)
     ImageView imageView;
-    @InjectView(R.id.timestamp)
-    TextView timestamp;
-    @InjectView(R.id.view_counter)
-    TextView viewCounter;
+    @InjectView(R.id.metadata)
+    ContentInnerMetadata metadata;
     @InjectView(R.id.caption)
     TextView caption;
 
@@ -55,30 +53,18 @@ public class ContentInnerImage extends LinearLayout {
         ButterKnife.inject(this, this);
     }
 
+    @Override
     public void setWave(Wave wave) {
         this.wave = wave;
         if (wave == null) return;
-
-        String viewCount = "";
-        if (wave.getViews() >= 1000) {
-            DecimalFormat df = new DecimalFormat("#.#");
-            df.setRoundingMode(RoundingMode.HALF_EVEN);
-            viewCount += df.format(wave.getViews() / 1000f) + "k";
-        } else {
-            viewCount += wave.getViews();
-        }
-
-        viewCount += " views";
 
         Picasso.with(getContext())
                 .load(wave.getContent().getBody())
                 .fit()
                 .centerCrop()
                 .into(imageView);
-
         caption.setText(wave.getContent().getTitle());
-        timestamp.setText(prettyTime.format(wave.getCreatedAt()));
-        viewCounter.setText(viewCount);
+        metadata.setWave(wave);
     }
 
     @OnClick(R.id.image)

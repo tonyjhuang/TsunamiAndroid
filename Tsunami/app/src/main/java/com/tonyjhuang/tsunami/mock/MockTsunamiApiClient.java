@@ -9,11 +9,13 @@ import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.User;
 import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.api.models.WaveContent;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -53,7 +55,7 @@ public class MockTsunamiApiClient implements TsunamiApi {
 
     @Override
     public Observable<User> createUser() {
-        return Observable.just(User.createDebugUser());
+        return Observable.just(User.createDebugUser(null));
     }
 
     @Override
@@ -85,7 +87,7 @@ public class MockTsunamiApiClient implements TsunamiApi {
     }
 
     @Override
-    public Observable<List<Wave>> getWaves(double latitude, double longitude) {
+    public Observable<List<Wave>> getLocalWaves(double latitude, double longitude) {
         List<Wave> waves = new ArrayList<>();
         for (int i = 0; i < randInt(); i++) {
             waves.add(generateRandomWave());
@@ -94,7 +96,16 @@ public class MockTsunamiApiClient implements TsunamiApi {
     }
 
     @Override
-    public Observable<Wave> splash(String title, String body, double latitude, double longitude) {
+    public Observable<Wave> getWave(long waveId) {
+        return null;
+    }
+
+    @Override
+    public Observable<Wave> splash(String title,
+                                   String body,
+                                   WaveContent.ContentType contentType,
+                                   double latitude,
+                                   double longitude) {
         return Observable.just(generateRandomWave());
     }
 
@@ -108,12 +119,13 @@ public class MockTsunamiApiClient implements TsunamiApi {
      * ========================= utility =========================
      */
 
+    @SuppressWarnings("unchecked")
     protected Wave generateRandomWave() {
         return Wave.createDebugWave(randomTitleGen.nextString(),
                 randomTextGen.nextString(),
                 generateRandomRipples(),
-                User.createDebugUser(),
-                random.nextInt(25));
+                User.createDebugUser(null),
+                Collections.EMPTY_LIST);
     }
 
     protected int randInt() {

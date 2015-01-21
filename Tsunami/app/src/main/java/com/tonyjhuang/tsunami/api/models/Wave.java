@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.mock.reddit.RedditPost;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -43,17 +44,17 @@ public class Wave extends ApiObject {
      */
     @Expose
     @SerializedName("origin_ripple_id")
-    long splashId;
+    private long splashId;
     @Expose
-    int views;
+    private int views;
     @Expose
-    WaveContent content;
+    private WaveContent content;
     @Expose
-    List<Ripple> ripples;
+    private List<Ripple> ripples;
     @Expose
-    User user;
+    private User user;
     @Expose
-    int numComments;
+    private List<Comment> comments;
 
     public long getSplashId() {
         return splashId;
@@ -75,8 +76,10 @@ public class Wave extends ApiObject {
         return user;
     }
 
-    public int getNumComments() {
-        return numComments;
+    @SuppressWarnings("unchecked")
+    public List<Comment> getComments() {
+        if(comments == null) return Collections.EMPTY_LIST;
+        return comments;
     }
 
     /**
@@ -106,19 +109,33 @@ public class Wave extends ApiObject {
                                        String body,
                                        List<Ripple> ripples,
                                        User user,
-                                       int numComments) {
-        return new Wave(WaveContent.createDebugWaveContent(title, body), ripples, user, numComments);
+                                       List<Comment> comments) {
+        WaveContent content = WaveContent.createDebugWaveContent(title, body);
+        long earliestDate = 1420000000000l;
+        long now = System.currentTimeMillis();
+        long mod = now - earliestDate;
+        Date rand = new Date((new Random().nextLong() % mod) + earliestDate);
+
+        Wave wave = new Wave();
+        wave.content = content;
+        wave.ripples = ripples;
+        wave.splashId = ripples.get(0).getId();
+        wave.user = user;
+        wave.comments = comments;
+        wave.setCreatedAt(rand);
+        wave.setUpdatedAt(rand);
+        wave.setId(new Random().nextLong());
+
+        return wave;
     }
 
-    public static Wave createDebugWave(RedditPost post, List<Ripple> ripples) {
+    public static Wave createDebugWave(RedditPost post, List<Comment> comments, List<Ripple> ripples) {
         String title = post.title;
         String body = post.isSelf ? post.selftext : post.url;
         WaveContent.ContentType contentType = post.isSelf ? WaveContent.ContentType.TEXT : WaveContent.ContentType.IMAGE_LINK;
         User user = User.createDebugUser(post.author);
         Date createdAt = new Date(post.created * 1000);
-        Timber.d("createdAt: " + createdAt + ", millis: " + (post.created * 1000));
         int views = post.ups * 10;
-        int numComments = post.numComments;
 
         Wave wave = new Wave();
         wave.content = WaveContent.createDebugWaveContent(title, body, contentType);
@@ -126,34 +143,9 @@ public class Wave extends ApiObject {
         wave.setCreatedAt(createdAt);
         wave.views = views;
         wave.ripples = ripples;
-        wave.numComments = numComments;
+        wave.comments = comments;
         wave.setId(Math.abs(new Random().nextLong()));
 
         return wave;
-    }
-
-    private Wave() {
-    }
-
-    private Wave(WaveContent content, List<Ripple> ripples, User user, int numComments) {
-        this.content = content;
-        this.ripples = ripples;
-        this.splashId = ripples.get(0).getId();
-        this.user = user;
-        this.numComments = numComments;
-
-        long earliestDate = 1420000000000l;
-        long now = System.currentTimeMillis();
-        long mod = now - earliestDate;
-        Date rand = new Date((new Random().nextLong() % mod) + earliestDate);
-        setCreatedAt(rand);
-        setUpdatedAt(rand);
-
-        setId(new Random().nextLong());
-    }
-
-    public void convertToImageLink(String imageUrl) {
-        content.setBody(imageUrl);
-        content.setContentType(WaveContent.ContentType.IMAGE_LINK);
     }
 }

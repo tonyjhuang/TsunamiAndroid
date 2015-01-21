@@ -61,7 +61,7 @@ public interface WaveContentView {
     /**
      * Retrieve all user input from the splash card.
      */
-    public SplashCard.SplashContent retrieveSplashContent();
+    public SplashContent retrieveSplashContent();
 
     /**
      * Remove all user input from the splash card

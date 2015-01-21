@@ -21,6 +21,7 @@ public class WaveContent {
     @Expose
     private String body;
     @Expose
+    @SerializedName("type")
     private ContentType contentType;
 
 

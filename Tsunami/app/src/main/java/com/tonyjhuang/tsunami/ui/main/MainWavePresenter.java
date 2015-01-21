@@ -6,7 +6,7 @@ import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 import com.tonyjhuang.tsunami.logging.Timber;
-import com.tonyjhuang.tsunami.ui.main.contentview.SplashCard;
+import com.tonyjhuang.tsunami.ui.main.contentview.SplashContent;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
@@ -62,7 +62,6 @@ public class MainWavePresenter implements WavePresenter {
      * (i.e. cached during splashing), you should be calling #displayWave instead.
      */
     private void displayNewWave() {
-        Timber.d("displayNewWave");
         Action1<Wave> onNextWave;
         if (waveProvider.hasNextWave()) {
             onNextWave = (wave) -> {
@@ -126,8 +125,12 @@ public class MainWavePresenter implements WavePresenter {
     @Override
     public void onSplashSwipedUp() {
         Timber.d("onSplashSwipedUp");
-        SplashCard.SplashContent splashContent = contentView.retrieveSplashContent();
-        api.splash(splashContent.title, splashContent.body, locationInfo.lastLat, locationInfo.lastLong)
+        SplashContent splashContent = contentView.retrieveSplashContent();
+        api.splash(splashContent.title,
+                splashContent.body,
+                splashContent.contentType,
+                locationInfo.lastLat,
+                locationInfo.lastLong)
                 .publish()
                 .connect();
 

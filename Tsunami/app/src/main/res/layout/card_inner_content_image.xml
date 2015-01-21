@@ -25,40 +25,18 @@
 
     <View style="@style/Divider" />
 
-    <LinearLayout
+    <com.tonyjhuang.tsunami.ui.main.contentview.ContentInnerMetadata
+        android:id="@+id/metadata"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/content_padding_horizontal"
-        android:paddingLeft="@dimen/content_padding_horizontal"
-        android:paddingRight="@dimen/content_padding_horizontal"
-        android:paddingTop="@dimen/content_padding_horizontal">
-
-        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-            android:id="@+id/timestamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
-
-        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-            android:id="@+id/view_counter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:text="8.3k views"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
         android:id="@+id/caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/content_padding_horizontal"
+        android:paddingBottom="@dimen/content_padding_vertical"
         android:paddingLeft="@dimen/content_padding_horizontal"
         android:paddingRight="@dimen/content_padding_horizontal"
-        android:text="Look at my cat!"
-        android:textSize="15sp"
+        android:textSize="16sp"
         app:typeface="@string/fonttype_medium" />
 </LinearLayout>

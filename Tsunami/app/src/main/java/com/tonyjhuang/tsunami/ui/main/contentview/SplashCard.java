@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.api.models.WaveContent;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -39,21 +40,13 @@ public class SplashCard extends FrameLayout {
     }
 
     public SplashContent retrieveSplashContent() {
-        return new SplashContent(title.getText().toString(), body.getText().toString());
+        return new SplashContent(title.getText().toString(),
+                body.getText().toString(),
+                WaveContent.ContentType.TEXT);
     }
 
     public void clear() {
         title.setText("");
         body.setText("");
-    }
-
-    public static class SplashContent {
-        public String title;
-        public String body;
-
-        public SplashContent(String title, String body) {
-            this.title = title;
-            this.body = body;
-        }
     }
 }

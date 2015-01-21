@@ -22,6 +22,7 @@
     <dimen name="content_divider_margin_horizontal">16dp</dimen>
     <dimen name="content_divider_margin_vertical">8dp</dimen>
     <dimen name="content_padding_horizontal">8dp</dimen>
+    <dimen name="content_padding_vertical">8dp</dimen>
 
     <!-- Floating Action Button -->
     <dimen name="fab_size_normal">56dp</dimen>

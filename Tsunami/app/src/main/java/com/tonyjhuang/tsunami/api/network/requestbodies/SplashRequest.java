@@ -1,6 +1,7 @@
 package com.tonyjhuang.tsunami.api.network.requestbodies;
 
 import com.google.gson.annotations.Expose;
+import com.tonyjhuang.tsunami.api.models.WaveContent;
 
 /*
 {
@@ -22,12 +23,20 @@ public class SplashRequest {
     final double latitude;
     @Expose
     final double longitude;
+    @Expose
+    final WaveContent.ContentType contentType;
 
-    public SplashRequest(String guid, String title, String body, double latitude, double longitude) {
+    public SplashRequest(String guid,
+                         String title,
+                         String body,
+                         WaveContent.ContentType contentType,
+                         double latitude,
+                         double longitude) {
         this.guid = guid;
         this.title = title;
         this.body = body;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.contentType = contentType;
     }
 }

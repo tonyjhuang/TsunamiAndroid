@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.LruCache;
 
-import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.logging.Timber;
 
 import java.io.IOException;
@@ -21,61 +20,56 @@ import javax.inject.Singleton;
 public class TsunamiCache {
     private static final int BYTE_PER_MEGABYTE = 1000000;
 
-    private SimpleDiskCache cache;
+    private SimpleDiskCache diskCache;
+    private LruCache<String, Object> memCache = new LruCache<>(1024);
 
     public TsunamiCache(Context context) {
         PackageInfo packageInfo;
         try {
             packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             int appVersion = packageInfo.versionCode;
-            this.cache = SimpleDiskCache.open(context.getCacheDir(), appVersion, 4 * BYTE_PER_MEGABYTE);
+            this.diskCache = SimpleDiskCache.open(context.getCacheDir(), appVersion, 4 * BYTE_PER_MEGABYTE);
         } catch (PackageManager.NameNotFoundException e) {
             // Should never happen
         } catch (IOException e) {
             /**
-             * Uh, ran into an exception trying to open the cache. That's fine, just make sure
+             * Uh, ran into an exception trying to open the diskCache. That's fine, just make sure
              * you watch out for null pointer exceptions
              */
 
-            this.cache = null;
+            this.diskCache = null;
         }
     }
 
-    private LruCache<String, UserStats> userStatsCache = new LruCache<>(16);
-    /**
-     * Note: this is a blocking function, you should never call this from the main thread!
-     */
-    public UserStats getUserStats(String userId) {
-        return get(userId, UserStats.class, userStatsCache);
+    public <T> T get(long key, Class<T> clazz) {
+        return get(String.valueOf(key), clazz);
     }
 
-    public UserStats putUserStats(String userId, UserStats userStats) {
-        return put(userId, userStats, userStatsCache);
-    }
-
-    private <T> T get(String key, Class<T> clazz, LruCache<String, T> localCache) {
-        if (localCache != null && localCache.get(key) != null) {
-            Timber.i("retrieved value from localCache");
-            return localCache.get(key);
+    public <T> T get(String key, Class<T> clazz) {
+        if (memGet(key, clazz) != null) {
+            Timber.i("Got value from mem cache with key: " + key);
+            return memGet(key, clazz);
+        } else {
+            try {
+                T value = diskCache.getApiObject(key, clazz);
+                Timber.i("Got value from disk cache with key: " + key);
+                if (value != null) memPut(key, value);
+                return value;
+            } catch (IOException e) {
+                return null;
+            }
         }
+    }
 
+    public <T> T put(long key, T value) {
+        return put(String.valueOf(key), value);
+    }
+
+    public <T> T put(String key, T value) {
         try {
-            T value = cache.getApiObject(key, clazz);
-            Timber.i("successfully retrieved " + value + " from cache with key: " + key);
-            if (localCache != null)
-                localCache.put(key, value);
-            return value;
-        } catch (IOException | NullPointerException e) {
-            return null;
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> T put(String key, T value, LruCache<String, T> localCache) {
-        try {
-            if (localCache != null) localCache.put(key, value);
-            cache.put(key, (Serializable) value, value.getClass());
-            Timber.i("successfully put " + value + " into cache with key: " + key);
+            memPut(key, value);
+            diskCache.put(key, (Serializable) value, value.getClass());
+            Timber.i("Put value into caches with key: " + key);
         } catch (NotSerializableException e) {
             Timber.e(e, "object must implement Serializable interface to be placed in DiskCache!");
             return null;
@@ -85,5 +79,19 @@ public class TsunamiCache {
         }
 
         return value;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> T memGet(String key, Class<T> clazz) {
+        return (T) memCache.get(getKey(key, clazz));
+    }
+
+    private <T> T memPut(String key, T value) {
+        memCache.put(getKey(key, value.getClass()), value);
+        return value;
+    }
+
+    private String getKey(String key, Class clazz) {
+        return clazz.toString() + "_" + key;
     }
 }

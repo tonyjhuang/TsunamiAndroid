@@ -3,8 +3,6 @@ package com.tonyjhuang.tsunami.api.models;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.Random;
 
 /*
@@ -19,24 +17,24 @@ import java.util.Random;
 */
 public class UserStats extends ApiObject implements Serializable {
     @Expose
-    private int splashes;
+    private long splashes;
     @Expose
     private long viewsAcrossWaves;
     @Expose
     private long ripplesAcrossWaves;
     @Expose
-    private int viewed;
+    private long viewed;
     @Expose
-    private int ripples;
+    private long ripples;
     @Expose
     private double rippleChance;
 
 
-    public int getSplashes() {
+    public long getSplashes() {
         return splashes;
     }
 
-    public int getRipples() {
+    public long getRipples() {
         return ripples;
     }
 
@@ -48,7 +46,7 @@ public class UserStats extends ApiObject implements Serializable {
         return ripplesAcrossWaves;
     }
 
-    public int getViewed() {
+    public long getViewed() {
         return viewed;
     }
 
@@ -59,20 +57,15 @@ public class UserStats extends ApiObject implements Serializable {
     /* Debugging */
     public static UserStats createDebugUserStats() {
         Random random = new Random();
-        return new UserStats(Math.abs(random.nextInt() % 30),
-                Math.abs(random.nextInt() % 30000),
-                Math.abs(random.nextLong() % 3000),
-                Math.abs(random.nextInt() % 30000),
-                Math.abs(random.nextInt() % 3000));
-    }
+        UserStats stats = new UserStats();
 
-    private UserStats(int splashes, long viewsAcrossWaves, long ripplesAcrossWaves, int viewed, int ripples) {
-        this.splashes = splashes;
-        this.viewsAcrossWaves = viewsAcrossWaves;
-        this.ripplesAcrossWaves = ripplesAcrossWaves;
-        this.viewed = Math.max(viewed, ripples);
-        this.ripples = Math.min(viewed, ripples);
+        stats.splashes = Math.abs(random.nextInt() % 30);
+        stats.viewsAcrossWaves = Math.abs(random.nextInt() % 30000);
+        stats.ripplesAcrossWaves = Math.abs(random.nextLong() % 3000);
+        stats.viewed = Math.max(stats.viewsAcrossWaves, stats.ripplesAcrossWaves);
+        stats.ripples = Math.min(stats.viewsAcrossWaves, stats.ripplesAcrossWaves);
+        stats.rippleChance = (double) stats.ripplesAcrossWaves / stats.viewsAcrossWaves;
 
-        this.rippleChance = (double) ripples / viewed;
+        return stats;
     }
 }

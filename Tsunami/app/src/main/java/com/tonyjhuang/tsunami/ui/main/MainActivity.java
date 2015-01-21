@@ -166,7 +166,6 @@ public class MainActivity extends TsunamiActivity implements
     @Override
     public void onResume() {
         super.onResume();
-        Timber.d("registering broadcast receiver");
         IntentFilter locationIntentFilter = new IntentFilter();
         locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedPeriodicBroadcastAction());
         locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedTickerBroadcastAction());
@@ -176,7 +175,6 @@ public class MainActivity extends TsunamiActivity implements
     @Override
     public void onPause() {
         super.onPause();
-        Timber.d("unregistering broadcast receiver");
         preferences.lastSeenLat.set(locationInfo.lastLat);
         preferences.lastSeenLng.set(locationInfo.lastLong);
         unregisterReceiver(mainLocationBroadcastReceiver);

@@ -4,6 +4,7 @@ import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.User;
 import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.api.models.WaveContent;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateRippleRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateUserRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.SplashRequest;
@@ -30,9 +31,15 @@ public interface TsunamiApi {
 
     /* OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN */
 
-    public Observable<List<Wave>> getWaves(double latitude, double longitude);
+    public Observable<List<Wave>> getLocalWaves(double latitude, double longitude);
 
-    public Observable<Wave> splash(String title, String body, double latitude, double longitude);
+    public Observable<Wave> getWave(long waveId);
+
+    public Observable<Wave> splash(String title,
+                                   String body,
+                                   WaveContent.ContentType contentType,
+                                   double latitude,
+                                   double longitude);
 
     public Observable<Void> dismissWave(long waveId);
 }

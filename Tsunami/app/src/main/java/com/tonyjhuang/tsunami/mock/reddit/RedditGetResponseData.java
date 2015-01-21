@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * Created by tony on 1/3/15.
  */
-public class RedditGetTopResponseData {
+public class RedditGetResponseData {
     @Expose
-    List<RedditGetTopResponseDataChild> children;
+    List<RedditGetResponseDataChild> children;
 
     @Expose
     String after;

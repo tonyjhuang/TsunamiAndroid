@@ -26,6 +26,12 @@ public class RedditPost {
     public int numComments;
     @Expose
     public String url;
+    @Expose
+    public String body;
+    @Expose
+    public String subreddit;
+    @Expose
+    public String id;
 
     public RedditPost(String title, String author, boolean isSelf) {
         this.title = title;

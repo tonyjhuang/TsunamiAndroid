@@ -18,10 +18,10 @@
     <string name="main_splash_cancel_description">Cancel splash</string>
     <string name="main_profile_description">Profile</string>
 
-    <string name="content_comment_prompt_zero">Add a comment&#8320;</string>
+    <string name="content_comment_prompt_zero">Add a comment&#8230;</string>
     <plurals name="content_comment_prompts">
-        <item quantity="one">See 1 comment...</item>
-        <item quantity="other">See %1$d comments...</item>
+        <item quantity="one">See 1 comment&#8230;</item>
+        <item quantity="other">See %1$d comments&#8230;</item>
     </plurals>
 
     <string name="splash_title_hint">Title</string>

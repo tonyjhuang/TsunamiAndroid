@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/content_padding_vertical"
+    android:paddingLeft="@dimen/content_padding_horizontal"
+    android:paddingRight="@dimen/content_padding_horizontal"
+    android:paddingTop="@dimen/content_padding_vertical">
+
+    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+        android:id="@+id/timestamp"
+        style="@style/WaveContentMetaData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2 hours ago" />
+
+    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+        android:id="@+id/view_counter"
+        style="@style/WaveContentMetaData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="81 views" />
+
+    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+        android:id="@+id/distance"
+        style="@style/WaveContentMetaData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="3 miles away" />
+</LinearLayout>
