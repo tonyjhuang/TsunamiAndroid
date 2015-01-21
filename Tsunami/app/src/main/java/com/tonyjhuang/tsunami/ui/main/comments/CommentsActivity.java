@@ -40,5 +40,6 @@ public class CommentsActivity extends SingleFragmentActivity {
         super.onCreate(savedInstanceState);
 
         inflateToolbar(true);
+        setContentBelowToolbar(true);
     }
 }

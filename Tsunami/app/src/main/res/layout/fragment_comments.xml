@@ -10,14 +10,12 @@
         android:layout_height="wrap_content"
         android:background="@color/material_blue"
         android:layout_above="@+id/divider"
-        android:layout_alignParentBottom="true"
         android:divider="?android:attr/listDivider" />
 
     <View
         android:id="@+id/divider"
         style="@style/Divider"
-        android:layout_above="@+id/input"
-        android:layout_alignParentBottom="true" />
+        android:layout_above="@+id/input" />
 
     <com.tonyjhuang.tsunami.ui.main.comments.CommentInputView
         android:id="@+id/input"

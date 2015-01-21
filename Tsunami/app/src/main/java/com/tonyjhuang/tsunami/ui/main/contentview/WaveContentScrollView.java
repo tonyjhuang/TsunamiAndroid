@@ -85,6 +85,7 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     public void showLoading() {
         if (splashing && onViewTypeChangedListener != null)
             onViewTypeChangedListener.onViewTypeChanged(ViewType.CONTENT);
+        if(getCustomView() != null && getCustomView().equals(loadingView)) return;
         splashing = false;
         setScrollable(false);
         setCustomView(loadingView);

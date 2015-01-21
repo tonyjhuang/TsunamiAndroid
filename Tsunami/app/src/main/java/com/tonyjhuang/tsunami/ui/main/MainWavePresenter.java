@@ -121,6 +121,7 @@ public class MainWavePresenter implements WavePresenter {
             api.dismissWave(currentWave.getId()).publish().connect();
             displayNewWave();
         } else {
+            contentView.showLoading();
             subscribe(api.dismissWave(currentWave.getId()),
                     (aVoid) -> displayNewWave(),
                     (error) -> Timber.e(error, "couldnt dismiss"));

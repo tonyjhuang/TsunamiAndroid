@@ -82,9 +82,11 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
     @Override
     public void onSendRequested(String string) {
         if (TextUtils.isEmpty(string)) return;
-        showToast(string);
         input.clear();
+        boolean shouldScroll = adapter.getCount() == list.getLastVisiblePosition();
         adapter.addComment(Comment.createDebugComment("Kevin", string));
+        if (shouldScroll)
+            list.post(() -> list.smoothScrollToPosition(adapter.getCount() - 1));
     }
 
     private static class CommentsAdapter extends BaseAdapter {
