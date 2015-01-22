@@ -15,9 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/divider"
-        android:divider="?android:attr/listDivider"
-        android:stackFromBottom="true"
-        android:transcriptMode="normal" />
+        android:divider="?android:attr/listDivider" />
 
     <View
         android:id="@+id/divider"

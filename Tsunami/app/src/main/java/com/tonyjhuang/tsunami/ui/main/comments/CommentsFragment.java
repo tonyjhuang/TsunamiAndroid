@@ -85,13 +85,14 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
     }
 
     private void setAdapter(Wave wave) {
+        if(wave == null) return;
         list.postDelayed(() -> {
             Anim.fadeOut(progressBar);
             CommentsAdapter commentsAdapter = new CommentsAdapter(wave.getComments());
             adapter = new AlphaInAnimationAdapter(commentsAdapter);
             adapter.setAbsListView(list);
             list.setAdapter(adapter);
-        }, 80);
+        }, 1000);
     }
 
     private void getWaveError() {
