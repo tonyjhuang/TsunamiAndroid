@@ -58,6 +58,8 @@ public class CommentInputView extends RelativeLayout {
                         else
                             handleContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                         hideHandleContainer(true);
+                        hideHandleContainer(false);
+                        hideHandleContainer(true);
                     }
                 });
 

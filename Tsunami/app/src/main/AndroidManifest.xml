@@ -71,7 +71,7 @@
         <activity
             android:name=".ui.main.comments.CommentsActivity"
             android:label="@string/activity_label_comments"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:parentActivityName=".ui.main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

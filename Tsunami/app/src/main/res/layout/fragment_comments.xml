@@ -10,12 +10,11 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
 
-    <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
-        android:id="@+id/list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/divider"
-        android:divider="?android:attr/listDivider" />
+        android:layout_above="@+id/divider" />
 
     <View
         android:id="@+id/divider"
