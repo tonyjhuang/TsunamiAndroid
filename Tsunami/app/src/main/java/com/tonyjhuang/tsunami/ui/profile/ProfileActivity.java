@@ -74,10 +74,4 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /*@Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }*/
 }

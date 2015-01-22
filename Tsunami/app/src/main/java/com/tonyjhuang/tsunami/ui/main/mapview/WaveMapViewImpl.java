@@ -116,7 +116,7 @@ public class WaveMapViewImpl implements WaveMapView {
                 zoomToFit(waveRipples);
             } else {
                 if (currentLocation != null) {
-                    zoomTo(currentLocation, MAX_ZOOM);
+                    zoomTo(currentLocation, MAX_ZOOM, true);
                 }
             }
         } else {
@@ -129,7 +129,7 @@ public class WaveMapViewImpl implements WaveMapView {
         this.mapFragment = mapFragment;
         this.map = mapFragment.getMap();
         if (pendingStartLat != -1 && pendingStartLng != -1) {
-            zoomTo(new LatLng(pendingStartLat, pendingStartLng), MAX_ZOOM);
+            zoomTo(new LatLng(pendingStartLat, pendingStartLng), MAX_ZOOM, false);
         }
     }
 
@@ -138,7 +138,7 @@ public class WaveMapViewImpl implements WaveMapView {
     public void setStartingLocation(float lat, float lng) {
         if (waveRipples.size() == 0 && currentLocation == null) {
             if (map != null) {
-                zoomTo(new LatLng(lat, lng), MAX_ZOOM);
+                zoomTo(new LatLng(lat, lng), MAX_ZOOM, false);
             } else {
                 pendingStartLat = lat;
                 pendingStartLng = lng;
@@ -161,7 +161,7 @@ public class WaveMapViewImpl implements WaveMapView {
 
         if (!splashing) {
             if (waveRipples.size() == 0)
-                zoomTo(currentLocation, MAX_ZOOM);
+                zoomTo(currentLocation, MAX_ZOOM, true);
             else
                 zoomToFit(waveRipples);
         } else {
@@ -180,7 +180,7 @@ public class WaveMapViewImpl implements WaveMapView {
             int strokeColor = resources.getColor(R.color.map_view_splashing_stroke);
             int fillColor = resources.getColor(R.color.map_view_splashing_fill_begin);
 
-            zoomTo(currentLocation, MAX_ZOOM);
+            zoomTo(currentLocation, MAX_ZOOM, true);
 
             if (splashingIndicator == null) {
                 addSplashingIndicator(strokeColor);
@@ -326,8 +326,11 @@ public class WaveMapViewImpl implements WaveMapView {
     /**
      * Zoom to a specific LatLng with zoom level.
      */
-    private void zoomTo(LatLng center, int zoom) {
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(center, zoom));
+    private void zoomTo(LatLng center, int zoom, boolean animate) {
+        if(animate)
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(center, zoom));
+        else
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoom));
     }
 
     private void zoomToFit(List<Circle> ripples) {
