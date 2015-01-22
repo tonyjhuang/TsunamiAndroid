@@ -73,6 +73,8 @@ public class Wave extends ApiObject {
     }
 
     public Ripple getSplash() {
+        if(ripples == null || ripples.size() == 0)
+            return null;
         return ripples.get(0);
     }
 

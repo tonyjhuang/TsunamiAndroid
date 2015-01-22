@@ -60,6 +60,7 @@ public class ContentInnerMetadata extends LinearLayout {
 
         timestamp.setText(prettyTime.format(wave.getCreatedAt()));
         viewCounter.setText(getViewCountText(wave.getViews()));
+        if(splash == null) return;
         distance.setText(getDistanceText((float) splash.getLatitude(), (float) splash.getLongitude()));
     }
 
