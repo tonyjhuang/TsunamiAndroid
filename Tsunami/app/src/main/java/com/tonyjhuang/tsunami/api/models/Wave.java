@@ -72,6 +72,10 @@ public class Wave extends ApiObject {
         return ripples;
     }
 
+    public Ripple getSplash() {
+        return ripples.get(0);
+    }
+
     public User getUser() {
         return user;
     }

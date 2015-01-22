@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -101,10 +102,17 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
     @Override
     public void onSendRequested(String string) {
         if (TextUtils.isEmpty(string)) return;
+        hideKeyboard();
         input.clear();
         Comment comment = Comment.createDebugComment("Kevin", string);
         list.insert(adapter.getCount(), comment);
         list.post(() -> list.setSelection(adapter.getCount() - 1));
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
     }
 
     private static class CommentsAdapter extends BaseAdapter implements Insertable<Comment> {

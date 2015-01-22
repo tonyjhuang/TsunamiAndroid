@@ -1,46 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/handle_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/comment_input"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
             android:id="@+id/handle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+tonyjhuang" />
-
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/comment_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/confirm"
-        android:layout_toStartOf="@+id/confirm"
-        android:gravity="bottom"
-        android:maxLines="4"
-        android:minHeight="48dp" />
-
-    <ImageButton
-        android:id="@+id/confirm"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
 
     <View
         android:id="@+id/divider"
-        style="@style/Divider"
-        android:layout_above="@+id/comment_input" />
+        style="@style/Divider" />
 
-</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/input_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/comment_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoLink="all"
+            android:hint="@string/comment_hint"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="4"
+            android:minLines="1" />
+
+        <ImageButton
+            android:id="@+id/confirm"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+    </LinearLayout>
+</LinearLayout>

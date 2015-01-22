@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.utils.Haversine;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -22,11 +25,20 @@ import butterknife.InjectView;
  */
 public class ContentInnerMetadata extends LinearLayout {
     private static PrettyTime prettyTime = new PrettyTime();
+    private static DecimalFormat df = new DecimalFormat("#.#");
+
+    static {
+        df.setRoundingMode(RoundingMode.HALF_EVEN);
+    }
 
     @InjectView(R.id.timestamp)
     TextView timestamp;
     @InjectView(R.id.view_counter)
     TextView viewCounter;
+    @InjectView(R.id.distance)
+    TextView distance;
+
+    private LocationInfo locationInfo;
 
     public ContentInnerMetadata(Context context) {
         this(context, null);
@@ -40,23 +52,31 @@ public class ContentInnerMetadata extends LinearLayout {
         super(context, attrs, defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.card_inner_content_metadata, this, true);
         ButterKnife.inject(this, this);
+        locationInfo = new LocationInfo(context);
     }
 
     public void setWave(Wave wave) {
+        Ripple splash = wave.getSplash();
+
         timestamp.setText(prettyTime.format(wave.getCreatedAt()));
-        viewCounter.setText(getViewCountText(wave));
+        viewCounter.setText(getViewCountText(wave.getViews()));
+        distance.setText(getDistanceText((float) splash.getLatitude(), (float) splash.getLongitude()));
     }
 
-    private String getViewCountText(Wave wave) {
+    private String getViewCountText(int views) {
         String viewCount;
-        if (wave.getViews() >= 1000) {
-            DecimalFormat df = new DecimalFormat("#.#");
-            df.setRoundingMode(RoundingMode.HALF_EVEN);
-            viewCount = df.format(wave.getViews() / 1000f) + "k";
+        if (views >= 1000) {
+            viewCount = df.format(views / 1000f) + "k";
         } else {
-            viewCount = wave.getViews() + "";
+            viewCount = views + "";
         }
 
         return viewCount + " views";
+    }
+
+    private String getDistanceText(float lat, float lng) {
+        float dist = Haversine.haversineInMiles(locationInfo.lastLat, locationInfo.lastLong, lat, lng);
+        return df.format(dist) + " miles away";
+
     }
 }

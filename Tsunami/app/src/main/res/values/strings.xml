@@ -24,6 +24,8 @@
         <item quantity="other">See %1$d comments&#8230;</item>
     </plurals>
 
+    <string name="comment_hint">Say something&#8230;</string>
+
     <string name="splash_title_hint">Title</string>
     <string name="splash_text_hint">Splash something with the world..</string>
 
