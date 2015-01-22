@@ -4,13 +4,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/material_blue"
+        android:layout_height="match_parent"
         android:layout_above="@+id/divider"
-        android:divider="?android:attr/listDivider" />
+        android:divider="?android:attr/listDivider"
+        android:stackFromBottom="true"
+        android:transcriptMode="normal" />
 
     <View
         android:id="@+id/divider"

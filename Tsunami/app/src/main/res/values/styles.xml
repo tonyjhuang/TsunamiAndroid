@@ -51,7 +51,7 @@
 
     <style name="WaveContentMetaData">
         <item name="android:textColor">@color/text_secondary</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/content_metadata_text_size</item>
     </style>
 
     <style name="Divider">

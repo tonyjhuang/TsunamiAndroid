@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -7,12 +8,12 @@
 
     <com.tonyjhuang.tsunami.ui.customviews.CircularImageView
         android:id="@+id/profile_pic"
-        android:src="@drawable/kevin"
         android:layout_width="@dimen/comment_profile_pic_dimen"
         android:layout_height="@dimen/comment_profile_pic_dimen"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:src="@drawable/kevin" />
 
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
         android:id="@+id/author"
@@ -20,18 +21,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/profile_pic"
+        android:layout_toLeftOf="@+id/timestamp"
         android:layout_toRightOf="@+id/profile_pic"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp" />
+        android:layout_toStartOf="@+id/timestamp"
+        android:paddingLeft="@dimen/content_padding_horizontal"
+        android:paddingRight="@dimen/content_padding_horizontal"
+        android:paddingTop="4dp"
+        app:typeface="OpenSans-Medium" />
 
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
         android:id="@+id/timestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/author"
-        android:layout_toRightOf="@+id/author"
-        android:textColor="@color/text_secondary" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:paddingTop="4dp"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/content_metadata_text_size" />
 
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
         android:id="@+id/body"
@@ -39,7 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/author"
         android:layout_toEndOf="@+id/profile_pic"
-        android:layout_toRightOf="@+id/profile_pic" />
+        android:layout_toRightOf="@+id/profile_pic"
+        android:paddingLeft="@dimen/content_padding_horizontal"
+        android:paddingRight="@dimen/content_padding_horizontal" />
 
 
 </RelativeLayout>

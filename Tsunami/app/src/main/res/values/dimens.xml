@@ -13,7 +13,7 @@
     <dimen name="card_padding">8dp</dimen>
     <dimen name="card_max_width">448dp</dimen>
 
-    <dimen name="comment_profile_pic_dimen">56dp</dimen>
+    <dimen name="comment_profile_pic_dimen">48dp</dimen>
 
     <dimen name="content_scroll_assist_threshold">156dp</dimen>
 
@@ -23,6 +23,7 @@
     <dimen name="content_divider_margin_vertical">8dp</dimen>
     <dimen name="content_padding_horizontal">8dp</dimen>
     <dimen name="content_padding_vertical">8dp</dimen>
+    <dimen name="content_metadata_text_size">12sp</dimen>
 
     <!-- Floating Action Button -->
     <dimen name="fab_size_normal">56dp</dimen>

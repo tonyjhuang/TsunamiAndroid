@@ -2,19 +2,27 @@ package com.tonyjhuang.tsunami.ui.main.comments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
+import com.nhaarman.listviewanimations.util.Insertable;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Comment;
+import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
+import com.tonyjhuang.tsunami.ui.utils.Anim;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
+
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.List;
 
@@ -28,15 +36,19 @@ import butterknife.InjectView;
  */
 public class CommentsFragment extends TsunamiFragment implements CommentInputView.SendRequestListener {
 
+    private static PrettyTime prettyTime = new PrettyTime();
+
+    @InjectView(R.id.progress)
+    ProgressBar progressBar;
     @InjectView(R.id.list)
-    ListView list;
+    DynamicListView list;
     @InjectView(R.id.input)
     CommentInputView input;
 
     @Inject
     TsunamiApi api;
 
-    private CommentsAdapter adapter;
+    private AlphaInAnimationAdapter adapter;
 
     public static CommentsFragment getInstance(long waveId) {
         Bundle args = new Bundle();
@@ -67,15 +79,22 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
         if (waveId == -1) {
             getWaveError();
         } else {
-            subscribe(api.getWave(waveId),
-                    (wave) -> {
-                        adapter = new CommentsAdapter(wave.getComments());
-                        list.setAdapter(adapter);
-                    }, (error) -> getWaveError());
+            subscribe(api.getWave(waveId), this::setAdapter, (error) -> getWaveError());
         }
     }
 
+    private void setAdapter(Wave wave) {
+        list.postDelayed(() -> {
+            Anim.fadeOut(progressBar);
+            CommentsAdapter commentsAdapter = new CommentsAdapter(wave.getComments());
+            adapter = new AlphaInAnimationAdapter(commentsAdapter);
+            adapter.setAbsListView(list);
+            list.setAdapter(adapter);
+        }, 80);
+    }
+
     private void getWaveError() {
+        Anim.fadeOut(progressBar);
         showToast("Couldn't get comments for this wave :(");
     }
 
@@ -83,13 +102,12 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
     public void onSendRequested(String string) {
         if (TextUtils.isEmpty(string)) return;
         input.clear();
-        boolean shouldScroll = adapter.getCount() == list.getLastVisiblePosition();
-        adapter.addComment(Comment.createDebugComment("Kevin", string));
-        if (shouldScroll)
-            list.post(() -> list.smoothScrollToPosition(adapter.getCount() - 1));
+        Comment comment = Comment.createDebugComment("Kevin", string);
+        list.insert(adapter.getCount(), comment);
+        list.post(() -> list.setSelection(adapter.getCount() - 1));
     }
 
-    private static class CommentsAdapter extends BaseAdapter {
+    private static class CommentsAdapter extends BaseAdapter implements Insertable<Comment> {
 
         private List<Comment> comments;
 
@@ -126,13 +144,14 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
             Comment comment = getItem(position);
             holder.author.setText(comment.getAuthor().getName());
             holder.body.setText(comment.getBody());
+            holder.timestamp.setText(prettyTime.format(comment.getCreatedAt()));
 
             return convertView;
         }
 
-        public void addComment(Comment comment) {
-            comments.add(comment);
-            notifyDataSetChanged();
+        @Override
+        public void add(int i, @NonNull Comment comment) {
+            comments.add(i, comment);
         }
     }
 
