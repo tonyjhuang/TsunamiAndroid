@@ -1,5 +1,6 @@
 package com.tonyjhuang.tsunami.ui.main.comments;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Build;
@@ -15,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.tonyjhuang.tsunami.R;
-import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -28,6 +29,8 @@ public class CommentInputView extends RelativeLayout {
 
     @InjectView(R.id.handle_container)
     LinearLayout handleContainer;
+    @InjectView(R.id.input_container)
+    LinearLayout inputContainer;
     @InjectView(R.id.comment_input)
     EditText input;
 
@@ -57,9 +60,8 @@ public class CommentInputView extends RelativeLayout {
                             handleContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         else
                             handleContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                        hideHandleContainer(true);
-                        hideHandleContainer(false);
-                        hideHandleContainer(true);
+                        setHandleContainerBottomPadding(getHandleContainerHiddenPadding());
+                        handleContainerHidden = true;
                     }
                 });
 
@@ -75,23 +77,58 @@ public class CommentInputView extends RelativeLayout {
         );
     }
 
+    private int getHandleContainerHiddenPadding() {
+        return inputContainer.getHeight() - handleContainer.getHeight();
+    }
+
+    private int getHandleContainerVisiblePadding() {
+        return inputContainer.getHeight();
+    }
+
+    private void setHandleContainerBottomPadding(int bottom) {
+        int top = handleContainer.getPaddingTop();
+        int left = handleContainer.getPaddingLeft();
+        int right = handleContainer.getPaddingRight();
+        handleContainer.setPadding(left, top, right, bottom);
+    }
+
+    /**
+     * Some real wonky shit here. To slide the handlecontainer into place, we use padding.
+     * Once the animation has finished, we anchor to the input field and remove the padding.
+     * To have the container slide back, we unanchor, readd the padding, and then animate.
+     *
+     * @param hide true if we are hiding, false if revealing.
+     */
     private void hideHandleContainer(boolean hide) {
         if (handleContainer == null || (hide == handleContainerHidden)) return;
-
         handleContainerHidden = hide;
-        if (!hide) handleContainer.setVisibility(VISIBLE);
-        int target = hide ? -handleContainer.getHeight() : 0;
 
-        final LinearLayout.LayoutParams params =
-                (LinearLayout.LayoutParams) handleContainer.getLayoutParams();
-        ValueAnimator animator = ValueAnimator.ofInt(params.bottomMargin, target);
-        animator.addUpdateListener((a) -> {
-            params.bottomMargin = (Integer) a.getAnimatedValue();
-            handleContainer.setLayoutParams(params);
-        });
+        if (hide) {
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) handleContainer.getLayoutParams();
+            lp.addRule(ABOVE, 0);
+            lp.addRule(ALIGN_PARENT_BOTTOM);
+            handleContainer.setLayoutParams(lp);
+            setHandleContainerBottomPadding(getHandleContainerVisiblePadding());
+        }
+
+        int target = hide ? getHandleContainerHiddenPadding() : getHandleContainerVisiblePadding();
+        ValueAnimator animator = ValueAnimator.ofInt(handleContainer.getPaddingBottom(), target);
+        animator.addUpdateListener((a) -> setHandleContainerBottomPadding((Integer) a.getAnimatedValue()));
         animator.setDuration(250);
         animator.setInterpolator(hide ? new AccelerateInterpolator() : new OvershootInterpolator());
         animator.start();
+        if (!hide) {
+            animator.addListener(new SimpleAnimatorListener() {
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    setHandleContainerBottomPadding(0);
+                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) handleContainer.getLayoutParams();
+                    lp.addRule(ABOVE, R.id.input_container);
+                    lp.addRule(ALIGN_PARENT_BOTTOM, 0);
+                    handleContainer.setLayoutParams(lp);
+                }
+            });
+        }
     }
 
     @OnClick(R.id.confirm)

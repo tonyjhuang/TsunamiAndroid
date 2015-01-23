@@ -11,22 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Comment;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.utils.Anim;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 
-import org.ocpsoft.prettytime.PrettyTime;
-
-import java.util.List;
-
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
@@ -89,6 +84,7 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
             Anim.fadeOut(progressBar);
             adapter = new CommentsAdapter(wave.getComments(), layoutManager);
             recyclerView.setAdapter(adapter);
+            Timber.d("yo");
         });
     }
 

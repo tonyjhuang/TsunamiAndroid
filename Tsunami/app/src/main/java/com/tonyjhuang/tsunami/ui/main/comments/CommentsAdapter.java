@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Comment;
+import com.tonyjhuang.tsunami.logging.Timber;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -49,6 +50,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Timber.d("position: " + position);
         switch (getItemViewType(position)) {
             case COMMENT:
                 Comment comment = comments.get(position);

@@ -9,16 +9,18 @@ import android.view.animation.Animation;
  * Created by tony on 1/21/15.
  */
 public class Anim {
-    public static void fadeIn(View view) {
+    public static ObjectAnimator fadeIn(View view) {
         view.clearAnimation();
         ObjectAnimator animator = getAlphaAnimation(view, 0, 1f);
         animator.start();
+        return animator;
     }
 
-    public static void fadeOut(View view) {
+    public static ObjectAnimator fadeOut(View view) {
         view.clearAnimation();
         ObjectAnimator animator = getAlphaAnimation(view, view.getAlpha(), 0f);
         animator.start();
+        return animator;
     }
 
     private static ObjectAnimator getAlphaAnimation(View view, float start, float end) {
