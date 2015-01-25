@@ -16,9 +16,10 @@ import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Comment;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.utils.Anim;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -89,7 +90,7 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
         this.wave = wave;
         recyclerView.post(() -> {
             Anim.fadeOut(progressBar);
-            adapter = new CommentsAdapter(wave.getComments(), layoutManager);
+            adapter = new CommentsAdapter(new ArrayList<>(wave.getComments()), layoutManager);
             recyclerView.setAdapter(adapter);
             if (wave.getComments().size() == 0) showNoCommentsMessage(true);
         });
@@ -104,11 +105,14 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
     public void onSendRequested(String string) {
         if (TextUtils.isEmpty(string) || wave == null) return;
         input.clear();
+        showNoCommentsMessage(false);
+
         Comment comment = Comment.createDebugComment("Kevin", string);
         adapter.addComment(comment);
-        Timber.d("adding comment");
-        showNoCommentsMessage(false);
-        //subscribe(api.comment(wave.getId(), string), this::postCommentAddedEvent);
+        wave.addComment(comment);
+        
+        postCommentAddedEvent(wave);
+        api.comment(wave.getId(), string).publish().connect();
     }
 
     private void showNoCommentsMessage(boolean show) {

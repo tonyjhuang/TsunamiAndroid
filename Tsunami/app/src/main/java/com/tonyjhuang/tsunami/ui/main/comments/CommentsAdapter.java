@@ -37,9 +37,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater =
-                (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
             case COMMENT:
                 View view = inflater.inflate(R.layout.row_comment, parent, false);
@@ -75,7 +73,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void addComment(Comment comment) {
-        Timber.d("adding comment");
         comments.add(comment);
         notifyItemInserted(comments.size() - 1);
         if(layoutManager instanceof LinearLayoutManager)
