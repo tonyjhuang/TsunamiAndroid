@@ -84,7 +84,6 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
             Anim.fadeOut(progressBar);
             adapter = new CommentsAdapter(wave.getComments(), layoutManager);
             recyclerView.setAdapter(adapter);
-            Timber.d("yo");
         });
     }
 
@@ -96,7 +95,7 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
     @Override
     public void onSendRequested(String string) {
         if (TextUtils.isEmpty(string)) return;
-        hideKeyboard();
+        //hideKeyboard();
         input.clear();
         Comment comment = Comment.createDebugComment("Kevin", string);
         adapter.addComment(comment);

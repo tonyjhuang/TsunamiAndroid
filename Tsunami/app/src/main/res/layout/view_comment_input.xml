@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_gravity="bottom"
-    android:gravity="bottom">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/handle_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:background="@android:color/white"
         android:orientation="vertical"
         android:visibility="visible">
@@ -23,17 +19,13 @@
             android:text="+tonyjhuang" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/divider"
-        style="@style/Divider"
-        android:layout_above="@+id/input_container" />
-
     <LinearLayout
         android:id="@+id/input_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/divider"
         android:background="@android:color/white"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
         <EditText
@@ -52,4 +44,9 @@
             android:layout_width="48dp"
             android:layout_height="48dp" />
     </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        style="@style/Divider"
+        android:layout_below="@+id/handle_container" />
 </RelativeLayout>

@@ -50,7 +50,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Timber.d("position: " + position);
         switch (getItemViewType(position)) {
             case COMMENT:
                 Comment comment = comments.get(position);
