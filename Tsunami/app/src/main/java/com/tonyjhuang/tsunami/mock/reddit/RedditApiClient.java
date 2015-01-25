@@ -10,6 +10,7 @@ import com.tonyjhuang.tsunami.api.dal.TsunamiCache;
 import com.tonyjhuang.tsunami.api.models.Comment;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.mock.MockTsunamiApiClient;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
@@ -94,7 +95,7 @@ public class RedditApiClient extends MockTsunamiApiClient {
     private Wave createWave(RedditPostAndComments postAndComments) {
         return Wave.createDebugWave(postAndComments.getPost(),
                 postAndComments.getComments(),
-                generateRandomRipples(Math.min(1, postAndComments.getPost().ups)));
+                generateRandomRipples(Math.max(1, postAndComments.getPost().ups)));
     }
 
     private RedditService build() {

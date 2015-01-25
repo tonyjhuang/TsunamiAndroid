@@ -55,7 +55,8 @@
                         android:id="@+id/label_stats_waves"
                         style="@style/ProfileLabelText"
                         android:padding="0dp"
-                        android:text="@string/profile_stats_waves_label" />
+                        android:text="@string/profile_stats_waves_label"
+                        app:typeface="OpenSans-Light" />
 
                     <Button
                         android:id="@+id/waves"
@@ -134,7 +135,8 @@
                         android:id="@+id/label_stats_my"
                         style="@style/ProfileLabelText"
                         android:padding="0dp"
-                        android:text="@string/profile_stats_my_label" />
+                        android:text="@string/profile_stats_my_label"
+                        app:typeface="OpenSans-Light" />
 
                     <Button
                         android:id="@+id/history"
@@ -217,13 +219,13 @@
 
             <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
                 android:id="@+id/user_id"
-                android:textColor="#EFFF"
-                android:layout_marginBottom="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/profile_pic"
-                android:gravity="center_horizontal"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_horizontal"
+                android:textColor="#EFFF"
                 android:textSize="18sp"
                 android:visibility="gone" />
         </RelativeLayout>

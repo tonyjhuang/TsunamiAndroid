@@ -12,6 +12,7 @@ import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.models.WaveContent;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.util.ArrayList;
