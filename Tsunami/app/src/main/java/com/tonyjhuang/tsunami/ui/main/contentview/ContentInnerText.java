@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.logging.Timber;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -38,7 +39,7 @@ public class ContentInnerText extends LinearLayout implements ContentInnerView {
 
     @Override
     public void setWave(Wave wave) {
-        body.setText(wave.getContent().getBody());
+        body.setText(wave.getContent().getTitle());
         metadata.setWave(wave);
     }
 }

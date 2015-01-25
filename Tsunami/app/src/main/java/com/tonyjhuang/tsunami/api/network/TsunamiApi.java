@@ -42,4 +42,6 @@ public interface TsunamiApi {
                                    double longitude);
 
     public Observable<Void> dismissWave(long waveId);
+
+    public Observable<Wave> comment(long waveId, String comment);
 }

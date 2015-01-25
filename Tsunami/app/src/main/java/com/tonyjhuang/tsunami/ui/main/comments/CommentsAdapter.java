@@ -75,6 +75,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void addComment(Comment comment) {
+        Timber.d("adding comment");
         comments.add(comment);
         notifyItemInserted(comments.size() - 1);
         if(layoutManager instanceof LinearLayoutManager)

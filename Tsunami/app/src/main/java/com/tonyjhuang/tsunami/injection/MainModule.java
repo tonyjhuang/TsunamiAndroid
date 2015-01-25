@@ -2,6 +2,7 @@ package com.tonyjhuang.tsunami.injection;
 
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsActivity;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsFragment;
+import com.tonyjhuang.tsunami.ui.main.contentview.ContentCard;
 import com.tonyjhuang.tsunami.ui.shared.PhotoViewActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
@@ -27,9 +28,10 @@ import dagger.Provides;
                 NavDrawerFragment.class,
                 PhotoViewActivity.class,
                 CommentsActivity.class,
-                CommentsFragment.class
+                CommentsFragment.class,
+                ContentCard.class
         },
-        addsTo = ActivityModule.class,
+        addsTo = ApplicationModule.class,
         complete = false
 )
 public class MainModule {

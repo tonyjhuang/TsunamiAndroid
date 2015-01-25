@@ -13,7 +13,7 @@ import dagger.Module;
                 ProfileActivity.class,
                 ProfileFragment.class
         },
-        addsTo = ActivityModule.class,
+        addsTo = ApplicationModule.class,
         complete = false,
         library = false
 )

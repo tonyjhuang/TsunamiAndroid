@@ -25,6 +25,7 @@
     </plurals>
 
     <string name="comment_hint">Say something&#8230;</string>
+    <string name="comment_no_comments">Nothing here yet, kick off a new conversation!</string>
 
     <string name="splash_title_hint">Title</string>
     <string name="splash_text_hint">Splash something with the world..</string>

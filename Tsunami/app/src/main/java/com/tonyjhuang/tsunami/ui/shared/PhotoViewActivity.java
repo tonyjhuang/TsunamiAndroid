@@ -46,7 +46,7 @@ public class PhotoViewActivity extends TsunamiActivity {
     }
 
     @Override
-    protected List<Object> getMyModules() {
+    protected List<Object> getModules() {
         return Arrays.asList(new MainModule(this));
     }
 }

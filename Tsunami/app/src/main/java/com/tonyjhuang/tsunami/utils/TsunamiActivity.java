@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.tonyjhuang.tsunami.injection.ActivityModule;
 import com.tonyjhuang.tsunami.injection.Injector;
 import com.tonyjhuang.tsunami.ui.login.LoginActivity;
 
@@ -64,20 +63,11 @@ public abstract class TsunamiActivity extends ActionBarActivity implements
     }
 
     /**
-     * Get the list of modules for this activity
-     */
-    private List<Object> getModules() {
-        List<Object> modules = new ArrayList<>(Arrays.asList(new ActivityModule(this)));
-        modules.addAll(getMyModules());
-        return modules;
-    }
-
-    /**
      * Override this method to declare your specific injection module for this TsunamiModule.
      * Since all activities are injected into and injectors, you have to provide at the very least
      * an empty module that injects into your particular subclass.
      */
-    protected abstract List<Object> getMyModules();
+    protected abstract List<Object> getModules();
 
     @Override
     public void inject(Object object) {

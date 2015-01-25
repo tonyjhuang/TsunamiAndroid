@@ -27,7 +27,7 @@ public class CommentsActivity extends SingleFragmentActivity {
     }
 
     @Override
-    protected List<Object> getMyModules() {
+    protected List<Object> getModules() {
         return Arrays.asList(new MainModule(this));
     }
 

@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.mock.reddit.RedditPost;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -73,7 +74,7 @@ public class Wave extends ApiObject {
     }
 
     public Ripple getSplash() {
-        if(ripples == null || ripples.size() == 0)
+        if (ripples == null || ripples.size() == 0)
             return null;
         return ripples.get(0);
     }
@@ -84,7 +85,7 @@ public class Wave extends ApiObject {
 
     @SuppressWarnings("unchecked")
     public List<Comment> getComments() {
-        if(comments == null) return Collections.EMPTY_LIST;
+        if (comments == null) return Collections.EMPTY_LIST;
         return comments;
     }
 
@@ -97,6 +98,12 @@ public class Wave extends ApiObject {
                 return true;
         }
         return false;
+    }
+
+    public Wave addComment(Comment comment) {
+        if (comments == null) comments = new ArrayList<>();
+        comments.add(comment);
+        return this;
     }
 
     @Override

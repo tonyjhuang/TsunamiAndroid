@@ -30,7 +30,7 @@ public class LoginActivity extends TsunamiActivity {
     }
 
     @Override
-    protected List<Object> getMyModules() {
+    protected List<Object> getModules() {
         return Arrays.asList(new LoginModule());
     }
 

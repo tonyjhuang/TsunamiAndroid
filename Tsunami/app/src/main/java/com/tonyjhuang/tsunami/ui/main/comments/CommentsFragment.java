@@ -1,6 +1,5 @@
 package com.tonyjhuang.tsunami.ui.main.comments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,9 +8,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.squareup.otto.Bus;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Comment;
 import com.tonyjhuang.tsunami.api.models.Wave;
@@ -36,12 +36,18 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
     RecyclerView recyclerView;
     @InjectView(R.id.input)
     CommentInputView input;
+    @InjectView(R.id.message)
+    TextView message;
 
     @Inject
     TsunamiApi api;
+    @Inject
+    Bus bus;
+
 
     private RecyclerView.LayoutManager layoutManager;
     private CommentsAdapter adapter;
+    private Wave wave;
 
     public static CommentsFragment getInstance(long waveId) {
         Bundle args = new Bundle();
@@ -72,38 +78,52 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
 
         long waveId = getArguments().getLong(CommentsActivity.WAVE_ID, -1);
         if (waveId == -1) {
-            getWaveError();
+            onGetWaveError();
         } else {
-            subscribe(api.getWave(waveId), this::setAdapter, (error) -> getWaveError());
+            subscribe(api.getWave(waveId), this::setAdapter, (error) -> onGetWaveError());
         }
     }
 
     private void setAdapter(Wave wave) {
         if (wave == null) return;
+        this.wave = wave;
         recyclerView.post(() -> {
             Anim.fadeOut(progressBar);
             adapter = new CommentsAdapter(wave.getComments(), layoutManager);
             recyclerView.setAdapter(adapter);
+            if (wave.getComments().size() == 0) showNoCommentsMessage(true);
         });
     }
 
-    private void getWaveError() {
+    private void onGetWaveError() {
         Anim.fadeOut(progressBar);
         showToast("Couldn't get comments for this wave :(");
     }
 
     @Override
     public void onSendRequested(String string) {
-        if (TextUtils.isEmpty(string)) return;
-        //hideKeyboard();
+        if (TextUtils.isEmpty(string) || wave == null) return;
         input.clear();
         Comment comment = Comment.createDebugComment("Kevin", string);
         adapter.addComment(comment);
+        Timber.d("adding comment");
+        showNoCommentsMessage(false);
+        //subscribe(api.comment(wave.getId(), string), this::postCommentAddedEvent);
     }
 
-    private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
+    private void showNoCommentsMessage(boolean show) {
+        message.setText(show ? getString(R.string.comment_no_comments) : "");
+    }
+
+    private void postCommentAddedEvent(Wave wave) {
+        bus.post(new CommentAddedEvent(wave));
+    }
+
+    public static class CommentAddedEvent {
+        public Wave wave;
+
+        public CommentAddedEvent(Wave wave) {
+            this.wave = wave;
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
+import com.squareup.otto.Bus;
 import com.tonyjhuang.tsunami.api.network.TsunamiApiClient;
 import com.tonyjhuang.tsunami.utils.TsunamiApplication;
 import com.tonyjhuang.tsunami.api.dal.TsunamiCache;
@@ -57,6 +58,12 @@ public class ApplicationModule {
     @Singleton
     TsunamiCache provideTsunamiCache() {
         return new TsunamiCache(application);
+    }
+
+    @Provides
+    @Singleton
+    Bus provideBus() {
+        return new Bus();
     }
 
     @Provides

@@ -8,6 +8,7 @@ import com.tonyjhuang.tsunami.api.models.User;
 import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.models.WaveContent;
+import com.tonyjhuang.tsunami.api.network.requestbodies.CommentRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateRippleRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateUserRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.DismissWaveRequest;
@@ -108,6 +109,12 @@ public class TsunamiApiClient implements TsunamiApi {
     public Observable<Void> dismissWave(long waveId) {
         DismissWaveRequest request = new DismissWaveRequest(userId, waveId);
         return service.dismissWave(request);
+    }
+
+    @Override
+    public Observable<Wave> comment(long waveId, String comment) {
+        CommentRequest request = new CommentRequest(userId, waveId, comment);
+        return service.comment(request).map((wave) -> cache.put(waveId, wave));
     }
 
     /* MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC */

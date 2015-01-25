@@ -4,6 +4,7 @@ import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.User;
 import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.api.network.requestbodies.CommentRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateRippleRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.CreateUserRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.DismissWaveRequest;
@@ -63,4 +64,7 @@ public interface TsunamiService {
      */
     @POST("/ocean/dismiss")
     Observable<Void> dismissWave(@Body DismissWaveRequest body);
+
+    @POST("/comments")
+    Observable<Wave> comment(@Body CommentRequest body);
 }

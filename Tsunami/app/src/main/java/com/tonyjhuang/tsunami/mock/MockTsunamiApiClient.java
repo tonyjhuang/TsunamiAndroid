@@ -101,6 +101,11 @@ public class MockTsunamiApiClient implements TsunamiApi {
     }
 
     @Override
+    public Observable<Wave> comment(long waveId, String comment) {
+        return null;
+    }
+
+    @Override
     public Observable<Wave> splash(String title,
                                    String body,
                                    WaveContent.ContentType contentType,

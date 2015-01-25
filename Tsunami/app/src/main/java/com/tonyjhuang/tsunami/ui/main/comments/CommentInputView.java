@@ -40,10 +40,6 @@ public class CommentInputView extends RelativeLayout {
     public CommentInputView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         ButterKnife.inject(this, inflate(context, R.layout.view_comment_input, this));
-        init();
-    }
-
-    private void init() {
     }
 
     @OnClick(R.id.confirm)

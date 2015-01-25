@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.api.dal.TsunamiCache;
+import com.tonyjhuang.tsunami.api.models.Comment;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
 import com.tonyjhuang.tsunami.mock.MockTsunamiApiClient;
@@ -47,7 +48,7 @@ public class RedditApiClient extends MockTsunamiApiClient {
 
     @Override
     public Observable<List<Wave>> getLocalWaves(double latitude, double longitude) {
-        return get("new", "pics+showerthoughts", 15)
+        return get("new", "pics+showerthoughts+shittyaskscience", 15)
                 .flatMap(Observable::from)
                 .filter(this::isValidRedditPost)
                 .map(this::createWave)
@@ -81,10 +82,19 @@ public class RedditApiClient extends MockTsunamiApiClient {
         return Observable.just(cache.get(waveId, Wave.class));
     }
 
+    @Override
+    public Observable<Wave> comment(long waveId, String comment) {
+        return getWave(waveId)
+                .map((wave) -> wave.addComment(Comment.createDebugComment("kevin", comment)))
+                .map((wave) -> cache.put(waveId, wave));
+    }
+
+    /* Blah */
+
     private Wave createWave(RedditPostAndComments postAndComments) {
         return Wave.createDebugWave(postAndComments.getPost(),
                 postAndComments.getComments(),
-                generateRandomRipples(postAndComments.getPost().ups));
+                generateRandomRipples(Math.min(1, postAndComments.getPost().ups)));
     }
 
     private RedditService build() {

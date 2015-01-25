@@ -23,7 +23,6 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants
 import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.injection.MainModule;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.mock.DebugLocationControls;
 import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
 import com.tonyjhuang.tsunami.ui.customviews.fab.FloatingActionButton;
@@ -103,7 +102,7 @@ public class MainActivity extends TsunamiActivity implements
     }
 
     @Override
-    protected List<Object> getMyModules() {
+    protected List<Object> getModules() {
         return Arrays.asList(new MainModule(this));
     }
 
