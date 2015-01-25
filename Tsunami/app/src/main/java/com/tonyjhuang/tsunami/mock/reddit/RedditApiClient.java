@@ -47,7 +47,7 @@ public class RedditApiClient extends MockTsunamiApiClient {
 
     @Override
     public Observable<List<Wave>> getLocalWaves(double latitude, double longitude) {
-        return get("new", "pics", 15)
+        return get("new", "pics+showerthoughts", 15)
                 .flatMap(Observable::from)
                 .filter(this::isValidRedditPost)
                 .map(this::createWave)
