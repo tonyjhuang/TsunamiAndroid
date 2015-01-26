@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
+import com.tonyjhuang.tsunami.ui.main.contentview.cards.splash.SplashContent;
 
 /**
  * Created by tonyjhuang on 10/21/14.
@@ -21,16 +22,19 @@ public interface WaveContentView {
     public void showSplashCard();
 
     /**
-     * Set the current viewtype to CONTENT and display a wave in the content cardview
+     * Display a wave.
      */
     public void showContentCard(Wave wave);
 
     /**
-     * Set the current viewtype to CONTENT and display a wave in the content cardview. Also
-     * gives the opportunity to specify whether this method call is following up a successful splash.
-     * Just in case you want to queue up an extra effect post splash.
+     * Display a wave, animate the current view down the screen.
      */
-    public void showContentCard(Wave wave, boolean postSuccessfulSplash);
+    public void showContentCard(Wave wave, boolean animatePreviousViewDown);
+
+    /**
+     * Display a view that represents a lack of waves in the area.
+     */
+    public void showNoWavesCard();
 
     /**
      * Get the currently shown view.
@@ -43,9 +47,9 @@ public interface WaveContentView {
     public void showLoading();
 
     /**
-     * Are we showing the splash card?
+     * What ViewType are we showing to the user right now?
      */
-    public boolean isShowingSplashCard();
+    public ViewType getCurrentViewType();
 
     /**
      * Get the current wave that we're showing. If this view is currently splashing, this method
@@ -103,6 +107,6 @@ public interface WaveContentView {
     }
 
     public static enum ViewType {
-        CONTENT, SPLASHING
+        CONTENT, SPLASHING, LOADING, NO_WAVES, NONE
     }
 }

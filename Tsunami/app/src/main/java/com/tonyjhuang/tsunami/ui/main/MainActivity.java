@@ -211,7 +211,7 @@ public class MainActivity extends TsunamiActivity implements
 
     @OnClick(R.id.splash_button)
     public void onSplashButtonClick(View view) {
-        if (contentView.isShowingSplashCard())
+        if (isUserSplashing())
             presenter.onSendSplashButtonClicked();
         else
             presenter.onBeginSplashButtonClicked();
@@ -220,7 +220,7 @@ public class MainActivity extends TsunamiActivity implements
     @OnLongClick(R.id.splash_button)
     boolean onSplashButtonLongClick() {
         String msg;
-        if (contentView.isShowingSplashCard()) {
+        if (isUserSplashing()) {
             msg = getString(R.string.main_splash_send_description);
         } else {
             msg = getString(R.string.main_splash_begin_description);
@@ -233,8 +233,7 @@ public class MainActivity extends TsunamiActivity implements
 
     @OnClick(R.id.profile)
     public void onProfileButtonClick(View view) {
-
-        if (contentView.isShowingSplashCard())
+        if (isUserSplashing())
             presenter.onCancelSplashButtonClicked();
         else
             presenter.onProfileButtonClicked();
@@ -243,7 +242,7 @@ public class MainActivity extends TsunamiActivity implements
     @OnLongClick(R.id.profile)
     boolean onProfileButtonLongClick() {
         String msg;
-        if (contentView.isShowingSplashCard()) {
+        if (isUserSplashing()) {
             msg = getString(R.string.main_splash_cancel_description);
         } else {
             msg = getString(R.string.main_profile_description);
@@ -255,10 +254,14 @@ public class MainActivity extends TsunamiActivity implements
 
     @Override
     public void onBackPressed() {
-        if (contentView.isShowingSplashCard())
+        if (isUserSplashing())
             presenter.onCancelSplashButtonClicked();
         else
             super.onBackPressed();
+    }
+
+    private boolean isUserSplashing() {
+        return contentView.getCurrentViewType().equals(WaveContentView.ViewType.SPLASHING);
     }
 
     @Override

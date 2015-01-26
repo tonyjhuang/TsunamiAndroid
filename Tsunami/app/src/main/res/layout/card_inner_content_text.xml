@@ -15,7 +15,7 @@
         android:textSize="16sp"
         app:typeface="OpenSans-Medium" />
 
-    <com.tonyjhuang.tsunami.ui.main.contentview.ContentInnerMetadata
+    <com.tonyjhuang.tsunami.ui.main.contentview.cards.content.ContentInnerMetadata
         android:id="@+id/metadata"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

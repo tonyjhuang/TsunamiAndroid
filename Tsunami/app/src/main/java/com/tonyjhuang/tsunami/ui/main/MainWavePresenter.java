@@ -6,8 +6,8 @@ import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 import com.tonyjhuang.tsunami.logging.Timber;
-import com.tonyjhuang.tsunami.ui.main.contentview.SplashContent;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
+import com.tonyjhuang.tsunami.ui.main.contentview.cards.splash.SplashContent;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
@@ -58,6 +58,10 @@ public class MainWavePresenter implements WavePresenter {
         this.mainView = mainView;
     }
 
+    private boolean isUserSplashing() {
+        return contentView.getCurrentViewType().equals(WaveContentView.ViewType.SPLASHING);
+    }
+
     /**
      * Grab a new wave from the provider. If we have an appropriate Wave sitting in 'currentWave'
      * (i.e. cached during splashing), you should be calling #displayWave instead.
@@ -65,18 +69,28 @@ public class MainWavePresenter implements WavePresenter {
     private void displayNewWave() {
         Action1<Wave> onNextWave;
         if (waveProvider.hasNextWave()) {
+            /**
+             * Synchronous, we have a wave ready so let's show it if the user isn't splashing.
+             */
             onNextWave = (wave) -> {
-                if (!contentView.isShowingSplashCard())
+                if (!isUserSplashing())
                     displayWave(wave);
                 else
                     currentWave = wave;
             };
         } else {
-            if (!contentView.isShowingSplashCard()) contentView.showLoading();
+            /**
+             * Async, we need to wait til the network returns to show a wave.
+             * We also need to make sure we respect the user's splashing state. Don't show them
+             * a wave if they are currently splashing!
+             */
+            if (!isUserSplashing()) contentView.showLoading();
             mapView.displayWave(null);
             onNextWave = (wave) -> {
-                if (!contentView.isShowingSplashCard())
-                    displayWave(wave, true);
+                if (wave == null)
+                    contentView.showNoWavesCard();
+                else if (!isUserSplashing())
+                    displayWave(wave, false);
                 else
                     currentWave = wave;
             };
@@ -86,12 +100,12 @@ public class MainWavePresenter implements WavePresenter {
     }
 
     private void displayWave(Wave wave) {
-        displayWave(wave, false);
+        displayWave(wave, true);
     }
 
-    private void displayWave(Wave wave, boolean postSuccessfulSplash) {
+    private void displayWave(Wave wave, boolean animatePreviousViewDown) {
         currentWave = wave;
-        contentView.showContentCard(wave, postSuccessfulSplash);
+        contentView.showContentCard(wave, animatePreviousViewDown);
         mapView.displayWave(wave);
     }
 
@@ -145,7 +159,7 @@ public class MainWavePresenter implements WavePresenter {
 
         mapView.finishSplashing(() -> {
             if (currentWave != null)
-                displayWave(currentWave, true);
+                displayWave(currentWave, false);
             else
                 contentView.showLoading();
         });
@@ -210,7 +224,7 @@ public class MainWavePresenter implements WavePresenter {
     @Override
     public String getMemento() {
         MainWavePresenterMemento memento = new MainWavePresenterMemento();
-        memento.isSplashing = contentView.isShowingSplashCard();
+        memento.isSplashing = isUserSplashing();
         memento.waveProviderMemento = waveProvider.getMemento();
         memento.currentWave = currentWave;
         if (locationInfo != null) {

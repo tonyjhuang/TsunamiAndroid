@@ -1,10 +1,11 @@
-package com.tonyjhuang.tsunami.ui.main.contentview;
+package com.tonyjhuang.tsunami.ui.main.contentview.cards.content;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -13,9 +14,9 @@ import com.squareup.otto.Subscribe;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.models.WaveContent;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsActivity;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsFragment;
+import com.tonyjhuang.tsunami.ui.main.contentview.cards.TsunamiCard;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
 import javax.inject.Inject;
@@ -27,7 +28,7 @@ import butterknife.OnClick;
 /**
  * Created by tonyjhuang on 9/7/14.
  */
-public class ContentCard extends FrameLayout {
+public class ContentCard extends TsunamiCard {
     @InjectView(R.id.alias)
     TextView alias;
     @InjectView(R.id.ripples)
@@ -57,13 +58,15 @@ public class ContentCard extends FrameLayout {
 
     public ContentCard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setup(context);
+        ((TsunamiActivity) context).inject(this);
     }
 
-    public void setup(Context context) {
+    @Override
+    protected View getInnerView(Context context, ViewGroup container) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        ButterKnife.inject(this, inflater.inflate(R.layout.card_content, this, true));
-        ((TsunamiActivity) context).inject(this);
+        View view = inflater.inflate(R.layout.card_content, container, false);
+        ButterKnife.inject(this, view);
+        return view;
     }
 
     public void setWave(Wave wave) {

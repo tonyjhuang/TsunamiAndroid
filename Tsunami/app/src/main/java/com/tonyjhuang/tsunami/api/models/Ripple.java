@@ -57,6 +57,7 @@ public class Ripple extends ApiObject {
     }
 
     public boolean isValidFor(double lat, double lon) {
+
         return squared(lat - latitude) + squared(lon - longitude) <= squared(radius);
     }
 

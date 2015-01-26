@@ -6,10 +6,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.BouncyScrollView;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.FadingBouncyScrollView;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
+import com.tonyjhuang.tsunami.ui.main.contentview.cards.content.ContentCard;
+import com.tonyjhuang.tsunami.ui.main.contentview.cards.splash.SplashCard;
+import com.tonyjhuang.tsunami.ui.main.contentview.cards.splash.SplashContent;
+import com.tonyjhuang.tsunami.ui.main.contentview.cards.status.NoWavesCard;
 
 /**
  * Created by tonyjhuang on 9/6/14.
@@ -27,6 +30,11 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
      * The card that allows users to splash new waves.
      */
     private SplashCard splashCard;
+
+    /**
+     * Display that tells the user there are no waves in the area.
+     */
+    private NoWavesCard noWavesCard;
 
     /**
      * Are we currently showing the user the splash card?
@@ -48,6 +56,11 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
      * View we show to indicate loading.
      */
     private ProgressBar loadingView;
+
+    /**
+     * What ViewType are we showing to the user?
+     */
+    private ViewType currentViewType = ViewType.NONE;
 
 
     public WaveContentScrollView(Context context) {
@@ -85,7 +98,7 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     public void showLoading() {
         if (splashing && onViewTypeChangedListener != null)
             onViewTypeChangedListener.onViewTypeChanged(ViewType.CONTENT);
-        if(getCustomView() != null && getCustomView().equals(loadingView)) return;
+        if (getCustomView() != null && getCustomView().equals(loadingView)) return;
         splashing = false;
         setScrollable(false);
         setCustomView(loadingView);
@@ -93,21 +106,22 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
 
     @Override
     public void showContentCard(Wave wave) {
-        showContentCard(wave, false);
+        showContentCard(wave, true);
     }
 
     @Override
-    public void showContentCard(Wave wave, boolean postSuccessfulSplash) {
+    public void showContentCard(Wave wave, boolean animatePreviousViewDown) {
         setScrollable(true);
         contentCard.setWave(wave);
 
         if (splashing && onViewTypeChangedListener != null)
             onViewTypeChangedListener.onViewTypeChanged(ViewType.CONTENT);
         splashing = false;
+        currentViewType = ViewType.CONTENT;
 
         if (wave != null) {
             if (getCustomView() != contentCard)
-                setCustomView(contentCard, !postSuccessfulSplash);
+                setCustomView(contentCard, animatePreviousViewDown);
             else
                 animateToStartingPosition();
         }
@@ -126,6 +140,9 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     @Override
     public void showSplashCard() {
         if (splashing) return;
+        if (currentViewType.equals(ViewType.SPLASHING)) return;
+
+        currentViewType = ViewType.SPLASHING;
         splashing = true;
         setScrollable(true);
 
@@ -139,11 +156,6 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     }
 
     @Override
-    public boolean isShowingSplashCard() {
-        return splashing;
-    }
-
-    @Override
     public SplashContent retrieveSplashContent() {
         return splashCard == null ? null : splashCard.retrieveSplashContent();
     }
@@ -153,6 +165,24 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
         if (splashCard != null) {
             splashCard.clear();
         }
+    }
+
+    @Override
+    public void showNoWavesCard() {
+        if (currentViewType.equals(ViewType.NO_WAVES)) return;
+
+        if (noWavesCard == null) noWavesCard = new NoWavesCard(getContext());
+        setCustomView(noWavesCard, true);
+        setScrollable(true);
+
+        if (onViewTypeChangedListener != null)
+            onViewTypeChangedListener.onViewTypeChanged(ViewType.NO_WAVES);
+        currentViewType = ViewType.NO_WAVES;
+    }
+
+    @Override
+    public ViewType getCurrentViewType() {
+        return currentViewType;
     }
 
     @Override

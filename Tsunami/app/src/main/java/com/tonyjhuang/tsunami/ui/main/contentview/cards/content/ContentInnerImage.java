@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami.ui.main.contentview;
+package com.tonyjhuang.tsunami.ui.main.contentview.cards.content;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -15,9 +15,6 @@ import com.tonyjhuang.tsunami.ui.shared.PhotoViewActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
 import org.ocpsoft.prettytime.PrettyTime;
-
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

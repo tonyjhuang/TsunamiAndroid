@@ -110,7 +110,7 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
         Comment comment = Comment.createDebugComment("Kevin", string);
         adapter.addComment(comment);
         wave.addComment(comment);
-        
+
         postCommentAddedEvent(wave);
         api.comment(wave.getId(), string).publish().connect();
     }

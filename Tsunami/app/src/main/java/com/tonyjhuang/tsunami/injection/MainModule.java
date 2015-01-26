@@ -1,8 +1,9 @@
 package com.tonyjhuang.tsunami.injection;
 
+import com.tonyjhuang.tsunami.mock.NoWaveWaveProvider;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsActivity;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsFragment;
-import com.tonyjhuang.tsunami.ui.main.contentview.ContentCard;
+import com.tonyjhuang.tsunami.ui.main.contentview.cards.content.ContentCard;
 import com.tonyjhuang.tsunami.ui.shared.PhotoViewActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
@@ -54,7 +55,7 @@ public class MainModule {
 
     @Provides
     public WaveProvider provideWaveProvider(TsunamiApi api) {
-        return new MainWaveProvider(activity, api);
+        return new NoWaveWaveProvider(activity, api);
     }
 
 }

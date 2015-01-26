@@ -71,6 +71,7 @@
         <item name="android:paddingRight">@dimen/profile_stats_label_padding_horizontal</item>
         <item name="android:textSize">@dimen/profile_stats_label_text_size</item>
         <item name="android:layout_width">0dp</item>
+        <item name="typeface">OpenSans-Medium</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

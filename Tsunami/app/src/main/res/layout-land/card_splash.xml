@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_margin="16dp"
-    android:layout_width="@dimen/card_max_width"
-    android:layout_height="wrap_content">
-
-    <include layout="@layout/card_inner_splash" />
-</android.support.v7.widget.CardView>

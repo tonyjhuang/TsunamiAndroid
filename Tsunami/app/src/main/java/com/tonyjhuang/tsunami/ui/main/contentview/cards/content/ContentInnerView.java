@@ -1,4 +1,4 @@
-package com.tonyjhuang.tsunami.ui.main.contentview;
+package com.tonyjhuang.tsunami.ui.main.contentview.cards.content;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
 
