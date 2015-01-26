@@ -343,6 +343,8 @@ public class MainActivity extends TsunamiActivity implements
                 splashButton.setImageResource(R.drawable.splash);
                 profileButton.setBackgroundResource(R.drawable.ic_action_cancel);
                 break;
+            case NO_WAVES:
+            case LOADING:
             case CONTENT:
                 splashButton.setImageResource(R.drawable.ic_action_content_new);
                 profileButton.setBackgroundResource(R.drawable.profile);

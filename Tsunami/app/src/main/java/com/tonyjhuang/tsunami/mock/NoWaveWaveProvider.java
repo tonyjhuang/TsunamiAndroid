@@ -5,7 +5,10 @@ import android.content.Context;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.WaveProvider;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -22,7 +25,9 @@ public class NoWaveWaveProvider implements WaveProvider {
 
     @Override
     public Observable<Wave> getNextWave() {
-        return Observable.just(null);
+        Timber.d("getNextWave");
+        Observable<Wave> o = Observable.just(null);
+        return o.delay(1, TimeUnit.SECONDS);
     }
 
     @Override

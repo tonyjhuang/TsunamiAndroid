@@ -57,6 +57,16 @@ public class TestCelebrationPresenter implements WavePresenter {
     }
 
     @Override
+    public void onNoWavesSwipedUp() {
+
+    }
+
+    @Override
+    public void onNoWavesSwipedDown() {
+
+    }
+
+    @Override
     public void onBeginSplashButtonClicked() {
         contentView.showSplashCard();
         mapView.displaySplashing();

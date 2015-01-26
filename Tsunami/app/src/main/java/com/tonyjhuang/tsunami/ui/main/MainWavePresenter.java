@@ -96,6 +96,7 @@ public class MainWavePresenter implements WavePresenter {
             };
         }
 
+        // TODO: show error card view.
         subscribe(waveProvider.getNextWave(), onNextWave, (error) -> Timber.e(error, "fuck."));
     }
 
@@ -174,6 +175,18 @@ public class MainWavePresenter implements WavePresenter {
             displayWave(currentWave);
         else
             contentView.showLoading();
+    }
+
+    @Override
+    public void onNoWavesSwipedUp() {
+        Timber.d("onNoWavesSwipedUp");
+        displayNewWave();
+    }
+
+    @Override
+    public void onNoWavesSwipedDown() {
+        Timber.d("onNoWavesSwipedDown");
+        displayNewWave();
     }
 
     @Override

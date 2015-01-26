@@ -37,11 +37,6 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     private NoWavesCard noWavesCard;
 
     /**
-     * Are we currently showing the user the splash card?
-     */
-    private boolean splashing = false;
-
-    /**
      * Our view presenter.
      */
     private WavePresenter presenter;
@@ -96,12 +91,15 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
 
     @Override
     public void showLoading() {
-        if (splashing && onViewTypeChangedListener != null)
-            onViewTypeChangedListener.onViewTypeChanged(ViewType.CONTENT);
-        if (getCustomView() != null && getCustomView().equals(loadingView)) return;
-        splashing = false;
+        if (currentViewType.equals(ViewType.LOADING)) return;
+
+        if (onViewTypeChangedListener != null)
+            onViewTypeChangedListener.onViewTypeChanged(ViewType.LOADING);
+
         setScrollable(false);
         setCustomView(loadingView);
+
+        currentViewType = ViewType.LOADING;
     }
 
     @Override
@@ -111,20 +109,18 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
 
     @Override
     public void showContentCard(Wave wave, boolean animatePreviousViewDown) {
+        if (!currentViewType.equals(ViewType.CONTENT)) {
+            if (onViewTypeChangedListener != null)
+                onViewTypeChangedListener.onViewTypeChanged(ViewType.CONTENT);
+
+            setCustomView(contentCard, animatePreviousViewDown);
+        } else {
+            animateToStartingPosition();
+        }
         setScrollable(true);
         contentCard.setWave(wave);
 
-        if (splashing && onViewTypeChangedListener != null)
-            onViewTypeChangedListener.onViewTypeChanged(ViewType.CONTENT);
-        splashing = false;
         currentViewType = ViewType.CONTENT;
-
-        if (wave != null) {
-            if (getCustomView() != contentCard)
-                setCustomView(contentCard, animatePreviousViewDown);
-            else
-                animateToStartingPosition();
-        }
     }
 
     @Override
@@ -139,20 +135,17 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
 
     @Override
     public void showSplashCard() {
-        if (splashing) return;
         if (currentViewType.equals(ViewType.SPLASHING)) return;
-
-        currentViewType = ViewType.SPLASHING;
-        splashing = true;
-        setScrollable(true);
-
-        if (splashCard == null)
-            splashCard = new SplashCard(getContext());
 
         if (onViewTypeChangedListener != null)
             onViewTypeChangedListener.onViewTypeChanged(ViewType.SPLASHING);
 
+        if (splashCard == null) splashCard = new SplashCard(getContext());
+
+        setScrollable(true);
         setCustomView(splashCard, true);
+
+        currentViewType = ViewType.SPLASHING;
     }
 
     @Override
@@ -171,12 +164,14 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     public void showNoWavesCard() {
         if (currentViewType.equals(ViewType.NO_WAVES)) return;
 
-        if (noWavesCard == null) noWavesCard = new NoWavesCard(getContext());
-        setCustomView(noWavesCard, true);
-        setScrollable(true);
-
         if (onViewTypeChangedListener != null)
             onViewTypeChangedListener.onViewTypeChanged(ViewType.NO_WAVES);
+
+        if (noWavesCard == null) noWavesCard = new NoWavesCard(getContext());
+
+        setScrollable(true);
+        setCustomView(noWavesCard, true);
+
         currentViewType = ViewType.NO_WAVES;
     }
 
@@ -208,19 +203,33 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     @Override
     public void onViewHitBottom(View view) {
         if (presenter == null) return;
-        if (splashing)
-            presenter.onSplashSwipedDown();
-        else
-            presenter.onContentSwipedDown();
+        switch (currentViewType) {
+            case SPLASHING:
+                presenter.onSplashSwipedDown();
+                break;
+            case CONTENT:
+                presenter.onContentSwipedDown();
+                break;
+            case NO_WAVES:
+                presenter.onNoWavesSwipedDown();
+                break;
+        }
     }
 
     @Override
     public void onViewHitTop(View view) {
         if (presenter == null) return;
-        if (splashing)
-            presenter.onSplashSwipedUp();
-        else
-            presenter.onContentSwipedUp();
+        switch (currentViewType) {
+            case SPLASHING:
+                presenter.onSplashSwipedUp();
+                break;
+            case CONTENT:
+                presenter.onContentSwipedUp();
+                break;
+            case NO_WAVES:
+                presenter.onNoWavesSwipedUp();
+                break;
+        }
     }
 
     @Override

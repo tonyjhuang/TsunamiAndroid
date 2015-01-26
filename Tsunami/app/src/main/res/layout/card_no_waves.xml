@@ -1,13 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
+
+    <!-- For some reason, we need this view to expand the view across the whole screen-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
 
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-        android:layout_centerInParent="true"
+        android:id="@+id/one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FUCK OFF!!!"
-        android:textSize="20sp" />
+        android:layout_centerHorizontal="true"
+        android:padding="4dp"
+        android:text="OH NO."
+        android:textColor="@color/primary"
+        android:textSize="32sp"
+        app:typeface="OpenSans-Light" />
+
+    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+        android:id="@+id/two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/one"
+        android:layout_centerHorizontal="true"
+        android:padding="4dp"
+        android:text="There are no current waves in your area."
+        android:textSize="14sp" />
+
+    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+        android:id="@+id/three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/two"
+        android:layout_centerHorizontal="true"
+        android:padding="4dp"
+        android:text=":("
+        android:textColor="@color/primary_dark"
+        app:typeface="OpenSans-Medium" />
+
+    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+        android:id="@+id/four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/three"
+        android:layout_centerHorizontal="true"
+        android:padding="4dp"
+        android:text="Why don't you splash one?"
+        android:textSize="18sp" />
+
+    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/four"
+        android:layout_centerHorizontal="true"
+        android:padding="4dp"
+        android:text="(Swipe this away to search for more waves.)"
+        android:textColor="@color/text_secondary" />
 
 </RelativeLayout>
