@@ -77,7 +77,7 @@ public class ContentInnerMetadata extends LinearLayout {
 
     private String getDistanceText(float lat, float lng) {
         float dist = Haversine.haversineInMiles(locationInfo.lastLat, locationInfo.lastLong, lat, lng);
-        if (dist == 0)
+        if (dist < 0.1f)
             return "next door";
         else
             return df.format(dist) + " miles away";

@@ -28,6 +28,13 @@
     </FrameLayout>
 
     <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_above="@+id/divider"
+        android:alpha="0.2"
+        android:background="@drawable/shadow_up" />
+
+    <View
         android:id="@+id/divider"
         style="@style/Divider"
         android:layout_above="@+id/input" />

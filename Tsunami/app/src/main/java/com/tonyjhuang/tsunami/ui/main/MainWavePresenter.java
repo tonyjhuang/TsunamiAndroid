@@ -293,7 +293,11 @@ public class MainWavePresenter implements WavePresenter {
             locationInfo.lastLat = memento.lastLat;
             locationInfo.lastLong = memento.lastLong;
         }
-        mapView.setLocationInfo(locationInfo);
+
+        // Workaround: setting the mapview's location focuses the window size on the current location.
+        // If we have a wave, let's skip that and set the wave view first, to avoid pinponging the map.
+        if (!memento.viewType.equals(WaveContentView.ViewType.CONTENT))
+            mapView.setLocationInfo(locationInfo);
 
         // Recreate contentview with proper state.
         switch (memento.viewType) {
@@ -311,6 +315,7 @@ public class MainWavePresenter implements WavePresenter {
                     displayWave(currentWave);
                 else
                     displayNewWave();
+                mapView.setLocationInfo(locationInfo);
                 break;
         }
     }

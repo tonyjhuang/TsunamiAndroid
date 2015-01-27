@@ -14,7 +14,7 @@
     <ViewStub
         android:id="@+id/toolbar_stub"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
         android:inflatedId="@+id/toolbar"
         android:layout="@layout/stub_toolbar" />

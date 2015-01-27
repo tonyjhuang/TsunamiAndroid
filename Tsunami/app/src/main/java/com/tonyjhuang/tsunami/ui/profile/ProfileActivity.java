@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.tonyjhuang.tsunami.injection.ProfileModule;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollListener;
 import com.tonyjhuang.tsunami.utils.SingleFragmentActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
@@ -49,18 +50,12 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
         new Handler().post(() -> fragment.scrollView.setOnScrollListener(this));
     }
 
-    /**
-     * @param alpha 0 is transparent, 255 is opaque
-     */
-    private void setToolbarBackgroundAlpha(int alpha) {
-        toolbar.getBackground().setAlpha(alpha);
-    }
 
     @Override
     public void onScrollChanged(int l, int t, int oldl, int oldt) {
         int coverImageHeight = fragment.coverImage.getHeight();
-        int ratio = (int) (((float) Math.min(Math.max(t, 0), coverImageHeight)) / coverImageHeight);
-        setToolbarBackgroundAlpha(ratio * 255);
+        float ratio = (((float) Math.min(Math.max(t, 0), coverImageHeight)) / coverImageHeight);
+        setToolbarBackgroundAlpha((int) (ratio * 255));
     }
 
     @Override

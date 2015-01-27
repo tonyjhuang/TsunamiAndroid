@@ -9,7 +9,6 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
-import com.tonyjhuang.tsunami.logging.Timber;
 
 /**
  * Created by tony on 12/25/14.
@@ -56,10 +55,8 @@ public class ProfileStatTextSwitcher extends TextSwitcher {
                 }
             });
         } else {
-            if(getCurrentText() != null && !getCurrentText().equals(text)) {
+            if (getCurrentText() != null && !getCurrentText().equals(text)) {
                 super.setText(text);
-            } else {
-                Timber.v("trying to re-set the current text. ignoring.");
             }
         }
     }

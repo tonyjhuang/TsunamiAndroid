@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.logging.Timber;
 
 import butterknife.InjectView;
 
@@ -76,6 +77,7 @@ public abstract class SingleFragmentActivity extends TsunamiActivity {
         if (toolbar != null) return toolbar;
 
         toolbar = (Toolbar) toolbarStub.inflate();
+        setToolbarBackgroundAlpha(255);
 
         if (setup) {
             toolbar.post(() -> {
@@ -87,5 +89,14 @@ public abstract class SingleFragmentActivity extends TsunamiActivity {
         }
 
         return toolbar;
+    }
+
+    /**
+     * @param alpha 0 is transparent, 255 is opaque
+     */
+    protected void setToolbarBackgroundAlpha(int alpha) {
+        Timber.d("alpha: " + alpha);
+        if (toolbar != null)
+            toolbar.getBackground().setAlpha(alpha);
     }
 }
