@@ -2,7 +2,6 @@ package com.tonyjhuang.tsunami.ui.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -32,8 +31,7 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
 
     @Override
     public TsunamiFragment getFragment() {
-        fragment = ProfileFragment.getInstance(null);
-        return fragment;
+        return ProfileFragment.getInstance(null);
     }
 
     @Override
@@ -47,7 +45,8 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
         toolbar = inflateToolbar(true);
         setToolbarBackgroundAlpha(0);
 
-        new Handler().post(() -> fragment.scrollView.setOnScrollListener(this));
+        fragment = (ProfileFragment) getActiveFragment();
+        fragment.scrollView.post(() -> fragment.scrollView.setOnScrollListener(this));
     }
 
     /**
