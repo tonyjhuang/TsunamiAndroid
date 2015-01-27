@@ -60,7 +60,7 @@ public class ContentInnerMetadata extends LinearLayout {
 
         timestamp.setText(prettyTime.format(wave.getCreatedAt()));
         viewCounter.setText(getViewCountText(wave.getViews()));
-        if(splash == null) return;
+        if (splash == null) return;
         distance.setText(getDistanceText((float) splash.getLatitude(), (float) splash.getLongitude()));
     }
 
@@ -77,7 +77,10 @@ public class ContentInnerMetadata extends LinearLayout {
 
     private String getDistanceText(float lat, float lng) {
         float dist = Haversine.haversineInMiles(locationInfo.lastLat, locationInfo.lastLong, lat, lng);
-        return df.format(dist) + " miles away";
+        if (dist == 0)
+            return "next door";
+        else
+            return df.format(dist) + " miles away";
 
     }
 }

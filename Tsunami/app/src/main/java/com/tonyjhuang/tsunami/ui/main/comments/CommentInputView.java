@@ -46,6 +46,8 @@ public class CommentInputView extends RelativeLayout {
             }
             return false;
         });
+        input.setMaxLines(4);
+        input.setHorizontallyScrolling(false);
     }
 
     @OnClick(R.id.confirm)

@@ -33,12 +33,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:autoLink="all"
             android:hint="@string/comment_hint"
             android:imeOptions="actionSend"
-            android:inputType="textCapSentences|textMultiLine"
-            android:maxLines="4"
-            android:minLines="1" />
+            android:inputType="text|textCapSentences" />
 
         <ImageButton
             android:id="@+id/confirm"
