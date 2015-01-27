@@ -68,7 +68,7 @@ public class MainWaveProvider implements WaveProvider {
     protected Observable<Wave> getNextWave(boolean retry) {
         if (retry && index >= waves.size()) {
             // No waves...
-            return Observable.error(new RuntimeException("Failed to retrieve new waves"));
+            return Observable.just(null);
         } else if (index < waves.size()) {
             return Observable.just(waves.get(index++));
         } else {

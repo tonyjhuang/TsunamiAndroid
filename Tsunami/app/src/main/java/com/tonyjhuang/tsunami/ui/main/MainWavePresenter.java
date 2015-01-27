@@ -34,6 +34,7 @@ public class MainWavePresenter implements WavePresenter {
 
     private Wave currentWave;
     private boolean firstRun = true;
+    private boolean loading = false;
 
     public MainWavePresenter(TsunamiApi api, TsunamiActivity activity, WaveProvider waveProvider) {
         this.api = api;
@@ -86,7 +87,9 @@ public class MainWavePresenter implements WavePresenter {
              */
             if (!isUserSplashing()) contentView.showLoading();
             mapView.displayWave(null);
+            loading = true;
             onNextWave = (wave) -> {
+                loading = false;
                 if (wave == null)
                     contentView.showNoWavesCard();
                 else if (!isUserSplashing())
@@ -159,10 +162,14 @@ public class MainWavePresenter implements WavePresenter {
         mainView.hideKeyboard();
 
         mapView.finishSplashing(() -> {
-            if (currentWave != null)
+            if (currentWave != null) {
                 displayWave(currentWave, false);
-            else
-                contentView.showLoading();
+            } else {
+                if (loading)
+                    contentView.showLoading();
+                else
+                    displayNewWave();
+            }
         });
     }
 
@@ -192,10 +199,15 @@ public class MainWavePresenter implements WavePresenter {
     @Override
     public void onCancelSplashButtonClicked() {
         mapView.cancelSplashing();
-        if (currentWave != null)
+        if (currentWave != null) {
             displayWave(currentWave);
-        else
-            contentView.showLoading();
+        } else {
+            if (loading) {
+                contentView.showLoading();
+            } else {
+                displayNewWave();
+            }
+        }
     }
 
     @Override

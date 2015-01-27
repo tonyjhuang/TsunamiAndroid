@@ -1,6 +1,5 @@
 package com.tonyjhuang.tsunami.ui.main.comments;
 
-import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Comment;
-import com.tonyjhuang.tsunami.logging.Timber;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -67,7 +65,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void bindCommentViewHolder(Comment comment, CommentViewHolder holder) {
-        holder.author.setText(comment.getAuthor().getName());
+        if (comment.getAuthor() != null)
+            holder.author.setText(comment.getAuthor().getName());
+        else
+            holder.author.setText("DAVID I NEED A USER OBJECT IN COMMENTS");
         holder.body.setText(comment.getBody());
         holder.timestamp.setText(prettyTime.format(comment.getCreatedAt()));
     }
@@ -75,7 +76,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void addComment(Comment comment) {
         comments.add(comment);
         notifyItemInserted(comments.size() - 1);
-        if(layoutManager instanceof LinearLayoutManager)
+        if (layoutManager instanceof LinearLayoutManager)
             layoutManager.scrollToPosition(comments.size() - 1);
     }
 

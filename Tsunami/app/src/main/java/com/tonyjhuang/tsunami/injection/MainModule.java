@@ -55,7 +55,7 @@ public class MainModule {
 
     @Provides
     public WaveProvider provideWaveProvider(TsunamiApi api) {
-        return new NoWaveWaveProvider(activity, api);
+        return new MainWaveProvider(activity, api);
     }
 
 }
