@@ -1,5 +1,6 @@
 package com.tonyjhuang.tsunami.injection;
 
+import com.tonyjhuang.tsunami.mock.ErrorWaveProvider;
 import com.tonyjhuang.tsunami.mock.NoWaveWaveProvider;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsActivity;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsFragment;
@@ -55,7 +56,7 @@ public class MainModule {
 
     @Provides
     public WaveProvider provideWaveProvider(TsunamiApi api) {
-        return new MainWaveProvider(activity, api);
+        return new ErrorWaveProvider(activity, api);
     }
 
 }

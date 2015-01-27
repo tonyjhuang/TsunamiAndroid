@@ -26,6 +26,10 @@ public interface WavePresenter {
 
     public void onNoWavesSwipedDown();
 
+    public void onErrorSwipedUp();
+
+    public void onErrorSwipedDown();
+
     public void onBeginSplashButtonClicked();
 
     public void onCancelSplashButtonClicked();

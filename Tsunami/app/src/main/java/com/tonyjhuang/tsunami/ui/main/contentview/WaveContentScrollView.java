@@ -12,6 +12,7 @@ import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.content.ContentCard;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.splash.SplashCard;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.splash.SplashContent;
+import com.tonyjhuang.tsunami.ui.main.contentview.cards.status.ErrorCard;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.status.NoWavesCard;
 
 /**
@@ -35,6 +36,11 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
      * Display that tells the user there are no waves in the area.
      */
     private NoWavesCard noWavesCard;
+
+    /**
+     * Display to notify user of an error getting waves.
+     */
+    private ErrorCard errorCard;
 
     /**
      * Our view presenter.
@@ -176,6 +182,21 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     }
 
     @Override
+    public void showError() {
+        if (currentViewType.equals(ViewType.ERROR)) return;
+
+        if (onViewTypeChangedListener != null)
+            onViewTypeChangedListener.onViewTypeChanged(ViewType.ERROR);
+
+        if (errorCard == null) errorCard = new ErrorCard(getContext());
+
+        setScrollable(true);
+        setCustomView(errorCard, true);
+
+        currentViewType = ViewType.ERROR;
+    }
+
+    @Override
     public ViewType getCurrentViewType() {
         return currentViewType;
     }
@@ -213,6 +234,9 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
             case NO_WAVES:
                 presenter.onNoWavesSwipedDown();
                 break;
+            case ERROR:
+                presenter.onErrorSwipedDown();
+                break;
         }
     }
 
@@ -228,6 +252,9 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
                 break;
             case NO_WAVES:
                 presenter.onNoWavesSwipedUp();
+                break;
+            case ERROR:
+                presenter.onErrorSwipedUp();
                 break;
         }
     }

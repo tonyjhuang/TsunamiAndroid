@@ -4,11 +4,6 @@
     android:layout_gravity="center_vertical"
     android:orientation="vertical">
 
-    <!-- For some reason, we need this view to expand the view across the whole screen-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
-
     <include layout="@layout/card_inner_content_profile" />
 
     <View style="@style/Divider" />

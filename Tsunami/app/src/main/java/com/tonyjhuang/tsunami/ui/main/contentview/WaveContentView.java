@@ -37,14 +37,19 @@ public interface WaveContentView {
     public void showNoWavesCard();
 
     /**
-     * Get the currently shown view.
-     */
-    public View getView();
-
-    /**
      * Display a loading indicator;
      */
     public void showLoading();
+
+    /**
+     * Display an error.
+     */
+    public void showError();
+
+    /**
+     * Get the currently shown view.
+     */
+    public View getView();
 
     /**
      * What ViewType are we showing to the user right now?
@@ -107,6 +112,6 @@ public interface WaveContentView {
     }
 
     public static enum ViewType {
-        CONTENT, SPLASHING, LOADING, NO_WAVES, NONE
+        CONTENT, SPLASHING, LOADING, NO_WAVES, ERROR, NONE
     }
 }

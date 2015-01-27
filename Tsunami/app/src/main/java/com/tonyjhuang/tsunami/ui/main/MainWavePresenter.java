@@ -34,7 +34,7 @@ public class MainWavePresenter implements WavePresenter {
 
     private Wave currentWave;
     private boolean firstRun = true;
-    private boolean loading = false;
+    private boolean loadingNextWave = false;
 
     public MainWavePresenter(TsunamiApi api, TsunamiActivity activity, WaveProvider waveProvider) {
         this.api = api;
@@ -87,20 +87,28 @@ public class MainWavePresenter implements WavePresenter {
              */
             if (!isUserSplashing()) contentView.showLoading();
             mapView.displayWave(null);
-            loading = true;
+            loadingNextWave = true;
             onNextWave = (wave) -> {
-                loading = false;
-                if (wave == null)
-                    contentView.showNoWavesCard();
-                else if (!isUserSplashing())
-                    displayWave(wave, false);
-                else
+                loadingNextWave = false;
+                if (!isUserSplashing()) {
+                    if (wave == null) {
+                        contentView.showNoWavesCard();
+                    } else {
+                        displayWave(wave, false);
+                    }
+                } else {
                     currentWave = wave;
+                }
             };
         }
 
         // TODO: show error card view.
-        subscribe(waveProvider.getNextWave(), onNextWave, (error) -> Timber.e(error, "fuck."));
+        subscribe(waveProvider.getNextWave(), onNextWave, this::onGetWaveError);
+    }
+
+    private void onGetWaveError(Throwable error) {
+        if (!isUserSplashing())
+            contentView.showError();
     }
 
     private void displayWave(Wave wave) {
@@ -161,16 +169,7 @@ public class MainWavePresenter implements WavePresenter {
         mainView.showCelebration();
         mainView.hideKeyboard();
 
-        mapView.finishSplashing(() -> {
-            if (currentWave != null) {
-                displayWave(currentWave, false);
-            } else {
-                if (loading)
-                    contentView.showLoading();
-                else
-                    displayNewWave();
-            }
-        });
+        mapView.finishSplashing(this::finishSplash);
     }
 
     @Override
@@ -178,10 +177,21 @@ public class MainWavePresenter implements WavePresenter {
         Timber.d("onSplashSwipedDown");
         mainView.hideKeyboard();
         mapView.cancelSplashing();
-        if (currentWave != null)
-            displayWave(currentWave);
-        else
+        finishSplash();
+    }
+
+    /**
+     * Call after the user has either successfully splashed or cancelled a splash. Resets the
+     * contentview to the appropriate state.
+     */
+    private void finishSplash() {
+        if (currentWave != null) {
+            displayWave(currentWave, false);
+        } else if (loadingNextWave) {
             contentView.showLoading();
+        } else {
+            displayNewWave();
+        }
     }
 
     @Override
@@ -197,17 +207,21 @@ public class MainWavePresenter implements WavePresenter {
     }
 
     @Override
+    public void onErrorSwipedUp() {
+        Timber.d("onErrorSwipedUp");
+        displayNewWave();
+    }
+
+    @Override
+    public void onErrorSwipedDown() {
+        Timber.d("onErrorSwipedDown");
+        displayNewWave();
+    }
+
+    @Override
     public void onCancelSplashButtonClicked() {
         mapView.cancelSplashing();
-        if (currentWave != null) {
-            displayWave(currentWave);
-        } else {
-            if (loading) {
-                contentView.showLoading();
-            } else {
-                displayNewWave();
-            }
-        }
+        contentView.scrollDownOffscreen();
     }
 
     @Override

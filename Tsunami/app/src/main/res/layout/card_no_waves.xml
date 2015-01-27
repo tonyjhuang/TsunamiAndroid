@@ -7,11 +7,6 @@
     android:paddingBottom="8dp"
     android:paddingTop="8dp">
 
-    <!-- For some reason, we need this view to expand the view across the whole screen-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
-
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
         android:id="@+id/one"
         android:layout_width="wrap_content"
