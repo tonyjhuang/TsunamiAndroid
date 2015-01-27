@@ -2,6 +2,7 @@ package com.tonyjhuang.tsunami.ui.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -21,8 +22,7 @@ import java.util.List;
 public class ProfileActivity extends SingleFragmentActivity implements OnScrollListener {
 
     private Toolbar toolbar;
-    private ProfileFragment fragment;
-
+    ProfileFragment fragment;
 
     public static void startProfileActivity(TsunamiActivity activity) {
         activity.startActivityForResult(
@@ -46,7 +46,7 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
         setToolbarBackgroundAlpha(0);
 
         fragment = (ProfileFragment) getActiveFragment();
-        fragment.scrollView.post(() -> fragment.scrollView.setOnScrollListener(this));
+        new Handler().post(() -> fragment.scrollView.setOnScrollListener(this));
     }
 
     /**

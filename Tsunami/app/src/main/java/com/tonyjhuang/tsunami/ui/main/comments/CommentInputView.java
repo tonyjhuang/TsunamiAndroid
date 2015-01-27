@@ -1,10 +1,9 @@
 package com.tonyjhuang.tsunami.ui.main.comments;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -40,10 +39,21 @@ public class CommentInputView extends RelativeLayout {
     public CommentInputView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         ButterKnife.inject(this, inflate(context, R.layout.view_comment_input, this));
+        input.setOnEditorActionListener((view, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                notifyListener();
+                return true;
+            }
+            return false;
+        });
     }
 
     @OnClick(R.id.confirm)
     public void onConfirmClick(View view) {
+        notifyListener();
+    }
+
+    private void notifyListener() {
         if (listener != null) listener.onSendRequested(input.getText().toString());
     }
 

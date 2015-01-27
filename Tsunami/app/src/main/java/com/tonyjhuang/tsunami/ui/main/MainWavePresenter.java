@@ -94,7 +94,7 @@ public class MainWavePresenter implements WavePresenter {
                     if (wave == null) {
                         contentView.showNoWaves();
                     } else {
-                        displayWave(wave, false);
+                        displayWave(wave);
                     }
                 } else {
                     currentWave = wave;
@@ -197,6 +197,7 @@ public class MainWavePresenter implements WavePresenter {
         }
     }
 
+    //TODO: make this fun
     @Override
     public void onNoWavesSwipedUp() {
         Timber.d("onNoWavesSwipedUp");
