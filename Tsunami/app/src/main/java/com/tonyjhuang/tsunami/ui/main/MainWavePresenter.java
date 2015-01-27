@@ -294,7 +294,8 @@ public class MainWavePresenter implements WavePresenter {
             locationInfo.lastLong = memento.lastLong;
         }
 
-        // Workaround: setting the mapview's location focuses the window size on the current location.
+        // Workaround: setting the mapview's location focuses the window size on the current location,
+        // IF we don't have a current wave..
         // If we have a wave, let's skip that and set the wave view first, to avoid pinponging the map.
         if (!memento.viewType.equals(WaveContentView.ViewType.CONTENT))
             mapView.setLocationInfo(locationInfo);

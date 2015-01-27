@@ -100,4 +100,8 @@ public abstract class TsunamiFragment extends Fragment implements Injector{
 
         compositeSubscription.add(subscription);
     }
+
+    public TsunamiActivity getTsunamiActivity() {
+        return (TsunamiActivity) getActivity();
+    }
 }

@@ -22,6 +22,7 @@ import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScrollView;
+import com.tonyjhuang.tsunami.ui.profile.waves.BrowseWavesActivity;
 import com.tonyjhuang.tsunami.utils.ScreenManager;
 import com.tonyjhuang.tsunami.utils.TsunamiApplication;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
@@ -34,6 +35,7 @@ import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.InjectViews;
+import butterknife.OnClick;
 import butterknife.OnLongClick;
 
 /**
@@ -143,5 +145,10 @@ public class ProfileFragment extends TsunamiFragment {
         strings.add(stats.getRipples() + "");
         strings.add(stats.getRippleChance() + "%");
         return strings;
+    }
+
+    @OnClick(R.id.waves)
+    public void onWavesClick(View view) {
+        BrowseWavesActivity.startBrowseWavesActivity(getTsunamiActivity());
     }
 }

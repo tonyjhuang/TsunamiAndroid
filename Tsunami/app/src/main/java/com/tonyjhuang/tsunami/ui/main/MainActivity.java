@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
@@ -123,6 +124,8 @@ public class MainActivity extends TsunamiActivity implements
         presenter.setMapView(mapView);
         mapView.setMapFragment((MapFragment) getFragmentManager().findFragmentById(R.id.map));
         if (savedInstanceState == null) {
+            // If this is the first time we're setting up shop, set the map to the last known location
+            // of the user.
             mapView.setStartingLocation(preferences.lastSeenLat.get(), preferences.lastSeenLng.get());
         }
 
@@ -149,6 +152,8 @@ public class MainActivity extends TsunamiActivity implements
         }
     }
 
+
+
     @Override
     public void onDrawerItemSelected(DrawerItem drawerItem) {
         if (drawerItem.equals(currentDrawerItem)) return;
@@ -161,6 +166,14 @@ public class MainActivity extends TsunamiActivity implements
                 break;
         }
     }
+
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+    }
+
 
     @Override
     public void onResume() {
@@ -180,17 +193,14 @@ public class MainActivity extends TsunamiActivity implements
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-
-    @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putString(STATE_PRESENTER, presenter.getMemento());
-
-        // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
