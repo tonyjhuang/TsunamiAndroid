@@ -289,6 +289,7 @@ public class MainWavePresenter implements WavePresenter {
             locationInfo.lastLat = memento.lastLat;
             locationInfo.lastLong = memento.lastLong;
         }
+        mapView.setLocationInfo(locationInfo);
 
         // Recreate contentview with proper state.
         switch (memento.viewType) {
@@ -299,11 +300,9 @@ public class MainWavePresenter implements WavePresenter {
                 contentView.showError();
                 break;
             case SPLASHING:
-                mapView.setLocationInfo(locationInfo);
                 onBeginSplashButtonClicked();
                 break;
             case CONTENT:
-                mapView.setLocationInfo(locationInfo);
                 if (currentWave != null)
                     displayWave(currentWave);
                 else
