@@ -188,8 +188,11 @@ public class MainWavePresenter implements WavePresenter {
         if (currentWave != null) {
             displayWave(currentWave, false);
         } else if (loadingNextWave) {
+            // if we're loading the next wave, show the loader and wait.
             contentView.showLoading();
         } else {
+            // otherwise, show the loader and ask for a new wave.
+            contentView.showLoading();
             displayNewWave();
         }
     }
