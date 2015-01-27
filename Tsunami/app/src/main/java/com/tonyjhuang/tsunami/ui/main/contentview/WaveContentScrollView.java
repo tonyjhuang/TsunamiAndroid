@@ -109,12 +109,12 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     }
 
     @Override
-    public void showContentCard(Wave wave) {
-        showContentCard(wave, true);
+    public void showContent(Wave wave) {
+        showContent(wave, true);
     }
 
     @Override
-    public void showContentCard(Wave wave, boolean animatePreviousViewDown) {
+    public void showContent(Wave wave, boolean animatePreviousViewDown) {
         if (!currentViewType.equals(ViewType.CONTENT)) {
             if (onViewTypeChangedListener != null)
                 onViewTypeChangedListener.onViewTypeChanged(ViewType.CONTENT);
@@ -140,7 +140,7 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     }
 
     @Override
-    public void showSplashCard() {
+    public void showSplash() {
         if (currentViewType.equals(ViewType.SPLASHING)) return;
 
         if (onViewTypeChangedListener != null)
@@ -167,7 +167,7 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     }
 
     @Override
-    public void showNoWavesCard() {
+    public void showNoWaves() {
         if (currentViewType.equals(ViewType.NO_WAVES)) return;
 
         if (onViewTypeChangedListener != null)

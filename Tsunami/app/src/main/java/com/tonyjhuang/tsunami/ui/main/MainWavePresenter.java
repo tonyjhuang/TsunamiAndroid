@@ -92,7 +92,7 @@ public class MainWavePresenter implements WavePresenter {
                 loadingNextWave = false;
                 if (!isUserSplashing()) {
                     if (wave == null) {
-                        contentView.showNoWavesCard();
+                        contentView.showNoWaves();
                     } else {
                         displayWave(wave, false);
                     }
@@ -117,7 +117,7 @@ public class MainWavePresenter implements WavePresenter {
 
     private void displayWave(Wave wave, boolean animatePreviousViewDown) {
         currentWave = wave;
-        contentView.showContentCard(wave, animatePreviousViewDown);
+        contentView.showContent(wave, animatePreviousViewDown);
         mapView.displayWave(wave);
     }
 
@@ -237,7 +237,7 @@ public class MainWavePresenter implements WavePresenter {
     @Override
     public void onBeginSplashButtonClicked() {
         contentView.clearSplashCard();
-        contentView.showSplashCard();
+        contentView.showSplash();
         mapView.displaySplashing();
     }
 
@@ -264,6 +264,7 @@ public class MainWavePresenter implements WavePresenter {
     public String getMemento() {
         MainWavePresenterMemento memento = new MainWavePresenterMemento();
         memento.isSplashing = isUserSplashing();
+        memento.viewType = contentView.getCurrentViewType();
         memento.waveProviderMemento = waveProvider.getMemento();
         memento.currentWave = currentWave;
         if (locationInfo != null) {
@@ -289,16 +290,25 @@ public class MainWavePresenter implements WavePresenter {
             locationInfo.lastLong = memento.lastLong;
         }
 
-        if (memento.isSplashing) {
-            mapView.setLocationInfo(locationInfo);
-            onBeginSplashButtonClicked();
-        } else {
-            if (currentWave != null) {
-                displayWave(currentWave);
-            } else {
-                displayNewWave();
-            }
-            mapView.setLocationInfo(locationInfo);
+        // Recreate contentview with proper state.
+        switch (memento.viewType) {
+            case NO_WAVES:
+                contentView.showNoWaves();
+                break;
+            case ERROR:
+                contentView.showError();
+                break;
+            case SPLASHING:
+                mapView.setLocationInfo(locationInfo);
+                onBeginSplashButtonClicked();
+                break;
+            case CONTENT:
+                mapView.setLocationInfo(locationInfo);
+                if (currentWave != null)
+                    displayWave(currentWave);
+                else
+                    displayNewWave();
+                break;
         }
     }
 
@@ -315,6 +325,8 @@ public class MainWavePresenter implements WavePresenter {
         float lastLong;
         @Expose
         boolean hasLatLong;
+        @Expose
+        WaveContentView.ViewType viewType;
 
         public String toString() {
             return TsunamiGson.gson.toJson(this);

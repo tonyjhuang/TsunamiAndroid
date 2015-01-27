@@ -78,13 +78,13 @@ public class TestCelebrationPresenter implements WavePresenter {
 
     @Override
     public void onBeginSplashButtonClicked() {
-        contentView.showSplashCard();
+        contentView.showSplash();
         mapView.displaySplashing();
     }
 
     @Override
     public void onCancelSplashButtonClicked() {
-        contentView.showContentCard(null);
+        contentView.showContent(null);
         mapView.cancelSplashing();
     }
 

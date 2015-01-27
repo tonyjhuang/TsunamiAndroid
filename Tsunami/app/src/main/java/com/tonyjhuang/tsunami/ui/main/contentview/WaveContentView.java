@@ -19,22 +19,22 @@ public interface WaveContentView {
     /**
      * Set the current viewtype to SPLASHING and display the splash card to the user
      */
-    public void showSplashCard();
+    public void showSplash();
 
     /**
      * Display a wave.
      */
-    public void showContentCard(Wave wave);
+    public void showContent(Wave wave);
 
     /**
      * Display a wave, animate the current view down the screen.
      */
-    public void showContentCard(Wave wave, boolean animatePreviousViewDown);
+    public void showContent(Wave wave, boolean animatePreviousViewDown);
 
     /**
      * Display a view that represents a lack of waves in the area.
      */
-    public void showNoWavesCard();
+    public void showNoWaves();
 
     /**
      * Display a loading indicator;
