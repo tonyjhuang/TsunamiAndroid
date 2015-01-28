@@ -79,8 +79,12 @@
         </activity>
         <activity
             android:name=".ui.profile.waves.BrowseWavesActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
+            android:label="@string/activity_label_browse_waves"
+            android:parentActivityName=".ui.profile.ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.profile.ProfileActivity" />
+        </activity>
 
         <!-- little fluffy location library -->
         <service android:name="com.littlefluffytoys.littlefluffylocationlibrary.LocationBroadcastService" />

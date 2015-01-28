@@ -22,7 +22,6 @@ import java.util.List;
  */
 public class ProfileActivity extends SingleFragmentActivity implements OnScrollListener {
 
-    private Toolbar toolbar;
     ProfileFragment fragment;
 
     public static void startProfileActivity(TsunamiActivity activity) {
@@ -43,7 +42,7 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toolbar = inflateToolbar(true);
+        inflateToolbar(true);
         setToolbarBackgroundAlpha(0);
 
         fragment = (ProfileFragment) getActiveFragment();
