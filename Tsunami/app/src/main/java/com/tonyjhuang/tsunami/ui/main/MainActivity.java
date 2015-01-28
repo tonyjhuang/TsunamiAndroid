@@ -244,7 +244,6 @@ public class MainActivity extends TsunamiActivity implements
 
     @OnLongClick(R.id.profile)
     boolean onProfileButtonLongClick() {
-        /*
         String msg;
         if (isUserSplashing()) {
             msg = getString(R.string.main_splash_cancel_description);
@@ -252,10 +251,7 @@ public class MainActivity extends TsunamiActivity implements
             msg = getString(R.string.main_profile_description);
         }
 
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        */
-        preferences.userId.delete();
-        showToast("cleared");
+        showToast(msg);
         return true;
     }
 
