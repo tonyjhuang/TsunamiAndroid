@@ -9,12 +9,12 @@ import com.tonyjhuang.tsunami.api.models.WaveContent;
   "longitude": 123.4567,
   "title": "wave title",
   "body": "wave content",
-  "guid": "f9852ca7-75e0-4e00-8229-125232ba14f8"
+  "userId": "f9852ca7-75e0-4e00-8229-125232ba14f8"
 }
  */
 public class SplashRequest {
     @Expose
-    final String guid;
+    final long userId;
     @Expose
     final String title;
     @Expose
@@ -26,13 +26,13 @@ public class SplashRequest {
     @Expose
     final WaveContent.ContentType contentType;
 
-    public SplashRequest(String guid,
+    public SplashRequest(long userId,
                          String title,
                          String body,
                          WaveContent.ContentType contentType,
                          double latitude,
                          double longitude) {
-        this.guid = guid;
+        this.userId = userId;
         this.title = title;
         this.body = body;
         this.latitude = latitude;

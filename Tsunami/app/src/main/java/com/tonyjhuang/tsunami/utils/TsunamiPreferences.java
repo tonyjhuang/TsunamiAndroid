@@ -8,18 +8,20 @@ import java.util.UUID;
 /**
  * Created by tony on 11/23/14.
  * To use a preference:
- * prefs.id.get();
- * prefs.id.set("....");
- * <p/>
+ * prefs.guid.get();
+ * prefs.guid.set("....");
+ * <p>
  * To create a TsunamiPreference, simply create a new class-scoped instance variable with the appropriate constructor
  */
 public class TsunamiPreferences {
     private static final String SHARED_PREFERENCES = "com.tonyjhuang.tsunami.shared_prefs";
+    public static final long NO_USER_ID = -1l;
 
     /**
      * Preference key-value pairs that you can get-set
      */
-    public final IdPreference id = new IdPreference("com.tonyjhuang.tsunami.id");
+    public final GuidPreference guid = new GuidPreference("com.tonyjhuang.tsunami.guid");
+    public final LongPreference userId = new LongPreference("com.tonyjhuang.tsunami.user_id", NO_USER_ID);
     public final FloatPreference lastSeenLat = new FloatPreference("com.tonyjhuang.tsunami.last_seen_lat", -1f);
     public final FloatPreference lastSeenLng = new FloatPreference("com.tonyjhuang.tsunami.last_seen_lng", -1f);
 
@@ -27,7 +29,7 @@ public class TsunamiPreferences {
 
     public TsunamiPreferences(Context context) {
         preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        id.initialize();
+        guid.initialize();
     }
 
     abstract class TsunamiPreference<T> {
@@ -42,15 +44,21 @@ public class TsunamiPreferences {
         public abstract T get();
 
         public abstract void set(T value);
+
+        public T delete() {
+            T get = get();
+            set(defaultValue);
+            return get;
+        }
     }
 
-    public class IdPreference extends StringPreference {
-        public IdPreference(String key) {
+    public class GuidPreference extends StringPreference {
+        public GuidPreference(String key) {
             super(key, null);
         }
 
         public void initialize() {
-            if(get() == null) {
+            if (get() == null) {
                 set(UUID.randomUUID().toString());
             }
         }
@@ -74,6 +82,22 @@ public class TsunamiPreferences {
         @Override
         public void set(String value) {
             preferences.edit().putString(key, value).apply();
+        }
+    }
+
+    public class LongPreference extends TsunamiPreference<Long> {
+        public LongPreference(String key, Long defaultValue) {
+            super(key, defaultValue);
+        }
+
+        @Override
+        public Long get() {
+            return preferences.getLong(key, defaultValue);
+        }
+
+        @Override
+        public void set(Long value) {
+            preferences.edit().putLong(key, value).apply();
         }
     }
 

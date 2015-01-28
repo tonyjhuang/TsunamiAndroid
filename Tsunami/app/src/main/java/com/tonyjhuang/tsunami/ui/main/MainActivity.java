@@ -147,7 +147,6 @@ public class MainActivity extends TsunamiActivity implements
     }
 
 
-
     @Override
     public void onDrawerItemSelected(DrawerItem drawerItem) {
         if (drawerItem.equals(currentDrawerItem)) return;
@@ -165,7 +164,7 @@ public class MainActivity extends TsunamiActivity implements
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if(presenter != null) presenter.onRestoreInstanceState(savedInstanceState);
+        if (presenter != null) presenter.onRestoreInstanceState(savedInstanceState);
     }
 
 
@@ -188,7 +187,7 @@ public class MainActivity extends TsunamiActivity implements
 
     @Override
     public void onSaveInstanceState(Bundle outParcel) {
-        if(presenter != null) presenter.onSaveInstanceState(outParcel);
+        if (presenter != null) presenter.onSaveInstanceState(outParcel);
         super.onSaveInstanceState(outParcel);
     }
 
@@ -245,6 +244,7 @@ public class MainActivity extends TsunamiActivity implements
 
     @OnLongClick(R.id.profile)
     boolean onProfileButtonLongClick() {
+        /*
         String msg;
         if (isUserSplashing()) {
             msg = getString(R.string.main_splash_cancel_description);
@@ -253,6 +253,9 @@ public class MainActivity extends TsunamiActivity implements
         }
 
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        */
+        preferences.userId.delete();
+        showToast("cleared");
         return true;
     }
 

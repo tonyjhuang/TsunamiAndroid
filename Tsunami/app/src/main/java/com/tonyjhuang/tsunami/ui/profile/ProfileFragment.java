@@ -98,7 +98,7 @@ public class ProfileFragment extends TsunamiFragment {
 
         if (BuildConfig.DEBUG) {
             userId.setVisibility(View.VISIBLE);
-            userId.setText(preferences.id.get());
+            userId.setText(preferences.guid.get());
         }
 
         Picasso.with(getActivity()).load(TsunamiApplication.profileCoverResourceId).into(coverImage);

@@ -55,19 +55,24 @@ public class MockTsunamiApiClient implements TsunamiApi {
     }
 
     @Override
+    public boolean isLoggedIn() {
+        return false;
+    }
+
+    @Override
     public Observable<User> createUser() {
         return Observable.just(User.createDebugUser(null));
     }
 
     @Override
     public Observable<UserStats> getCurrentUserStats() {
-        return getUserStats(null);
+        return getUserStats(0);
     }
 
     private UserStats lastUserStats;
 
     @Override
-    public Observable<UserStats> getUserStats(String userId) {
+    public Observable<UserStats> getUserStats(long userId) {
         Observable<UserStats> apiCall =
                 Observable.just(UserStats.createDebugUserStats())
                         .delay(2, TimeUnit.SECONDS)

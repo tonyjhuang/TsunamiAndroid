@@ -8,14 +8,13 @@ import com.google.gson.annotations.SerializedName;
  */
 public class CommentRequest {
     @Expose
-    @SerializedName("guid")
-    final String userId;
+    final long userId;
     @Expose
     final long waveId;
     @Expose
     final String body;
 
-    public CommentRequest(String userId, long waveId, String body) {
+    public CommentRequest(long userId, long waveId, String body) {
         this.userId = userId;
         this.waveId = waveId;
         this.body = body;

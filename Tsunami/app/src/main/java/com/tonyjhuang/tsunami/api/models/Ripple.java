@@ -7,7 +7,7 @@ import java.util.Random;
 /*
 {
     "created_at": "2014-12-20T19:52:38Z",
-    "id": 451,
+    "guid": 451,
     "latitude": "42.3514",
     "longitude": "-71.0571",
     "radius": "0.025",

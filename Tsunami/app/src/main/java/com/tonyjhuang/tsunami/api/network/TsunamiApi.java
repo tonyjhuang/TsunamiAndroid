@@ -18,12 +18,13 @@ import rx.Observable;
  */
 public interface TsunamiApi {
     /* USERS USERS USERS USERS USERS USERS USERS USERS */
+    public boolean isLoggedIn();
 
     public Observable<User> createUser();
 
     public Observable<UserStats> getCurrentUserStats();
 
-    public Observable<UserStats> getUserStats(String userId);
+    public Observable<UserStats> getUserStats(long userId);
 
     /* RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE */
 

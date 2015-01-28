@@ -4,18 +4,18 @@ import com.google.gson.annotations.Expose;
 
 /*
 {
-  "guid": "12345",
+  "userId": "12345",
   "wave_id": 1
 }
 */
 public class DismissWaveRequest {
     @Expose
-    private String guid;
+    final long userId;
     @Expose
-    private long waveId;
+    final long waveId;
 
-    public DismissWaveRequest(String guid, long waveId) {
-        this.guid = guid;
+    public DismissWaveRequest(long userId, long waveId) {
+        this.userId = userId;
         this.waveId = waveId;
     }
 }

@@ -42,6 +42,4 @@ public class BrowseWavesActivity extends TsunamiActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         toolbar.getBackground().setAlpha(255);
     }
-
-
 }

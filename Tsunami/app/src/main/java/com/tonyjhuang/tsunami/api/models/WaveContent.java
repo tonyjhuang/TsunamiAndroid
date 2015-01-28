@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /*
 {
     "body": null,
-    "id": 111,
+    "guid": 111,
     "title": null,
     "wave_id": 141
 }

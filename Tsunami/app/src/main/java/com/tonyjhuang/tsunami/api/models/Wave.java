@@ -14,19 +14,19 @@ import java.util.Timer;
 
 /*
 {
-    "id": 141,
+    "guid": 141,
     "origin_ripple_id": 451,
     "views": 3,
     "content": {
         "body": null,
-        "id": 111,
+        "guid": 111,
         "title": null,
         "wave_id": 141
     },
     "ripples": [
         {
             "created_at": "2014-12-20T19:52:38Z",
-            "id": 451,
+            "guid": 451,
             "latitude": "42.3514",
             "longitude": "-71.0571",
             "radius": "0.025",

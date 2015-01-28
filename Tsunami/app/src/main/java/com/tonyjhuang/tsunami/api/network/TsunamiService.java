@@ -33,7 +33,7 @@ public interface TsunamiService {
     Observable<User> createUser(@Body CreateUserRequest body);
 
     @GET("/users/stats")
-    Observable<UserStats> getUserStats(@Query("guid") String guid);
+    Observable<UserStats> getUserStats(@Query("user_id") long userId);
 
     /* RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE */
 
@@ -49,7 +49,7 @@ public interface TsunamiService {
      * Get the list of applicable waves that this user is in.
      */
     @GET("/ocean/local_waves")
-    Observable<List<Wave>> getWaves(@Query("guid") String guid,
+    Observable<List<Wave>> getWaves(@Query("user_id") long userId,
                                     @Query("latitude") double latitude,
                                     @Query("longitude") double longitude);
 
