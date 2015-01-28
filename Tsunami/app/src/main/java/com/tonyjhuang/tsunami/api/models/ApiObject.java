@@ -7,9 +7,6 @@ import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by tony on 11/23/14.
- */
 public abstract class ApiObject implements Serializable {
     private static Gson gson = TsunamiGson.buildGson();
 

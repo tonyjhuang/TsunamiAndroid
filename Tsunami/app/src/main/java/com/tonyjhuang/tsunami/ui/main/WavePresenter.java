@@ -42,7 +42,8 @@ public interface WavePresenter {
 
     public void onLocationUpdate(LocationInfo newLocationInfo);
 
-    public String getMemento();
+    public void onRestoreInstanceState(Bundle savedInstanceState);
 
-    public void fromMemento(String string);
+    public void onSaveInstanceState(Bundle outParcel);
+
 }

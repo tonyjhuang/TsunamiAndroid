@@ -1,5 +1,7 @@
 package com.tonyjhuang.tsunami.mock;
 
+import android.os.Bundle;
+
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.ui.main.MainView;
@@ -111,10 +113,12 @@ public class TestCelebrationPresenter implements WavePresenter {
     }
 
     @Override
-    public String getMemento() {
-        return null;
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+
     }
 
     @Override
-    public void fromMemento(String string) { }
+    public void onSaveInstanceState(Bundle outParcel) {
+
+    }
 }

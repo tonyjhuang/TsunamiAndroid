@@ -1,6 +1,7 @@
 package com.tonyjhuang.tsunami.mock;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Wave;
@@ -47,6 +48,16 @@ public class NoWaveWaveProvider implements WaveProvider {
 
     @Override
     public void fromMemento(String string) {
+
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outParcel) {
 
     }
 }

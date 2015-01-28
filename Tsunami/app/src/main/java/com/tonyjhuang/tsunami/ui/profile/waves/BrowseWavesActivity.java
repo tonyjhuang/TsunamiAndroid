@@ -31,4 +31,6 @@ public class BrowseWavesActivity extends TsunamiActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_waves);
     }
+
+
 }

@@ -1,10 +1,10 @@
 package com.tonyjhuang.tsunami.ui.main;
 
-import com.google.gson.annotations.Expose;
+import android.os.Bundle;
+
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
-import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.splash.SplashContent;
@@ -15,6 +15,8 @@ import rx.Observable;
 import rx.android.observables.AndroidObservable;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+
+import static com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView.ViewType;
 
 /**
  * TODO: need to clean up interaction with loading.
@@ -60,7 +62,7 @@ public class MainWavePresenter implements WavePresenter {
     }
 
     private boolean isUserSplashing() {
-        return contentView.getCurrentViewType().equals(WaveContentView.ViewType.SPLASHING);
+        return contentView.getCurrentViewType().equals(ViewType.SPLASHING);
     }
 
     /**
@@ -262,46 +264,37 @@ public class MainWavePresenter implements WavePresenter {
                 .subscribe(onNext, onError);
     }
 
+
     /* Save state */
 
-    @Override
-    public String getMemento() {
-        MainWavePresenterMemento memento = new MainWavePresenterMemento();
-        memento.isSplashing = isUserSplashing();
-        memento.viewType = contentView.getCurrentViewType();
-        memento.waveProviderMemento = waveProvider.getMemento();
-        memento.currentWave = currentWave;
-        if (locationInfo != null) {
-            memento.lastLat = locationInfo.lastLat;
-            memento.lastLong = locationInfo.lastLong;
-        }
-        memento.hasLatLong = locationInfo != null;
-        return memento.toString();
-    }
+    private static final String STATE_VIEW_TYPE = "MainWavePresenter_view_type";
+    private static final String STATE_CURRENT_WAVE = "MainWavePresenter_current_wave";
+    private static final String STATE_LAST_LAT = "MainWavePresenter_last_lat";
+    private static final String STATE_LAST_LNG = "MainWavePresenter_last_long";
+    private static final String STATE_HAS_LAT_LNG = "MainWavePresenter_has_lat_long";
 
     @Override
-    public void fromMemento(String string) {
-        MainWavePresenterMemento memento =
-                TsunamiGson.gson.fromJson(string, MainWavePresenterMemento.class);
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        ViewType viewType = (ViewType) savedInstanceState.getSerializable(STATE_VIEW_TYPE);
 
-        waveProvider.fromMemento(memento.waveProviderMemento);
-        currentWave = memento.currentWave;
+        waveProvider.onRestoreInstanceState(savedInstanceState);
+        currentWave = (Wave) savedInstanceState.getSerializable(STATE_CURRENT_WAVE);
         firstRun = false;
 
-        if (memento.hasLatLong) {
+        if (savedInstanceState.getBoolean(STATE_HAS_LAT_LNG, false)) {
             if (locationInfo == null) locationInfo = new LocationInfo(activity);
-            locationInfo.lastLat = memento.lastLat;
-            locationInfo.lastLong = memento.lastLong;
+            locationInfo.lastLat = savedInstanceState.getFloat(STATE_LAST_LAT);
+            locationInfo.lastLong = savedInstanceState.getFloat(STATE_LAST_LNG);
         }
 
         // Workaround: setting the mapview's location focuses the window size on the current location,
         // IF we don't have a current wave..
-        // If we have a wave, let's skip that and set the wave view first, to avoid pinponging the map.
-        if (!memento.viewType.equals(WaveContentView.ViewType.CONTENT))
+        // If we have a wave, let's set the wave view first, to avoid pinponging the map.
+        if (!viewType.equals(ViewType.CONTENT))
             mapView.setLocationInfo(locationInfo);
 
         // Recreate contentview with proper state.
-        switch (memento.viewType) {
+        switch (viewType) {
             case NO_WAVES:
                 contentView.showNoWaves();
                 break;
@@ -321,24 +314,16 @@ public class MainWavePresenter implements WavePresenter {
         }
     }
 
-    private static class MainWavePresenterMemento {
-        @Expose
-        boolean isSplashing;
-        @Expose
-        String waveProviderMemento;
-        @Expose
-        Wave currentWave;
-        @Expose
-        float lastLat;
-        @Expose
-        float lastLong;
-        @Expose
-        boolean hasLatLong;
-        @Expose
-        WaveContentView.ViewType viewType;
-
-        public String toString() {
-            return TsunamiGson.gson.toJson(this);
+    @Override
+    public void onSaveInstanceState(Bundle outParcel) {
+        outParcel.putSerializable(STATE_VIEW_TYPE, contentView.getCurrentViewType());
+        outParcel.putSerializable(STATE_CURRENT_WAVE, currentWave);
+        if (locationInfo != null) {
+            outParcel.putFloat(STATE_LAST_LAT, locationInfo.lastLat);
+            outParcel.putFloat(STATE_LAST_LNG, locationInfo.lastLong);
+            outParcel.putBoolean(STATE_HAS_LAT_LNG, true);
         }
+
+        waveProvider.onSaveInstanceState(outParcel);
     }
 }

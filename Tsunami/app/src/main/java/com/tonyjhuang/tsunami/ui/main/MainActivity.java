@@ -60,8 +60,6 @@ public class MainActivity extends TsunamiActivity implements
     public final static int INITIAL_CELEBRATION_DELAY = 1000;
     public final static int CELEBRATION_DELAY = 250; // in millis
 
-    private final static String STATE_PRESENTER = "state_presenter";
-
     @InjectView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @InjectView(R.id.container)
@@ -146,10 +144,6 @@ public class MainActivity extends TsunamiActivity implements
             //debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
             //debugLocationControls.setLocationListener(presenter::onLocationUpdate);
         }
-
-        if (savedInstanceState != null) {
-            presenter.fromMemento(savedInstanceState.getString(STATE_PRESENTER));
-        }
     }
 
 
@@ -171,7 +165,7 @@ public class MainActivity extends TsunamiActivity implements
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
+        if(presenter != null) presenter.onRestoreInstanceState(savedInstanceState);
     }
 
 
@@ -193,9 +187,9 @@ public class MainActivity extends TsunamiActivity implements
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putString(STATE_PRESENTER, presenter.getMemento());
-        super.onSaveInstanceState(savedInstanceState);
+    public void onSaveInstanceState(Bundle outParcel) {
+        if(presenter != null) presenter.onSaveInstanceState(outParcel);
+        super.onSaveInstanceState(outParcel);
     }
 
     @Override

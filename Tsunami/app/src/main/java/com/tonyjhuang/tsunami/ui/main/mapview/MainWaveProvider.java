@@ -1,6 +1,7 @@
 package com.tonyjhuang.tsunami.ui.main.mapview;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.google.gson.annotations.Expose;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
@@ -27,7 +28,7 @@ public class MainWaveProvider implements WaveProvider {
     private TsunamiApi api;
     private LocationInfo locationInfo;
 
-    List<Wave> waves = new ArrayList<>();
+    ArrayList<Wave> waves = new ArrayList<>();
     private int index = 0;
 
     @Inject
@@ -40,12 +41,12 @@ public class MainWaveProvider implements WaveProvider {
      * gets the next set of waves, replaces our local cache and emits an Object representing success.
      */
     protected Observable<Object> getMoreWaves() {
-        if(locationInfo == null) locationInfo = new LocationInfo(context);
+        if (locationInfo == null) locationInfo = new LocationInfo(context);
         return api.getLocalWaves(locationInfo.lastLat, locationInfo.lastLong)
                 .map((waves) -> {
                     Timber.d("got " + waves.size() + " new waves!");
                     index = 0;
-                    MainWaveProvider.this.waves = waves;
+                    MainWaveProvider.this.waves = new ArrayList<>(waves);
                     return new Object();
                 });
     }
@@ -92,6 +93,24 @@ public class MainWaveProvider implements WaveProvider {
         }
     }
 
+    /* Save State */
+
+    private static final String STATE_WAVES = "MainWaveProvider_waves";
+    private static final String STATE_INDEX = "MainWaveProvider_index";
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        waves = (ArrayList<Wave>) savedInstanceState.getSerializable(STATE_WAVES);
+        index = savedInstanceState.getInt(STATE_INDEX);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outParcel) {
+        outParcel.putSerializable(STATE_WAVES, waves);
+        outParcel.putInt(STATE_INDEX, index);
+    }
+
     @Override
     public String getMemento() {
         MainWaveProviderMemento memento = new MainWaveProviderMemento();
@@ -103,7 +122,7 @@ public class MainWaveProvider implements WaveProvider {
     @Override
     public void fromMemento(String string) {
         MainWaveProviderMemento memento = TsunamiGson.gson.fromJson(string, MainWaveProviderMemento.class);
-        waves = memento.waves;
+        //waves = memento.waves;
         index = memento.index;
     }
 

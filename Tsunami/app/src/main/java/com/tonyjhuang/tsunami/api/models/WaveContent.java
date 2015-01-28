@@ -11,9 +11,7 @@ import com.google.gson.annotations.SerializedName;
     "wave_id": 141
 }
  */
-public class WaveContent {
-    @Expose
-    private long id;
+public class WaveContent extends ApiObject {
     @Expose
     private long waveId;
     @Expose
@@ -23,11 +21,6 @@ public class WaveContent {
     @Expose
     @SerializedName("type")
     private ContentType contentType;
-
-
-    public long getId() {
-        return id;
-    }
 
     public long getWaveId() {
         return waveId;

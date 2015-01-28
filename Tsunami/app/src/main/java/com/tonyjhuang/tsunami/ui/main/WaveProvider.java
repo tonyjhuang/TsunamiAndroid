@@ -1,5 +1,7 @@
 package com.tonyjhuang.tsunami.ui.main;
 
+import android.os.Bundle;
+
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Wave;
 
@@ -25,6 +27,10 @@ public interface WaveProvider {
      * Updates the location for this WaveProvider.
      */
     public void setLocationInfo(LocationInfo locationInfo);
+
+    public void onRestoreInstanceState(Bundle savedInstanceState);
+
+    public void onSaveInstanceState(Bundle outParcel);
 
     public String getMemento();
 
