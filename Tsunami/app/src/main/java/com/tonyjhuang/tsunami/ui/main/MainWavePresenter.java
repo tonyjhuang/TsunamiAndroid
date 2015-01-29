@@ -11,6 +11,8 @@ import com.tonyjhuang.tsunami.ui.main.contentview.cards.splash.SplashContent;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.android.observables.AndroidObservable;
 import rx.functions.Action1;
@@ -18,9 +20,6 @@ import rx.schedulers.Schedulers;
 
 import static com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView.ViewType;
 
-/**
- * TODO: need to clean up interaction with loading.
- */
 public class MainWavePresenter implements WavePresenter {
     private TsunamiApi api;
     private TsunamiActivity activity;
@@ -34,10 +33,26 @@ public class MainWavePresenter implements WavePresenter {
     private WaveMapView mapView;
     private MainView mainView;
 
+    /**
+     * Cached instance of a wave while the user is splashing. This will be the wave the displays
+     * immediately after the user has splashed or canceled a splash.
+     */
     private Wave currentWave;
+
+    /**
+     * Used to determine whether or not we should try to display a new wave on location update.
+     * If we have not yet displayed a wave and have received a new location update, we SHOULD try.
+     * If we have already tried to display a wave and have received a new update, then IGNORE IT.
+     */
     private boolean firstRun = true;
+
+    /**
+     * Are we in the process of loading a new set of waves (wave provider)? If so, don't try until
+     * it returns either a new wave or an error.
+     */
     private boolean loadingNextWave = false;
 
+    @Inject
     public MainWavePresenter(TsunamiApi api, TsunamiActivity activity, WaveProvider waveProvider) {
         this.api = api;
         this.activity = activity;
@@ -104,7 +119,6 @@ public class MainWavePresenter implements WavePresenter {
             };
         }
 
-        // TODO: show error card view.
         subscribe(waveProvider.getNextWave(), onNextWave, this::onGetWaveError);
     }
 
@@ -135,7 +149,7 @@ public class MainWavePresenter implements WavePresenter {
                     .publish()
                     .connect();
             contentView.hideContent();
-            mapView.displayRipple(this::displayNewWave);
+            mapView.animateRipple(this::displayNewWave);
         } else {
             displayNewWave();
         }
@@ -171,14 +185,14 @@ public class MainWavePresenter implements WavePresenter {
         mainView.showCelebration();
         mainView.hideKeyboard();
 
-        mapView.finishSplashing(this::finishSplash);
+        mapView.animateSplash(this::finishSplash);
     }
 
     @Override
     public void onSplashSwipedDown() {
         Timber.d("onSplashSwipedDown");
         mainView.hideKeyboard();
-        mapView.cancelSplashing();
+        mapView.showSplashing(false);
         finishSplash();
     }
 
@@ -226,7 +240,7 @@ public class MainWavePresenter implements WavePresenter {
 
     @Override
     public void onCancelSplashButtonClicked() {
-        mapView.cancelSplashing();
+        mapView.showSplashing(false);
         contentView.scrollDownOffscreen();
     }
 
@@ -244,7 +258,7 @@ public class MainWavePresenter implements WavePresenter {
     public void onBeginSplashButtonClicked() {
         contentView.clearSplashCard();
         contentView.showSplash();
-        mapView.displaySplashing();
+        mapView.showSplashing(true);
     }
 
     @Override

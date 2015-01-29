@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Created by tonyjhuang on 10/27/14.
  */
-public class WaveMapViewImpl implements WaveMapView {
+public class MainWaveMapView implements WaveMapView {
     private static final int RIPPLE_RADIUS = 2400;
     private static final int FINISH_SPLASH_ANIMATION_DURATION = 1000;
     // How long to wait after the animation has finished to notify the callback.
@@ -95,7 +95,7 @@ public class WaveMapViewImpl implements WaveMapView {
      */
     private boolean splashing;
 
-    public WaveMapViewImpl(Resources resources) {
+    public MainWaveMapView(Resources resources) {
         this.resources = resources;
     }
 
@@ -134,7 +134,7 @@ public class WaveMapViewImpl implements WaveMapView {
     }
 
     float pendingStartLat = -1, pendingStartLng = -1;
-
+    @Override
     public void setStartingLocation(float lat, float lng) {
         if (waveRipples.size() == 0 && currentLocation == null) {
             if (map != null) {
@@ -165,10 +165,17 @@ public class WaveMapViewImpl implements WaveMapView {
             else
                 zoomToFit(waveRipples);
         } else {
-            displaySplashing();
+            showSplashing(true);
         }
     }
 
+    @Override
+    public void showSplashing(boolean splashing) {
+        if(splashing)
+            displaySplashing();
+        else
+            cancelSplashing();
+    }
 
     @Override
     public void displaySplashing() {
@@ -214,7 +221,7 @@ public class WaveMapViewImpl implements WaveMapView {
     }
 
     @Override
-    public void finishSplashing(final FinishedSplashingCallback callback) {
+    public void animateSplash(final FinishedSplashingCallback callback) {
         if (splashingIndicatorRadiusAnimator != null) {
             splashingIndicatorRadiusAnimator.cancel();
         }
@@ -251,7 +258,7 @@ public class WaveMapViewImpl implements WaveMapView {
     }
 
     @Override
-    public void displayRipple(FinishedRipplingCallback callback) {
+    public void animateRipple(FinishedRipplingCallback callback) {
         int startColor = resources.getColor(R.color.map_view_ripple_new_fill_begin);
         int endColor = resources.getColor(R.color.map_view_ripple_fill);
         int strokeColor = resources.getColor(R.color.map_view_ripple_new_stroke);

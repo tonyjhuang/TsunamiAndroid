@@ -1,8 +1,8 @@
 package com.tonyjhuang.tsunami.injection;
 
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.content.ContentCard;
+import com.tonyjhuang.tsunami.ui.main.mapview.MainWaveMapView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
-import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapViewImpl;
 import com.tonyjhuang.tsunami.ui.profile.waves.BrowseWavesActivity;
 import com.tonyjhuang.tsunami.ui.profile.waves.BrowseWavesSingleWaveFragment;
 import com.tonyjhuang.tsunami.ui.profile.waves.BrowseWavesViewPagerFragment;
@@ -32,6 +32,6 @@ public class BrowseWavesModule {
 
     @Provides
     public WaveMapView provideWaveMapView() {
-        return new WaveMapViewImpl(activity.getResources());
+        return new MainWaveMapView(activity.getResources());
     }
 }

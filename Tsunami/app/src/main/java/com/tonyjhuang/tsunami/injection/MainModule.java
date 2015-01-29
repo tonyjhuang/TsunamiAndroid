@@ -9,9 +9,9 @@ import com.tonyjhuang.tsunami.ui.main.WaveProvider;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsActivity;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsFragment;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.content.ContentCard;
+import com.tonyjhuang.tsunami.ui.main.mapview.MainWaveMapView;
 import com.tonyjhuang.tsunami.ui.main.mapview.MainWaveProvider;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
-import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapViewImpl;
 import com.tonyjhuang.tsunami.ui.shared.PhotoViewActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
@@ -44,7 +44,7 @@ public class MainModule {
 
     @Provides
     public WaveMapView provideWaveMapView() {
-        return new WaveMapViewImpl(activity.getResources());
+        return new MainWaveMapView(activity.getResources());
     }
 
     @Provides
