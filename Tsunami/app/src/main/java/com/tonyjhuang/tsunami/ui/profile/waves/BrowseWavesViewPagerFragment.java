@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 
 import java.util.List;
@@ -51,27 +50,24 @@ public class BrowseWavesViewPagerFragment extends TsunamiFragment {
     private void setAdapter(List<Wave> waves) {
         adapter = new BrowseWavesAdapter(waves);
         viewPager.setAdapter(adapter);
-        if (listener != null) {
-            Timber.d("setAdapter");
-            listener.onWaveSelected(adapter.getWave(viewPager.getCurrentItem()));
-        }
+        notifyListener();
         viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                if (listener != null) {
-                    Timber.d("onPageSelected");
-                    listener.onWaveSelected(adapter.getWave(position));
-                }
+                notifyListener();
             }
         });
     }
 
+
     public void setOnWaveSelectedListener(OnWaveSelectedListener listener) {
-        Timber.d("setOnWaveSelectedListener");
         this.listener = listener;
-        if (adapter != null) {
+        notifyListener();
+    }
+
+    private void notifyListener() {
+        if (listener != null && adapter != null)
             listener.onWaveSelected(adapter.getWave(viewPager.getCurrentItem()));
-        }
     }
 
     public static interface OnWaveSelectedListener {
