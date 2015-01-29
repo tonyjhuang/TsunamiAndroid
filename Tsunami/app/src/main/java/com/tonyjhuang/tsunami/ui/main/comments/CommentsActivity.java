@@ -2,7 +2,6 @@ package com.tonyjhuang.tsunami.ui.main.comments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.tonyjhuang.tsunami.injection.MainModule;
@@ -43,5 +42,15 @@ public class CommentsActivity extends SingleFragmentActivity {
 
         inflateToolbar(true);
         setContentBelowToolbar(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

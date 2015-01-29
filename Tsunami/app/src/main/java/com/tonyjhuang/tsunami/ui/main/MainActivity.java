@@ -1,7 +1,6 @@
 package com.tonyjhuang.tsunami.ui.main;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -26,6 +25,7 @@ import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.injection.MainModule;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.mock.DebugLocationControls;
+import com.tonyjhuang.tsunami.receivers.LocationBroadcastReceiver;
 import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
 import com.tonyjhuang.tsunami.ui.customviews.fab.FloatingActionButton;
 import com.tonyjhuang.tsunami.ui.drawer.NavDrawerFragment;
@@ -97,6 +97,8 @@ public class MainActivity extends TsunamiActivity implements
     private float lastLat, lastLng;
     private DrawerItem currentDrawerItem;
 
+    private LocationBroadcastReceiver locationBroadcastReceiver;
+
     public static void startMainActivity(Activity activity) {
         activity.startActivity(new Intent(activity, MainActivity.class));
     }
@@ -111,6 +113,9 @@ public class MainActivity extends TsunamiActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         LocationLibrary.forceLocationUpdate(this);
+
+        locationBroadcastReceiver = new LocationBroadcastReceiver();
+        locationBroadcastReceiver.setCallbacks(locationCallback);
 
         /**
          * Pass a reference to this MainView to our presenter.
@@ -175,7 +180,7 @@ public class MainActivity extends TsunamiActivity implements
         IntentFilter locationIntentFilter = new IntentFilter();
         locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedPeriodicBroadcastAction());
         locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedTickerBroadcastAction());
-        registerReceiver(mainLocationBroadcastReceiver, locationIntentFilter);
+        registerReceiver(locationBroadcastReceiver, locationIntentFilter);
         if (locationInfo == null) {
             Timber.d("eh?");
             LocationLibrary.forceLocationUpdate(this);
@@ -187,7 +192,7 @@ public class MainActivity extends TsunamiActivity implements
         super.onPause();
         preferences.lastSeenLat.set(locationInfo.lastLat);
         preferences.lastSeenLng.set(locationInfo.lastLong);
-        unregisterReceiver(mainLocationBroadcastReceiver);
+        unregisterReceiver(locationBroadcastReceiver);
     }
 
     @Override
@@ -284,33 +289,26 @@ public class MainActivity extends TsunamiActivity implements
     }
 
     /**
-     * Our little broadcast receiver that will listen for location updates.
+     * Our LocationBroadcastReceiver Callback handler.
      */
-    private final BroadcastReceiver mainLocationBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Timber.d("location received");
-            float tmpLastLat = lastLat;
-            float tmpLastLng = lastLng;
+    private final LocationBroadcastReceiver.Callbacks locationCallback = (locationInfo) -> {
+        float tmpLastLat = lastLat;
+        float tmpLastLng = lastLng;
 
-            // extract the location info in the broadcast
-            LocationInfo locationInfo = (LocationInfo) intent
-                    .getSerializableExtra(LocationLibraryConstants.LOCATION_BROADCAST_EXTRA_LOCATIONINFO);
+        lastLat = locationInfo.lastLat;
+        lastLng = locationInfo.lastLong;
 
-            lastLat = locationInfo.lastLat;
-            lastLng = locationInfo.lastLong;
+        // filter out repeated locations.
+        if (locationInfo.lastLat == tmpLastLat && locationInfo.lastLong == tmpLastLng) return;
 
-            if (locationInfo.lastLat == tmpLastLat && locationInfo.lastLong == tmpLastLng) return;
+        this.locationInfo = locationInfo;
+        presenter.onLocationUpdate(locationInfo);
 
-            MainActivity.this.locationInfo = locationInfo;
-
-            presenter.onLocationUpdate(locationInfo);
-
-            if (BuildConfig.DEBUG && debugLocationControls != null) {
-                debugLocationControls.setCurrentLocation(locationInfo);
-            }
+        if (BuildConfig.DEBUG && debugLocationControls != null) {
+            debugLocationControls.setCurrentLocation(locationInfo);
         }
     };
+
 
     @Override
     public void onScroll(View view, int l, int t, int oldl, int oldt) {

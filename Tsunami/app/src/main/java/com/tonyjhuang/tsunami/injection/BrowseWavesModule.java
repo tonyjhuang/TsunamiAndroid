@@ -1,11 +1,15 @@
 package com.tonyjhuang.tsunami.injection;
 
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.content.ContentCard;
+import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
+import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapViewImpl;
 import com.tonyjhuang.tsunami.ui.profile.waves.BrowseWavesActivity;
 import com.tonyjhuang.tsunami.ui.profile.waves.BrowseWavesSingleWaveFragment;
 import com.tonyjhuang.tsunami.ui.profile.waves.BrowseWavesViewPagerFragment;
+import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
 import dagger.Module;
+import dagger.Provides;
 
 @Module(
         injects = {
@@ -19,4 +23,15 @@ import dagger.Module;
         addsTo = ApplicationModule.class
 )
 public class BrowseWavesModule {
+
+    private TsunamiActivity activity;
+
+    public BrowseWavesModule(TsunamiActivity activity) {
+        this.activity = activity;
+    }
+
+    @Provides
+    public WaveMapView provideWaveMapView() {
+        return new WaveMapViewImpl(activity.getResources());
+    }
 }

@@ -2,6 +2,7 @@ package com.tonyjhuang.tsunami.utils;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.ViewStub;
@@ -102,9 +103,8 @@ public abstract class SingleFragmentActivity extends TsunamiActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                finish();
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);

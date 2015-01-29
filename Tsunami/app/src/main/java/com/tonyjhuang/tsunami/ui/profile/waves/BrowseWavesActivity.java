@@ -2,15 +2,21 @@ package com.tonyjhuang.tsunami.ui.profile.waves;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
+import com.google.android.gms.maps.MapFragment;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.injection.BrowseWavesModule;
+import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 
 import java.util.Arrays;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.InjectView;
 
@@ -22,6 +28,9 @@ public class BrowseWavesActivity extends TsunamiActivity {
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
 
+    @Inject
+    WaveMapView waveMapView;
+
     public static void startBrowseWavesActivity(TsunamiActivity activity) {
         Intent intent = new Intent(activity, BrowseWavesActivity.class);
         activity.startActivityForResult(intent, TsunamiConstants.BROWSE_WAVES_REQUEST_CODE);
@@ -29,7 +38,7 @@ public class BrowseWavesActivity extends TsunamiActivity {
 
     @Override
     protected List<Object> getModules() {
-        return Arrays.asList(new BrowseWavesModule());
+        return Arrays.asList(new BrowseWavesModule(this));
     }
 
     @Override
@@ -41,5 +50,18 @@ public class BrowseWavesActivity extends TsunamiActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         toolbar.getBackground().setAlpha(255);
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        waveMapView.setMapFragment(mapFragment);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
