@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.LruCache;
 
+import com.google.gson.Gson;
 import com.tonyjhuang.tsunami.logging.Timber;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class TsunamiCache {
 
     private SimpleDiskCache diskCache;
     private LruCache<String, Object> memCache = new LruCache<>(1024);
+    private Gson gson = new Gson();
 
     public TsunamiCache(Context context) {
         PackageInfo packageInfo;
@@ -81,13 +83,45 @@ public class TsunamiCache {
         return value;
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * Helper method for grabbing objects from memcache, generates the most likely key that would
+     * map to the object given the id.
+     * <p>
+     * Note: objects that you store with this method will NOT be stored under the key, @key
+     *
+     * @param key   id of the object
+     * @param clazz class of the stored object
+     * @param <T>   type of the stored object
+     * @return either the object with the id of key or null
+     */
     private <T> T memGet(String key, Class<T> clazz) {
-        return (T) memCache.get(getKey(key, clazz));
+        return memGetExplicit(getKey(key, clazz));
     }
 
+    /**
+     * Grab the object in memcache that is stored explicitly with this key.
+     *
+     * @param key value id
+     * @param <T> type of the stored object
+     * @return either the object with the id of key or null
+     */
+    @SuppressWarnings("unchecked")
+    private <T> T memGetExplicit(String key) {
+        return (T) memCache.get(key);
+    }
+
+    /**
+     * dual to memGet.
+     */
     private <T> T memPut(String key, T value) {
-        memCache.put(getKey(key, value.getClass()), value);
+        return memPutExplicit(getKey(key, value.getClass()), value);
+    }
+
+    /**
+     * dual to memGetExplicit .
+     */
+    private <T> T memPutExplicit(String key, T value) {
+        memCache.put(key, value);
         return value;
     }
 

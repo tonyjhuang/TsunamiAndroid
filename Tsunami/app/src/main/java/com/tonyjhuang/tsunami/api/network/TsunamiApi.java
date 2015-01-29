@@ -26,6 +26,10 @@ public interface TsunamiApi {
 
     public Observable<UserStats> getUserStats(long userId);
 
+    public Observable<List<Wave>> getCurrentUserWaves();
+
+    public Observable<List<Wave>> getUserWaves(long userId);
+
     /* RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE */
 
     public Observable<Ripple> ripple(long waveId, double latitude, double longitude);

@@ -3,6 +3,7 @@ package com.tonyjhuang.tsunami.api.network;
 import android.app.Application;
 
 import com.tonyjhuang.tsunami.api.dal.TsunamiCache;
+import com.tonyjhuang.tsunami.api.models.ApiObject;
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.User;
 import com.tonyjhuang.tsunami.api.models.UserStats;
@@ -77,18 +78,18 @@ public class TsunamiApiClient implements TsunamiApi {
     @Override
     public Observable<UserStats> getUserStats(long userId) {
         return Observable.concat(
-                checkCache(cache.get(userId, UserStats.class)),
-                service.getUserStats(userId).map((userStat -> cache.put(userId, userStat))));
+                checkCache(cache.get(userId, User.class)).map(User::getStats),
+                service.getUser(userId).doOnNext(this::cacheObject).map(User::getStats));
     }
 
-    /* RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE */
+    @Override
+    public Observable<List<Wave>> getCurrentUserWaves() {
+        return getUserId().flatMap(this::getUserWaves);
+    }
 
-    public Observable<Ripple> ripple(long waveId, double latitude, double longitude) {
-        return getUserId().flatMap((userId) -> {
-            CreateRippleRequest request = new CreateRippleRequest(userId, waveId, latitude, longitude);
-            return service.ripple(request);
-        });
-
+    public Observable<List<Wave>> getUserWaves(long userId) {
+        return service.getUserWaves(userId)
+                .doOnNext(this::cacheObjects);
     }
 
     /* OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN */
@@ -96,9 +97,7 @@ public class TsunamiApiClient implements TsunamiApi {
     public Observable<List<Wave>> getLocalWaves(double latitude, double longitude) {
         return getUserId()
                 .flatMap((userId) -> service.getWaves(userId, latitude, longitude))
-                .flatMap(Observable::from)
-                .map((wave) -> cache.put(wave.getId(), wave))
-                .toList();
+                .doOnNext(this::cacheObjects);
     }
 
     @Override
@@ -116,8 +115,9 @@ public class TsunamiApiClient implements TsunamiApi {
             SplashRequest request = new SplashRequest(userId, title, body, contentType, latitude, longitude);
             return service.splash(request);
         });
-
     }
+
+    /* WAVE INTERACTION WAVE INTERACTION WAVE INTERACTION WAVE INTERACTION */
 
     @Override
     public Observable<Void> dismissWave(long waveId) {
@@ -127,12 +127,19 @@ public class TsunamiApiClient implements TsunamiApi {
         });
     }
 
+    public Observable<Ripple> ripple(long waveId, double latitude, double longitude) {
+        return getUserId().flatMap((userId) -> {
+            CreateRippleRequest request = new CreateRippleRequest(userId, waveId, latitude, longitude);
+            return service.ripple(request);
+        });
+    }
+
     @Override
     public Observable<Wave> comment(long waveId, String comment) {
         return getUserId().flatMap((userId) -> {
             CommentRequest request = new CommentRequest(userId, waveId, comment);
             return service.comment(request);
-        }).map((wave) -> cache.put(waveId, wave));
+        }).doOnNext(this::cacheObject);
     }
 
     /* MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC */
@@ -147,5 +154,14 @@ public class TsunamiApiClient implements TsunamiApi {
             return Observable.empty();
         else
             return Observable.just(cachedResult);
+    }
+
+    private <T extends ApiObject> void cacheObjects(List<T> apiObjects) {
+        for (T apiObject : apiObjects)
+            cache.put(apiObject.getId(), apiObject);
+    }
+
+    private <T extends ApiObject> void cacheObject(T apiObject) {
+        cache.put(apiObject.getId(), apiObject);
     }
 }

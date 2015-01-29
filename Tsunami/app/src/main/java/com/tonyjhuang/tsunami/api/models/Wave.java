@@ -102,7 +102,7 @@ public class Wave extends ApiObject {
     }
 
     public Wave addComment(Comment comment) {
-        if (comments == null) comments = new ArrayList<>();
+        if (comments == null) comments = new ArrayList<Comment>();
         comments.add(comment);
         return this;
     }
@@ -133,7 +133,6 @@ public class Wave extends ApiObject {
         Wave wave = new Wave();
         wave.content = content;
         wave.ripples = ripples;
-        wave.splashId = ripples.get(0).getId();
         wave.user = user;
         wave.comments = comments;
         wave.setCreatedAt(rand);

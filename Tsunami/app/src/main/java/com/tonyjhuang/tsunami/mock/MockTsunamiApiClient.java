@@ -88,6 +88,16 @@ public class MockTsunamiApiClient implements TsunamiApi {
     }
 
     @Override
+    public Observable<List<Wave>> getCurrentUserWaves() {
+        return getUserWaves(0);
+    }
+
+    @Override
+    public Observable<List<Wave>> getUserWaves(long userId) {
+        return Observable.empty();
+    }
+
+    @Override
     public Observable<Ripple> ripple(long waveId, double latitude, double longitude) {
         return Observable.just(Ripple.createDebugRipple(latitude, longitude));
     }

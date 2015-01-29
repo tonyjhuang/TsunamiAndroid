@@ -24,6 +24,7 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants
 import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.injection.MainModule;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.mock.DebugLocationControls;
 import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
 import com.tonyjhuang.tsunami.ui.customviews.fab.FloatingActionButton;
@@ -175,6 +176,10 @@ public class MainActivity extends TsunamiActivity implements
         locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedPeriodicBroadcastAction());
         locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedTickerBroadcastAction());
         registerReceiver(mainLocationBroadcastReceiver, locationIntentFilter);
+        if (locationInfo == null) {
+            Timber.d("eh?");
+            LocationLibrary.forceLocationUpdate(this);
+        }
     }
 
     @Override
@@ -284,6 +289,7 @@ public class MainActivity extends TsunamiActivity implements
     private final BroadcastReceiver mainLocationBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Timber.d("location received");
             float tmpLastLat = lastLat;
             float tmpLastLng = lastLng;
 
@@ -298,8 +304,6 @@ public class MainActivity extends TsunamiActivity implements
 
             MainActivity.this.locationInfo = locationInfo;
 
-            //TODO remove
-            //new Handler().postDelayed(() -> presenter.onLocationUpdate(locationInfo), 3000);
             presenter.onLocationUpdate(locationInfo);
 
             if (BuildConfig.DEBUG && debugLocationControls != null) {

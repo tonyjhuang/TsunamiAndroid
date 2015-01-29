@@ -15,6 +15,7 @@ import java.util.List;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 import retrofit.http.Query;
 import rx.Observable;
 
@@ -32,16 +33,12 @@ public interface TsunamiService {
     @POST("/users")
     Observable<User> createUser(@Body CreateUserRequest body);
 
-    @GET("/users/stats")
-    Observable<UserStats> getUserStats(@Query("user_id") long userId);
+    @GET("/users/{user_id}")
+    Observable<User> getUser(@Path("user_id") long userId);
 
-    /* RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE */
+    @GET("/users/{user_id}/waves")
+    Observable<List<Wave>> getUserWaves(@Path("user_id") long userId);
 
-    /**
-     * Ripple a wave.
-     */
-    @POST("/ripple")
-    Observable<Ripple> ripple(@Body CreateRippleRequest body);
 
     /* OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN */
 
@@ -59,12 +56,23 @@ public interface TsunamiService {
     @POST("/ocean/splash")
     Observable<Wave> splash(@Body SplashRequest body);
 
+    /* WAVE INTERACTION WAVE INTERACTION WAVE INTERACTION WAVE INTERACTION */
+
     /**
-     * Dismiss a wave (mark as viewed).
+     * Ripple a wave. Returns the created ripple.
+     */
+    @POST("/ripple")
+    Observable<Ripple> ripple(@Body CreateRippleRequest body);
+
+    /**
+     * Dismiss a wave (mark as viewed). Returns nothing.
      */
     @POST("/ocean/dismiss")
     Observable<Void> dismissWave(@Body DismissWaveRequest body);
 
+    /**
+     * Comment on a wave. Returns the updated wave.
+     */
     @POST("/comments")
     Observable<Wave> comment(@Body CommentRequest body);
 }

@@ -19,7 +19,6 @@ public class WaveContent extends ApiObject {
     @Expose
     private String body;
     @Expose
-    @SerializedName("type")
     private ContentType contentType;
 
     public long getWaveId() {

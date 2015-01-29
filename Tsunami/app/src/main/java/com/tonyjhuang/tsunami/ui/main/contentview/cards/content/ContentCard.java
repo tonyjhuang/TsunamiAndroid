@@ -121,7 +121,8 @@ public class ContentCard extends TsunamiCard {
 
     @Subscribe
     public void commentAdded(CommentsFragment.CommentAddedEvent event) {
-        setWave(event.wave);
+        if (event.wave.getId() == wave.getId())
+            setWave(event.wave);
     }
 
     @Override

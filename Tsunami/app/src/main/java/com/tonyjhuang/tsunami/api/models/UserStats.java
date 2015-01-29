@@ -15,7 +15,7 @@ import java.util.Random;
     "ripples_across_waves": 0
 }
 */
-public class UserStats extends ApiObject implements Serializable {
+public class UserStats implements Serializable {
     @Expose
     private long splashes;
     @Expose
