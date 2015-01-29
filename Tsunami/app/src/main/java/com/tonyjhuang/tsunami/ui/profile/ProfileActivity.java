@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.MenuItem;
 
 import com.tonyjhuang.tsunami.injection.ProfileModule;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollListener;
 import com.tonyjhuang.tsunami.utils.SingleFragmentActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
@@ -21,6 +22,7 @@ import java.util.List;
 public class ProfileActivity extends SingleFragmentActivity implements OnScrollListener {
 
     ProfileFragment fragment;
+    Handler handler = new Handler();
 
     public static void startProfileActivity(TsunamiActivity activity) {
         activity.startActivityForResult(
@@ -45,13 +47,14 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
         setToolbarBackgroundAlpha(0);
 
         fragment = (ProfileFragment) getActiveFragment();
-        new Handler().post(() -> fragment.scrollView.setOnScrollListener(this));
+        handler.post(() -> fragment.scrollView.setOnScrollListener(this));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setToolbarBackgroundAlpha(fragment.scrollView.getScrollY());
+        handler.post(() -> setToolbarBackgroundAlpha(fragment.scrollView.getScrollY()));
+
     }
 
     @Override
@@ -60,19 +63,10 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
     }
 
     protected void setToolbarBackgroundAlpha(int t) {
-        int coverImageHeight = fragment.coverImage.getHeight();
-        float ratio = (((float) Math.min(Math.max(t, 0), coverImageHeight)) / coverImageHeight);
-        super.setToolbarBackgroundAlpha((int) (ratio * 255));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+        handler.post(() -> {
+            int coverImageHeight = fragment.coverImage.getHeight();
+            float ratio = (((float) Math.min(Math.max(t, 0), coverImageHeight)) / coverImageHeight);
+            super.setToolbarBackgroundAlpha((int) (ratio * 255));
+        });
     }
 }

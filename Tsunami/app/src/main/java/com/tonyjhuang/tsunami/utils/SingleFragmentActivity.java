@@ -3,6 +3,7 @@ package com.tonyjhuang.tsunami.utils;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -77,7 +78,6 @@ public abstract class SingleFragmentActivity extends TsunamiActivity {
         if (toolbar != null) return toolbar;
 
         toolbar = (Toolbar) toolbarStub.inflate();
-        setToolbarBackgroundAlpha(255);
 
         if (setup) {
             toolbar.post(() -> {
@@ -97,5 +97,16 @@ public abstract class SingleFragmentActivity extends TsunamiActivity {
     protected void setToolbarBackgroundAlpha(int alpha) {
         if (toolbar != null)
             toolbar.getBackground().setAlpha(alpha);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
