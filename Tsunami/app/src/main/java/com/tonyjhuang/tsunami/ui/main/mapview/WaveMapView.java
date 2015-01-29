@@ -31,6 +31,11 @@ public interface WaveMapView {
     public void setLocationInfo(LocationInfo locationInfo);
 
     /**
+     * Adjust map to fit current location if displaying a wave.
+     */
+    public void setAdjustToLocationUpdate(boolean adjust);
+
+    /**
      * Display the given wave on the map.
      */
     public void displayWave(Wave wave);

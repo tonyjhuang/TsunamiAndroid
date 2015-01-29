@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class BrowseWavesViewPagerFragment extends TsunamiFragment {
     TsunamiApi api;
 
     private BrowseWavesAdapter adapter;
+    private OnWaveSelectedListener listener;
 
     public static BrowseWavesViewPagerFragment getInstance() {
         return new BrowseWavesViewPagerFragment();
@@ -49,10 +51,35 @@ public class BrowseWavesViewPagerFragment extends TsunamiFragment {
     private void setAdapter(List<Wave> waves) {
         adapter = new BrowseWavesAdapter(waves);
         viewPager.setAdapter(adapter);
+        if (listener != null) {
+            Timber.d("setAdapter");
+            listener.onWaveSelected(adapter.getWave(viewPager.getCurrentItem()));
+        }
+        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                if (listener != null) {
+                    Timber.d("onPageSelected");
+                    listener.onWaveSelected(adapter.getWave(position));
+                }
+            }
+        });
+    }
+
+    public void setOnWaveSelectedListener(OnWaveSelectedListener listener) {
+        Timber.d("setOnWaveSelectedListener");
+        this.listener = listener;
+        if (adapter != null) {
+            listener.onWaveSelected(adapter.getWave(viewPager.getCurrentItem()));
+        }
+    }
+
+    public static interface OnWaveSelectedListener {
+        public void onWaveSelected(Wave wave);
     }
 
     private class BrowseWavesAdapter extends FragmentStatePagerAdapter {
-        List<Wave> waves;
+        private List<Wave> waves;
 
         public BrowseWavesAdapter(@NonNull List<Wave> waves) {
             super(getFragmentManager());
@@ -61,13 +88,17 @@ public class BrowseWavesViewPagerFragment extends TsunamiFragment {
 
         @Override
         public BrowseWavesSingleWaveFragment getItem(int position) {
-            Wave wave = waves.get(position);
+            Wave wave = getWave(position);
             return BrowseWavesSingleWaveFragment.getInstance(wave.getId());
         }
 
         @Override
         public int getCount() {
             return waves.size();
+        }
+
+        public Wave getWave(int position) {
+            return waves.get(position);
         }
     }
 }

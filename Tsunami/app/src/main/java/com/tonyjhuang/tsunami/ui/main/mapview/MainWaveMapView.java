@@ -77,6 +77,11 @@ public class MainWaveMapView implements WaveMapView {
     private boolean splashing;
 
     /**
+     * Should we adjust the map BOUNDS if the current location is updated?
+     */
+    private boolean adjustToLocationUpdate = true;
+
+    /**
      * Initial map location.
      */
     private LatLng startingLocation = null;
@@ -87,7 +92,6 @@ public class MainWaveMapView implements WaveMapView {
 
     @Override
     public void setPresenter(WavePresenter presenter) {
-        //this.presenter = presenter;
     }
 
     @Override
@@ -126,7 +130,7 @@ public class MainWaveMapView implements WaveMapView {
 
         if (!splashing) {
             if (isDisplayingWave()) {
-                crayons.zoomToFitCircles();
+                crayons.zoomToFitCircles(adjustToLocationUpdate);
             } else {
                 crayons.zoomToCurrentLocation(true);
             }
@@ -137,6 +141,11 @@ public class MainWaveMapView implements WaveMapView {
     }
 
     @Override
+    public void setAdjustToLocationUpdate(boolean adjust) {
+
+    }
+
+    @Override
     public void displayWave(Wave wave) {
         cancelSplashing();
         if (crayons != null) {
@@ -144,7 +153,7 @@ public class MainWaveMapView implements WaveMapView {
 
             if (wave != null) {
                 drawRipples(wave.getRipples(), wave.getSplashId());
-                crayons.zoomToFitCircles();
+                crayons.zoomToFitCircles(adjustToLocationUpdate);
             } else {
                 crayons.zoomToCurrentLocation(true);
             }
@@ -285,22 +294,26 @@ public class MainWaveMapView implements WaveMapView {
             return circle;
         }
 
-        public void zoomToFitCircles() {
-            LatLngBounds bounds = getCircleBounds();
+        public void zoomToFitCircles(boolean fitCurrentLocation) {
+            LatLngBounds bounds = getCircleBounds(fitCurrentLocation);
             if (bounds != null)
                 zoomToBounds(bounds);
 
         }
 
-        private LatLngBounds getCircleBounds() {
+        private LatLngBounds getCircleBounds(boolean fitCurrentLocation) {
             if (circles.size() == 0) return null;
 
-            LatLng currentLocationLatLng = currentLocationMarker == null ? null : currentLocationMarker.getPosition();
+            double minLat = 90, minLng = 180, maxLat = -90, maxLng = -180;
 
-            double minLat = currentLocationLatLng == null ? 999 : currentLocationLatLng.latitude - 0.025;
-            double minLng = currentLocationLatLng == null ? 999 : currentLocationLatLng.longitude - 0.025;
-            double maxLat = currentLocationLatLng == null ? -999 : currentLocationLatLng.latitude + 0.025;
-            double maxLng = currentLocationLatLng == null ? -999 : currentLocationLatLng.longitude + 0.025;
+            if (fitCurrentLocation && currentLocationMarker != null) {
+                LatLng currentLocationLatLng = currentLocationMarker.getPosition();
+
+                minLat = currentLocationLatLng.latitude - 0.025;
+                minLng = currentLocationLatLng.longitude - 0.025;
+                maxLat = currentLocationLatLng.latitude + 0.025;
+                maxLng = currentLocationLatLng.longitude + 0.025;
+            }
 
             for (Circle circle : circles) {
                 minLat = Math.min(minLat, circle.getCenter().latitude - 0.05);

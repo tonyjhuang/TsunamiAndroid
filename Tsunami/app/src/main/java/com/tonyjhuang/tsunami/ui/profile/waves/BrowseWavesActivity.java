@@ -2,6 +2,7 @@ package com.tonyjhuang.tsunami.ui.profile.waves;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import com.tonyjhuang.tsunami.injection.BrowseWavesModule;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
+import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +31,9 @@ public class BrowseWavesActivity extends TsunamiActivity {
     Toolbar toolbar;
 
     @Inject
-    WaveMapView waveMapView;
+    WaveMapView mapView;
+    @Inject
+    TsunamiPreferences preferences;
 
     public static void startBrowseWavesActivity(TsunamiActivity activity) {
         Intent intent = new Intent(activity, BrowseWavesActivity.class);
@@ -52,7 +56,17 @@ public class BrowseWavesActivity extends TsunamiActivity {
         toolbar.getBackground().setAlpha(255);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        waveMapView.setMapFragment(mapFragment);
+        mapView.setMapFragment(mapFragment);
+        mapView.setAdjustToLocationUpdate(false);
+        if (savedInstanceState == null) {
+            // If this is the first time we're setting up shop, set the map to the last known location
+            // of the user.
+            mapView.setStartingLocation(preferences.lastSeenLat.get(), preferences.lastSeenLng.get());
+        }
+
+        BrowseWavesViewPagerFragment viewPagerFragment =
+                (BrowseWavesViewPagerFragment) getFragmentManager().findFragmentById(R.id.view_pager);
+        viewPagerFragment.setOnWaveSelectedListener(mapView::displayWave);
     }
 
     @Override
