@@ -23,7 +23,6 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants
 import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.injection.MainModule;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.mock.DebugLocationControls;
 import com.tonyjhuang.tsunami.receivers.LocationBroadcastReceiver;
 import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
@@ -181,10 +180,7 @@ public class MainActivity extends TsunamiActivity implements
         locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedPeriodicBroadcastAction());
         locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedTickerBroadcastAction());
         registerReceiver(locationBroadcastReceiver, locationIntentFilter);
-        if (locationInfo == null) {
-            Timber.d("eh?");
-            LocationLibrary.forceLocationUpdate(this);
-        }
+        LocationLibrary.forceLocationUpdate(this);
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.res.Resources;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.view.animation.OvershootInterpolator;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -27,13 +28,18 @@ import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by tonyjhuang on 10/27/14.
  */
 public class MainWaveMapView implements WaveMapView {
-    private static final int RIPPLE_RADIUS = 2400;
+
+    private static final int RIPPLE_RADIUS = 2400; // in meters
+
+    private static final int RADIUS_PULSE_ANIMATION_DURATION = 1000;
+
     private static final int FINISH_SPLASH_ANIMATION_DURATION = 1000;
     // How long to wait after the animation has finished to notify the callback.
     private static final int FINISH_SPLASH_ANIMATION_POST_DELAY = 1500;
@@ -46,34 +52,9 @@ public class MainWaveMapView implements WaveMapView {
     private Resources resources;
 
     /**
-     * The Google MapFragment that will be hosting our Map.
+     * Master multi media map manipulator monster.
      */
-    private MapFragment mapFragment;
-
-    /**
-     * The actual map instance that we should be drawing on.
-     */
-    private GoogleMap map;
-
-    /**
-     * Our View Presenter
-     */
-    private WavePresenter presenter;
-
-    /**
-     * The wave that we should be displaying right now.
-     */
-    private Wave wave;
-
-    /**
-     * List of Ripple Circles currently drawn on the map.
-     */
-    private ArrayList<Circle> waveRipples = new ArrayList<>();
-
-    /**
-     * Marker that represents the user's current location (as far as we can tell).
-     */
-    private Marker currentLocationMarker;
+    private MapCrayons crayons;
 
     /**
      * User's current location.
@@ -81,19 +62,24 @@ public class MainWaveMapView implements WaveMapView {
     private LatLng currentLocation;
 
     /**
-     * Shape to display while the user is splashing.
+     * Circle that represents the user's splash.
      */
-    private Circle splashingIndicator;
+    private Circle splashCircle;
 
     /**
-     * Animator that pulsates the splashingIndicators radius.
+     * Animator that pulsates the splash circle's radius.
      */
-    private ValueAnimator splashingIndicatorRadiusAnimator;
+    private ValueAnimator splashRadiusAnimator;
 
     /**
      * Are we currently splashing?
      */
     private boolean splashing;
+
+    /**
+     * Initial map location.
+     */
+    private LatLng startingLocation = null;
 
     public MainWaveMapView(Resources resources) {
         this.resources = resources;
@@ -101,170 +87,153 @@ public class MainWaveMapView implements WaveMapView {
 
     @Override
     public void setPresenter(WavePresenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
-    public void displayWave(Wave wave) {
-        splashing = false;
-        if (mapFragment != null && map != null) {
-            clearRipples();
-            this.wave = wave;
-
-            if (wave != null) {
-                drawRipples(wave.getRipples(), wave.getSplashId());
-                zoomToFit(waveRipples);
-            } else {
-                if (currentLocation != null) {
-                    zoomTo(currentLocation, MAX_ZOOM, true);
-                }
-            }
-        } else {
-            throw new RuntimeException("No MapFragment set for this WaveMapView!");
-        }
+        //this.presenter = presenter;
     }
 
     @Override
     public void setMapFragment(MapFragment mapFragment) {
-        this.mapFragment = mapFragment;
-        this.map = mapFragment.getMap();
-        if (pendingStartLat != -1 && pendingStartLng != -1) {
-            zoomTo(new LatLng(pendingStartLat, pendingStartLng), MAX_ZOOM, false);
+        if (mapFragment.getMap() == null)
+            throw new RuntimeException("Wait until the map is initialized to call this method.");
+        crayons = new MapCrayons(mapFragment.getMap());
+        zoomToStartingLocation();
+    }
+
+    @Override
+    public void setStartingLocation(float lat, float lng) {
+        startingLocation = new LatLng(lat, lng);
+        if (!isDisplayingWave() && !isDrawingCurrentLocation()) {
+            zoomToStartingLocation();
         }
     }
 
-    float pendingStartLat = -1, pendingStartLng = -1;
-    @Override
-    public void setStartingLocation(float lat, float lng) {
-        if (waveRipples.size() == 0 && currentLocation == null) {
-            if (map != null) {
-                zoomTo(new LatLng(lat, lng), MAX_ZOOM, false);
-            } else {
-                pendingStartLat = lat;
-                pendingStartLng = lng;
-            }
-        }
+    private boolean isDisplayingWave() {
+        return crayons != null && crayons.getNumCircles() > 0;
+    }
+
+    private boolean isDrawingCurrentLocation() {
+        return crayons != null && crayons.isDrawingCurrentLocation();
+    }
+
+    private void zoomToStartingLocation() {
+        if (crayons != null && startingLocation != null)
+            crayons.zoomyZoom(startingLocation, MAX_ZOOM, false);
     }
 
     @Override
     public void setLocationInfo(LocationInfo locationInfo) {
         currentLocation = new LatLng(locationInfo.lastLat, locationInfo.lastLong);
-        if (currentLocationMarker == null) {
-            BitmapDescriptor markerBitmap = BitmapDescriptorFactory.fromResource(R.drawable.current_location);
-            currentLocationMarker = map.addMarker(new MarkerOptions()
-                    .position(currentLocation)
-                    .anchor(0.5f, 0.5f)
-                    .icon(markerBitmap));
-        } else {
-            currentLocationMarker.setPosition(currentLocation);
-        }
+        crayons.drawCurrentLocation(currentLocation);
 
         if (!splashing) {
-            if (waveRipples.size() == 0)
-                zoomTo(currentLocation, MAX_ZOOM, true);
-            else
-                zoomToFit(waveRipples);
+            if (isDisplayingWave()) {
+                crayons.zoomToFitCircles();
+            } else {
+                crayons.zoomToCurrentLocation(true);
+            }
         } else {
+            //TODO: ?
             showSplashing(true);
         }
     }
 
     @Override
+    public void displayWave(Wave wave) {
+        cancelSplashing();
+        if (crayons != null) {
+            crayons.clearCircles();
+
+            if (wave != null) {
+                drawRipples(wave.getRipples(), wave.getSplashId());
+                crayons.zoomToFitCircles();
+            } else {
+                crayons.zoomToCurrentLocation(true);
+            }
+        }
+    }
+
+    @Override
     public void showSplashing(boolean splashing) {
-        if(splashing)
+        if (splashing)
             displaySplashing();
         else
             cancelSplashing();
     }
 
-    @Override
-    public void displaySplashing() {
+    private void displaySplashing() {
+        if (crayons == null || splashing) return;
+
         splashing = true;
-        clearRipples();
-        if (currentLocation == null) {
-                /* Uh oh, it looks like the user has tried to splash content without a location*/
-        } else {
+        crayons.clearCircles();
+        if (currentLocation != null) {
+            //TODO move these to class variables.
             int strokeColor = resources.getColor(R.color.map_view_splashing_stroke);
             int fillColor = resources.getColor(R.color.map_view_splashing_fill_begin);
 
-            zoomTo(currentLocation, MAX_ZOOM, true);
-
-            if (splashingIndicator == null) {
-                addSplashingIndicator(strokeColor);
-            } else {
-                splashingIndicator.setCenter(currentLocation);
-            }
-
-            splashingIndicator.setFillColor(fillColor);
-            if(!splashingIndicatorRadiusAnimator.isRunning())
-                splashingIndicatorRadiusAnimator.start();
-            splashingIndicator.setVisible(true);
+            crayons.zoomToCurrentLocation(true);
+            splashCircle = crayons.drawCircle(currentLocation, RIPPLE_RADIUS, fillColor, strokeColor);
+            splashRadiusAnimator = getPulseRadiusAnimator();
+            splashRadiusAnimator.addUpdateListener((animator) ->
+                    splashCircle.setRadius((Integer) animator.getAnimatedValue()));
+            splashRadiusAnimator.start();
         }
     }
 
-    /**
-     * Adds a pulsating circle outline to the map to represent the current user's splash radius
-     */
-    private void addSplashingIndicator(int strokeColor) {
-        splashingIndicator = map.addCircle(new CircleOptions()
-                .center(currentLocation)
-                .radius(RIPPLE_RADIUS)
-                .strokeColor(strokeColor));
-
-        splashingIndicatorRadiusAnimator = ValueAnimator.ofInt(RIPPLE_RADIUS + 100, RIPPLE_RADIUS)
-                .setDuration(1000);
-        splashingIndicatorRadiusAnimator.setRepeatMode(ValueAnimator.REVERSE);
-        splashingIndicatorRadiusAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        splashingIndicatorRadiusAnimator.addUpdateListener((ValueAnimator animator) -> {
-            splashingIndicator.setRadius((Integer) animator.getAnimatedValue());
-        });
+    private ValueAnimator getPulseRadiusAnimator() {
+        ValueAnimator animator = ValueAnimator.ofInt(RIPPLE_RADIUS + 100, RIPPLE_RADIUS)
+                .setDuration(RADIUS_PULSE_ANIMATION_DURATION);
+        animator.setRepeatMode(ValueAnimator.REVERSE);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        return animator;
     }
 
     @Override
     public void animateSplash(final FinishedSplashingCallback callback) {
-        if (splashingIndicatorRadiusAnimator != null) {
-            splashingIndicatorRadiusAnimator.cancel();
+        if (splashRadiusAnimator != null) {
+            splashRadiusAnimator.cancel();
+            splashRadiusAnimator = null;
         }
+
         int startColor = resources.getColor(R.color.map_view_splashing_fill_begin);
         int endColor = resources.getColor(R.color.map_view_splashing_fill_end);
 
-        ValueAnimator colorAnimator =
-                createCircleColorAnimator(splashingIndicator, startColor, endColor, FINISH_SPLASH_ANIMATION_DURATION);
+        ValueAnimator colorAnimator = createCircleColorAnimator(
+                splashCircle, startColor, endColor, FINISH_SPLASH_ANIMATION_DURATION);
 
         colorAnimator.addListener(new SimpleAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 new Handler().postDelayed(() -> {
-                    if (splashingIndicator != null) {
-                        splashingIndicator.setVisible(false);
-                    }
-                    if (callback != null) {
-                        callback.onFinishSplashing();
-                    }
+                    crayons.clearCircles();
+                    if (callback != null) callback.onFinishSplashing();
                 }, FINISH_SPLASH_ANIMATION_POST_DELAY);
             }
         });
         colorAnimator.start();
     }
 
-    @Override
-    public void cancelSplashing() {
-        if (splashingIndicatorRadiusAnimator != null) {
-            splashingIndicatorRadiusAnimator.cancel();
-        }
-        if (splashingIndicator != null) {
-            splashingIndicator.setVisible(false);
+    private void cancelSplashing() {
+        if (splashing) {
+            splashing = false;
+
+            if (splashRadiusAnimator != null) {
+                splashRadiusAnimator.cancel();
+                splashRadiusAnimator = null;
+            }
+            crayons.clearCircles();
         }
     }
 
     @Override
     public void animateRipple(FinishedRipplingCallback callback) {
+        if (crayons == null) {
+            callback.onFinishRippling();
+            return;
+        }
         int startColor = resources.getColor(R.color.map_view_ripple_new_fill_begin);
         int endColor = resources.getColor(R.color.map_view_ripple_fill);
         int strokeColor = resources.getColor(R.color.map_view_ripple_new_stroke);
 
-        Circle rippleCircle = drawLatLng(currentLocation, startColor, strokeColor);
-        waveRipples.add(rippleCircle);
+        Circle rippleCircle = crayons.drawCircle(currentLocation, RIPPLE_RADIUS, startColor, strokeColor);
         ValueAnimator colorAnimator =
                 createCircleColorAnimator(rippleCircle, startColor, endColor, DISPLAY_RIPPLE_ANIMATION_DURATION);
         if (callback != null) {
@@ -275,7 +244,6 @@ public class MainWaveMapView implements WaveMapView {
                 }
             });
         }
-
         colorAnimator.start();
     }
 
@@ -294,72 +262,58 @@ public class MainWaveMapView implements WaveMapView {
 
     /* ========== DRAWING UTILITY FUNCTIONS =========== */
 
-    /**
-     * Remove all ripples from the map and forget them.
-     */
-    private void clearRipples() {
-        for (Circle ripple : waveRipples) {
-            ripple.remove();
-        }
-        waveRipples.clear();
-    }
+    private static class MapCrayons {
+        private GoogleMap map;
+        private List<Circle> circles = new ArrayList<>();
+        private Marker currentLocationMarker;
 
-    /**
-     * Adds/Draws a list of LatLngs as ripples to the map.
-     */
-    private void drawRipples(List<Ripple> ripples, long splashId) {
-        int fillColor = resources.getColor(R.color.map_view_ripple_fill);
-        int strokeColor = resources.getColor(R.color.map_view_ripple_stroke);
-        int splashStrokeColor = resources.getColor(R.color.map_view_ripple_stroke_splash);
-        for (Ripple ripple : ripples) {
-            LatLng latLng = new LatLng(ripple.getLatitude(), ripple.getLongitude());
-            waveRipples.add(drawLatLng(latLng,
-                    fillColor,
-                    ripple.getId() == splashId ? splashStrokeColor : strokeColor));
-        }
-    }
-
-    /**
-     * Draws a ripple represented by a LatLng at center
-     */
-    private Circle drawLatLng(LatLng center, int fillColor, int strokeColor) {
-        return map.addCircle(new CircleOptions()
-                .center(center)
-                .radius(RIPPLE_RADIUS)
-                .fillColor(fillColor)
-                .strokeColor(strokeColor));
-    }
-
-    /**
-     * Zoom to a specific LatLng with zoom level.
-     */
-    private void zoomTo(LatLng center, int zoom, boolean animate) {
-        if(animate)
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(center, zoom));
-        else
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoom));
-    }
-
-    private void zoomToFit(List<Circle> ripples) {
-        if (ripples == null || ripples.size() == 0)
-            return;
-        double minLat = currentLocation == null ? 999 : currentLocation.latitude - 0.025;
-        double minLng = currentLocation == null ? 999 : currentLocation.longitude - 0.025;
-        double maxLat = currentLocation == null ? -999 : currentLocation.latitude + 0.025;
-        double maxLng = currentLocation == null ? -999 : currentLocation.longitude + 0.025;
-        for (Circle ripple : ripples) {
-            minLat = Math.min(minLat, ripple.getCenter().latitude - 0.05);
-            minLng = Math.min(minLng, ripple.getCenter().longitude - 0.05);
-            maxLat = Math.max(maxLat, ripple.getCenter().latitude + 0.05);
-            maxLng = Math.max(maxLng, ripple.getCenter().longitude + 0.05);
+        public MapCrayons(@NonNull GoogleMap map) {
+            this.map = map;
         }
 
-        if (map != null) {
-            final CameraUpdate update = CameraUpdateFactory.newLatLngBounds(
-                    new LatLngBounds(
-                            new LatLng(minLat, minLng),
-                            new LatLng(maxLat, maxLng)
-                    ), 0);
+        public int getNumCircles() {
+            return circles.size();
+        }
+
+        public Circle drawCircle(LatLng center, int radius, int fillColor, int strokeColor) {
+            Circle circle = map.addCircle(new CircleOptions()
+                    .center(center)
+                    .radius(radius)
+                    .fillColor(fillColor)
+                    .strokeColor(strokeColor));
+            circles.add(circle);
+            return circle;
+        }
+
+        public void zoomToFitCircles() {
+            LatLngBounds bounds = getCircleBounds();
+            if (bounds != null)
+                zoomToBounds(bounds);
+
+        }
+
+        private LatLngBounds getCircleBounds() {
+            if (circles.size() == 0) return null;
+
+            LatLng currentLocationLatLng = currentLocationMarker == null ? null : currentLocationMarker.getPosition();
+
+            double minLat = currentLocationLatLng == null ? 999 : currentLocationLatLng.latitude - 0.025;
+            double minLng = currentLocationLatLng == null ? 999 : currentLocationLatLng.longitude - 0.025;
+            double maxLat = currentLocationLatLng == null ? -999 : currentLocationLatLng.latitude + 0.025;
+            double maxLng = currentLocationLatLng == null ? -999 : currentLocationLatLng.longitude + 0.025;
+
+            for (Circle circle : circles) {
+                minLat = Math.min(minLat, circle.getCenter().latitude - 0.05);
+                minLng = Math.min(minLng, circle.getCenter().longitude - 0.05);
+                maxLat = Math.max(maxLat, circle.getCenter().latitude + 0.05);
+                maxLng = Math.max(maxLng, circle.getCenter().longitude + 0.05);
+            }
+
+            return new LatLngBounds(new LatLng(minLat, minLng), new LatLng(maxLat, maxLng));
+        }
+
+        private void zoomToBounds(LatLngBounds bounds) {
+            final CameraUpdate update = CameraUpdateFactory.newLatLngBounds(bounds, 0);
             try {
                 map.animateCamera(update);
             } catch (IllegalStateException e) {
@@ -370,6 +324,61 @@ public class MainWaveMapView implements WaveMapView {
                     map.setOnCameraChangeListener(null);
                 });
             }
+        }
+
+        public void clearCircles() {
+            Iterator<Circle> iterator = circles.iterator();
+            while (iterator.hasNext()) {
+                iterator.next().remove();
+                iterator.remove();
+            }
+        }
+
+        public void zoomyZoom(LatLng center, int zoom, boolean animate) {
+            if (animate)
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(center, zoom));
+            else
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoom));
+        }
+
+        public boolean isDrawingCurrentLocation() {
+            return currentLocationMarker != null;
+        }
+
+        public Marker drawCurrentLocation(LatLng center) {
+            if (isDrawingCurrentLocation()) {
+                currentLocationMarker.setPosition(center);
+            } else {
+                initCurrentLocationMarker(center);
+            }
+            return null;
+        }
+
+        private void initCurrentLocationMarker(LatLng center) {
+            BitmapDescriptor markerBitmap = BitmapDescriptorFactory.fromResource(R.drawable.current_location);
+            currentLocationMarker = map.addMarker(new MarkerOptions()
+                    .position(center)
+                    .anchor(0.5f, 0.5f)
+                    .icon(markerBitmap));
+        }
+
+        public void zoomToCurrentLocation(boolean animate) {
+            if (currentLocationMarker != null)
+                zoomyZoom(currentLocationMarker.getPosition(), MAX_ZOOM, animate);
+        }
+    }
+
+    /**
+     * Adds/Draws a list of LatLngs as ripples to the map.
+     */
+    private void drawRipples(List<Ripple> ripples, long splashId) {
+        if (crayons == null) return;
+        int fillColor = resources.getColor(R.color.map_view_ripple_fill);
+        int strokeColor = resources.getColor(R.color.map_view_ripple_stroke);
+        //TODO: splash
+        for (Ripple ripple : ripples) {
+            LatLng center = new LatLng(ripple.getLatitude(), ripple.getLongitude());
+            crayons.drawCircle(center, RIPPLE_RADIUS, fillColor, strokeColor);
         }
     }
 
