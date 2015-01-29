@@ -101,7 +101,9 @@ public class ProfileFragment extends TsunamiFragment {
             userId.setText(preferences.guid.get());
         }
 
-        Picasso.with(getActivity()).load(TsunamiApplication.profileCoverResourceId).into(coverImage);
+        Picasso.with(getActivity())
+                .load(TsunamiApplication.profileCoverResourceId)
+                .into(coverImage);
 
         // Retrieve userstats from api
         subscribe(api.getCurrentUserStats(), this::populateStats,
