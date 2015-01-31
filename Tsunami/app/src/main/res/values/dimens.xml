@@ -7,7 +7,7 @@
 
     <dimen name="ghetto_toolbar_padding_top">0dp</dimen>
 
-    <dimen name="bw_min_card_height">120dp</dimen>
+    <dimen name="bw_min_card_height">172dp</dimen>
 
     <dimen name="card_background_default_radius">3dp</dimen>
     <dimen name="card_padding_top">16dp</dimen>
