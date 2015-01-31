@@ -2,7 +2,6 @@ package com.tonyjhuang.tsunami.ui.profile.waves;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -53,7 +52,6 @@ public class BrowseWavesActivity extends TsunamiActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        toolbar.getBackground().setAlpha(255);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapView.setMapFragment(mapFragment);
@@ -67,6 +65,12 @@ public class BrowseWavesActivity extends TsunamiActivity {
         BrowseWavesViewPagerFragment viewPagerFragment =
                 (BrowseWavesViewPagerFragment) getFragmentManager().findFragmentById(R.id.view_pager);
         viewPagerFragment.setOnWaveSelectedListener(mapView::displayWave);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        toolbar.getBackground().setAlpha(255);
     }
 
     @Override

@@ -94,6 +94,7 @@ public class BrowseWavesViewPagerFragment extends TsunamiFragment {
         }
 
         public Wave getWave(int position) {
+            if(waves.size() == 0) return null;
             return waves.get(position);
         }
     }

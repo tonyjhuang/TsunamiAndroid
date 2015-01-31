@@ -39,6 +39,12 @@ public abstract class SingleFragmentActivity extends TsunamiActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setToolbarBackgroundAlpha(255);
+    }
+
     // Instance of the fragment you want in the container.
     public abstract TsunamiFragment getFragment();
 

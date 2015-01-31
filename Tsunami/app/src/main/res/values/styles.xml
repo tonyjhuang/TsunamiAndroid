@@ -10,6 +10,8 @@
         <item name="colorControlActivated">@color/accent</item>
         <item name="colorControlHighlight">@color/accent</item>
 
+
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="android:windowBackground">@color/fbutton_color_clouds</item>
         <item name="android:textViewStyle">@style/TextView.Tsunami</item>
         <!--<item name="android:editTextStyle">@style/EditText.Tsunami</item>-->
