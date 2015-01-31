@@ -49,6 +49,7 @@ public class BrowseWavesViewPagerFragment extends TsunamiFragment {
     }
 
     private void setAdapter(List<Wave> waves) {
+        // Sort by created at (new waves in front).
         Collections.sort(waves, (w1, w2) -> w2.getCreatedAt().compareTo(w1.getCreatedAt()));
         adapter = new BrowseWavesAdapter(waves);
         viewPager.setAdapter(adapter);

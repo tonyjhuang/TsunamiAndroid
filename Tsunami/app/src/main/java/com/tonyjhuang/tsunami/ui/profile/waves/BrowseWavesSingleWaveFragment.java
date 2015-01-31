@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.Space;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
@@ -24,7 +26,13 @@ public class BrowseWavesSingleWaveFragment extends TsunamiFragment {
     private static final String WAVE_ID = "wave_id";
 
     @InjectView(R.id.container)
-    FrameLayout container;
+    LinearLayout container;
+    @InjectView(R.id.top_spacer)
+    Space topSpacer;
+    @InjectView(R.id.bottom_spacer)
+    Space bottomSpacer;
+    @InjectView(R.id.content_container)
+    FrameLayout contentContainer;
 
     @Inject
     TsunamiApi api;
@@ -52,7 +60,18 @@ public class BrowseWavesSingleWaveFragment extends TsunamiFragment {
 
     private void setWave(Wave wave) {
         ContentCard contentCard = new ContentCard(getActivity());
-        container.addView(contentCard);
+        contentContainer.addView(contentCard);
         contentCard.setWave(wave);
+
+        updateSpacerHeights();
+    }
+
+    private void updateSpacerHeights() {
+        container.post(() -> {
+            int minCardHeight = (int) getResources().getDimension(R.dimen.bw_min_card_height);
+            LinearLayout.LayoutParams topSpacerLayoutParams = (LinearLayout.LayoutParams) topSpacer.getLayoutParams();
+            topSpacerLayoutParams.height = container.getHeight() - minCardHeight;
+            topSpacer.setLayoutParams(topSpacerLayoutParams);
+        });
     }
 }
