@@ -145,10 +145,10 @@ public class MainActivity extends TsunamiActivity implements
         drawerFragment.setDrawerLayout(drawerLayout);
         drawerFragment.setOnDrawerItemSelectedListener(this);
 
-        if (BuildConfig.DEBUG) {
+        /*if (BuildConfig.DEBUG) {
             debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
             debugLocationControls.setLocationListener(presenter::onLocationUpdate);
-        }
+        }*/
     }
 
 
