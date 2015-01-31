@@ -7,7 +7,6 @@ import android.widget.ProgressBar;
 
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.BouncyScrollView;
-import com.tonyjhuang.tsunami.ui.customviews.scrollview.FadingBouncyScrollView;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.content.ContentCard;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.splash.SplashCard;
@@ -18,7 +17,7 @@ import com.tonyjhuang.tsunami.ui.main.contentview.cards.status.NoWavesCard;
 /**
  * Created by tonyjhuang on 9/6/14.
  */
-public class WaveContentScrollView extends FadingBouncyScrollView implements
+public class WaveContentScrollView extends BouncyScrollView implements
         WaveContentView,
         BouncyScrollView.EventListener {
 
@@ -33,12 +32,12 @@ public class WaveContentScrollView extends FadingBouncyScrollView implements
     private SplashCard splashCard;
 
     /**
-     * Display that tells the user there are no waves in the area.
+     * The card that tells the user there are no waves in the area.
      */
     private NoWavesCard noWavesCard;
 
     /**
-     * Display to notify user of an error getting waves.
+     * The card to notify user of an error getting waves.
      */
     private ErrorCard errorCard;
 

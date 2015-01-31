@@ -11,32 +11,21 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Space;
 
 import com.tonyjhuang.tsunami.R;
-import com.tonyjhuang.tsunami.logging.Timber;
 
 /**
  * Created by tony on 12/28/14.
  */
-public class BouncyScrollView extends ScrollView {
-    private FrameLayout viewContainer;
-    private Space topSpacer;
-    private Space bottomSpacer;
-    private View customView;
-
+public class BouncyScrollView extends FadingSingleTargetScrollView {
     private ObjectAnimator viewAnimator;
     private Interpolator viewAnimationInterpolator = new OvershootInterpolator();
     private int viewAnimationDuration;
 
     private float relativeStartingPosition;
     private int absoluteStartingPosition;
-
-    protected boolean draggingOutside = false;
-    protected boolean draggingInside = false;
 
     private boolean scrollable;
 
@@ -48,7 +37,7 @@ public class BouncyScrollView extends ScrollView {
      * entirely off? The threshold is the percentage of the view you want scrolled off before we
      * take control of it. Note: we will never auto-scroll the view as long as the user is touching
      * it.
-     * <p>
+     * <p/>
      * Setting it to 0f is effectively turning off scrollAssist whereas setting it to 1f will scroll
      * the view as long as it touches the edge of the screen. Finally, 0.5f will scroll the view if
      * at least half of it is scrolled offscreen.
@@ -67,13 +56,6 @@ public class BouncyScrollView extends ScrollView {
 
     public BouncyScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
-        inflate(context, R.layout.view_bouncy_scrollview, this);
-        setOverScrollMode(OVER_SCROLL_NEVER);
-
-        viewContainer = (FrameLayout) findViewById(R.id.view_container);
-        topSpacer = (Space) findViewById(R.id.top_spacer);
-        bottomSpacer = (Space) findViewById(R.id.bottom_spacer);
 
         // load the styled attributes and set their properties
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.BouncyScrollView, defStyleAttr, 0);
@@ -96,21 +78,20 @@ public class BouncyScrollView extends ScrollView {
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
-        if (changed) {
-            /**
-             * Set the height of the top and bottom spacers to the same size as this container so
-             * the card has space to scroll out of screen.
-             */
-            LinearLayout.LayoutParams topSpacerLayoutParams = (LinearLayout.LayoutParams) topSpacer.getLayoutParams();
-            topSpacerLayoutParams.height = getHeight();
-            topSpacer.setLayoutParams(topSpacerLayoutParams);
+    protected void setSpacerHeights(Space topSpacer, Space bottomSpacer) {
+        LinearLayout.LayoutParams topSpacerLayoutParams = (LinearLayout.LayoutParams) topSpacer.getLayoutParams();
+        topSpacerLayoutParams.height = getHeight();
+        topSpacer.setLayoutParams(topSpacerLayoutParams);
 
-            LinearLayout.LayoutParams bottomSpacerLayoutParams = (LinearLayout.LayoutParams) bottomSpacer.getLayoutParams();
-            bottomSpacerLayoutParams.height = getHeight();
-            bottomSpacer.setLayoutParams(bottomSpacerLayoutParams);
-        }
+        LinearLayout.LayoutParams bottomSpacerLayoutParams = (LinearLayout.LayoutParams) bottomSpacer.getLayoutParams();
+        bottomSpacerLayoutParams.height = getHeight();
+        bottomSpacer.setLayoutParams(bottomSpacerLayoutParams);
+    }
+
+    @Override
+    protected float getAlphaForPosition(int scrollY) {
+        float alpha = (float) Math.pow(((float) scrollY) / getBottomScrollAssistThreshold(), 1.6f);
+        return Math.min(alpha, 1f);
     }
 
     private void initViewAnimator() {
@@ -135,29 +116,7 @@ public class BouncyScrollView extends ScrollView {
     @Override
     public boolean onInterceptTouchEvent(@NonNull MotionEvent ev) {
         if (!scrollable) return false;
-
         onScrollStopListener.onInterceptTouchEvent(ev);
-        if (!isTouchingView(ev)) {
-            switch (ev.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    draggingOutside = true;
-                    break;
-                case MotionEvent.ACTION_CANCEL:
-                case MotionEvent.ACTION_UP:
-                    draggingOutside = false;
-                    break;
-            }
-        } else {
-            switch (ev.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    draggingInside = true;
-                    break;
-                case MotionEvent.ACTION_CANCEL:
-                case MotionEvent.ACTION_UP:
-                    draggingInside = false;
-                    break;
-            }
-        }
         return super.onInterceptTouchEvent(ev);
     }
 
@@ -165,45 +124,7 @@ public class BouncyScrollView extends ScrollView {
     public boolean onTouchEvent(@NonNull MotionEvent ev) {
         if (!scrollable) return false;
         onScrollStopListener.onTouchEvent(ev);
-        /**
-         * Only consume the drag/scroll event if the MotionEvent is within the bounds of our view.
-         */
-        int action = ev.getAction();
-        if (draggingInside || (isTouchingView(ev) && !draggingOutside)) {
-            if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL)
-                draggingInside = false;
-            return super.onTouchEvent(ev);
-        } else {
-            switch (action) {
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL:
-                    draggingInside = false;
-                    draggingOutside = false;
-            }
-            return false;
-        }
-    }
-
-    /**
-     * Does this MotionEvent land on our CardView?
-     */
-    protected boolean isTouchingView(MotionEvent ev) {
-        if (customView == null)
-            return false;
-
-        int[] location = {0, 0};
-        customView.getLocationOnScreen(location);
-        int left = location[0];
-        int top = location[1];
-        int right = left + viewContainer.getWidth();
-        int bottom = top + viewContainer.getHeight();
-
-        float x = ev.getRawX();
-        float y = ev.getRawY();
-        return (x > left)
-                && (x < right)
-                && (y > top)
-                && (y < bottom);
+        return super.onTouchEvent(ev);
     }
 
     private int lastT, lastOldT;
@@ -218,13 +139,13 @@ public class BouncyScrollView extends ScrollView {
         lastT = t;
         lastOldT = oldt;
 
-        if (eventListener != null) eventListener.onScrollChanged(customView, l, t, oldl, oldt);
+        if (eventListener != null) eventListener.onScrollChanged(getCustomView(), l, t, oldl, oldt);
 
         if (t == 0) {
-            if (eventListener != null) eventListener.onViewHitBottom(customView);
+            if (eventListener != null) eventListener.onViewHitBottom(getCustomView());
         } else if (t == getMaxScrollHeight() && oldt != lastMaxScrollHeight) {
             lastMaxScrollHeight = getMaxScrollHeight();
-            if (eventListener != null) eventListener.onViewHitTop(customView);
+            if (eventListener != null) eventListener.onViewHitTop(getCustomView());
         } else {
             onScrollStopListener.onScrollChanged(l, t, oldl, oldt);
         }
@@ -244,6 +165,7 @@ public class BouncyScrollView extends ScrollView {
         post(new Runnable() {
             @Override
             public void run() {
+                View viewContainer = getCustomViewContainer();
                 viewContainer.setVisibility(INVISIBLE);
                 viewContainer.scrollTo(0, 1);
                 viewContainer.setVisibility(VISIBLE);
@@ -265,11 +187,6 @@ public class BouncyScrollView extends ScrollView {
         return getChildAt(0).getHeight() - getHeight();
     }
 
-
-    public View getCustomView() {
-        return customView;
-    }
-
     public void setCustomView(final View customView) {
         setCustomView(customView, false);
     }
@@ -279,16 +196,9 @@ public class BouncyScrollView extends ScrollView {
     }
 
     public void setCustomView(final View customView, boolean animate, int duration) {
-        if (this.customView == null || !animate) {
+        if (getCustomView() == null || !animate) {
             resetPosition();
-            this.customView = customView;
-            post(new Runnable() {
-                @Override
-                public void run() {
-                    viewContainer.removeAllViews();
-                    viewContainer.addView(customView);
-                }
-            });
+            super.setCustomView(customView);
             animateToStartingPosition();
         } else {
             onScrollStopListener.setPause(true);
@@ -466,7 +376,6 @@ public class BouncyScrollView extends ScrollView {
         };
 
         public void onScrollChanged(int l, int t, int oldl, int oldt) {
-            //TODO: change this to t?
             oldY = oldt;
             postDelayedRunnableCheck(DELAY);
         }

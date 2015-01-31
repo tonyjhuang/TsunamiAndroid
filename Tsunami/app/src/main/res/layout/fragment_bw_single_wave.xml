@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fillViewport="true"
-    android:scrollbars="none"
+<com.tonyjhuang.tsunami.ui.profile.waves.BrowseWavesScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wave_scrollview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <Space
-            android:id="@+id/top_spacer"
-            android:layout_width="0dp"
-            android:layout_height="0dp" />
-
-        <FrameLayout
-            android:id="@+id/content_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Space
-            android:id="@+id/bottom_spacer"
-            android:layout_width="0dp"
-            android:layout_height="0dp" />
-    </LinearLayout>
-</ScrollView>
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none" />
