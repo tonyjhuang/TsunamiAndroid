@@ -14,6 +14,7 @@ import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -48,6 +49,7 @@ public class BrowseWavesViewPagerFragment extends TsunamiFragment {
     }
 
     private void setAdapter(List<Wave> waves) {
+        Collections.sort(waves, (w1, w2) -> w2.getCreatedAt().compareTo(w1.getCreatedAt()));
         adapter = new BrowseWavesAdapter(waves);
         viewPager.setAdapter(adapter);
         notifyListener();
@@ -94,7 +96,7 @@ public class BrowseWavesViewPagerFragment extends TsunamiFragment {
         }
 
         public Wave getWave(int position) {
-            if(waves.size() == 0) return null;
+            if (waves.size() == 0) return null;
             return waves.get(position);
         }
     }

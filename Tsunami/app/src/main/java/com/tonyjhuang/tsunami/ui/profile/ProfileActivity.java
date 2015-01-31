@@ -58,7 +58,7 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
     public void onScrollChanged(int l, int t, int oldl, int oldt) {
         int coverImageHeight = fragment.coverImage.getHeight();
         float ratio = (((float) Math.min(Math.max(t, 0), coverImageHeight)) / coverImageHeight);
-        toolbarAlpha = (int) ratio * 255;
+        toolbarAlpha = (int) (ratio * 255);
         setToolbarBackgroundAlpha(toolbarAlpha);
     }
 }
