@@ -62,8 +62,16 @@ public class BrowseWavesActivity extends TsunamiActivity {
             mapView.setStartingLocation(preferences.lastSeenLat.get(), preferences.lastSeenLng.get());
         }
 
-        BrowseWavesViewPagerFragment viewPagerFragment =
-                (BrowseWavesViewPagerFragment) getFragmentManager().findFragmentById(R.id.view_pager);
+        BrowseWavesViewPagerFragment viewPagerFragment;
+        if (savedInstanceState == null) {
+            viewPagerFragment = BrowseWavesViewPagerFragment.getInstance();
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.view_pager_container, viewPagerFragment)
+                    .commit();
+            } else {
+            viewPagerFragment = (BrowseWavesViewPagerFragment)
+                    getFragmentManager().findFragmentById(R.id.view_pager_container);
+        }
         viewPagerFragment.setOnWaveSelectedListener(mapView::displayWave);
     }
 

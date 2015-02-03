@@ -26,9 +26,8 @@
             map:uiZoomControls="false"
             map:uiZoomGestures="false" />
 
-        <fragment
-            android:id="@+id/view_pager"
-            android:name="com.tonyjhuang.tsunami.ui.profile.waves.BrowseWavesViewPagerFragment"
+        <FrameLayout
+            android:id="@+id/view_pager_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>

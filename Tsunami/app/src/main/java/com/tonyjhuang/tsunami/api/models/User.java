@@ -15,7 +15,7 @@ public class User extends ApiObject {
     private UserStats stats;
 
     public String getName() {
-        return name == null ? "Anonymous" : name;
+        return name == null ? "Kevin" : name;
     }
 
     public UserStats getStats() {
