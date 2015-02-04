@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
+import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 
 import java.util.Collections;
@@ -32,8 +33,13 @@ public class BrowseWavesViewPagerFragment extends TsunamiFragment {
     private BrowseWavesAdapter adapter;
     private OnWaveSelectedListener listener;
 
-    public static BrowseWavesViewPagerFragment getInstance() {
-        return new BrowseWavesViewPagerFragment();
+    public static BrowseWavesViewPagerFragment getInstance(long userId) {
+        Bundle args = new Bundle();
+        args.putLong(TsunamiConstants.USER_ID_EXTRA, userId);
+
+        BrowseWavesViewPagerFragment fragment = new BrowseWavesViewPagerFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Nullable
@@ -45,7 +51,12 @@ public class BrowseWavesViewPagerFragment extends TsunamiFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        subscribe(api.getCurrentUserWaves(), this::setAdapter);
+        long userId = getArguments().getLong(TsunamiConstants.USER_ID_EXTRA, TsunamiConstants.USER_ID_EXTRA_DEFAULT);
+        if (userId == TsunamiConstants.USER_ID_EXTRA_DEFAULT) {
+            subscribe(api.getCurrentUserWaves(), this::setAdapter);
+        } else {
+            subscribe(api.getUserWaves(userId), this::setAdapter);
+        }
     }
 
     private void setAdapter(List<Wave> waves) {

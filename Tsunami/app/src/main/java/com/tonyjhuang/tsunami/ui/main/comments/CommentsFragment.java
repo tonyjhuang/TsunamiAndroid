@@ -16,7 +16,9 @@ import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Comment;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.utils.Anim;
+import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 
 import java.util.ArrayList;
@@ -29,8 +31,6 @@ import butterknife.InjectView;
  * Created by tony on 1/18/15.
  */
 public class CommentsFragment extends TsunamiFragment implements CommentInputView.SendRequestListener {
-
-
     @InjectView(R.id.progress)
     ProgressBar progressBar;
     @InjectView(R.id.recycler_view)
@@ -52,7 +52,7 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
 
     public static CommentsFragment getInstance(long waveId) {
         Bundle args = new Bundle();
-        args.putLong(CommentsActivity.WAVE_ID, waveId);
+        args.putLong(TsunamiConstants.WAVE_ID_EXTRA, waveId);
         CommentsFragment fragment = new CommentsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -77,11 +77,11 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        long waveId = getArguments().getLong(CommentsActivity.WAVE_ID, -1);
-        if (waveId == -1) {
-            onGetWaveError();
+        long waveId = getArguments().getLong(TsunamiConstants.WAVE_ID_EXTRA, TsunamiConstants.WAVE_ID_EXTRA_DEFAULT);
+        if (waveId == TsunamiConstants.WAVE_ID_EXTRA_DEFAULT) {
+            onGetWaveError(null);
         } else {
-            subscribe(api.getWave(waveId), this::setAdapter, (error) -> onGetWaveError());
+            subscribe(api.getWave(waveId), this::setAdapter, this::onGetWaveError);
         }
     }
 
@@ -96,9 +96,11 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
         });
     }
 
-    private void onGetWaveError() {
+    private void onGetWaveError(Throwable error) {
         Anim.fadeOut(progressBar);
         showToast("Couldn't get comments for this wave :(");
+        if (error != null)
+            Timber.e(error, "couldn't get wave for comments");
     }
 
     @Override

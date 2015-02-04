@@ -8,4 +8,10 @@ public class TsunamiConstants {
     public static final int PHOTO_VIEW_REQUEST_CODE = 2;
     public static final int COMMENTS_REQUEST_CODE = 3;
     public static final int BROWSE_WAVES_REQUEST_CODE = 4;
+
+    public static final String USER_ID_EXTRA = "user_id";
+    public static final long USER_ID_EXTRA_DEFAULT = -1;
+    public static final String WAVE_ID_EXTRA = "wave_id";
+    public static final long WAVE_ID_EXTRA_DEFAULT = -1;
+
 }

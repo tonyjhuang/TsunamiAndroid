@@ -17,11 +17,10 @@ import java.util.List;
  * Created by tony on 1/18/15.
  */
 public class CommentsActivity extends SingleFragmentActivity {
-    public static final String WAVE_ID = "wave_id";
 
     public static void startCommentsActivity(TsunamiActivity activity, long waveId) {
         Intent intent = new Intent(activity, CommentsActivity.class);
-        intent.putExtra(WAVE_ID, waveId);
+        intent.putExtra(TsunamiConstants.WAVE_ID_EXTRA, waveId);
         activity.startActivityForResult(intent, TsunamiConstants.COMMENTS_REQUEST_CODE);
     }
 
@@ -32,7 +31,7 @@ public class CommentsActivity extends SingleFragmentActivity {
 
     @Override
     public TsunamiFragment getFragment() {
-        long waveId = getIntent().getLongExtra(WAVE_ID, -1);
+        long waveId = getIntent().getLongExtra(TsunamiConstants.WAVE_ID_EXTRA, TsunamiConstants.WAVE_ID_EXTRA_DEFAULT);
         return CommentsFragment.getInstance(waveId);
     }
 

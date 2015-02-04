@@ -10,7 +10,7 @@
     android:paddingTop="4dp">
 
     <com.tonyjhuang.tsunami.ui.customviews.CircularImageView
-        android:id="@+id/avatar"
+        android:id="@+id/profile_pic"
         android:layout_width="@dimen/content_avatar_size"
         android:layout_height="@dimen/content_avatar_size"
         android:layout_centerVertical="true"
@@ -22,8 +22,8 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/content_padding_horizontal"
         android:layout_marginStart="@dimen/content_padding_horizontal"
-        android:layout_toEndOf="@+id/avatar"
-        android:layout_toRightOf="@+id/avatar"
+        android:layout_toEndOf="@+id/profile_pic"
+        android:layout_toRightOf="@+id/profile_pic"
         android:orientation="vertical">
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView

@@ -24,13 +24,19 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
     private int toolbarAlpha = 0;
 
     public static void startProfileActivity(TsunamiActivity activity) {
-        activity.startActivityForResult(
-                new Intent(activity, ProfileActivity.class), TsunamiConstants.PROFILE_REQUEST_CODE);
+        startProfileActivity(activity, TsunamiConstants.USER_ID_EXTRA_DEFAULT);
+    }
+
+    public static void startProfileActivity(TsunamiActivity activity, long userId) {
+        Intent intent = new Intent(activity, ProfileActivity.class);
+        intent.putExtra(TsunamiConstants.USER_ID_EXTRA, userId);
+        activity.startActivityForResult(intent, TsunamiConstants.PROFILE_REQUEST_CODE);
     }
 
     @Override
     public TsunamiFragment getFragment() {
-        return ProfileFragment.getInstance(null);
+        long userId = getIntent().getLongExtra(TsunamiConstants.USER_ID_EXTRA, TsunamiConstants.USER_ID_EXTRA_DEFAULT);
+        return ProfileFragment.getInstance(userId);
     }
 
     @Override

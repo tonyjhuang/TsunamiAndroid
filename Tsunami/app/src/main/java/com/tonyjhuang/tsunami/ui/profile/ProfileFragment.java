@@ -25,6 +25,7 @@ import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScroll
 import com.tonyjhuang.tsunami.ui.profile.waves.BrowseWavesActivity;
 import com.tonyjhuang.tsunami.utils.ScreenManager;
 import com.tonyjhuang.tsunami.utils.TsunamiApplication;
+import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
@@ -42,8 +43,6 @@ import butterknife.OnLongClick;
  * Created by tony on 1/12/15.
  */
 public class ProfileFragment extends TsunamiFragment {
-    private static final String USER_ID = "user_id";
-
     @InjectView(R.id.scrollview)
     ObservableParallaxScrollView scrollView;
     @InjectView(R.id.cover)
@@ -67,9 +66,9 @@ public class ProfileFragment extends TsunamiFragment {
 
     private Handler handler = new Handler();
 
-    public static ProfileFragment getInstance(String userId) {
+    public static ProfileFragment getInstance(long userId) {
         Bundle args = new Bundle();
-        args.putString(USER_ID, userId);
+        args.putLong(TsunamiConstants.USER_ID_EXTRA, userId);
 
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
@@ -105,9 +104,14 @@ public class ProfileFragment extends TsunamiFragment {
                 .load(TsunamiApplication.profileCoverResourceId)
                 .into(coverImage);
 
-        // Retrieve userstats from api
-        subscribe(api.getCurrentUserStats(), this::populateStats,
-                (throwable) -> Timber.e(throwable, "error getting userstats"));
+        long userId = getArguments().getLong(TsunamiConstants.USER_ID_EXTRA, TsunamiConstants.USER_ID_EXTRA_DEFAULT);
+        if (userId == TsunamiConstants.USER_ID_EXTRA_DEFAULT) {
+            subscribe(api.getCurrentUserStats(), this::populateStats,
+                    (throwable) -> Timber.e(throwable, "error getting userstats"));
+        } else {
+            subscribe(api.getUserStats(userId), this::populateStats,
+                    (throwable) -> Timber.e(throwable, "error getting userstats for user " + userId));
+        }
     }
 
     private void setCoverImageHeight(int height) {

@@ -17,6 +17,7 @@ import com.tonyjhuang.tsunami.api.models.WaveContent;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsActivity;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsFragment;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.TsunamiCard;
+import com.tonyjhuang.tsunami.ui.profile.ProfileActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
 import javax.inject.Inject;
@@ -70,12 +71,6 @@ public class ContentCard extends TsunamiCard {
     public void setWave(Wave wave) {
         if (wave == null) return;
 
-        String numRipples;
-        if (wave.getRipples().size() < 1000)
-            numRipples = String.valueOf(wave.getRipples().size());
-        else
-            numRipples = String.valueOf(wave.getRipples().size() / 1000f) + "k";
-
         updateCommentsText(wave);
         alias.setText(wave.getUser().getName());
 
@@ -94,7 +89,6 @@ public class ContentCard extends TsunamiCard {
         this.wave = wave;
     }
 
-
     public Wave getWave() {
         return wave;
     }
@@ -109,6 +103,12 @@ public class ContentCard extends TsunamiCard {
                     numComments, numComments);
         }
         comments.setText(commentsText);
+    }
+
+    @OnClick(R.id.profile_pic)
+    public void onProfilePicClick(View view) {
+        if(wave == null) return;
+        ProfileActivity.startProfileActivity((TsunamiActivity) getContext(), wave.getUser().getId());
     }
 
     @OnClick(R.id.comments_container)

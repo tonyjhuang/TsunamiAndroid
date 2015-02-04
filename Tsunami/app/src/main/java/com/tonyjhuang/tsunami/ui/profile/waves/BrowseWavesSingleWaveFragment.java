@@ -10,6 +10,7 @@ import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.content.ContentCard;
+import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 
 import javax.inject.Inject;
@@ -20,8 +21,6 @@ import butterknife.InjectView;
  * Created by tony on 1/27/15.
  */
 public class BrowseWavesSingleWaveFragment extends TsunamiFragment {
-    private static final String WAVE_ID = "wave_id";
-
     @InjectView(R.id.wave_scrollview)
     BrowseWavesScrollView waveScrollView;
 
@@ -30,7 +29,7 @@ public class BrowseWavesSingleWaveFragment extends TsunamiFragment {
 
     public static BrowseWavesSingleWaveFragment getInstance(long waveId) {
         Bundle args = new Bundle();
-        args.putLong(WAVE_ID, waveId);
+        args.putLong(TsunamiConstants.WAVE_ID_EXTRA, waveId);
         BrowseWavesSingleWaveFragment fragment = new BrowseWavesSingleWaveFragment();
         fragment.setArguments(args);
         return fragment;
@@ -45,8 +44,9 @@ public class BrowseWavesSingleWaveFragment extends TsunamiFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        long waveId = getArguments().getLong(WAVE_ID, -1);
-        subscribe(api.getWave(waveId), this::setWave);
+        long waveId = getArguments().getLong(TsunamiConstants.WAVE_ID_EXTRA, TsunamiConstants.WAVE_ID_EXTRA_DEFAULT);
+        if (waveId != TsunamiConstants.WAVE_ID_EXTRA_DEFAULT)
+            subscribe(api.getWave(waveId), this::setWave);
     }
 
     private void setWave(Wave wave) {

@@ -39,6 +39,12 @@ public class BrowseWavesActivity extends TsunamiActivity {
         activity.startActivityForResult(intent, TsunamiConstants.BROWSE_WAVES_REQUEST_CODE);
     }
 
+    public static void startBrowseWavesActivity(TsunamiActivity activity, long userId) {
+        Intent intent = new Intent(activity, BrowseWavesActivity.class);
+        intent.putExtra(TsunamiConstants.USER_ID_EXTRA, userId);
+        activity.startActivityForResult(intent, TsunamiConstants.BROWSE_WAVES_REQUEST_CODE);
+    }
+
     @Override
     protected List<Object> getModules() {
         return Arrays.asList(new BrowseWavesModule(this));
@@ -64,11 +70,12 @@ public class BrowseWavesActivity extends TsunamiActivity {
 
         BrowseWavesViewPagerFragment viewPagerFragment;
         if (savedInstanceState == null) {
-            viewPagerFragment = BrowseWavesViewPagerFragment.getInstance();
+            long userId = getIntent().getLongExtra(TsunamiConstants.USER_ID_EXTRA, TsunamiConstants.USER_ID_EXTRA_DEFAULT);
+            viewPagerFragment = BrowseWavesViewPagerFragment.getInstance(userId);
             getFragmentManager().beginTransaction()
                     .replace(R.id.view_pager_container, viewPagerFragment)
                     .commit();
-            } else {
+        } else {
             viewPagerFragment = (BrowseWavesViewPagerFragment)
                     getFragmentManager().findFragmentById(R.id.view_pager_container);
         }
