@@ -47,7 +47,7 @@ public class SplashCard extends TsunamiCard {
     public SplashContent retrieveSplashContent() {
         return new SplashContent(title.getText().toString(),
                 body.getText().toString(),
-                WaveContent.ContentType.TEXT);
+                WaveContent.ContentType.text);
     }
 
     public void clear() {

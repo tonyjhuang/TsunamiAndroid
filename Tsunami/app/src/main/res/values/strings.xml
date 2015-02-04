@@ -25,6 +25,15 @@
         <item quantity="other">See %1$d comments&#8230;</item>
     </plurals>
 
+    <plurals name="content_metadata_views">
+        <item quantity="one">view</item>
+        <item quantity="other">views</item>
+    </plurals>
+    <plurals name="content_metadata_ripples">
+        <item quantity="one">ripple</item>
+        <item quantity="other">ripples</item>
+    </plurals>
+
     <string name="comment_hint">Say something&#8230;</string>
     <string name="comment_no_comments">Nothing here yet, kick off a new conversation!</string>
 

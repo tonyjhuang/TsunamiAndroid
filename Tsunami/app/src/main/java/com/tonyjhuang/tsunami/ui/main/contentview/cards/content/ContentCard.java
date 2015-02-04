@@ -31,8 +31,6 @@ import butterknife.OnClick;
 public class ContentCard extends TsunamiCard {
     @InjectView(R.id.alias)
     TextView alias;
-    @InjectView(R.id.ripples)
-    TextView ripples;
     @InjectView(R.id.comments_text)
     TextView comments;
     @InjectView(R.id.content_container)
@@ -80,12 +78,11 @@ public class ContentCard extends TsunamiCard {
 
         updateCommentsText(wave);
         alias.setText(wave.getUser().getName());
-        ripples.setText(numRipples);
 
         // Set the content view. If we are getting an updated version, skip this.
         if (this.wave == null || wave.getId() != this.wave.getId()) {
             ContentInnerView innerView;
-            if (wave.getContent().getContentType().equals(WaveContent.ContentType.IMAGE_LINK)) {
+            if (wave.getContent().getContentType().equals(WaveContent.ContentType.image_link)) {
                 innerView = new ContentInnerImage(getContext());
             } else {
                 innerView = new ContentInnerText(getContext());

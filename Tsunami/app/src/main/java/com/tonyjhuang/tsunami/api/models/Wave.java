@@ -2,7 +2,6 @@ package com.tonyjhuang.tsunami.api.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.mock.reddit.RedditPost;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
 
 /*
 {
@@ -145,7 +143,7 @@ public class Wave extends ApiObject {
     public static Wave createDebugWave(RedditPost post, List<Comment> comments, List<Ripple> ripples) {
         String title = post.title;
         String body = post.isSelf ? post.selftext : post.url;
-        WaveContent.ContentType contentType = post.isSelf ? WaveContent.ContentType.TEXT : WaveContent.ContentType.IMAGE_LINK;
+        WaveContent.ContentType contentType = post.isSelf ? WaveContent.ContentType.text : WaveContent.ContentType.image_link;
         User user = User.createDebugUser(post.author);
         Date createdAt = new Date(post.created * 1000);
         int views = post.ups * 10;

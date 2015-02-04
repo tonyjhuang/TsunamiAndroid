@@ -54,7 +54,7 @@ public class WaveContent extends ApiObject {
     }
 
     private WaveContent(String title, String body) {
-        this(title, body, ContentType.TEXT);
+        this(title, body, ContentType.text);
     }
 
     private WaveContent(String title, String body, ContentType contentType) {
@@ -64,9 +64,6 @@ public class WaveContent extends ApiObject {
     }
 
     public static enum ContentType {
-        @SerializedName("text")
-        TEXT,
-        @SerializedName("image_link")
-        IMAGE_LINK
+        text, image_link
     }
 }

@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/content_padding_vertical"
@@ -7,11 +8,19 @@
     android:paddingTop="@dimen/content_padding_vertical">
 
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+        android:id="@+id/ripple_counter"
+        style="@style/WaveContentMetaData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
         android:id="@+id/timestamp"
         style="@style/WaveContentMetaData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2 hours ago" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        tools:text="2 hours ago" />
 
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
         android:id="@+id/view_counter"
@@ -20,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:text="81 views" />
+        tools:text="81 views" />
 
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
         android:id="@+id/distance"
@@ -29,5 +38,5 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:text="3 miles away" />
+        tools:text="3 miles away" />
 </LinearLayout>

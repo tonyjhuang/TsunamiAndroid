@@ -66,7 +66,7 @@ public class Ripple extends ApiObject {
     }
 
     public static enum RippleStatus {
-        ACTIVE, INACTIVE
+        active, inactive
     }
 
     /* DEBUG */

@@ -37,7 +37,6 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_marginTop="-2dp"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
@@ -62,18 +61,4 @@
 
         </LinearLayout>
     </LinearLayout>
-
-    <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-        android:id="@+id/ripples"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/ripple_circle"
-        android:gravity="center"
-        android:text="26"
-        android:textColor="@color/primary_dark"
-        android:textSize="26sp" />
-
 </RelativeLayout>

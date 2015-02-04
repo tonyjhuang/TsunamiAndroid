@@ -1,6 +1,12 @@
 package com.tonyjhuang.tsunami.ui.main.contentview.cards.content;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.CharacterStyle;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -31,6 +37,8 @@ public class ContentInnerMetadata extends LinearLayout {
         df.setRoundingMode(RoundingMode.HALF_EVEN);
     }
 
+    @InjectView(R.id.ripple_counter)
+    TextView rippleCounter;
     @InjectView(R.id.timestamp)
     TextView timestamp;
     @InjectView(R.id.view_counter)
@@ -57,22 +65,36 @@ public class ContentInnerMetadata extends LinearLayout {
 
     public void setWave(Wave wave) {
         Ripple splash = wave.getSplash();
+        if (splash == null) return;
 
+        rippleCounter.setText(getRippleCountText(wave.getRipples().size()));
         timestamp.setText(prettyTime.format(wave.getCreatedAt()));
         viewCounter.setText(getViewCountText(wave.getViews()));
-        if (splash == null) return;
         distance.setText(getDistanceText((float) splash.getLatitude(), (float) splash.getLongitude()));
     }
 
-    private String getViewCountText(int views) {
-        String viewCount;
-        if (views >= 1000) {
-            viewCount = df.format(views / 1000f) + "k";
-        } else {
-            viewCount = views + "";
-        }
+    private Spanned getRippleCountText(int ripples) {
+        String ripplesText = wrtThousand(ripples);
+        String rippleCountText = ripplesText +
+                " " + getResources().getQuantityString(R.plurals.content_metadata_ripples, ripples);
+        int color = getResources().getColor(R.color.primary_dark);
 
-        return viewCount + " views";
+        SpannableStringBuilder builder = new SpannableStringBuilder(rippleCountText);
+        setSpan(builder, new ForegroundColorSpan(color), rippleCountText);
+        setSpan(builder, new StyleSpan(Typeface.BOLD), ripplesText);
+
+        return builder;
+    }
+
+    private void setSpan(SpannableStringBuilder builder, CharacterStyle style, String target) {
+        String original = builder.toString();
+        int start = original.indexOf(target);
+        builder.setSpan(style, start, start + target.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
+    private String getViewCountText(int views) {
+        return wrtThousand(views) +
+                " " + getResources().getQuantityString(R.plurals.content_metadata_views, views);
     }
 
     private String getDistanceText(float lat, float lng) {
@@ -81,6 +103,13 @@ public class ContentInnerMetadata extends LinearLayout {
             return "next door";
         else
             return df.format(dist) + " miles away";
+    }
 
+    private String wrtThousand(int num) {
+        if (num >= 1000) {
+            return String.valueOf(df.format(num / 1000f)) + "k";
+        } else {
+            return String.valueOf(num);
+        }
     }
 }

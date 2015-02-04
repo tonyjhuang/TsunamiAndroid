@@ -123,6 +123,7 @@ public class MainWavePresenter implements WavePresenter {
     }
 
     private void onGetWaveError(Throwable error) {
+        Timber.e(error, "AHHH");
         if (!isUserSplashing())
             contentView.showError();
     }
