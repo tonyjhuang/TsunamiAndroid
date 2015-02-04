@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.Space;
 
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.utils.SimpleAnimatorListener;
 
 /**
  * Created by tony on 12/28/14.
@@ -37,7 +39,7 @@ public class BouncyScrollView extends FadingSingleTargetScrollView {
      * entirely off? The threshold is the percentage of the view you want scrolled off before we
      * take control of it. Note: we will never auto-scroll the view as long as the user is touching
      * it.
-     * <p/>
+     * <p>
      * Setting it to 0f is effectively turning off scrollAssist whereas setting it to 1f will scroll
      * the view as long as it touches the edge of the screen. Finally, 0.5f will scroll the view if
      * at least half of it is scrolled offscreen.
@@ -98,7 +100,7 @@ public class BouncyScrollView extends FadingSingleTargetScrollView {
         viewAnimator = ObjectAnimator.ofInt(this, "scrollY", 1, absoluteStartingPosition);
         viewAnimator.setInterpolator(viewAnimationInterpolator);
         viewAnimator.setDuration(viewAnimationDuration);
-        viewAnimator.addListener(new SimpleAnimationListener() {
+        viewAnimator.addListener(new SimpleAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 onScrollStopListener.setPause(false);
@@ -203,7 +205,7 @@ public class BouncyScrollView extends FadingSingleTargetScrollView {
         } else {
             onScrollStopListener.setPause(true);
             ObjectAnimator scrollDown = scrollToPosition(1, duration);
-            scrollDown.addListener(new SimpleAnimationListener() {
+            scrollDown.addListener(new SimpleAnimatorListener() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     setCustomView(customView);
@@ -229,6 +231,8 @@ public class BouncyScrollView extends FadingSingleTargetScrollView {
             scrollDownOffscreen();
         } else if (scrollY >= getTopScrollAssistThreshold()) { // Should scroll up
             scrollUpOffscreen();
+        } else {
+            onScrollStopListener.setPause(false);
         }
     }
 
@@ -341,7 +345,12 @@ public class BouncyScrollView extends FadingSingleTargetScrollView {
          * This Runnable is only started after the user has started scrolling.
          * 16 millis = 1 frame @ 60fps.
          */
-        private static final int DELAY = 32;
+        private static final int DELAY = 8;
+
+        /**
+         * The minimum difference between scroll events to be considered 'scrolling'
+         */
+        private static final int MINIMUM_VELOCITY = 32;
 
         /**
          * The y position we received last check.
@@ -366,7 +375,7 @@ public class BouncyScrollView extends FadingSingleTargetScrollView {
             @Override
             public void run() {
                 int y = getScrollY();
-                if (y == oldY && !userFingerDown && !viewAnimator.isRunning()) {
+                if (Math.abs(y - oldY) <= MINIMUM_VELOCITY && !userFingerDown && !viewAnimator.isRunning()) {
                     onScrollStopped();
                 } else {
                     oldY = y;
@@ -420,25 +429,10 @@ public class BouncyScrollView extends FadingSingleTargetScrollView {
         }
 
         private void onScrollStopped() {
-            if (scrollAssist && !pause) scrollOffScreenIfNecessary();
-        }
-    }
-
-    private static class SimpleAnimationListener implements Animator.AnimatorListener {
-        @Override
-        public void onAnimationStart(Animator animation) {
-        }
-
-        @Override
-        public void onAnimationEnd(Animator animation) {
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animation) {
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animation) {
+            if (scrollAssist && !pause) {
+                setPause(true);
+                scrollOffScreenIfNecessary();
+            }
         }
     }
 }
