@@ -13,6 +13,7 @@
     <string name="activity_label_profile">Profile</string>
     <string name="activity_label_comments">Comments</string>
     <string name="activity_label_browse_waves">Waves</string>
+    <string name="activity_label_splash">Splash</string>
 
     <string name="main_splash_begin_description">New splash</string>
     <string name="main_splash_send_description">Create splash</string>

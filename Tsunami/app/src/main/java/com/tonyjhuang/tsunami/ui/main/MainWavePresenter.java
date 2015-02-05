@@ -9,6 +9,7 @@ import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.splash.SplashContent;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
+import com.tonyjhuang.tsunami.ui.splash.SplashActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
 import javax.inject.Inject;
@@ -257,9 +258,10 @@ public class MainWavePresenter implements WavePresenter {
 
     @Override
     public void onBeginSplashButtonClicked() {
-        contentView.clearSplashCard();
+        /*contentView.clearSplashCard();
         contentView.showSplash();
-        mapView.showSplashing(true);
+        mapView.showSplashing(true);*/
+        SplashActivity.startSplashActivity(activity);
     }
 
     @Override
