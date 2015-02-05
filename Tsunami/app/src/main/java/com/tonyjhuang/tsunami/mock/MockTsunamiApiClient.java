@@ -13,6 +13,7 @@ import com.tonyjhuang.tsunami.api.models.WaveContent;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.network.TsunamiService;
 import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.util.ArrayList;
@@ -57,6 +58,11 @@ public class MockTsunamiApiClient implements TsunamiApi {
     @Override
     public boolean isLoggedIn() {
         return false;
+    }
+
+    @Override
+    public Observable<Long> getCurrentUserId() {
+        return Observable.just(TsunamiConstants.NO_CURRENT_USER_ID);
     }
 
     @Override

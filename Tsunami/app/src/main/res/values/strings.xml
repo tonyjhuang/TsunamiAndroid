@@ -10,7 +10,7 @@
     <string name="fonttype_medium">OpenSans-Medium</string>
     <string name="fonttype_heavy">OpenSans-Heavy</string>
 
-    <string name="activity_label_profile">Your Profile</string>
+    <string name="activity_label_profile">Profile</string>
     <string name="activity_label_comments">Comments</string>
     <string name="activity_label_browse_waves">Waves</string>
 

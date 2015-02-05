@@ -20,6 +20,8 @@ public interface TsunamiApi {
     /* USERS USERS USERS USERS USERS USERS USERS USERS */
     public boolean isLoggedIn();
 
+    public Observable<Long> getCurrentUserId();
+
     public Observable<User> createUser();
 
     public Observable<UserStats> getCurrentUserStats();

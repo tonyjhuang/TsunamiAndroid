@@ -27,7 +27,7 @@
         android:orientation="vertical">
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-            android:id="@+id/alias"
+            android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Kevin Yang"

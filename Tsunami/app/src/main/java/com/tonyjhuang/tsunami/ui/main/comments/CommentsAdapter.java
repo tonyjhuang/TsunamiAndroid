@@ -5,13 +5,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Comment;
+import com.tonyjhuang.tsunami.api.models.User;
+import com.tonyjhuang.tsunami.ui.profile.ProfileActivity;
+import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -25,10 +30,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private final static int COMMENT = 1;
 
+    private WeakReference<TsunamiActivity> activityWeakReference;
     private List<Comment> comments;
     private RecyclerView.LayoutManager layoutManager;
 
-    public CommentsAdapter(List<Comment> comments, RecyclerView.LayoutManager layoutManager) {
+    public CommentsAdapter(TsunamiActivity activity,
+                           List<Comment> comments,
+                           RecyclerView.LayoutManager layoutManager) {
+        this.activityWeakReference = new WeakReference<>(activity);
         this.comments = comments;
         this.layoutManager = layoutManager;
     }
@@ -64,13 +73,21 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return COMMENT;
     }
 
-    private void bindCommentViewHolder(Comment comment, CommentViewHolder holder) {
-        if (comment.getAuthor() != null)
-            holder.author.setText(comment.getAuthor().getName());
-        else
-            holder.author.setText("DAVID I NEED A USER OBJECT IN COMMENTS");
+    private void bindCommentViewHolder(final Comment comment, CommentViewHolder holder) {
+        View.OnClickListener userOnClickListener = getOnClickListener(comment.getUser());
+        holder.profilePic.setOnClickListener(userOnClickListener);
+        holder.author.setOnClickListener(userOnClickListener);
+
+        holder.author.setText(comment.getUser().getName());
         holder.body.setText(comment.getBody());
         holder.timestamp.setText(prettyTime.format(comment.getCreatedAt()));
+    }
+
+    private View.OnClickListener getOnClickListener(User user) {
+        return (view) -> {
+            if (activityWeakReference.get() == null) return;
+            ProfileActivity.startProfileActivity(activityWeakReference.get(), user.getId());
+        };
     }
 
     public void addComment(Comment comment) {
@@ -81,6 +98,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     static class CommentViewHolder extends RecyclerView.ViewHolder {
+        @InjectView(R.id.profile_pic)
+        ImageView profilePic;
         @InjectView(R.id.author)
         TextView author;
         @InjectView(R.id.timestamp)

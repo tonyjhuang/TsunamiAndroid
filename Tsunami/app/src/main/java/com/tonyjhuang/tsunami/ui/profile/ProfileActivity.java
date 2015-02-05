@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.injection.ProfileModule;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollListener;
 import com.tonyjhuang.tsunami.utils.SingleFragmentActivity;
@@ -14,10 +15,15 @@ import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by tony on 1/15/15.
  */
 public class ProfileActivity extends SingleFragmentActivity implements OnScrollListener {
+
+    @Inject
+    TsunamiApi api;
 
     ProfileFragment fragment;
     Handler handler = new Handler();
@@ -35,8 +41,7 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
 
     @Override
     public TsunamiFragment getFragment() {
-        long userId = getIntent().getLongExtra(TsunamiConstants.USER_ID_EXTRA, TsunamiConstants.USER_ID_EXTRA_DEFAULT);
-        return ProfileFragment.getInstance(userId);
+        return ProfileFragment.getInstance(getUserIdExtra());
     }
 
     @Override
@@ -49,6 +54,7 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
         super.onCreate(savedInstanceState);
 
         inflateToolbar(true);
+        subscribe(api.getCurrentUserId(), (currentUserId) -> {});
 
         fragment = (ProfileFragment) getActiveFragment();
         handler.post(() -> fragment.scrollView.setOnScrollListener(this));
@@ -58,6 +64,10 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
     public void onResume() {
         super.onResume();
         setToolbarBackgroundAlpha(toolbarAlpha);
+    }
+
+    private long getUserIdExtra() {
+        return getIntent().getLongExtra(TsunamiConstants.USER_ID_EXTRA, TsunamiConstants.USER_ID_EXTRA_DEFAULT);
     }
 
     @Override

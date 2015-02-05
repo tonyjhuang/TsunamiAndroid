@@ -90,7 +90,8 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
         this.wave = wave;
         recyclerView.post(() -> {
             Anim.fadeOut(progressBar);
-            adapter = new CommentsAdapter(new ArrayList<>(wave.getComments()), layoutManager);
+            adapter = new CommentsAdapter(getTsunamiActivity(),
+                    new ArrayList<>(wave.getComments()), layoutManager);
             recyclerView.setAdapter(adapter);
             if (wave.getComments().size() == 0) showNoCommentsMessage(true);
         });

@@ -35,8 +35,7 @@ public class BrowseWavesActivity extends TsunamiActivity {
     TsunamiPreferences preferences;
 
     public static void startBrowseWavesActivity(TsunamiActivity activity) {
-        Intent intent = new Intent(activity, BrowseWavesActivity.class);
-        activity.startActivityForResult(intent, TsunamiConstants.BROWSE_WAVES_REQUEST_CODE);
+        startBrowseWavesActivity(activity, TsunamiConstants.USER_ID_EXTRA_DEFAULT);
     }
 
     public static void startBrowseWavesActivity(TsunamiActivity activity, long userId) {

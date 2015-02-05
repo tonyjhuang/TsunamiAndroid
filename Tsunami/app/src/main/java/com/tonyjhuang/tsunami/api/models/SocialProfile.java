@@ -21,6 +21,14 @@ public class SocialProfile extends ApiObject {
     }
 
     public static enum Service {
-        twitter, facebook, google_plus, tsunami, soundcloud, youtube, deviant_art, instagram
+        tsunami, twitter, facebook, google_plus, soundcloud, youtube, deviant_art, instagram
+    }
+
+    /* debug */
+    public static SocialProfile createDebugSocialProfile(String name) {
+        SocialProfile s = new SocialProfile();
+        s.username = name;
+        s.service = Service.tsunami;
+        return s;
     }
 }

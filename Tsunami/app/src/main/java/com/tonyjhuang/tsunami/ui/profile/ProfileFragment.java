@@ -38,6 +38,7 @@ import butterknife.InjectView;
 import butterknife.InjectViews;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
+import rx.Observable;
 
 /**
  * Created by tony on 1/12/15.
@@ -95,23 +96,21 @@ public class ProfileFragment extends TsunamiFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (BuildConfig.DEBUG) {
-            userId.setVisibility(View.VISIBLE);
-            userId.setText(preferences.guid.get());
+        long userId = getArguments().getLong(TsunamiConstants.USER_ID_EXTRA, TsunamiConstants.USER_ID_EXTRA_DEFAULT);
+
+        if (BuildConfig.DEBUG && userId == TsunamiConstants.USER_ID_EXTRA_DEFAULT) {
+            this.userId.setVisibility(View.VISIBLE);
+            this.userId.setText(preferences.guid.get());
         }
 
         Picasso.with(getActivity())
                 .load(TsunamiApplication.profileCoverResourceId)
                 .into(coverImage);
 
-        long userId = getArguments().getLong(TsunamiConstants.USER_ID_EXTRA, TsunamiConstants.USER_ID_EXTRA_DEFAULT);
-        if (userId == TsunamiConstants.USER_ID_EXTRA_DEFAULT) {
-            subscribe(api.getCurrentUserStats(), this::populateStats,
-                    (throwable) -> Timber.e(throwable, "error getting userstats"));
-        } else {
-            subscribe(api.getUserStats(userId), this::populateStats,
-                    (throwable) -> Timber.e(throwable, "error getting userstats for user " + userId));
-        }
+        Observable<UserStats> userStatsObservable =
+                userId == TsunamiConstants.USER_ID_EXTRA_DEFAULT ? api.getCurrentUserStats() : api.getUserStats(userId);
+        subscribe(userStatsObservable, this::populateStats,
+                (throwable) -> Timber.e(throwable, "error getting userstats for user " + userId));
     }
 
     private void setCoverImageHeight(int height) {
@@ -155,6 +154,7 @@ public class ProfileFragment extends TsunamiFragment {
 
     @OnClick(R.id.waves)
     public void onWavesClick(View view) {
-        BrowseWavesActivity.startBrowseWavesActivity(getTsunamiActivity());
+        long userId = getArguments().getLong(TsunamiConstants.USER_ID_EXTRA, TsunamiConstants.USER_ID_EXTRA_DEFAULT);
+        BrowseWavesActivity.startBrowseWavesActivity(getTsunamiActivity(), userId);
     }
 }

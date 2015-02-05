@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.api.models.User;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.models.WaveContent;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsActivity;
@@ -19,6 +21,8 @@ import com.tonyjhuang.tsunami.ui.main.comments.CommentsFragment;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.TsunamiCard;
 import com.tonyjhuang.tsunami.ui.profile.ProfileActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
+
+import java.lang.ref.WeakReference;
 
 import javax.inject.Inject;
 
@@ -30,8 +34,10 @@ import butterknife.OnClick;
  * Created by tonyjhuang on 9/7/14.
  */
 public class ContentCard extends TsunamiCard {
-    @InjectView(R.id.alias)
-    TextView alias;
+    @InjectView(R.id.profile_pic)
+    ImageView profilePic;
+    @InjectView(R.id.author)
+    TextView author;
     @InjectView(R.id.comments_text)
     TextView comments;
     @InjectView(R.id.content_container)
@@ -46,6 +52,7 @@ public class ContentCard extends TsunamiCard {
      * The wave that we should be displaying currently.
      */
     private Wave wave;
+    private WeakReference<TsunamiActivity> activityWeakReference;
 
     public ContentCard(Context context) {
         this(context, null);
@@ -58,6 +65,7 @@ public class ContentCard extends TsunamiCard {
     public ContentCard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         ((TsunamiActivity) context).inject(this);
+        activityWeakReference = new WeakReference<>((TsunamiActivity) context);
     }
 
     @Override
@@ -70,23 +78,24 @@ public class ContentCard extends TsunamiCard {
 
     public void setWave(Wave wave) {
         if (wave == null) return;
-
         updateCommentsText(wave);
-        alias.setText(wave.getUser().getName());
-
-        // Set the content view. If we are getting an updated version, skip this.
+        // Set the content view. If we are getting an updated version of the wave, skip this.
         if (this.wave == null || wave.getId() != this.wave.getId()) {
-            ContentInnerView innerView;
-            if (wave.getContent().getContentType().equals(WaveContent.ContentType.image_link)) {
-                innerView = new ContentInnerImage(getContext());
-            } else {
-                innerView = new ContentInnerText(getContext());
-            }
-            container.removeAllViews();
-            innerView.setWave(wave);
-            container.addView((View) innerView);
+            View.OnClickListener userOnClickListener = getOnClickListener(wave.getUser());
+            profilePic.setOnClickListener(userOnClickListener);
+            author.setOnClickListener(userOnClickListener);
+
+            author.setText(wave.getUser().getName());
+            setContentInnerView(wave);
         }
         this.wave = wave;
+    }
+
+    private View.OnClickListener getOnClickListener(User user) {
+        return (view) -> {
+            if (activityWeakReference.get() == null) return;
+            ProfileActivity.startProfileActivity(activityWeakReference.get(), user.getId());
+        };
     }
 
     public Wave getWave() {
@@ -105,10 +114,16 @@ public class ContentCard extends TsunamiCard {
         comments.setText(commentsText);
     }
 
-    @OnClick(R.id.profile_pic)
-    public void onProfilePicClick(View view) {
-        if(wave == null) return;
-        ProfileActivity.startProfileActivity((TsunamiActivity) getContext(), wave.getUser().getId());
+    private void setContentInnerView(Wave wave) {
+        ContentInnerView innerView;
+        if (wave.getContent().getContentType().equals(WaveContent.ContentType.image_link)) {
+            innerView = new ContentInnerImage(getContext());
+        } else {
+            innerView = new ContentInnerText(getContext());
+        }
+        container.removeAllViews();
+        innerView.setWave(wave);
+        container.addView((View) innerView);
     }
 
     @OnClick(R.id.comments_container)

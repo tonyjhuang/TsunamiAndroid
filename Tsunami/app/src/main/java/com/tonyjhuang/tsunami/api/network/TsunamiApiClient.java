@@ -15,6 +15,7 @@ import com.tonyjhuang.tsunami.api.network.requestbodies.CreateUserRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.DismissWaveRequest;
 import com.tonyjhuang.tsunami.api.network.requestbodies.SplashRequest;
 import com.tonyjhuang.tsunami.logging.Timber;
+import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.util.List;
@@ -61,7 +62,12 @@ public class TsunamiApiClient implements TsunamiApi {
 
     @Override
     public boolean isLoggedIn() {
-        return prefs.userId.get() != TsunamiPreferences.NO_USER_ID;
+        return prefs.userId.get() != TsunamiConstants.NO_CURRENT_USER_ID;
+    }
+
+    @Override
+    public Observable<Long> getCurrentUserId() {
+        return Observable.just(prefs.userId.get());
     }
 
     @Override

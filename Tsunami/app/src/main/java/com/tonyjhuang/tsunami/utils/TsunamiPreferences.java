@@ -15,13 +15,12 @@ import java.util.UUID;
  */
 public class TsunamiPreferences {
     private static final String SHARED_PREFERENCES = "com.tonyjhuang.tsunami.shared_prefs";
-    public static final long NO_USER_ID = -1l;
 
     /**
      * Preference key-value pairs that you can get-set
      */
     public final GuidPreference guid = new GuidPreference("com.tonyjhuang.tsunami.guid");
-    public final LongPreference userId = new LongPreference("com.tonyjhuang.tsunami.user_id", NO_USER_ID);
+    public final LongPreference userId = new LongPreference("com.tonyjhuang.tsunami.user_id", TsunamiConstants.NO_CURRENT_USER_ID);
     public final FloatPreference lastSeenLat = new FloatPreference("com.tonyjhuang.tsunami.last_seen_lat", -1f);
     public final FloatPreference lastSeenLng = new FloatPreference("com.tonyjhuang.tsunami.last_seen_lng", -1f);
 

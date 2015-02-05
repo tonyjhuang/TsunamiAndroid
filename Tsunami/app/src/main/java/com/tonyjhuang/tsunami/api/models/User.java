@@ -1,7 +1,9 @@
 package com.tonyjhuang.tsunami.api.models;
 
 import com.google.gson.annotations.Expose;
+import com.tonyjhuang.tsunami.logging.Timber;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,15 +13,14 @@ import java.util.List;
  */
 public class User extends ApiObject {
     @Expose
-    private String name;
-    @Expose
     private UserStats stats;
     @Expose
     private List<SocialProfile> socialProfiles;
 
-
     public String getName() {
-        return name == null ? "Kevin" : name;
+        if (socialProfiles == null || socialProfiles.size() != 1)
+            return "Anonymous";
+        return socialProfiles.get(0).getUsername();
     }
 
     public UserStats getStats() {
@@ -36,7 +37,8 @@ public class User extends ApiObject {
 
     public static User createDebugUser(String name) {
         User user = new User();
-        user.name = name == null ? "Anonymous" : name;
+        SocialProfile socialProfile = SocialProfile.createDebugSocialProfile(name);
+        user.socialProfiles = Arrays.asList(socialProfile);
         return user;
     }
 }

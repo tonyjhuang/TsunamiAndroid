@@ -15,14 +15,14 @@ import java.util.Random;
  */
 public class Comment extends ApiObject{
     @Expose
-    private User author;
+    private User user;
     @Expose
     private long waveId;
     @Expose
     private String body;
 
-    public User getAuthor() {
-        return author;
+    public User getUser() {
+        return user;
     }
 
     public long getWaveId() {
@@ -43,7 +43,7 @@ public class Comment extends ApiObject{
 
     public static Comment createDebugComment(String author, String body, Date timestamp) {
         Comment comment = new Comment();
-        comment.author = User.createDebugUser(author);
+        comment.user = User.createDebugUser(author);
         comment.waveId = Math.abs(new Random().nextLong());
         comment.body = body;
         comment.setCreatedAt(timestamp);
