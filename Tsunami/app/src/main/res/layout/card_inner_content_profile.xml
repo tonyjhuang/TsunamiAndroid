@@ -41,7 +41,8 @@
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:gravity="bottom"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
                 android:id="@+id/handle"
@@ -55,8 +56,8 @@
                 android:id="@+id/handle_icon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginStart="2dp"
                 android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
                 android:src="@drawable/google_plus" />
 
         </LinearLayout>
