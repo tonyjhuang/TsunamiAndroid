@@ -156,6 +156,7 @@ public class Patio extends LinearLayout implements
         //Thumbnail container height & width
         ViewGroup.LayoutParams layoutParams = mThumbnailsContainer.getLayoutParams();
         setThumbnailContainerLayoutParams(layoutParams.width, (int) mThumbnailContainerHeight);
+        Log.d("hey", "setting up.. mThumbnailContainerHeight: " + mThumbnailContainerHeight);
         //Thumbnail container padding
         paddingTop = paddingBottom = paddingLeft = paddingRight = Float.valueOf(thumbnailsContainerPadding).intValue();
         mThumbnailsContainer.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
@@ -163,7 +164,7 @@ public class Patio extends LinearLayout implements
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (mThumbnailContainerHeight == -1) {
+        if (mThumbnailContainerHeight <= 0 ) {
             int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
             int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
             setThumbnailContainerLayoutParams(parentWidth, parentHeight);

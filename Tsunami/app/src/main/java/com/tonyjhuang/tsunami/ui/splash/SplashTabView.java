@@ -54,7 +54,7 @@ public class SplashTabView extends LinearLayout {
     public SplashTabView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         ButterKnife.inject(this, inflate(context, R.layout.view_splash_tab, this));
-        inflateTabs();
+        this.inflateTabs();
     }
 
     private void inflateTabs() {
@@ -64,7 +64,6 @@ public class SplashTabView extends LinearLayout {
         tabs.add(new SplashTab(imageTab, R.drawable.splash_camera_grey, R.drawable.splash_camera_black));
         tabs.add(new SplashTab(linkTab, R.drawable.splash_link_grey, R.drawable.splash_link_black));
         tabs.add(new SplashTab(audioTab, R.drawable.splash_mic_grey, R.drawable.splash_mic_black));
-        tabs.get(0).select();
     }
 
     public void setOnSelectedTabChangedListener(OnSelectedTabChangedListener listener) {
@@ -76,7 +75,7 @@ public class SplashTabView extends LinearLayout {
             listener.onSelectedTabChanged(selectedTab);
     }
 
-    private void selectTab(int tabId) {
+    public void selectTab(int tabId) {
         if (!tabs.get(tabId).isSelected()) {
             for (SplashTab tab : tabs)
                 tab.unselect();

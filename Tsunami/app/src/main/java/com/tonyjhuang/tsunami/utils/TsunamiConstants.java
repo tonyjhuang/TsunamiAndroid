@@ -10,6 +10,8 @@ public class TsunamiConstants {
     public static final int COMMENTS_REQUEST_CODE = 3;
     public static final int BROWSE_WAVES_REQUEST_CODE = 4;
     public static final int SPLASH_REQUEST_CODE = 5;
+    public static final int SPLASH_TAKE_PHOTO_REQUEST_CODE = 6;
+    public static final int SPLASH_ATTACH_PHOTO_REQUEST_CODE = 7;
 
     // Intent extras
     public static final String USER_ID_EXTRA = "user_id";

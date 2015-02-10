@@ -62,11 +62,7 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/content_tab"
             android:layout_below="@+id/text"
-            android:background="#3000" />
-
-        <View
-            style="@style/Shadow.Down"
-            android:layout_below="@+id/text" />
+            android:animateLayoutChanges="true" />
 
         <View
             style="@style/Divider"
@@ -74,7 +70,7 @@
 
         <View
             style="@style/Shadow.Up"
-            android:layout_above="@+id/content_tab" />
+            android:layout_above="@+id/content_tab" /><!--
 
         <com.tonyjhuang.tsunami.ui.customviews.fab.FloatingActionButton
             android:id="@+id/splash_button"
@@ -84,11 +80,11 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="-28dp"
-            android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:src="@drawable/ic_send_white"
-            app:fab_type="normal"
-            app:fab_shadow="true" />
+            app:fab_shadow="true"
+            app:fab_type="normal" />-->
 
         <com.tonyjhuang.tsunami.ui.splash.SplashTabView
             android:id="@+id/content_tab"
