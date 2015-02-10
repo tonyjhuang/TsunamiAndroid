@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="patio_default_thumbnail_container_height">256dp</dimen>
+    <dimen name="patio_default_thumbnails_container_padding">8dp</dimen>
+</resources>

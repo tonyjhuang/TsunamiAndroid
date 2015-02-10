@@ -62,6 +62,39 @@
         <item name="android:background">@color/divider</item>
     </style>
 
+    <style name="Shadow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">4dp</item>
+        <item name="android:alpha">0.2</item>
+    </style>
+
+    <style name="Shadow.Down">
+        <item name="android:background">@drawable/shadow_down</item>
+    </style>
+
+    <style name="Shadow.Up">
+        <item name="android:background">@drawable/shadow_up</item>
+    </style>
+
+    <style name="SplashTabItem">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="SplashTabDivider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:background">@color/divider</item>
+    </style>
+
     <style name="ProfilePic">
         <item name="border_color">@color/profile_pic_border</item>
         <item name="border_width">@dimen/profile_pic_border_dimen</item>

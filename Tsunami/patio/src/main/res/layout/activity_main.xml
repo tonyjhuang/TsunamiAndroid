@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.tonyjhuang.patio.Patio
+        android:id="@+id/patio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/text"
+        app:actionsTextColor="#333"
+        app:thumbnailContainerHeight="256dp"
+        app:thumbnailContainerBackground="#ddd"
+        app:thumbnailContainerPadding="0dp" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#fff3f3f3"
+        android:text="hello" />
+</RelativeLayout>

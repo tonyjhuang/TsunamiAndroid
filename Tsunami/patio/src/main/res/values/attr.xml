@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Patio">
+        <attr name="thumbnailContainerHeight" format="dimension"/>
+        <attr name="thumbnailContainerBackground" format="color"/>
+        <attr name="thumbnailContainerPadding" format="dimension"/>
+        <attr name="actionsTextColor" format="color"/>
+    </declare-styleable>
+</resources>

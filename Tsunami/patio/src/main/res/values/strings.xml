@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="app_name">Patio</string>
+
+    <string name="patio_take_picture">Take Photo</string>
+    <string name="patio_attach_picture">Choose Image</string>
+    <string name="patio_remove_picture">Remove Picture</string>
+    <string name="patio_action_cancel">Cancel</string>
+
+    <string name="hello_world">hello world.</string>
+    <string name="action_settings">Settings</string>
+
+</resources>

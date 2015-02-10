@@ -31,7 +31,7 @@ public class ContentInnerImage extends LinearLayout implements ContentInnerView{
     ImageView imageView;
     @InjectView(R.id.metadata)
     ContentInnerMetadata metadata;
-    @InjectView(R.id.caption)
+    @InjectView(R.id.text)
     TextView caption;
 
     private Wave wave;

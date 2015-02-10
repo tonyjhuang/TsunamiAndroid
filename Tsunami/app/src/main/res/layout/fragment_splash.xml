@@ -1,108 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <LinearLayout
-        android:id="@+id/alias_container"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="8dp">
+        android:layout_height="wrap_content">
 
-        <com.tonyjhuang.tsunami.ui.customviews.CircularImageView
-            android:id="@+id/profile_pic"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@drawable/kevin" />
+        <LinearLayout
+            android:id="@+id/alias_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="4dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="4dp">
 
-        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-            android:id="@+id/alias"
+            <com.tonyjhuang.tsunami.ui.customviews.CircularImageView
+                android:id="@+id/profile_pic"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/kevin" />
+
+            <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
+                android:id="@+id/alias"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/content_padding_horizontal"
+                android:layout_marginStart="@dimen/content_padding_horizontal"
+                android:padding="8dp"
+                android:text="Kevin Yang"
+                android:textSize="17sp"
+                app:typeface="OpenSans-Medium" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/alias_container"
+            android:background="@android:color/white"
+            android:gravity="top"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="textMultiLine"
+            android:lines="6"
+            android:padding="16dp"
+            android:scrollbars="vertical" />
+
+        <View
+            style="@style/Divider"
+            android:layout_below="@+id/alias_container" />
+
+        <FrameLayout
+            android:id="@+id/content_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/content_tab"
+            android:layout_below="@+id/text"
+            android:background="#3000" />
+
+        <View
+            style="@style/Shadow.Down"
+            android:layout_below="@+id/text" />
+
+        <View
+            style="@style/Divider"
+            android:layout_below="@+id/text" />
+
+        <View
+            style="@style/Shadow.Up"
+            android:layout_above="@+id/content_tab" />
+
+        <com.tonyjhuang.tsunami.ui.customviews.fab.FloatingActionButton
+            android:id="@+id/splash_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/content_padding_horizontal"
-            android:layout_marginStart="@dimen/content_padding_horizontal"
-            android:padding="8dp"
-            android:text="Kevin Yang"
-            android:textSize="17sp"
-            app:typeface="OpenSans-Medium" />
-    </LinearLayout>
+            android:layout_alignBottom="@+id/text"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="-28dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_send_white"
+            app:fab_type="normal"
+            app:fab_shadow="true" />
 
-    <EditText
-        android:id="@+id/caption"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/alias_container"
-        android:background="@android:color/white"
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        android:lines="6"
-        android:padding="16dp"
-        android:scrollbars="vertical" />
-
-    <FrameLayout
-        android:id="@+id/content_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/content_tab"
-        android:layout_below="@+id/caption" />
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_above="@+id/content_tab"
-        android:alpha="0.2"
-        android:background="@drawable/shadow_up" />
-
-    <LinearLayout
-        android:id="@+id/content_tab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_vertical"
-        android:minHeight="48dp"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="8dp">
-
-        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:text="o" />
-
-        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:text="o" />
-
-        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:text="o" />
-
-        <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:text="o" />
-    </LinearLayout>
-</RelativeLayout>
+        <com.tonyjhuang.tsunami.ui.splash.SplashTabView
+            android:id="@+id/content_tab"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+</ScrollView>
