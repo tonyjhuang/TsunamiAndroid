@@ -6,6 +6,7 @@ import android.os.Handler;
 
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.injection.ProfileModule;
+import com.tonyjhuang.tsunami.logging.TLocalytics;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.OnScrollListener;
 import com.tonyjhuang.tsunami.utils.SingleFragmentActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
@@ -63,6 +64,7 @@ public class ProfileActivity extends SingleFragmentActivity implements OnScrollL
     @Override
     public void onResume() {
         super.onResume();
+        TLocalytics.tagScreen(TLocalytics.SCREEN_PROFILE);
         setToolbarBackgroundAlpha(toolbarAlpha);
     }
 

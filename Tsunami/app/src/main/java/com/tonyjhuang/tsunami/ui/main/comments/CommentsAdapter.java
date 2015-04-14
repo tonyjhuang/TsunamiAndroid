@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Comment;
 import com.tonyjhuang.tsunami.api.models.User;
+import com.tonyjhuang.tsunami.logging.TLocalytics;
 import com.tonyjhuang.tsunami.ui.profile.ProfileActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 
@@ -74,18 +75,19 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void bindCommentViewHolder(final Comment comment, CommentViewHolder holder) {
-        View.OnClickListener userOnClickListener = getOnClickListener(comment.getUser());
-        holder.profilePic.setOnClickListener(userOnClickListener);
-        holder.author.setOnClickListener(userOnClickListener);
+        View.OnClickListener profilePicOnClickListener =
+                getProfilePicOnClickListener(comment.getUser());
+        holder.profilePic.setOnClickListener(profilePicOnClickListener);
 
         holder.author.setText(comment.getUser().getName());
         holder.body.setText(comment.getBody());
         holder.timestamp.setText(prettyTime.format(comment.getCreatedAt()));
     }
 
-    private View.OnClickListener getOnClickListener(User user) {
+    private View.OnClickListener getProfilePicOnClickListener(User user) {
         return (view) -> {
             if (activityWeakReference.get() == null) return;
+            TLocalytics.tagProfilePicClicked("comment");
             ProfileActivity.startProfileActivity(activityWeakReference.get(), user.getId());
         };
     }

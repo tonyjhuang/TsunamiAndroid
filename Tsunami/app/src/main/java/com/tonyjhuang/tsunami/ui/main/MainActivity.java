@@ -23,6 +23,7 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants
 import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.injection.MainModule;
+import com.tonyjhuang.tsunami.logging.TLocalytics;
 import com.tonyjhuang.tsunami.mock.DebugLocationControls;
 import com.tonyjhuang.tsunami.receivers.LocationBroadcastReceiver;
 import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
@@ -172,10 +173,10 @@ public class MainActivity extends TsunamiActivity implements
         if (presenter != null) presenter.onRestoreInstanceState(savedInstanceState);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
+        TLocalytics.tagScreen(TLocalytics.SCREEN_MAIN);
         IntentFilter locationIntentFilter = new IntentFilter();
         locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedPeriodicBroadcastAction());
         locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedTickerBroadcastAction());

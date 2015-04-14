@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import com.google.android.gms.maps.MapFragment;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.injection.BrowseWavesModule;
+import com.tonyjhuang.tsunami.logging.TLocalytics;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
@@ -84,6 +85,7 @@ public class BrowseWavesActivity extends TsunamiActivity {
     @Override
     public void onResume() {
         super.onResume();
+        TLocalytics.tagScreen(TLocalytics.SCREEN_WAVES);
         toolbar.getBackground().setAlpha(255);
     }
 

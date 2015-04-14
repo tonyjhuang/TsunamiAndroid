@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/kevin" />
+        android:src="@drawable/profile_pic" />
 
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
         android:id="@+id/author"

@@ -8,7 +8,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.localytics.android.Localytics;
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.logging.TLocalytics;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -52,6 +54,7 @@ public class CommentInputView extends RelativeLayout {
 
     @OnClick(R.id.confirm)
     public void onConfirmClick(View view) {
+        Localytics.tagScreen(TLocalytics.TAG_COMMENT_CREATED);
         notifyListener();
     }
 

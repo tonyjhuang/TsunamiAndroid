@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.localytics.android.Localytics;
 import com.tonyjhuang.tsunami.injection.MainModule;
+import com.tonyjhuang.tsunami.logging.TLocalytics;
 import com.tonyjhuang.tsunami.utils.SingleFragmentActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
@@ -41,6 +43,13 @@ public class CommentsActivity extends SingleFragmentActivity {
 
         inflateToolbar(true);
         setContentBelowToolbar(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TLocalytics.tagScreen(TLocalytics.SCREEN_COMMENTS);
+        Localytics.tagScreen(TLocalytics.TAG_COMMENTS_VIEWED);
     }
 
     @Override

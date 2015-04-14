@@ -3,6 +3,7 @@ package com.tonyjhuang.tsunami.ui.splash;
 import android.content.Intent;
 
 import com.tonyjhuang.tsunami.injection.SplashModule;
+import com.tonyjhuang.tsunami.logging.TLocalytics;
 import com.tonyjhuang.tsunami.utils.SingleFragmentActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
@@ -24,6 +25,12 @@ public class SplashActivity extends SingleFragmentActivity {
     @Override
     public TsunamiFragment getFragment() {
         return SplashFragment.getInstance();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TLocalytics.tagScreen(TLocalytics.SCREEN_SPLASH);
     }
 
     @Override

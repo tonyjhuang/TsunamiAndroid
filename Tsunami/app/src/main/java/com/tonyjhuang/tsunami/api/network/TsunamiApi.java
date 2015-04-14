@@ -42,8 +42,7 @@ public interface TsunamiApi {
 
     public Observable<Wave> getWave(long waveId);
 
-    public Observable<Wave> splash(String title,
-                                   String body,
+    public Observable<Wave> splash(String caption,
                                    WaveContent.ContentType contentType,
                                    double latitude,
                                    double longitude);

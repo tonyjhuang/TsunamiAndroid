@@ -38,6 +38,7 @@
             android:inputType="text|textCapSentences" />
 
         <ImageButton
+            android:visibility="gone"
             android:id="@+id/confirm"
             android:layout_width="48dp"
             android:layout_height="48dp" />
@@ -46,5 +47,6 @@
     <View
         android:id="@+id/divider"
         style="@style/Divider"
-        android:layout_below="@+id/handle_container" />
+        android:layout_below="@+id/handle_container"
+        android:visibility="gone" />
 </RelativeLayout>

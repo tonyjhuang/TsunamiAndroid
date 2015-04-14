@@ -110,7 +110,8 @@ public class CommentsFragment extends TsunamiFragment implements CommentInputVie
         input.clear();
         showNoCommentsMessage(false);
 
-        Comment comment = Comment.createDebugComment("Kevin", string);
+        // TODO: remove this or clean this up.
+        Comment comment = Comment.createDebugComment("Anonymous", string);
         adapter.addComment(comment);
         wave.addComment(comment);
 

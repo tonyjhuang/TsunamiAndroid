@@ -15,11 +15,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
+import com.localytics.android.Localytics;
 import com.squareup.picasso.Picasso;
 import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.UserStats;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
+import com.tonyjhuang.tsunami.logging.TLocalytics;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.customviews.scrollview.ObservableParallaxScrollView;
 import com.tonyjhuang.tsunami.ui.profile.waves.BrowseWavesActivity;
@@ -128,6 +130,12 @@ public class ProfileFragment extends TsunamiFragment {
         clipboard.setPrimaryClip(clip);
         showToast("User id copied to clipboard");
         return true;
+    }
+
+    @OnClick(R.id.profile_pic)
+    public void onProfilePicClick(View view) {
+        TLocalytics.tagProfilePicClicked("profile");
+        showToast("Hold tight, profile pics coming soon!");
     }
 
     private void populateStats(UserStats stats) {

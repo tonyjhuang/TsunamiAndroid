@@ -112,13 +112,12 @@ public class TsunamiApiClient implements TsunamiApi {
     }
 
     @Override
-    public Observable<Wave> splash(String title,
-                                   String body,
+    public Observable<Wave> splash(String caption,
                                    WaveContent.ContentType contentType,
                                    double latitude,
                                    double longitude) {
         return getUserId().flatMap((userId) -> {
-            SplashRequest request = new SplashRequest(userId, title, body, contentType, latitude, longitude);
+            SplashRequest request = new SplashRequest(userId, caption, contentType, latitude, longitude);
             return service.splash(request);
         });
     }

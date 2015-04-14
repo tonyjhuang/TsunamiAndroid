@@ -128,8 +128,7 @@ public class MockTsunamiApiClient implements TsunamiApi {
     }
 
     @Override
-    public Observable<Wave> splash(String title,
-                                   String body,
+    public Observable<Wave> splash(String body,
                                    WaveContent.ContentType contentType,
                                    double latitude,
                                    double longitude) {

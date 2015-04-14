@@ -209,7 +209,7 @@
             android:layout_alignBottom="@+id/cover"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="-24dp"
-            android:src="@drawable/kevin" />
+            android:src="@drawable/profile_pic" />
 
         <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
             android:id="@+id/user_id"

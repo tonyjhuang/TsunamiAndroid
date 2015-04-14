@@ -176,8 +176,7 @@ public class MainWavePresenter implements WavePresenter {
     public void onSplashSwipedUp() {
         Timber.d("onSplashSwipedUp");
         SplashContent splashContent = contentView.retrieveSplashContent();
-        api.splash(splashContent.title,
-                splashContent.body,
+        api.splash(splashContent.body,
                 splashContent.contentType,
                 locationInfo.lastLat,
                 locationInfo.lastLong)

@@ -11,6 +11,7 @@ import com.facebook.UiLifecycleHelper;
 import com.localytics.android.Localytics;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.injection.Injector;
+import com.tonyjhuang.tsunami.logging.TLocalytics;
 import com.tonyjhuang.tsunami.ui.login.LoginActivity;
 
 import java.util.ArrayList;
@@ -107,7 +108,6 @@ public abstract class TsunamiActivity extends ActionBarActivity implements
             finish();
         }
     }
-
 
     @Override
     public void onResume() {

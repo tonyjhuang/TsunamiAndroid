@@ -109,8 +109,7 @@ public class SplashFragment extends TsunamiFragment implements SplashTabView.OnS
      */
     private void splash() {
         if (validateSplash()) {
-            api.splash("dummy",
-                    text.getText().toString(),
+            api.splash(text.getText().toString(),
                     WaveContent.ContentType.text_content,
                     locationInfo.lastLat,
                     locationInfo.lastLong)

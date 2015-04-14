@@ -10,10 +10,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.localytics.android.Localytics;
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.logging.TLocalytics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -91,18 +95,21 @@ public class SplashTabView extends LinearLayout {
 
     @OnClick(R.id.image)
     public void onImageTabClick(View view) {
+        TLocalytics.tagTabClickEvent("image");
         showToast("Images coming soon!");
         //selectTab(IMAGE);
     }
 
     @OnClick(R.id.link)
     public void onLinkTabClick(View view) {
+        TLocalytics.tagTabClickEvent("link");
         showToast("Links coming soon!");
         //selectTab(LINK);
     }
 
     @OnClick(R.id.audio)
     public void onAudioTabClick(View view) {
+        TLocalytics.tagTabClickEvent("audio");
         showToast("Sound coming soon!");
         //selectTab(AUDIO);
     }
