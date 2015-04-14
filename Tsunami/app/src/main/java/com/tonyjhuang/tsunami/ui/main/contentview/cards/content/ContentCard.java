@@ -116,7 +116,7 @@ public class ContentCard extends TsunamiCard {
 
     private void setContentInnerView(Wave wave) {
         ContentInnerView innerView;
-        if (wave.getContent().getContentType().equals(WaveContent.ContentType.image_link)) {
+        if (wave.getContent().getType().equals(WaveContent.ContentType.image_link)) {
             innerView = new ContentInnerImage(getContext());
         } else {
             innerView = new ContentInnerText(getContext());

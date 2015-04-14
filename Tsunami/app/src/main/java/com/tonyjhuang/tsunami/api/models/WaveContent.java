@@ -3,46 +3,33 @@ package com.tonyjhuang.tsunami.api.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/*
+/*"content":
 {
-    "body": null,
-    "guid": 111,
-    "title": null,
-    "wave_id": 141
+    "id": 1,
+    "type": "TextContent",
+    "caption": "sux"
 }
  */
 public class WaveContent extends ApiObject {
     @Expose
-    private long waveId;
+    private String caption;
     @Expose
-    private String title;
-    @Expose
-    private String body;
-    @Expose
-    private ContentType contentType;
+    private ContentType type;
 
-    public long getWaveId() {
-        return waveId;
+    public String getCaption() {
+        return caption;
     }
 
-    public String getTitle() {
-        return title;
+    public ContentType getType() {
+        return type;
     }
 
-    public String getBody() {
-        return body;
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 
-    public ContentType getContentType() {
-        return contentType;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public void setContentType(ContentType contentType) {
-        this.contentType = contentType;
+    public void setType(ContentType type) {
+        this.type = type;
     }
 
     public static WaveContent createDebugWaveContent(String title, String body) {
@@ -53,17 +40,19 @@ public class WaveContent extends ApiObject {
         return new WaveContent(title, body, contentType);
     }
 
-    private WaveContent(String title, String body) {
-        this(title, body, ContentType.text);
+    private WaveContent(String title, String caption) {
+        this(title, caption, ContentType.text_content);
     }
 
-    private WaveContent(String title, String body, ContentType contentType) {
-        this.title = title;
-        this.body = body;
-        this.contentType = contentType;
+    private WaveContent(String title, String caption, ContentType type) {
+        //this.title = title;
+        this.caption = caption;
+        this.type = type;
     }
 
-    public static enum ContentType {
-        text, image_link
+    public enum ContentType {
+        @SerializedName("TextContent")
+        text_content,
+        image_link
     }
 }

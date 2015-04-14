@@ -17,8 +17,8 @@ import butterknife.InjectView;
  */
 public class ContentInnerText extends LinearLayout implements ContentInnerView {
 
-    @InjectView(R.id.body)
-    TextView body;
+    @InjectView(R.id.caption)
+    TextView caption;
     @InjectView(R.id.metadata)
     ContentInnerMetadata metadata;
 
@@ -38,7 +38,7 @@ public class ContentInnerText extends LinearLayout implements ContentInnerView {
 
     @Override
     public void setWave(Wave wave) {
-        body.setText(wave.getContent().getTitle());
+        caption.setText(wave.getContent().getCaption());
         metadata.setWave(wave);
     }
 }

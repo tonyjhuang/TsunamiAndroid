@@ -19,6 +19,15 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- required for localytics -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission android:name="com.tonyjhuang.tsunami.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.tonyjhuang.tsunami.permission.C2D_MESSAGE" />
+
     <!-- OpenGL for GoOoOogle Maps -->
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -43,13 +52,17 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
+        <meta-data
+            android:name="LOCALYTICS_APP_KEY"
+            android:value="@string/localytics_app_key"/>
+
         <!-- activities -->
         <activity android:name=".ui.login.LoginActivity">
             <!-- TODO reinstate? -->
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity android:name="com.facebook.LoginActivity" />
         <activity
@@ -57,7 +70,12 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustNothing" />
+            android:windowSoftInputMode="adjustNothing" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:launchMode="singleTop"
@@ -81,10 +99,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.profile.ProfileActivity" />
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity android:name=".ui.splash.SplashActivity"
             android:label="@string/activity_label_splash"
@@ -92,11 +110,23 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity" />
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
+
+        <!-- Localytics -->
+        <activity android:name="com.localytics.android.PushTrackingActivity"/>
+        <receiver
+            android:name="com.localytics.android.PushReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.tonyjhuang.tsunami" />
+            </intent-filter>
+        </receiver>
 
         <!-- little fluffy location library -->
         <service android:name="com.littlefluffytoys.littlefluffylocationlibrary.LocationBroadcastService" />

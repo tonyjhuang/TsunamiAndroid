@@ -25,6 +25,7 @@ import com.tonyjhuang.tsunami.utils.TsunamiObservable;
 import javax.inject.Inject;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by tony on 2/5/15.
@@ -98,7 +99,7 @@ public class SplashFragment extends TsunamiFragment implements SplashTabView.OnS
         imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
     }
 
-    //@OnClick(R.id.splash_button)
+    @OnClick(R.id.splash_button)
     public void onSplashButtonClick(View view) {
         splash();
     }
@@ -110,11 +111,12 @@ public class SplashFragment extends TsunamiFragment implements SplashTabView.OnS
         if (validateSplash()) {
             api.splash("dummy",
                     text.getText().toString(),
-                    WaveContent.ContentType.text,
+                    WaveContent.ContentType.text_content,
                     locationInfo.lastLat,
                     locationInfo.lastLong)
                     .publish()
                     .connect();
+            getActivity().finish();
         }
     }
 

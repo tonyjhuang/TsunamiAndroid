@@ -11,6 +11,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/alias_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,21 +71,21 @@
 
         <View
             style="@style/Shadow.Up"
-            android:layout_above="@+id/content_tab" /><!--
+            android:layout_above="@+id/content_tab" />
 
         <com.tonyjhuang.tsunami.ui.customviews.fab.FloatingActionButton
             android:id="@+id/splash_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/text"
+            android:layout_above="@+id/content_tab"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="-28dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:src="@drawable/ic_send_white"
             app:fab_shadow="true"
-            app:fab_type="normal" />-->
+            app:fab_type="normal" />
 
         <com.tonyjhuang.tsunami.ui.splash.SplashTabView
             android:id="@+id/content_tab"

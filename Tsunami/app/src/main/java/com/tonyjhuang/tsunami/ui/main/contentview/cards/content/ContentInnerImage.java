@@ -56,16 +56,16 @@ public class ContentInnerImage extends LinearLayout implements ContentInnerView{
         if (wave == null) return;
 
         Picasso.with(getContext())
-                .load(wave.getContent().getBody())
+                .load(wave.getContent().getCaption())
                 .fit()
                 .centerCrop()
                 .into(imageView);
-        caption.setText(wave.getContent().getTitle());
+        //caption.setText(wave.getContent().getTitle());
         metadata.setWave(wave);
     }
 
     @OnClick(R.id.image)
     public void onImageClick(View view) {
-        PhotoViewActivity.startPhotoViewActivity(((TsunamiActivity) getContext()), wave.getContent().getBody());
+        PhotoViewActivity.startPhotoViewActivity(((TsunamiActivity) getContext()), wave.getContent().getCaption());
     }
 }

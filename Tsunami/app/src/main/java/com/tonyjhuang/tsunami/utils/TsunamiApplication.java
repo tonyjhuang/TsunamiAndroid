@@ -4,6 +4,7 @@ import android.support.multidex.MultiDexApplication;
 import android.widget.Toast;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
+import com.localytics.android.LocalyticsActivityLifecycleCallbacks;
 import com.squareup.picasso.Picasso;
 import com.tonyjhuang.tsunami.injection.ApplicationModule;
 import com.tonyjhuang.tsunami.injection.Injector;
@@ -30,6 +31,10 @@ public class TsunamiApplication extends MultiDexApplication implements Injector 
 
         LocationLibrary.showDebugOutput(true);
         Timber.plant(new Timber.DebugTree());
+
+        // Register LocalyticsActivityLifecycleCallbacks
+        registerActivityLifecycleCallbacks(
+                new LocalyticsActivityLifecycleCallbacks(this));
 
         try {
             LocationLibrary.initialiseLibrary(getBaseContext(),

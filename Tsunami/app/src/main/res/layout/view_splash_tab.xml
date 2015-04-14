@@ -13,7 +13,8 @@
 
     <ImageView
         android:id="@+id/image"
-        style="@style/SplashTabItem" />
+        style="@style/SplashTabItem"
+        android:background="#1000"  />
 
     <View style="@style/SplashTabDivider" />
 

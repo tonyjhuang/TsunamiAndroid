@@ -12,11 +12,11 @@
         android:layout_marginBottom="8dp"
         android:hint="@string/splash_title_hint"
         android:imeOptions="actionNext"
-        android:nextFocusDown="@+id/body"
+        android:nextFocusDown="@+id/caption"
         android:singleLine="true" />
 
     <EditText
-        android:id="@+id/body"
+        android:id="@+id/caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/splash_text_hint" />

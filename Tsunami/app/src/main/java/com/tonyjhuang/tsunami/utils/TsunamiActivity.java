@@ -8,6 +8,8 @@ import android.widget.Toast;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.localytics.android.Localytics;
+import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.injection.Injector;
 import com.tonyjhuang.tsunami.ui.login.LoginActivity;
 
@@ -50,6 +52,8 @@ public abstract class TsunamiActivity extends ActionBarActivity implements
 
         uiHelper = new UiLifecycleHelper(this, this);
         uiHelper.onCreate(savedInstanceState);
+
+        Localytics.registerPush(getString(R.string.localytics_app_key));
 
         objectGraph = ((TsunamiApplication) getApplication())
                 .getObjectGraph().plus(getModules().toArray());
@@ -138,6 +142,13 @@ public abstract class TsunamiActivity extends ActionBarActivity implements
         super.onDestroy();
         uiHelper.onDestroy();
         compositeSubscription.clear();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // for localytics
+        setIntent(intent);
     }
 
     @Override

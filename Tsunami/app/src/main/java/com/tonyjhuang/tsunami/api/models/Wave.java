@@ -12,29 +12,36 @@ import java.util.Random;
 
 /*
 {
-    "guid": 141,
-    "origin_ripple_id": 451,
-    "views": 3,
+    "id": 1,
+    "created_at": "2015-04-14T01:31:36Z",
+    "updated_at": "2015-04-14T01:31:36Z",
+    "origin_ripple_id": 1,
+    "views": 0,
     "content": {
-        "body": null,
-        "guid": 111,
-        "title": null,
-        "wave_id": 141
+        "id": 1,
+        "type": "TextContent",
+        "caption": "sux"
     },
     "ripples": [
         {
-            "created_at": "2014-12-20T19:52:38Z",
-            "guid": 451,
-            "latitude": "42.3514",
-            "longitude": "-71.0571",
-            "radius": "0.025",
-            "status": "active",
-            "updated_at": "2014-12-20T19:52:38Z",
-            "user_id": 111,
-            "wave_id": 141
+        "created_at": "2015-04-14T01:31:36Z",
+        "id": 1,
+        "latitude": "42.3405",
+        "longitude": "-71.1041",
+        "radius": "0.025",
+        "updated_at": "2015-04-14T01:31:36Z",
+        "user_id": 2,
+        "wave_id": 1
         }
     ],
-    "user": null
+    "comments": [],
+    "user": {
+        "id": 2,
+        "created_at": "2015-04-14T01:22:28Z",
+        "updated_at": "2015-04-14T01:22:28Z",
+        "viewed": 0,
+        "social_profiles": []
+    }
 }
  */
 public class Wave extends ApiObject {
@@ -143,7 +150,7 @@ public class Wave extends ApiObject {
     public static Wave createDebugWave(RedditPost post, List<Comment> comments, List<Ripple> ripples) {
         String title = post.title;
         String body = post.isSelf ? post.selftext : post.url;
-        WaveContent.ContentType contentType = post.isSelf ? WaveContent.ContentType.text : WaveContent.ContentType.image_link;
+        WaveContent.ContentType contentType = post.isSelf ? WaveContent.ContentType.text_content : WaveContent.ContentType.image_link;
         User user = User.createDebugUser(post.author);
         Date createdAt = new Date(post.created * 1000);
         int views = post.ups * 10;

@@ -91,7 +91,8 @@ public class SplashTabView extends LinearLayout {
 
     @OnClick(R.id.image)
     public void onImageTabClick(View view) {
-        selectTab(IMAGE);
+        showToast("Images coming soon!");
+        //selectTab(IMAGE);
     }
 
     @OnClick(R.id.link)

@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <com.tonyjhuang.tsunami.ui.customviews.TypefaceTextView
-        android:id="@+id/body"
+        android:id="@+id/caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/content_padding_horizontal"
