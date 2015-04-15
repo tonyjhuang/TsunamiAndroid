@@ -10,40 +10,42 @@ import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
  * Created by tonyjhuang on 10/21/14.
  */
 public interface WavePresenter {
-    public void setContentView(WaveContentView contentView);
+    void setContentView(WaveContentView contentView);
 
-    public void setMapView(WaveMapView mapView);
+    void setMapView(WaveMapView mapView);
 
-    public void setMainView(MainView mainView);
+    void setMainView(MainView mainView);
 
-    public void onContentSwipedUp();
+    void onContentSwipedUp();
 
-    public void onContentSwipedDown();
+    void onContentSwipedDown();
 
-    public void onSplashSwipedUp();
+    void onSplashSwipedUp();
 
-    public void onSplashSwipedDown();
+    void onSplashSwipedDown();
 
-    public void onNoWavesSwipedUp();
+    void onNoWavesSwipedUp();
 
-    public void onNoWavesSwipedDown();
+    void onNoWavesSwipedDown();
 
-    public void onErrorSwipedUp();
+    void onErrorSwipedUp();
 
-    public void onErrorSwipedDown();
+    void onErrorSwipedDown();
 
-    public void onBeginSplashButtonClicked();
+    void onSplash();
 
-    public void onCancelSplashButtonClicked();
+    void onBeginSplashButtonClicked();
 
-    public void onSendSplashButtonClicked();
+    void onCancelSplashButtonClicked();
 
-    public void onProfileButtonClicked();
+    void onSendSplashButtonClicked();
 
-    public void onLocationUpdate(LocationInfo newLocationInfo);
+    void onProfileButtonClicked();
 
-    public void onRestoreInstanceState(Bundle savedInstanceState);
+    void onLocationUpdate(LocationInfo newLocationInfo);
 
-    public void onSaveInstanceState(Bundle outParcel);
+    void onRestoreInstanceState(Bundle savedInstanceState);
+
+    void onSaveInstanceState(Bundle outParcel);
 
 }

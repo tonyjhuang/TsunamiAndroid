@@ -49,6 +49,11 @@ public class TestCelebrationPresenter implements WavePresenter {
     }
 
     @Override
+    public void onSplash() {
+
+    }
+
+    @Override
     public void onSplashSwipedUp() {
         finishSplash();
     }

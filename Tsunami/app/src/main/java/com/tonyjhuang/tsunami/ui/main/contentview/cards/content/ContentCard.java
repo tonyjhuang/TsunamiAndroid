@@ -80,14 +80,14 @@ public class ContentCard extends TsunamiCard {
         if (wave == null) return;
         updateCommentsText(wave);
         // Set the content view. If we are getting an updated version of the wave, skip this.
-        if (this.wave == null || wave.getId() != this.wave.getId()) {
+        //if (this.wave == null || wave.getId() != this.wave.getId()) {
             View.OnClickListener userOnClickListener = getOnClickListener(wave.getUser());
             profilePic.setOnClickListener(userOnClickListener);
             author.setOnClickListener(userOnClickListener);
 
             author.setText(wave.getUser().getName());
             setContentInnerView(wave);
-        }
+        //}
         this.wave = wave;
     }
 

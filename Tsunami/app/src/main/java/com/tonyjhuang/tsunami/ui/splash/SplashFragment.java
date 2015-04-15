@@ -19,6 +19,7 @@ import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.WaveContent;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.utils.FileReader;
+import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 import com.tonyjhuang.tsunami.utils.TsunamiObservable;
 
@@ -115,6 +116,7 @@ public class SplashFragment extends TsunamiFragment implements SplashTabView.OnS
                     locationInfo.lastLong)
                     .publish()
                     .connect();
+            getActivity().setResult(TsunamiConstants.SPLASH_CREATED);
             getActivity().finish();
         }
     }

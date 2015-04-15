@@ -85,6 +85,11 @@ public class WaveContentScrollView extends BouncyScrollView implements
     }
 
     @Override
+    public void disableInteractions(boolean disable) {
+        setScrollable(!disable);
+    }
+
+    @Override
     public void setOnViewTypeChangedListener(OnViewTypeChangedListener onViewTypeChangedListener) {
         this.onViewTypeChangedListener = onViewTypeChangedListener;
     }

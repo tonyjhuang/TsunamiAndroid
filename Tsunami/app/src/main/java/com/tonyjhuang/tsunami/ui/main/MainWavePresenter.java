@@ -1,6 +1,7 @@
 package com.tonyjhuang.tsunami.ui.main;
 
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Wave;
@@ -180,13 +181,25 @@ public class MainWavePresenter implements WavePresenter {
                 splashContent.contentType,
                 locationInfo.lastLat,
                 locationInfo.lastLong)
-                .publish()
-                .connect();
+                .publish();
+                //.connect();
 
         mainView.showCelebration();
         mainView.hideKeyboard();
-
         mapView.animateSplash(this::finishSplash);
+    }
+
+    @Override
+    public void onSplash() {
+        showSplashAnimation();
+    }
+
+    private void showSplashAnimation() {
+        contentView.disableInteractions(true);
+        contentView.clearSplashCard();
+        contentView.showSplash();
+        mapView.showSplashing(true);
+        new Handler().postDelayed(contentView::scrollUpOffscreen, 1500);
     }
 
     @Override
@@ -202,6 +215,7 @@ public class MainWavePresenter implements WavePresenter {
      * contentview to the appropriate state.
      */
     private void finishSplash() {
+        contentView.disableInteractions(false);
         if (currentWave != null) {
             displayWave(currentWave, false);
         } else if (loadingNextWave) {

@@ -68,6 +68,11 @@ public interface WaveContentView {
     public void clearContentWave();
 
     /**
+     * Disable user scrolling?
+     */
+    public void disableInteractions(boolean disable);
+
+    /**
      * Retrieve all user input from the splash card.
      */
     public SplashContent retrieveSplashContent();

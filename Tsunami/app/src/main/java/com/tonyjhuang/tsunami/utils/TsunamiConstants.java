@@ -13,6 +13,10 @@ public class TsunamiConstants {
     public static final int SPLASH_TAKE_PHOTO_REQUEST_CODE = 6;
     public static final int SPLASH_ATTACH_PHOTO_REQUEST_CODE = 7;
 
+    // Result codes
+    public static final int SPLASH_NOT_CREATED = 0;
+    public static final int SPLASH_CREATED = 1;
+
     // Intent extras
     public static final String USER_ID_EXTRA = "user_id";
     public static final long USER_ID_EXTRA_DEFAULT = -1;

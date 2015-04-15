@@ -35,6 +35,7 @@ import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 import com.tonyjhuang.tsunami.ui.profile.ProfileActivity;
 import com.tonyjhuang.tsunami.utils.Celebration;
 import com.tonyjhuang.tsunami.utils.TsunamiActivity;
+import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 import com.tonyjhuang.tsunami.utils.TsunamiPreferences;
 
 import java.util.Arrays;
@@ -146,10 +147,10 @@ public class MainActivity extends TsunamiActivity implements
         drawerFragment.setDrawerLayout(drawerLayout);
         drawerFragment.setOnDrawerItemSelectedListener(this);
 
-        /*if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
             debugLocationControls.setLocationListener(presenter::onLocationUpdate);
-        }*/
+        }
     }
 
 
@@ -201,6 +202,17 @@ public class MainActivity extends TsunamiActivity implements
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == TsunamiConstants.SPLASH_REQUEST_CODE) {
+            if(resultCode == TsunamiConstants.SPLASH_CREATED) {
+                presenter.onSplash();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override

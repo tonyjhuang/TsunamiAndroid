@@ -16,6 +16,7 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Ripple;
 import com.tonyjhuang.tsunami.api.models.Wave;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.utils.Haversine;
 
 import org.ocpsoft.prettytime.PrettyTime;
@@ -66,6 +67,8 @@ public class ContentInnerMetadata extends LinearLayout {
     public void setWave(Wave wave) {
         Ripple splash = wave.getSplash();
         if (splash == null) return;
+
+        Timber.d(wave.toString());
 
         rippleCounter.setText(getRippleCountText(wave.getRipples().size()));
         timestamp.setText(prettyTime.format(wave.getCreatedAt()));
