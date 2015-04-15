@@ -32,6 +32,14 @@ public class WaveContent extends ApiObject {
         this.type = type;
     }
 
+    public static WaveContent createLocalWaveContent(String caption) {
+        WaveContent content = new WaveContent();
+        content.caption = caption;
+        content.type = ContentType.text_content;
+
+        return content;
+    }
+
     public static WaveContent createDebugWaveContent(String title, String body) {
         return new WaveContent(title, body);
     }
@@ -43,6 +51,8 @@ public class WaveContent extends ApiObject {
     private WaveContent(String title, String caption) {
         this(title, caption, ContentType.text_content);
     }
+
+    private WaveContent() {}
 
     private WaveContent(String title, String caption, ContentType type) {
         //this.title = title;

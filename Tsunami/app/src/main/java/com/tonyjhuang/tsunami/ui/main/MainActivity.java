@@ -22,8 +22,10 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants;
 import com.tonyjhuang.tsunami.BuildConfig;
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.injection.MainModule;
 import com.tonyjhuang.tsunami.logging.TLocalytics;
+import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.mock.DebugLocationControls;
 import com.tonyjhuang.tsunami.receivers.LocationBroadcastReceiver;
 import com.tonyjhuang.tsunami.ui.customviews.GhettoToolbar;
@@ -208,6 +210,8 @@ public class MainActivity extends TsunamiActivity implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == TsunamiConstants.SPLASH_REQUEST_CODE) {
             if(resultCode == TsunamiConstants.SPLASH_CREATED) {
+                Wave splashed = (Wave) data.getSerializableExtra(TsunamiConstants.WAVE_RESULT_EXTRA);
+                Timber.d(splashed.toString());
                 presenter.onSplash();
             }
         } else {

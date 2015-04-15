@@ -16,8 +16,10 @@ import android.widget.ImageView;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.R;
+import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.models.WaveContent;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
+import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
 import com.tonyjhuang.tsunami.utils.FileReader;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
@@ -110,13 +112,18 @@ public class SplashFragment extends TsunamiFragment implements SplashTabView.OnS
      */
     private void splash() {
         if (validateSplash()) {
+            String caption = text.getText().toString();
             api.splash(text.getText().toString(),
                     WaveContent.ContentType.text_content,
                     locationInfo.lastLat,
                     locationInfo.lastLong)
                     .publish()
                     .connect();
-            getActivity().setResult(TsunamiConstants.SPLASH_CREATED);
+
+            Intent data = new Intent();
+            data.putExtra(TsunamiConstants.WAVE_RESULT_EXTRA, Wave.createLocalWave(caption));
+
+            getActivity().setResult(TsunamiConstants.SPLASH_CREATED, data);
             getActivity().finish();
         }
     }

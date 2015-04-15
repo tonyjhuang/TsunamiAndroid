@@ -22,6 +22,7 @@ public class TsunamiConstants {
     public static final long USER_ID_EXTRA_DEFAULT = -1;
     public static final String WAVE_ID_EXTRA = "wave_id";
     public static final long WAVE_ID_EXTRA_DEFAULT = -1;
+    public static final String WAVE_RESULT_EXTRA = "wave";
 
     // Misc
     public static final long NO_CURRENT_USER_ID = -1l;

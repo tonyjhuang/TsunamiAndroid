@@ -9,6 +9,7 @@ import com.tonyjhuang.tsunami.ui.main.WaveProvider;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsActivity;
 import com.tonyjhuang.tsunami.ui.main.comments.CommentsFragment;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.content.ContentCard;
+import com.tonyjhuang.tsunami.ui.main.contentview.cards.splash.SplashCard;
 import com.tonyjhuang.tsunami.ui.main.mapview.MainWaveMapView;
 import com.tonyjhuang.tsunami.ui.main.mapview.MainWaveProvider;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
@@ -29,7 +30,8 @@ import dagger.Provides;
                 PhotoViewActivity.class,
                 CommentsActivity.class,
                 CommentsFragment.class,
-                ContentCard.class
+                ContentCard.class,
+                SplashCard.class
         },
         addsTo = ApplicationModule.class,
         complete = false

@@ -122,6 +122,17 @@ public class Wave extends ApiObject {
         return (int) (getId() % Integer.MAX_VALUE);
     }
 
+
+    public static Wave createLocalWave(String caption) {
+        Date now = new Date();
+        Wave wave = new Wave();
+        wave.content = WaveContent.createLocalWaveContent(caption);
+        wave.user = User.createLocalUser();
+        wave.setCreatedAt(now);
+        wave.setUpdatedAt(now);
+        return wave;
+    }
+
     /* Debugging */
 
     public static Wave createDebugWave(String title,

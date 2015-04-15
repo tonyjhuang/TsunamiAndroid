@@ -35,6 +35,10 @@ public class User extends ApiObject {
 
     /* Debugging */
 
+    public static User createLocalUser() {
+        return new User();
+    }
+
     public static User createDebugUser(String name) {
         User user = new User();
         SocialProfile socialProfile = SocialProfile.createDebugSocialProfile(name);
