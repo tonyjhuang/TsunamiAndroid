@@ -6,6 +6,7 @@ import android.os.Handler;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
+import com.tonyjhuang.tsunami.logging.TLocalytics;
 import com.tonyjhuang.tsunami.logging.Timber;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.splash.SplashContent;
@@ -143,6 +144,9 @@ public class MainWavePresenter implements WavePresenter {
     @Override
     public void onContentSwipedUp() {
         Timber.d("onContentSwipedUp");
+        TLocalytics.Session.addViewToSession();
+        TLocalytics.Session.addRippleToSession();
+
         Wave wave = contentView.getContentWave();
         contentView.clearContentWave();
 
@@ -162,6 +166,8 @@ public class MainWavePresenter implements WavePresenter {
     @Override
     public void onContentSwipedDown() {
         Timber.d("onContentSwipedDown");
+        TLocalytics.Session.addViewToSession();
+        
         if (waveProvider.hasNextWave()) {
             api.dismissWave(currentWave.getId()).publish().connect();
             displayNewWave();

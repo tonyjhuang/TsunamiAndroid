@@ -180,6 +180,7 @@ public class MainActivity extends TsunamiActivity implements
     public void onResume() {
         super.onResume();
         TLocalytics.tagScreen(TLocalytics.SCREEN_MAIN);
+        TLocalytics.Session.startSession();
         IntentFilter locationIntentFilter = new IntentFilter();
         locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedPeriodicBroadcastAction());
         locationIntentFilter.addAction(LocationLibraryConstants.getLocationChangedTickerBroadcastAction());
@@ -190,6 +191,7 @@ public class MainActivity extends TsunamiActivity implements
     @Override
     public void onPause() {
         super.onPause();
+        TLocalytics.Session.endSession();
         preferences.lastSeenLat.set(locationInfo.lastLat);
         preferences.lastSeenLng.set(locationInfo.lastLong);
         unregisterReceiver(locationBroadcastReceiver);

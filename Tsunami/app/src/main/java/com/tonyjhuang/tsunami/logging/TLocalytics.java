@@ -31,8 +31,6 @@ public class TLocalytics {
     }
 
     public static final String TAG_WAVE_SPLASH = "Wave Splashed";
-    public static final String TAG_WAVE_VIEWED = "Wave Viewed";
-    public static final String TAG_WAVE_RIPPLED = "Wave Rippled";
     public static final String TAG_COMMENTS_VIEWED = "Comments Viewed";
     public static final String TAG_COMMENT_CREATED = "Comment Created";
 
@@ -52,5 +50,28 @@ public class TLocalytics {
         Map<String, String> values = new HashMap<>();
         values.put(ATTR_ERROR_MESSAGE, message);
         Localytics.tagEvent(ERROR_WAVE_SPLASH, values);
+    }
+
+    public static class Session {
+        private static Map<String, String> session = new HashMap<>();
+        private static final String TAG_SESSION = "Session";
+        private static final String ATTR_SESSION_VIEWS = "views";
+        private static final String ATTR_SESSION_RIPPLES = "ripples";
+        public static void startSession() {
+            session = new HashMap<>();
+            session.put(ATTR_SESSION_VIEWS, "0");
+            session.put(ATTR_SESSION_RIPPLES, "0");
+        }
+        public static void addViewToSession() {
+            int currentViews = Integer.parseInt(session.get(ATTR_SESSION_VIEWS));
+            session.put(ATTR_SESSION_VIEWS, String.valueOf(currentViews + 1));
+        }
+        public static void addRippleToSession() {
+            int currentRipples = Integer.parseInt(session.get(ATTR_SESSION_RIPPLES));
+            session.put(ATTR_SESSION_RIPPLES, String.valueOf(currentRipples + 1));
+        }
+        public static void endSession() {
+            Localytics.tagEvent(TAG_SESSION, session);
+        }
     }
 }
