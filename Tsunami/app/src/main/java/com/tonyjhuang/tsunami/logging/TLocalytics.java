@@ -26,8 +26,8 @@ public class TLocalytics {
 
     public static void tagTabClickEvent(String tab) {
         Map<String, String> values = new HashMap<>();
-        values.put(TLocalytics.ATTR_SPLASH_TAB, tab);
-        Localytics.tagEvent(TLocalytics.TAG_SPLASH_TAB_ICON_CLICKED, values);
+        values.put(ATTR_SPLASH_TAB, tab);
+        Localytics.tagEvent(TAG_SPLASH_TAB_ICON_CLICKED, values);
     }
 
     public static final String TAG_WAVE_SPLASH = "Wave Splashed";
@@ -41,8 +41,16 @@ public class TLocalytics {
 
     public static void tagProfilePicClicked(String location) {
         Map<String, String> values = new HashMap<>();
-        values.put(TLocalytics.ATTR_PROFILE_PIC_LOCATION, location);
-        Localytics.tagEvent(TLocalytics.TAG_PROFILE_PIC_CLICKED, values);
+        values.put(ATTR_PROFILE_PIC_LOCATION, location);
+        Localytics.tagEvent(TAG_PROFILE_PIC_CLICKED, values);
     }
 
+
+    public static final String ERROR_WAVE_SPLASH = "Error Wave Splashed";
+    public static final String ATTR_ERROR_MESSAGE = "message";
+    public static void tagError(String error, String message) {
+        Map<String, String> values = new HashMap<>();
+        values.put(ATTR_ERROR_MESSAGE, message);
+        Localytics.tagEvent(ERROR_WAVE_SPLASH, values);
+    }
 }

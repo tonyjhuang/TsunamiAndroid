@@ -15,15 +15,19 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
+import com.localytics.android.Localytics;
 import com.tonyjhuang.tsunami.R;
 import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.models.WaveContent;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.api.parsers.TsunamiGson;
+import com.tonyjhuang.tsunami.logging.TLocalytics;
 import com.tonyjhuang.tsunami.utils.FileReader;
 import com.tonyjhuang.tsunami.utils.TsunamiConstants;
 import com.tonyjhuang.tsunami.utils.TsunamiFragment;
 import com.tonyjhuang.tsunami.utils.TsunamiObservable;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -119,12 +123,14 @@ public class SplashFragment extends TsunamiFragment implements SplashTabView.OnS
                     locationInfo.lastLong);
 
             subscribe(splash, (wave) -> {
+                Localytics.tagEvent(TLocalytics.TAG_WAVE_SPLASH);
                 Intent data = new Intent();
                 data.putExtra(TsunamiConstants.WAVE_RESULT_EXTRA, wave);
 
                 getActivity().setResult(TsunamiConstants.SPLASH_CREATED, data);
                 getActivity().finish();
             }, (error) -> {
+                TLocalytics.tagError(TLocalytics.ERROR_WAVE_SPLASH, error.getMessage());
                 showToast("Couldn't splash this wave. Try again?");
             });
         }
