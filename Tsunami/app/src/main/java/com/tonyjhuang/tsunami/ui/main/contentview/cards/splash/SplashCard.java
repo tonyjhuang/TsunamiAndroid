@@ -3,7 +3,6 @@ package com.tonyjhuang.tsunami.ui.main.contentview.cards.splash;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.models.WaveContent;
 import com.tonyjhuang.tsunami.ui.main.contentview.cards.content.ContentCard;
 

@@ -3,6 +3,7 @@ package com.tonyjhuang.tsunami.ui.main;
 import android.os.Bundle;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
+import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.ui.main.contentview.WaveContentView;
 import com.tonyjhuang.tsunami.ui.main.mapview.WaveMapView;
 
@@ -32,7 +33,7 @@ public interface WavePresenter {
 
     void onErrorSwipedDown();
 
-    void onSplash();
+    void onSplash(Wave wave);
 
     void onBeginSplashButtonClicked();
 

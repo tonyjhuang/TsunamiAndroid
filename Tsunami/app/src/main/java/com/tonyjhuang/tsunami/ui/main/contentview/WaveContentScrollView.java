@@ -145,12 +145,18 @@ public class WaveContentScrollView extends BouncyScrollView implements
 
     @Override
     public void showSplash() {
+        showSplash(null);
+    }
+
+    @Override
+    public void showSplash(Wave wave) {
         if (currentViewType.equals(ViewType.SPLASHING)) return;
 
         if (onViewTypeChangedListener != null)
             onViewTypeChangedListener.onViewTypeChanged(ViewType.SPLASHING);
 
         if (splashCard == null) splashCard = new SplashCard(getContext());
+        if (wave != null) splashCard.setWave(wave);
 
         setScrollable(true);
         setCustomView(splashCard, true);

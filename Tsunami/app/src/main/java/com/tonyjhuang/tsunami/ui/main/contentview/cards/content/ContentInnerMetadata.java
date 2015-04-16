@@ -71,7 +71,9 @@ public class ContentInnerMetadata extends LinearLayout {
         Timber.d(wave.toString());
 
         rippleCounter.setText(getRippleCountText(wave.getRipples().size()));
-        timestamp.setText(prettyTime.format(wave.getCreatedAt()));
+        if(wave.getCreatedAt() != null) {
+            timestamp.setText(prettyTime.format(wave.getCreatedAt()));
+        }
         viewCounter.setText(getViewCountText(wave.getViews()));
         distance.setText(getDistanceText((float) splash.getLatitude(), (float) splash.getLongitude()));
     }

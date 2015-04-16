@@ -211,8 +211,7 @@ public class MainActivity extends TsunamiActivity implements
         if(requestCode == TsunamiConstants.SPLASH_REQUEST_CODE) {
             if(resultCode == TsunamiConstants.SPLASH_CREATED) {
                 Wave splashed = (Wave) data.getSerializableExtra(TsunamiConstants.WAVE_RESULT_EXTRA);
-                Timber.d(splashed.toString());
-                presenter.onSplash();
+                presenter.onSplash(splashed);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

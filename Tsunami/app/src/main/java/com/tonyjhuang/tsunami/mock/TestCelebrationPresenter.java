@@ -3,6 +3,7 @@ package com.tonyjhuang.tsunami.mock;
 import android.os.Bundle;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
+import com.tonyjhuang.tsunami.api.models.Wave;
 import com.tonyjhuang.tsunami.api.network.TsunamiApi;
 import com.tonyjhuang.tsunami.ui.main.MainView;
 import com.tonyjhuang.tsunami.ui.main.WavePresenter;
@@ -49,7 +50,7 @@ public class TestCelebrationPresenter implements WavePresenter {
     }
 
     @Override
-    public void onSplash() {
+    public void onSplash(Wave wave) {
 
     }
 

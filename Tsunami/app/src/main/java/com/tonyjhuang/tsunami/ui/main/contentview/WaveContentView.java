@@ -21,6 +21,8 @@ public interface WaveContentView {
      */
     public void showSplash();
 
+    public void showSplash(Wave wave);
+
     /**
      * Display a wave.
      */

@@ -190,14 +190,14 @@ public class MainWavePresenter implements WavePresenter {
     }
 
     @Override
-    public void onSplash() {
-        showSplashAnimation();
+    public void onSplash(Wave wave) {
+        showSplashAnimation(wave);
     }
 
-    private void showSplashAnimation() {
-        contentView.disableInteractions(true);
+    private void showSplashAnimation(Wave wave) {
         contentView.clearSplashCard();
-        contentView.showSplash();
+        contentView.showSplash(wave);
+        contentView.disableInteractions(true);
         mapView.showSplashing(true);
         new Handler().postDelayed(contentView::scrollUpOffscreen, 1500);
     }

@@ -76,6 +76,8 @@ public class TsunamiApiClient implements TsunamiApi {
         return service.createUser(request).doOnNext((user) -> prefs.userId.set(user.getId()));
     }
 
+
+
     @Override
     public Observable<UserStats> getCurrentUserStats() {
         return getUserId().flatMap(this::getUserStats);

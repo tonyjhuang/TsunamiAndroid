@@ -29,6 +29,7 @@ import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Observable;
 
 /**
  * Created by tony on 2/5/15.
@@ -112,19 +113,20 @@ public class SplashFragment extends TsunamiFragment implements SplashTabView.OnS
      */
     private void splash() {
         if (validateSplash()) {
-            String caption = text.getText().toString();
-            api.splash(text.getText().toString(),
+            Observable<Wave> splash = api.splash(text.getText().toString(),
                     WaveContent.ContentType.text_content,
                     locationInfo.lastLat,
-                    locationInfo.lastLong)
-                    .publish()
-                    .connect();
+                    locationInfo.lastLong);
 
-            Intent data = new Intent();
-            data.putExtra(TsunamiConstants.WAVE_RESULT_EXTRA, Wave.createLocalWave(caption));
+            subscribe(splash, (wave) -> {
+                Intent data = new Intent();
+                data.putExtra(TsunamiConstants.WAVE_RESULT_EXTRA, wave);
 
-            getActivity().setResult(TsunamiConstants.SPLASH_CREATED, data);
-            getActivity().finish();
+                getActivity().setResult(TsunamiConstants.SPLASH_CREATED, data);
+                getActivity().finish();
+            }, (error) -> {
+                showToast("Couldn't splash this wave. Try again?");
+            });
         }
     }
 
