@@ -77,7 +77,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private void bindCommentViewHolder(final Comment comment, CommentViewHolder holder) {
         View.OnClickListener profilePicOnClickListener =
                 getProfilePicOnClickListener(comment.getUser());
-        holder.profilePic.setOnClickListener(profilePicOnClickListener);
+        //holder.profilePic.setOnClickListener(profilePicOnClickListener);
 
         holder.author.setText(comment.getUser().getName());
         holder.body.setText(comment.getBody());

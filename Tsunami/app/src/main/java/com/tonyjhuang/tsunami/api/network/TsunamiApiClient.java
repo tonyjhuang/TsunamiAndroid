@@ -66,6 +66,11 @@ public class TsunamiApiClient implements TsunamiApi {
     }
 
     @Override
+    public Observable<User> getCurrentUser() {
+        return getUserId().flatMap(service::getUser);
+    }
+
+    @Override
     public Observable<Long> getCurrentUserId() {
         return Observable.just(prefs.userId.get());
     }
@@ -75,8 +80,6 @@ public class TsunamiApiClient implements TsunamiApi {
         CreateUserRequest request = new CreateUserRequest(prefs.guid.get());
         return service.createUser(request).doOnNext((user) -> prefs.userId.set(user.getId()));
     }
-
-
 
     @Override
     public Observable<UserStats> getCurrentUserStats() {

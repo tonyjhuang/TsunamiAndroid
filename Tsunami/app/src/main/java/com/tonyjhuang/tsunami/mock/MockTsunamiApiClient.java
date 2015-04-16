@@ -61,6 +61,11 @@ public class MockTsunamiApiClient implements TsunamiApi {
     }
 
     @Override
+    public Observable<User> getCurrentUser() {
+        return null;
+    }
+
+    @Override
     public Observable<Long> getCurrentUserId() {
         return Observable.just(TsunamiConstants.NO_CURRENT_USER_ID);
     }

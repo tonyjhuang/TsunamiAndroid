@@ -18,31 +18,33 @@ import rx.Observable;
  */
 public interface TsunamiApi {
     /* USERS USERS USERS USERS USERS USERS USERS USERS */
-    public boolean isLoggedIn();
+    boolean isLoggedIn();
 
-    public Observable<Long> getCurrentUserId();
+    Observable<User> getCurrentUser();
 
-    public Observable<User> createUser();
+    Observable<Long> getCurrentUserId();
 
-    public Observable<UserStats> getCurrentUserStats();
+    Observable<User> createUser();
 
-    public Observable<UserStats> getUserStats(long userId);
+    Observable<UserStats> getCurrentUserStats();
 
-    public Observable<List<Wave>> getCurrentUserWaves();
+    Observable<UserStats> getUserStats(long userId);
 
-    public Observable<List<Wave>> getUserWaves(long userId);
+    Observable<List<Wave>> getCurrentUserWaves();
+
+    Observable<List<Wave>> getUserWaves(long userId);
 
     /* RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE RIPPLE */
 
-    public Observable<Ripple> ripple(long waveId, double latitude, double longitude);
+    Observable<Ripple> ripple(long waveId, double latitude, double longitude);
 
     /* OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN OCEAN */
 
-    public Observable<List<Wave>> getLocalWaves(double latitude, double longitude);
+    Observable<List<Wave>> getLocalWaves(double latitude, double longitude);
 
-    public Observable<Wave> getWave(long waveId);
+    Observable<Wave> getWave(long waveId);
 
-    public Observable<Wave> splash(String caption,
+    Observable<Wave> splash(String caption,
                                    WaveContent.ContentType contentType,
                                    double latitude,
                                    double longitude);

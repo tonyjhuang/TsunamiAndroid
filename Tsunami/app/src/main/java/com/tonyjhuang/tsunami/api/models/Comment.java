@@ -33,6 +33,18 @@ public class Comment extends ApiObject{
         return body;
     }
 
+    public static Comment createLocalComment(User author, String body) {
+        Date now = new Date();
+
+        Comment comment = new Comment();
+        comment.user = author;
+        comment.body = body;
+        comment.setUpdatedAt(now);
+        comment.setCreatedAt(now);
+
+        return comment;
+    }
+
     public static Comment createDebugComment(RedditPost redditPost) {
         return createDebugComment(redditPost.author, redditPost.body, new Date(redditPost.created * 1000));
     }
