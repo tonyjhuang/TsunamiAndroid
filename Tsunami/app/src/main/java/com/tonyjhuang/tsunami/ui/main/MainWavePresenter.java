@@ -167,7 +167,7 @@ public class MainWavePresenter implements WavePresenter {
     public void onContentSwipedDown() {
         Timber.d("onContentSwipedDown");
         TLocalytics.Session.addViewToSession();
-        
+
         if (waveProvider.hasNextWave()) {
             api.dismissWave(currentWave.getId()).publish().connect();
             displayNewWave();

@@ -136,7 +136,8 @@
                     android:id="@+id/history"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/profile_button_history" />
+                    android:text="@string/profile_button_history"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
