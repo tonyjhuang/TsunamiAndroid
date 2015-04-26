@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="facebook_app_id">820271541324765</string>
-    <string name="gmaps_api_key">AIzaSyDYIaC3l_fQEb_P0rjwXgnQpxSphrlBSC4</string>
+    <string name="gmaps_api_key">AIzaSyBphXv9UcLLUdW1zsTqYT3m54EWk9nC9e4</string>
     <string name="localytics_app_key">a44dafbec3eaf2fd8fed629-f8baed72-e241-11e4-30bf-004a77f8b47f</string>
 
     <string name="app_name">Tsunami</string>

@@ -46,15 +46,16 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("../keystore.jks")
+            storeFile file('/Users/tony/AndroidStudio/TsunamiAndroid/keystore.jks')
             storePassword "D967m8"
-            keyAlias "tsunamikeystore"
+            keyAlias "tsunami"
             keyPassword "D967m8"
         }
     }
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
         }
         debug {
 
@@ -83,7 +84,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     // UI
     compile 'info.hoang8f:fbutton:1.0.5'
     compile 'com.joanzapata.android:android-iconify:1.0.6'

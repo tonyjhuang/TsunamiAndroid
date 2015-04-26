@@ -120,6 +120,8 @@ public class MainActivity extends TsunamiActivity implements
         locationBroadcastReceiver = new LocationBroadcastReceiver();
         locationBroadcastReceiver.setCallbacks(locationCallback);
 
+        Timber.d("debug: " + BuildConfig.DEBUG);
+
         /**
          * Pass a reference to this MainView to our presenter.
          */
@@ -150,8 +152,8 @@ public class MainActivity extends TsunamiActivity implements
         drawerFragment.setOnDrawerItemSelectedListener(this);
 
         if (BuildConfig.DEBUG) {
-            debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
-            debugLocationControls.setLocationListener(presenter::onLocationUpdate);
+            /*debugLocationControls = (DebugLocationControls) debugControlsStub.inflate();
+            debugLocationControls.setLocationListener(presenter::onLocationUpdate);*/
         }
     }
 
